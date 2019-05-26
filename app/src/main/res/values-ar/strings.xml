@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Hala</string>
+    <string name="sign_in_with_facebook">Sign_in_with_facebook</string>
+    <string name="sign_up_in_with_phone"><![CDATA[Sign Up&In with Phone]]></string>
+    <string name="cancel">cancel</string>
+    <string name="select_region">Select Region</string>
+    <string name="region">Region</string>
+    <string name="mobile_phone_numbe">Mobile Phone Numbe</string>
+    <string name="sms_verification_code">SMS verification code</string>
+    <string name="login">LOGIN</string>
+    <string name="trouble_logging_in">Trouble logging in?</string>
+    <string name="try_other_ways">Try other ways</string>
+    <string name="quick_login_with">Quick login with</string>
+</resources>

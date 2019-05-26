@@ -1,0 +1,50 @@
+ext {
+
+    android = [
+            compileSdkVersion: 28,
+            buildToolsVersion: "28.0.3",
+
+            minSdkVersion    : 19,
+            targetSdkVersion : 26,
+            versionCode      :1,
+            versionName      : '1.0.0',
+            VSupportSdk      : '27.1.1',
+            VRxlifecycle     : "2.2.1",
+            retrofit         : "2.3.0",
+            rxjava           : "2.0.1",
+            rxandroid        : "2.1.7",
+            Vconstraint        : "1.1.3",
+            Vespresso        : "2.2.2"
+    ]
+
+    dependencies = [
+            "appcompat-v7"          : "com.android.support:appcompat-v7:${android["VSupportSdk"]}",
+            "support-v4"            : "com.android.support:support-v4:${android["VSupportSdk"]}",
+            "design"                : "com.android.support:design:${android["VSupportSdk"]}",
+            "cardview-v7"           : "com.android.support:cardview-v7:${android["VSupportSdk"]}",
+            "annotations"           : "com.android.support:support-annotations:${android["VSupportSdk"]}",
+            "recyclerview-v7"       : "com.android.support:recyclerview-v7:${android["VSupportSdk"]}",
+            "constraint"            :"com.android.support.constraint:constraint-layout:${android["Vconstraint"]}",
+            "espresso"            : "com.android.support.test.espresso:espresso-core:${android["Vespresso"]}",
+            "okhttp"                : 'com.squareup.okhttp3:okhttp:3.6.0',
+            "okhttp-logging"        : 'com.squareup.okhttp3:logging-interceptor:3.8.1',
+            "butterknife"           : "com.jakewharton:butterknife:8.8.1",
+            "rxlifecycle"           : "com.trello.rxlifecycle2:rxlifecycle:${android["VRxlifecycle"]}",
+            "rxlifecycle-android"   : "com.trello.rxlifecycle2:rxlifecycle-android:${android["VRxlifecycle"]}",
+            "rxlifecycle-components": "com.trello.rxlifecycle2:rxlifecycle-components:${android["VRxlifecycle"]}",
+            "rxpermissions"         : "com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar",
+            "gson"                  : "com.google.code.gson:gson:2.5",
+            "glide"                 : "com.github.bumptech.glide:glide:4.7.1",
+            "transformations"       : "jp.wasabeef:glide-transformations:3.0.1",
+            "retrofit"              : "com.squareup.retrofit2:retrofit:${android["retrofit"]}",
+            "converter-gson"        : "com.squareup.retrofit2:converter-gson:${android["retrofit"]}",
+            "adapter-rxjava2"       : "com.squareup.retrofit2:adapter-rxjava2:${android["retrofit"]}",
+            "circleimageview"       : 'de.hdodenhof:circleimageview:2.1.0',
+            "rxjava"                : "io.reactivex.rxjava2:rxjava:2.1.7",
+            "picasso"               : "com.squareup.picasso:picasso:2.5.2",
+            "rxandroid"             : "io.reactivex.rxjava2:rxandroid:2.0.1",
+            "rxpermissions"         : "com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar",
+            "customtabs"            : "com.android.support:customtabs:${android["VSupportSdk"]}",
+    ]
+
+}
