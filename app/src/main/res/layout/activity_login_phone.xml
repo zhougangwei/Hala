@@ -7,7 +7,7 @@
     android:background="@color/white"
     tools:context=".activity.LoginActivity">
 
-    <include layout="@layout/top_toolbar_iv" />
+    <include layout="@layout/include_top_toolbar_iv" />
 
     <TextView
         android:id="@+id/tv1"
@@ -137,7 +137,7 @@
     <TextView
         android:textColor="#472EB4"
         android:id="@+id/tv_try"
-        app:layout_constraintTop_toTopf="@id/tv2"
+        app:layout_constraintTop_toTopOf="@id/tv2"
         app:layout_constraintBottom_toBottomOf="@id/tv2"
         app:layout_constraintStart_toEndOf="@+id/tv2"
         android:text="@string/try_other_ways"

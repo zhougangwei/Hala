@@ -11,4 +11,12 @@
     <string name="trouble_logging_in">Trouble logging in?</string>
     <string name="try_other_ways">Try other ways</string>
     <string name="quick_login_with">Quick login with</string>
+    <string name="make_your_time_valueable_helpful"><![CDATA[Make your time valueable&helpful]]></string>
+    <string name="to_be_a_star">To Be a Star</string>
+    <string name="start_certified">Start Certified</string>
+    <string name="cancle">cancel</string>
+    <string name="confirm">confirm</string>
+    <string name="want_to_log_out">Want to log out ？</string>
+    <string name="reserve_done_wait_star_call_back">Reserve Done,Wait Star Call Back</string>
+    <string name="hot_online_stars">Hot Online Stars</string>
 </resources>

@@ -5,12 +5,8 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/top_toolbar" />
+    <include layout="@layout/include_top_toolbar" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/loginphone_line_color" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_country"

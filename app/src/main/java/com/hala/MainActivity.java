@@ -7,8 +7,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hala.activity.LoginActivity;
+import com.hala.dialog.CommonDialog;
 
 public class MainActivity extends AppCompatActivity {
+
+    private long oldTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onBackPressed() {
+      long newTime =  System.currentTimeMillis();
+      if (newTime- oldTime <3000){
+          finish();
+      }else{
+          new CommonDialog(this)
+                  .setMsg(getString(R.string.want_to_log_out))
+                  .show();
+      }
+      oldTime =newTime;
 
+    }
 
 }
+
+
