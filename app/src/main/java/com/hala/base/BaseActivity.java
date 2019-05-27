@@ -4,17 +4,13 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
+import com.hala.rxbus.RxBus;
 import com.hala.utils.ActivityManagerUtil;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends RxAppCompatActivity  {
-
-
-    private AlertDialog alertDialog;
-
-    protected View mRootView;
 
 
 
@@ -61,16 +57,11 @@ public abstract class BaseActivity extends RxAppCompatActivity  {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        RxBus.getIntanceBus().unSubscribe(this);
         ActivityManagerUtil.getActivityManager().popActivityStack(this);
 
     }
 
-    /**
-     * 是否需要注册网络变化的Observer,如果不需要监听网络变化,则返回false;否则返回true.默认返回false
-     */
-    protected boolean needRegisterNetworkChangeObserver() {
-        return true;
-    }
 
 
 

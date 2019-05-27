@@ -1,63 +1,90 @@
+
+
+
 package com.hala.base;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.trello.rxlifecycle2.components.support.RxFragment;
-
-import butterknife.ButterKnife;
+        import android.database.sqlite.SQLiteDatabase;
+        import android.os.Bundle;
+        import android.support.annotation.Nullable;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.view.ViewStub;
 
 
+        import com.hala.rxbus.RxBus;
+        import com.trello.rxlifecycle2.LifecycleTransformer;
+        import com.trello.rxlifecycle2.components.RxFragment;
 
-public abstract class BaseFragment extends RxFragment {
+        import butterknife.ButterKnife;
+        import butterknife.Unbinder;
 
-    protected static final String TAG = "BaseFragment";
 
-    public View mRootView;
+/**
+ * Created by renlei on 2016/5/23.
+ */
+public abstract class BaseFragment extends RxFragment  {
+
+
+
+    protected BaseActivity   mActivity;
+    private   View           mView;
+
+
+    protected abstract void initView();
+
+    //获取fragment布局文件ID
+    protected abstract int getLayoutId();
+    public BaseActivity getBaseActivity() {
+        return mActivity;
+    }
+    private Unbinder mUnbinder;
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initData();
+    }
 
     /**
-     * 布局的id
+     * 初始化数据
      */
-    protected int mContentViewId;
+    protected abstract void initData();
+
+
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initViewCreate();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mView = inflater.inflate(getLayoutId(), container, false);
+        mUnbinder = ButterKnife.bind(this, mView);
+        mActivity = (BaseActivity) getActivity();
+        initView();
+        return mView;
     }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle
-            savedInstanceState) {
-        if (mRootView != null) {
-            ViewGroup parent = (ViewGroup) mRootView.getParent();
-            if (parent != null) {
-                parent.removeView(mRootView);//避免重复加载vonDestroyViewiew
-            }
-        } else {
-            beforeInitView();
-            mRootView = inflater.inflate(mContentViewId, container, false);
-            ButterKnife.bind(this, mRootView);
-            initView(mRootView);
-        }
-
-        return mRootView;
-    }
-
-    protected abstract void initView(View view);
-
-    protected abstract void beforeInitView();
-
-    protected abstract void initViewCreate();
-
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (mUnbinder != Unbinder.EMPTY){
+            mUnbinder.unbind();
+        }
+        this.mActivity = null;
+        this.mView = null;
+        this.mUnbinder = null;
+
+
     }
+
+    public void unSubsrcibe(){
+        RxBus.getIntanceBus().unSubscribe(this);
+    }
+
+
+
+
+
+
 }
+
