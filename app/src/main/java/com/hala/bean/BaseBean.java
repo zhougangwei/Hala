@@ -1,27 +1,23 @@
 package com.hala.bean;
 
-import java.util.List;
-
 /**
  * Created by kiddo on 2017/12/27.
  */
 
-public class BaseBean {
-    private String errorcode;
-    private String message;
+public class BaseBean<T>  {
+    public int code;
+    public String message;
+    public T t;
 
 
-
-
-
-
-    public String getErrorcode() {
-        return errorcode;
+    public int getCode() {
+        return code;
     }
 
-    public void setErrorcode(String errorcode) {
-        this.errorcode = errorcode;
+    public void setCode(int code) {
+        this.code = code;
     }
+
 
     public String getMessage() {
         return message;
@@ -31,5 +27,11 @@ public class BaseBean {
         this.message = message;
     }
 
+    public T getT() {
+        return t;
+    }
 
+    public void setT(T t) {
+        this.t = t;
+    }
 }

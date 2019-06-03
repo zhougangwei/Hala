@@ -12,7 +12,7 @@ public class RetrofitFactory {
 
     private static HttpRequest retrofitService = RetrofitManager
             .getRetofitBuilder(App.sContext)
-             .build()
+            .build()
             .create(HttpRequest.class);
 
     //上传接口

@@ -1,13 +1,23 @@
 package com.hala;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
 import com.hala.activity.LoginActivity;
+import com.hala.base.Contact;
+import com.hala.bean.BaseBean;
+import com.hala.bean.LoginBean;
 import com.hala.dialog.CommonDialog;
+import com.hala.http.BaseCosumer;
+import com.hala.http.ProxyPostHttpRequest;
+import com.hala.http.RetrofitFactory;
+import com.hala.utils.ToastUtils;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +48,29 @@ public class MainActivity extends AppCompatActivity {
                   .show();
       }
       oldTime =newTime;
+
+        RetrofitFactory.getInstance()
+                .login(ProxyPostHttpRequest.getInstance().login(1,2))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<BaseBean<LoginBean>>() {
+                    @Override
+                    public void onNext(BaseBean<LoginBean> baseBean) {
+                        if (Contact.REPONSE_CODE_SUCCESS==baseBean.getCode()) {
+                            return;
+                        }
+                        LoginBean t = baseBean.getT();
+                        String action = t.getData().getAction();
+                        if (Contact.SIGN_UP.equals(action)) {
+                            ToastUtils.showToast(MainActivity.this,"需要注册!");
+                        }else if(Contact.SIGN_IN.equals(action)){
+                            ToastUtils.showToast(MainActivity.this,"登录成功!");
+                        }
+                    }
+                });
+
+
+
 
     }
 

@@ -1,9 +1,9 @@
 package com.hala.http;
 
 import android.content.Context;
-import android.os.Build;
-import android.text.TextUtils;
 
+import com.hala.base.Contact;
+import com.hala.utils.SPUtil;
 
 import java.io.IOException;
 
@@ -26,10 +26,9 @@ public class AddInfoInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         final Request.Builder builder = chain.request().newBuilder();
-        builder.addHeader("devicetype", "android");
+        builder.addHeader("Content-Type", "application/json; charset=utf-8");
+        builder.addHeader("Authorization", SPUtil.getInstance(context).getString(Contact.TOKEN,""));
 
-         return chain.proceed(builder.build());
-
-
+        return chain.proceed(builder.build());
     }
 }
