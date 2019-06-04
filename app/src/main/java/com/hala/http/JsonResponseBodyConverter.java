@@ -30,12 +30,8 @@ public class JsonResponseBodyConverter<T> implements Converter<ResponseBody, T> 
             String data = value.string();
             JSONObject jsonObject = new JSONObject(data);
             //需要重新登录
-            String errorcode = jsonObject.get("errorcode").toString();
-            if ("20001".equals(errorcode)
-                    || "20003".equals(errorcode)
-                    || "20004".equals(errorcode)) {
+            String code = jsonObject.get("code").toString();
 
-            }
             return adapter.fromJson(data);
         } catch (Exception e) {
             e.printStackTrace();

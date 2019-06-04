@@ -1,6 +1,6 @@
 package com.hala.bean;
 
-public class LoginBean extends BaseBean {
+public class LoginBean  {
 
     /**
      * data : {"member":{"id":1,"mobileNumber":"+8613851668725","username":"pete","gender":"male","birthDate":31,"avatarUrl":"http://me.avatar.url","accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiZjdmZDQxZWUtMTNlMS00N2VjLWI4ZjktM2Y3Mjg4MWExMmZhIn0.uwXL8of0EtKK5kG8KLFr0wgG05hoZWVud6243XnnjuY"},"action":"sign_in"}

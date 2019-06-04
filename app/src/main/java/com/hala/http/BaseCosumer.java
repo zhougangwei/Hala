@@ -2,13 +2,12 @@ package com.hala.http;
 
 import android.util.Log;
 
-import com.hala.base.Contact;
 import com.hala.bean.BaseBean;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public  class BaseCosumer< T extends BaseBean> implements Observer<T> {
+public  abstract class BaseCosumer< T extends BaseBean> implements Observer<T> {
 
     @Override
     public void onSubscribe(Disposable d) {

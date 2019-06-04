@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.hala.activity.LoginActivity;
 import com.hala.base.Contact;
+import com.hala.bean.AnchorBean;
 import com.hala.bean.BaseBean;
 import com.hala.bean.LoginBean;
 import com.hala.dialog.CommonDialog;
@@ -49,6 +50,29 @@ public class MainActivity extends AppCompatActivity {
       }
       oldTime =newTime;
 
+        login();
+        getAuchor();
+
+
+    }
+
+    private void getAuchor() {
+        RetrofitFactory.getInstance()
+                .getAnchorData(14)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<BaseBean<AnchorBean>>() {
+                    @Override
+                    public void onNext(BaseBean<AnchorBean> baseBean) {
+                        if (Contact.REPONSE_CODE_SUCCESS!=baseBean.getCode()) {
+                            return;
+                        }
+                        AnchorBean.DataBean data = baseBean.getT().getData();
+                    }
+                });
+    }
+
+    private void login() {
         RetrofitFactory.getInstance()
                 .login(ProxyPostHttpRequest.getInstance().login(1,2))
                 .subscribeOn(Schedulers.io())
@@ -56,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new BaseCosumer<BaseBean<LoginBean>>() {
                     @Override
                     public void onNext(BaseBean<LoginBean> baseBean) {
-                        if (Contact.REPONSE_CODE_SUCCESS==baseBean.getCode()) {
+                        if (Contact.REPONSE_CODE_SUCCESS!=baseBean.getCode()) {
                             return;
                         }
                         LoginBean t = baseBean.getT();
@@ -68,10 +92,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
-
-
     }
 
 }

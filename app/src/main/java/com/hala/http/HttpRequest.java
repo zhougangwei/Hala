@@ -1,6 +1,7 @@
 package com.hala.http;
 
 
+import com.hala.bean.AnchorBean;
 import com.hala.bean.BaseBean;
 import com.hala.bean.LoginBean;
 
@@ -19,7 +20,7 @@ import retrofit2.http.Query;
 public interface HttpRequest {
 
     @GET("/anchor/{user}")
-    Observable<BaseBean> getAnchorData(@Path("user") int user
+    Observable<BaseBean<AnchorBean>> getAnchorData(@Path("user") int user
     );
 
     @POST("/account/signin_or_signup")
