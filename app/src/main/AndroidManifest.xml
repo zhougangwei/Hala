@@ -19,7 +19,9 @@
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.ChooseCountryActivity" />
         <activity android:name=".activity.LoginPhoneActivity" />
-        <activity android:name=".activity.BestarActivity"></activity>
+        <activity android:name=".activity.BestarActivity" />
+        <activity android:name=".activity.AnchorsActivity" />
+        <activity android:name=".activity.VideoCallActivity"></activity>
     </application>
 
 </manifest>

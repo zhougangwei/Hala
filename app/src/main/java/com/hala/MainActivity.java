@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.hala.activity.AnchorsActivity;
 import com.hala.activity.LoginActivity;
 import com.hala.base.Contact;
 import com.hala.bean.AnchorBean;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                startActivity(new Intent(MainActivity.this, AnchorsActivity.class));
             }
         });
     }
@@ -51,26 +52,12 @@ public class MainActivity extends AppCompatActivity {
       oldTime =newTime;
 
         login();
-        getAuchor();
+
 
 
     }
 
-    private void getAuchor() {
-        RetrofitFactory.getInstance()
-                .getAnchorData(14)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseCosumer<BaseBean<AnchorBean>>() {
-                    @Override
-                    public void onNext(BaseBean<AnchorBean> baseBean) {
-                        if (Contact.REPONSE_CODE_SUCCESS!=baseBean.getCode()) {
-                            return;
-                        }
-                        AnchorBean.DataBean data = baseBean.getT().getData();
-                    }
-                });
-    }
+
 
     private void login() {
         RetrofitFactory.getInstance()
