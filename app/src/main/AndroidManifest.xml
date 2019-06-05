@@ -21,7 +21,8 @@
         <activity android:name=".activity.LoginPhoneActivity" />
         <activity android:name=".activity.BestarActivity" />
         <activity android:name=".activity.AnchorsActivity" />
-        <activity android:name=".activity.VideoCallActivity"></activity>
+        <activity android:name=".activity.VideoCallActivity" />
+        <activity android:name=".activity.EditProActivity"></activity>
     </application>
 
 </manifest>
