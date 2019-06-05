@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingStart="21dp"
+    android:paddingEnd="21dp"
+    android:background="@drawable/bg_rec_grey_r1"
+    android:paddingTop="8dp"
+    android:paddingBottom="2dp"
+    android:layout_width="wrap_content"
+    android:layout_height="56dp">
+    <ImageView
+
+        android:id="@+id/iv_coin"
+        android:src="@mipmap/ic_coin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+
+        android:layout_marginStart="2dp"
+        app:layout_constraintStart_toEndOf="@id/iv_coin"
+        android:text="100"
+        android:textColor="#4A4A4A"
+        android:id="@+id/tv_coin_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginTop="8dp"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_coin_num"
+        android:textColor="#4A4A4A"
+        android:text="$0.99"
+        android:id="@+id/tv_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</android.support.constraint.ConstraintLayout>

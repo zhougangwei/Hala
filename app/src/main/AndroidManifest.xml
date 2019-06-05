@@ -22,7 +22,9 @@
         <activity android:name=".activity.BestarActivity" />
         <activity android:name=".activity.AnchorsActivity" />
         <activity android:name=".activity.VideoCallActivity" />
-        <activity android:name=".activity.EditProActivity"></activity>
+        <activity android:name=".activity.EditProActivity" />
+        <activity android:name=".activity.EditProUserActivity" />
+        <activity android:name=".activity.ChargeActivity"></activity>
     </application>
 
 </manifest>
