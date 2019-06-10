@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.OneToOneActivity">
+    <FrameLayout
+        android:id="@+id/remote_video_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white" />
+    <FrameLayout
+        tools:background="@color/black"
+        android:id="@+id/local_video_view_container"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_width="94dp"
+        android:layout_height="167dp"/>
+<ImageView
+    android:id="@+id/iv_hangup"
+android:layout_marginBottom="25dp"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:src="@mipmap/ic_calling_hang_up"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/iv_camera_off"
+        android:layout_marginStart="18dp"
+        android:layout_alignBottom="@+id/iv_hangup"
+        android:layout_alignTop="@+id/iv_hangup"
+        android:src="@mipmap/ic_cameraoff"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/iv_camera_control"
+         android:layout_marginStart="83dp"
+        android:layout_alignBottom="@+id/iv_hangup"
+        android:layout_alignTop="@+id/iv_hangup"
+        android:src="@mipmap/ic_cameraroll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

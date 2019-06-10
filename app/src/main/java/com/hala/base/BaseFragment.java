@@ -23,7 +23,7 @@ package com.hala.base;
 /**
  * Created by renlei on 2016/5/23.
  */
-public abstract class BaseFragment extends RxFragment  {
+public abstract class BaseFragment extends com.trello.rxlifecycle2.components.support.RxFragment {
 
 
 

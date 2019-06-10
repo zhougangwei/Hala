@@ -24,7 +24,8 @@
         <activity android:name=".activity.VideoCallActivity" />
         <activity android:name=".activity.EditProActivity" />
         <activity android:name=".activity.EditProUserActivity" />
-        <activity android:name=".activity.ChargeActivity"></activity>
+        <activity android:name=".activity.ChargeActivity" />
+        <activity android:name=".activity.OneToOneActivity"></activity>
     </application>
 
 </manifest>

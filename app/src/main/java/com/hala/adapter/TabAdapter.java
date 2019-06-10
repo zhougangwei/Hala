@@ -1,15 +1,18 @@
 package com.hala.adapter;
 
+
+
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import com.hala.fragment.CallListFragment;
+
 import com.hala.fragment.HotFragment;
-import com.jhjj9158.mokavideo.fragment.HomeFragment;
-import com.jhjj9158.mokavideo.fragment.MsgFragment;
-import com.jhjj9158.mokavideo.fragment.MyFragment;
-import com.jhjj9158.mokavideo.fragment.SearchFragment;
+import com.hala.fragment.MyFragment;
+
 
 import java.util.ArrayList;
 
@@ -17,19 +20,16 @@ import java.util.ArrayList;
  * Created by kiddo on 2017/11/28.
  */
 
-public class TabAdapter extends FragmentPagerAdapter {
+public class TabAdapter extends FragmentPagerAdapter{
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private Fragment currentFragment;
 
 
     public TabAdapter(FragmentManager fm) {
         super(fm);
-
         fragments.clear();
-        mHomeFragment = new HotFragment();
-        fragments.add(mHomeFragment);
-        fragments.add(new SearchFragment());
-        fragments.add(new MsgFragment());
+        fragments.add(new HotFragment());
+        fragments.add(new CallListFragment());
         fragments.add(new MyFragment());
     }
 
@@ -55,9 +55,6 @@ public class TabAdapter extends FragmentPagerAdapter {
         return currentFragment;
     }
 
-    public Fragment getHomeFragment(){
-        return  mHomeFragment;
-    }
 
 
 

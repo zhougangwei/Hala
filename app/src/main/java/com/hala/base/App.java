@@ -51,7 +51,7 @@ public class App extends MultiDexApplication {
     private static App application;
     public static Context sContext;
     private long startTime;
-
+    private static ChatManager mChatManager;
 
 
     @Override
@@ -59,7 +59,8 @@ public class App extends MultiDexApplication {
         super.onCreate();
         application = this;
         sContext=this;
-
+        mChatManager = new ChatManager(this);
+        mChatManager.init();
     }
 
     //用来阿拉伯语 本地使用
@@ -106,4 +107,7 @@ public class App extends MultiDexApplication {
     }
 
 
+    public static ChatManager getChatManager() {
+        return mChatManager;
+    }
 }

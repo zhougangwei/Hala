@@ -10,7 +10,10 @@ import android.widget.TextView;
 import com.hala.R;
 import com.hala.adapter.MsgAdapter;
 import com.hala.base.BaseFragment;
+import com.hala.bean.MsgBean;
 import com.hala.http.RetrofitFactory;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,12 +25,12 @@ public class CallListFragment extends BaseFragment {
     TextView tvTitle;
     @BindView(R.id.rcv)
     RecyclerView rcv;
-
+    private List<MsgBean> callList;
 
 
     @Override
     protected void initView() {
-        rcv.setAdapter(new MsgAdapter(this,R.layout.item_msg_list));
+        rcv.setAdapter(new MsgAdapter(R.layout.item_msg_list,callList));
     }
 
     @Override
