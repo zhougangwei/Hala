@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:src="@mipmap/ic_next_6"
+        android:src="@drawable/ic_next_6"
         app:layout_constraintBottom_toBottomOf="@+id/iv_head"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/iv_head" />
@@ -95,7 +95,7 @@
         android:layout_marginTop="56dp"
         app:layout_constraintStart_toStartOf="@id/tv_coin_name"
         app:layout_constraintTop_toBottomOf="@id/tv_coin_name"
-        android:src="@mipmap/ic_wallet"
+        android:src="@drawable/ic_wallet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
@@ -116,7 +116,7 @@
         app:layout_constraintTop_toTopOf="@id/iv_wallet"
         app:layout_constraintBottom_toBottomOf="@id/iv_wallet"
        android:layout_marginEnd="15dp"
-        android:src="@mipmap/ic_next_8"
+        android:src="@drawable/ic_next_8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -129,7 +129,7 @@
         android:layout_marginTop="31dp"
         app:layout_constraintStart_toStartOf="@id/tv_coin_name"
         app:layout_constraintTop_toBottomOf="@id/iv_wallet"
-        android:src="@mipmap/ic_certified"
+        android:src="@drawable/ic_certified"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
@@ -150,7 +150,7 @@
         app:layout_constraintTop_toTopOf="@id/iv_certify"
         app:layout_constraintBottom_toBottomOf="@id/iv_certify"
         android:layout_marginEnd="15dp"
-        android:src="@mipmap/ic_next_8"
+        android:src="@drawable/ic_next_8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -159,7 +159,7 @@
         android:layout_marginTop="31dp"
         app:layout_constraintStart_toStartOf="@id/tv_coin_name"
         app:layout_constraintTop_toBottomOf="@id/iv_certify"
-        android:src="@mipmap/ic_feedback"
+        android:src="@drawable/ic_feedback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
@@ -180,7 +180,7 @@
         app:layout_constraintTop_toTopOf="@id/iv_feedback"
         app:layout_constraintBottom_toBottomOf="@id/iv_feedback"
         android:layout_marginEnd="15dp"
-        android:src="@mipmap/ic_next_8"
+        android:src="@drawable/ic_next_8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -189,7 +189,7 @@
         android:layout_marginTop="31dp"
         app:layout_constraintStart_toStartOf="@id/iv_feedback"
         app:layout_constraintTop_toBottomOf="@id/iv_feedback"
-        android:src="@mipmap/ic_logout"
+        android:src="@drawable/ic_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
@@ -210,7 +210,7 @@
         app:layout_constraintTop_toTopOf="@id/iv_loginout"
         app:layout_constraintBottom_toBottomOf="@id/iv_loginout"
         android:layout_marginEnd="15dp"
-        android:src="@mipmap/ic_next_8"
+        android:src="@drawable/ic_next_8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

@@ -179,7 +179,7 @@
     <TextView
         android:id="@+id/tv_call"
         android:paddingStart="19dp"
-        android:drawableStart="@mipmap/ic_videocall"
+        android:drawableStart="@drawable/ic_videocall"
         android:gravity="center"
         android:drawablePadding="5dp"
         android:textColor="@color/white"

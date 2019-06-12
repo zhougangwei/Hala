@@ -1,6 +1,10 @@
 package com.hala.activity;
 
-import android.support.v7.app.AppCompatActivity;
+import com.hala.avchat.AvchatInfo;
+import com.hala.base.BaseActivity;
+
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
@@ -28,9 +32,29 @@ import io.agora.rtm.RtmClientListener;
 import io.agora.rtm.RtmMessage;
 import io.agora.rtm.RtmStatusCode;
 
-public class OneToOneActivity extends AppCompatActivity {
+public class OneToOneActivity extends BaseActivity implements ResultCallback<Void> {
 
     private static final String TAG = "OneToOneActivity";
+    @butterknife.BindView(R.id.iv_head)
+    android.widget.ImageView ivHead;
+    @butterknife.BindView(R.id.tv_name)
+    android.widget.TextView tvName;
+    @butterknife.BindView(R.id.iv_hangup_prepare)
+    android.widget.ImageView ivHangupPrepare;
+    @butterknife.BindView(R.id.rl_prepare)
+    android.widget.RelativeLayout rlPrepare;
+    @butterknife.BindView(R.id.remote_video_view_container)
+    FrameLayout remoteVideoViewContainer;
+    @butterknife.BindView(R.id.local_video_view_container)
+    FrameLayout localVideoViewContainer;
+    @butterknife.BindView(R.id.iv_hangup)
+    android.widget.ImageView ivHangup;
+    @butterknife.BindView(R.id.iv_camera_off)
+    android.widget.ImageView ivCameraOff;
+    @butterknife.BindView(R.id.iv_camera_control)
+    android.widget.ImageView ivCameraControl;
+    @butterknife.BindView(R.id.rl_onshow)
+    android.widget.RelativeLayout rlOnshow;
     private RtcEngine mRtcEngine;
     private ChatManager mChatManager;
     private RtmClient mRtmClient;
@@ -38,13 +62,72 @@ public class OneToOneActivity extends AppCompatActivity {
     private MyRtmClientListener mClientListener;
     private RtmChannel mRtmChannel;
 
+
+    private int callId;
+    private int receiveId;
+    private int otherId;
+    private int myId;
+
+    private boolean doOutCall;
+
+
+    private static final int RTM_HANG_UP=1;
+    private static final int RTM_DO_CALL=2;
+
+
+
+
+    public static void docallOneToOneActivity(Context context, int anchorId){
+        Intent intent = new Intent(context,VideoCallActivity.class);
+        intent.putExtra("anchorId",anchorId);
+        intent.putExtra("outCall",true);
+
+        context.startActivity(intent);
+    }
+    public static void doReceivveOneToOneActivity(Context context, int audienceId){
+        Intent intent = new Intent(context,VideoCallActivity.class);
+        intent.putExtra("audienceId",audienceId);
+        intent.putExtra("outCall",false);
+        context.startActivity(intent);
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_one_to_one);
+    protected int getContentViewId() {
+        return R.layout.activity_one_to_one;
+    }
+
+
+    @Override
+    protected void beforeInitView() {
+
+    }
+    @Override
+    protected void initView() {
+        initIntent();
+        initChat();
+        initAgoraEngineAndJoinChannel();
+    }
+
+    private void initIntent() {
+        Intent intent = getIntent();
+        int anchorId = intent.getIntExtra("anchorId", -1);
+        int audienceId = intent.getIntExtra("audienceId", -1);
+         doOutCall = intent.getBooleanExtra("outCall", false);
+        myId= AvchatInfo.getAccount();
+        if(doOutCall){      //打出去
+            otherId=anchorId;
+            callId=myId;
+            receiveId=otherId;
+        }else{
+            otherId=audienceId;
+            callId=otherId;
+            receiveId=myId;
+        }
 
 
     }
+
+
     private void initAgoraEngineAndJoinChannel() {
         initializeAgoraEngine();
         setupVideoProfile();
@@ -72,10 +155,10 @@ public class OneToOneActivity extends AppCompatActivity {
     }
 
     private void setupLocalVideo() {
-        FrameLayout container = (FrameLayout) findViewById(R.id.local_video_view_container);
+
         SurfaceView surfaceView = RtcEngine.CreateRendererView(getBaseContext());
         surfaceView.setZOrderMediaOverlay(true);
-        container.addView(surfaceView);
+        localVideoViewContainer.addView(surfaceView);
         mRtcEngine.setupLocalVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, 0));
     }
 
@@ -116,14 +199,14 @@ public class OneToOneActivity extends AppCompatActivity {
     };
 
     private void setupRemoteVideo(int uid) {
-        FrameLayout container = (FrameLayout) findViewById(R.id.remote_video_view_container);
 
-        if (container.getChildCount() >= 1) {
+
+        if (remoteVideoViewContainer.getChildCount() >= 1) {
             return;
         }
 
         SurfaceView surfaceView = RtcEngine.CreateRendererView(getBaseContext());
-        container.addView(surfaceView);
+        remoteVideoViewContainer.addView(surfaceView);
         mRtcEngine.setupRemoteVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid));
         surfaceView.setTag(uid); // for mark purpose
 
@@ -134,16 +217,13 @@ public class OneToOneActivity extends AppCompatActivity {
     }
 
     private void onRemoteUserLeft() {
-        FrameLayout container = (FrameLayout) findViewById(R.id.remote_video_view_container);
-        container.removeAllViews();
-
-
+        remoteVideoViewContainer.removeAllViews();
     }
 
     private void onRemoteUserVideoMuted(int uid, boolean muted) {
-        FrameLayout container = (FrameLayout) findViewById(R.id.remote_video_view_container);
 
-        SurfaceView surfaceView = (SurfaceView) container.getChildAt(0);
+
+        SurfaceView surfaceView = (SurfaceView) remoteVideoViewContainer.getChildAt(0);
 
         Object tag = surfaceView.getTag();
         if (tag != null && (Integer) tag == uid) {
@@ -152,17 +232,61 @@ public class OneToOneActivity extends AppCompatActivity {
     }
 
 
-
     private void initChat() {
         mChatManager = App.getChatManager();
         mRtmClient = mChatManager.getRtmClient();
         mClientListener = new MyRtmClientListener();
         mChatManager.registerListener(mClientListener);
-
-
-            createAndJoinChannel();
+        createAndJoinChannel();
 
     }
+
+    @butterknife.OnClick({R.id.iv_hangup_prepare, R.id.iv_hangup, R.id.iv_camera_off, R.id.iv_camera_control})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_hangup_prepare:
+                hangup();
+                break;
+            case R.id.iv_hangup:
+                break;
+            case R.id.iv_camera_off:
+                break;
+            case R.id.iv_camera_control:
+                break;
+        }
+    }
+
+    private void hangup() {
+        sendRtmpMessage(RTM_HANG_UP);
+    }
+
+    public void sendRtmpMessage(int rtmType) {
+        RtmMessage message = mRtmClient.createMessage();
+        switch (rtmType) {
+            case RTM_HANG_UP:
+                break;
+            case  RTM_DO_CALL:
+                message.setText("tel://call?"+otherId);
+                break;
+        }
+        mChatManager.getRtmClient().sendMessageToPeer(otherId,message,this);
+    }
+
+    @Override
+    public void onSuccess(Void aVoid) {
+
+    }
+
+    @Override
+    public void onFailure(ErrorInfo errorInfo) {
+
+    }
+
+
+
+
+
+
     class MyRtmClientListener implements RtmClientListener {
 
         @Override
@@ -189,9 +313,7 @@ public class OneToOneActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     String content = message.getText();
-                    if (peerId.equals(mPeerId)) {
 
-                    }
                 }
             });
         }
@@ -240,12 +362,13 @@ public class OneToOneActivity extends AppCompatActivity {
             });
         }
     }
+
     private void createAndJoinChannel() {
 
         // step 1: create a channel instance
         mRtmChannel = mRtmClient.createChannel("10086", new MyChannelListener());
         if (mRtmChannel == null) {
-           // showToast(getString(R.string.join_channel_failed));
+            // showToast(getString(R.string.join_channel_failed));
             finish();
             return;
         }
@@ -274,6 +397,7 @@ public class OneToOneActivity extends AppCompatActivity {
     private void showToast(final String text) {
         Toast.makeText(OneToOneActivity.this, text, Toast.LENGTH_SHORT).show();
     }
+
     private void getChannelMemberList() {
         mRtmChannel.getMembers(new ResultCallback<List<RtmChannelMember>>() {
             @Override

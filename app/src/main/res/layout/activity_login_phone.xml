@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="31dp"
-        android:drawableEnd="@mipmap/ic_next_6"
+        android:drawableEnd="@drawable/ic_next_6"
         android:drawablePadding="11dp"
         android:padding="7dp"
         android:text="ChinaChina"
@@ -158,7 +158,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@mipmap/ic_facebook_icon"
+        android:src="@drawable/ic_facebook_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
