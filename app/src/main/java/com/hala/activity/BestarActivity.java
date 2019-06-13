@@ -34,7 +34,7 @@ public class BestarActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        ivBack.setImageResource(R.mipmap.ic_close);
+        ivBack.setImageResource(R.drawable.ic_close);
         tvTitle.setText(R.string.start_certified);
     }
 

@@ -26,7 +26,7 @@ public class AddInfoInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         final Request.Builder builder = chain.request().newBuilder();
-        builder.addHeader("Content-Type", "application/json; charset=utf-8");
+        builder.addHeader("Content-Type", "application/json");
         builder.addHeader("Authorization", SPUtil.getInstance(context).getString(Contact.TOKEN,""));
 
         return chain.proceed(builder.build());

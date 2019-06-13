@@ -107,13 +107,13 @@ public class AnchorsActivity extends BaseActivity {
                 .getAnchorData(14)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseCosumer<BaseBean<AnchorBean>>() {
+                .subscribe(new BaseCosumer<AnchorBean>() {
                     @Override
-                    public void onNext(BaseBean<AnchorBean> baseBean) {
+                    public void onNext(AnchorBean baseBean) {
                         if (Contact.REPONSE_CODE_SUCCESS!=baseBean.getCode()) {
                             return;
                         }
-                        AnchorBean.DataBean data = baseBean.getT().getData();
+                        AnchorBean.DataBean data = baseBean.getData();
                         tvName.setText(data.getNickname());
                         rbv.setStar(data.getStarLevel(),false);
                         tvBiography.setText(data.getBiography());

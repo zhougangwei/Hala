@@ -269,7 +269,8 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
                 message.setText("tel://call?"+otherId);
                 break;
         }
-        mChatManager.getRtmClient().sendMessageToPeer(otherId,message,this);
+        mChatManager.getRtmClient().sendMessageToPeer(otherId+"",message,this);
+
     }
 
     @Override

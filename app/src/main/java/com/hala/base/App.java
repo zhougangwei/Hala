@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 
 import com.bumptech.glide.annotation.GlideModule;
 import com.hala.activity.LoginActivity;
+import com.hala.utils.SPUtil;
 
 import java.util.Locale;
 
@@ -59,6 +60,7 @@ public class App extends MultiDexApplication {
         super.onCreate();
         application = this;
         sContext=this;
+        SPUtil.setContext(this);
         mChatManager = new ChatManager(this);
         mChatManager.init();
     }

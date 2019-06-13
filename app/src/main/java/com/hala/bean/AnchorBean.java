@@ -2,7 +2,7 @@ package com.hala.bean;
 
 import java.util.List;
 
-public class AnchorBean  {
+public class AnchorBean extends BaseBean {
     /**
      * data : {"id":14,"memberId":1,"nickname":"old p","mobileNumber":"+8613851668725","height":0,"weight":82,"zodiac":"Taurus","city":"NJ","introduction":"this is introduction","biography":"this is biography","certifyUrl":"http://certify.url","coverUrl":"http://anchor.cover.url","starLevel":0,"cpm":20,"online":true,"available":true,"sortby":0,"verified":false,"createdAt":"2019-05-26T04:03:50.000+0000","updatedAt":"2019-05-26T04:03:50.000+0000","tags":[{"id":16,"content":"tag1"},{"id":19,"content":"tag2"}],"covers":[{"id":2,"coverUrl":"http://test.anchor14.url2","sortby":2},{"id":1,"coverUrl":"http://test.anchor14.url1","sortby":3}]}
      */
