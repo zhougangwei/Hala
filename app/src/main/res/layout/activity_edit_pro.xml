@@ -7,16 +7,28 @@
 android:orientation="vertical"
     tools:context=".activity.EditProActivity">
 
-    <include layout="@layout/include_top_toolbar_iv">
-    </include>
+    <include layout="@layout/include_top_toolbar_save"/>
 
 
-    <android.support.v7.widget.RecyclerView
+    <HorizontalScrollView
         android:background="#F4F4F4"
         android:layout_width="match_parent"
-        tools:layout_height="106dp"
         android:layout_height="wrap_content">
-    </android.support.v7.widget.RecyclerView>
+        <ImageView
+            android:id="@+id/iv_add_pic"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_add_pic"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.RecyclerView
+            android:background="#F4F4F4"
+            android:id="@+id/rv_pic"
+            android:layout_width="wrap_content"
+            tools:layout_height="106dp"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+    </HorizontalScrollView>
+
 
     <LinearLayout
         android:id="@+id/ll_username"
@@ -70,6 +82,8 @@ android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
+            android:inputType="number"
+            android:maxLength="15"
             android:id="@+id/et_phone_num"
             android:textAlignment="textEnd"
             android:paddingEnd="10dp"
@@ -109,6 +123,8 @@ android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
+            android:inputType="number"
+            android:maxLength="3"
             android:id="@+id/et_height"
             android:textAlignment="textEnd"
             android:paddingEnd="10dp"
@@ -148,6 +164,8 @@ android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
+            android:inputType="number"
+            android:maxLength="3"
             android:id="@+id/et_weight"
             android:textAlignment="textEnd"
             android:paddingEnd="10dp"
@@ -194,7 +212,7 @@ android:orientation="vertical"
             android:textColorHint="#C7C7CE"
             android:background="@null"
             android:gravity="end"
-            tools:text="111"
+            tools:text="星座"
             android:layout_marginStart="10dp"
             android:layout_gravity="center_vertical"
             android:hint="fill in username"

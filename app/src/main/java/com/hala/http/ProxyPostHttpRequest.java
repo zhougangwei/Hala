@@ -19,6 +19,7 @@ import retrofit2.http.Query;
 public class ProxyPostHttpRequest {
 
     private static volatile HttpRequest postHttpRequest;
+    private static volatile HttpRequest jsonPostHttpRequest;
 
     public static HttpRequest getInstance() {
         if (postHttpRequest == null) {
@@ -29,6 +30,27 @@ public class ProxyPostHttpRequest {
             }
         }
         return postHttpRequest;
+    }
+    public static HttpRequest getJsonInstance() {
+        if (jsonPostHttpRequest == null) {
+            synchronized (ProxyPostHttpRequest.class) {
+                if (jsonPostHttpRequest == null) {
+                    jsonPostHttpRequest = createJson(HttpRequest.class);
+                }
+            }
+        }
+        return jsonPostHttpRequest;
+    }
+
+    private static<T> T createJson(Class<T> httpRequestClass) {
+        return (T) Proxy.newProxyInstance(httpRequestClass.getClassLoader(), new Class<?>[]{httpRequestClass},
+                new InvocationHandler() {
+                    @Override
+                    public Object invoke(Object proxy, Method method, @Nullable Object[] args) {
+                        String arg = (String) args[0];
+                        return RequestBody.create(MediaType.parse("application/json; charset=utf-8"), arg);
+                    }
+                });
     }
 
 

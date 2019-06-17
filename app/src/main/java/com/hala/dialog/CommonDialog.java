@@ -19,10 +19,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by xyy on 2018/5/3.
- */
-
 public class CommonDialog extends Dialog {
 
 
@@ -71,6 +67,11 @@ public class CommonDialog extends Dialog {
         return this;
     }
 
+
+    public CommonDialog setListener(OnClickListener mListener) {
+        this.mListener = mListener;
+        return this;
+    }
 
 
     public void setCancelColor(int color) {
@@ -135,9 +136,7 @@ public class CommonDialog extends Dialog {
         return mListener;
     }
 
-    public void setListener(OnClickListener mListener) {
-        this.mListener = mListener;
-    }
+
 
     public interface OnClickListener {
         void onClickConfirm();

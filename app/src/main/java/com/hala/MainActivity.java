@@ -1,20 +1,25 @@
 package com.hala;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.hala.adapter.TabAdapter;
+import com.hala.avchat.QiniuInfo;
 import com.hala.base.BaseActivity;
+import com.hala.base.Contact;
+import com.hala.bean.QiNiuToken;
 import com.hala.dialog.CommonDialog;
+import com.hala.http.BaseCosumer;
+import com.hala.http.RetrofitFactory;
 import com.hala.wight.NoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
 
@@ -30,6 +35,7 @@ public class MainActivity extends BaseActivity {
     private TabAdapter mTabAdapter;
 
     List<View> viewList = new ArrayList<>();
+
     @Override
     protected int getContentViewId() {
         return R.layout.activity_main;
@@ -44,11 +50,37 @@ public class MainActivity extends BaseActivity {
     protected void initView() {
         mTabAdapter = new TabAdapter(getSupportFragmentManager());
         vp.setAdapter(mTabAdapter);
-        vp .setOffscreenPageLimit(5);
+        vp.setOffscreenPageLimit(5);
         vp.setCurrentItem(0, false);
         viewList.add(ivHome);
         viewList.add(ivMsg);
         viewList.add(ivMy);
+        initQiniuData();
+
+
+    }
+
+    private void initQiniuData() {
+        RetrofitFactory
+                .getInstance()
+                .getQiNiuToken()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<QiNiuToken>() {
+                    @Override
+                    public void onNext(QiNiuToken baseBean) {
+                        if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
+                            return;
+                        }
+                        QiNiuToken.DataBean.StarchatanchorBean starchatanchor = baseBean.getData().getStarchatanchor();
+                        QiNiuToken.DataBean.StarchatfeedbackBean starchatfeedback = baseBean.getData().getStarchatfeedback();
+                        QiNiuToken.DataBean.StarchatmemberBean starchatmember = baseBean.getData().getStarchatmember();
+
+                        QiniuInfo.setmStarchatanchorBean(starchatanchor);
+                        QiniuInfo.setmStarchatfeedbackBean(starchatfeedback);
+                        QiniuInfo.setmStarchatmemberBean(starchatmember);
+                    }
+                });
 
     }
 
@@ -61,6 +93,16 @@ public class MainActivity extends BaseActivity {
         } else {
             new CommonDialog(this)
                     .setMsg(getString(R.string.want_to_log_out))
+                    .setListener(new CommonDialog.OnClickListener() {
+                        @Override
+                        public void onClickConfirm() {
+                            finish();
+                        }
+
+                        @Override
+                        public void onClickCancel() {
+                        }
+                    })
                     .show();
         }
         oldTime = newTime;
@@ -74,9 +116,6 @@ public class MainActivity extends BaseActivity {
     private void login() {
 
     }
-
-
-
 
 
     @OnClick({R.id.iv_home, R.id.iv_msg, R.id.iv_my})
@@ -96,10 +135,10 @@ public class MainActivity extends BaseActivity {
 
     private void setClicked(ImageView clickView) {
         for (int i = 0; i < viewList.size(); i++) {
-            View view=viewList.get(i);
-            if (view!=clickView) {
+            View view = viewList.get(i);
+            if (view != clickView) {
                 view.setSelected(false);
-            }else{
+            } else {
                 view.setSelected(true);
                 vp.setCurrentItem(i, false);
             }

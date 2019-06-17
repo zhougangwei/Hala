@@ -1,6 +1,6 @@
 package com.hala.activity;
 
-import android.os.Bundle;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,7 +9,6 @@ import com.hala.R;
 import com.hala.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class BestarActivity extends BaseActivity {
@@ -46,6 +45,7 @@ public class BestarActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_start:
+                startActivity(new Intent(this,EditProActivity.class));
                 break;
         }
     }

@@ -4,13 +4,12 @@ package com.hala.http;
 import com.hala.bean.AnchorBean;
 import com.hala.bean.BaseBean;
 import com.hala.bean.LoginBean;
-import com.hala.bean.LoginBean2;
+import com.hala.bean.QiNiuToken;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -49,5 +48,16 @@ public interface HttpRequest {
     RequestBody regist(@Query("code") String code, @Query("avatarUrl")String avatarUrl, @Query("username")String username,
                        @Query("gender")String gender, @Query("birthDate")String birthDate, @Query("mobileNumber")String mobileNumber
     );
+
+    @POST("/anchor/apply")
+    Observable<BaseBean> applyAnchor(@Body RequestBody requestBody
+    );
+    RequestBody applyAnchor(
+            @JsonQuery String dataJson
+    );
+
+
+    @GET("general/qtoken")
+    Observable<QiNiuToken> getQiNiuToken();
 
 }

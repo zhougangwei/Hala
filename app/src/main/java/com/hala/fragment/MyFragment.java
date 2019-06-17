@@ -1,17 +1,17 @@
 package com.hala.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.content.Intent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hala.R;
+import com.hala.activity.BestarActivity;
+import com.hala.activity.WalletActivity;
 import com.hala.base.BaseFragment;
+import com.hala.dialog.CommonDialog;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
@@ -44,7 +44,6 @@ public class MyFragment extends BaseFragment {
     }
 
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -61,13 +60,38 @@ public class MyFragment extends BaseFragment {
             case R.id.tv_money:
                 break;
             case R.id.gp_walllet:
+                gotoWallet();
                 break;
             case R.id.gp_certify:
+                gotoCertify();
                 break;
             case R.id.gp_feedback:
                 break;
             case R.id.gp_loginout:
+                new CommonDialog(getActivity())
+                        .setMsg(getString(R.string.want_to_log_out))
+                        .setListener(new CommonDialog.OnClickListener() {
+                            @Override
+                            public void onClickConfirm() {
+                                getActivity().finish();
+                            }
+                            @Override
+                            public void onClickCancel() {
+                            }
+                        })
+                        .show();
+
+
                 break;
         }
     }
+
+    private void gotoCertify() {
+        startActivity(new Intent(getActivity(), BestarActivity.class));
+    }
+
+    private void gotoWallet() {
+        startActivity(new Intent(getActivity(), WalletActivity.class));
+    }
+
 }
