@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-import com.hala.fragment.CallListFragment;
+import com.hala.fragment.MessageListFragment;
 
 import com.hala.fragment.HotFragment;
 import com.hala.fragment.MyFragment;
@@ -29,7 +29,7 @@ public class TabAdapter extends FragmentPagerAdapter{
         super(fm);
         fragments.clear();
         fragments.add(new HotFragment());
-        fragments.add(new CallListFragment());
+        fragments.add(new MessageListFragment());
         fragments.add(new MyFragment());
     }
 

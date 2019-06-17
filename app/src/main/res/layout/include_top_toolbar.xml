@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
 <TextView
+    android:id="@+id/tv_cancel"
     android:textSize="15sp"
     android:layout_marginStart="15dp"
     android:layout_centerVertical="true"

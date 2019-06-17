@@ -5,7 +5,6 @@ import com.hala.base.BaseActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -78,14 +77,14 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
 
 
     public static void docallOneToOneActivity(Context context, int anchorId){
-        Intent intent = new Intent(context,VideoCallActivity.class);
+        Intent intent = new Intent(context,MyCallListActivity.class);
         intent.putExtra("anchorId",anchorId);
         intent.putExtra("outCall",true);
 
         context.startActivity(intent);
     }
     public static void doReceivveOneToOneActivity(Context context, int audienceId){
-        Intent intent = new Intent(context,VideoCallActivity.class);
+        Intent intent = new Intent(context,MyCallListActivity.class);
         intent.putExtra("audienceId",audienceId);
         intent.putExtra("outCall",false);
         context.startActivity(intent);

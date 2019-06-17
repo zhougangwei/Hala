@@ -144,7 +144,7 @@ public class AnchorsActivity extends BaseActivity {
             case R.id.toolbar:
                 break;
             case R.id.tv_call:
-                VideoCallActivity.startVideoCallAc(this,14);
+                OneToOneActivity.docallOneToOneActivity(this,14);
                 break;
         }
     }
