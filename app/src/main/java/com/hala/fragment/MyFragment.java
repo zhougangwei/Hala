@@ -13,7 +13,6 @@ import com.hala.dialog.CommonDialog;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class MyFragment extends BaseFragment {
     @BindView(R.id.tv_name)
@@ -26,7 +25,7 @@ public class MyFragment extends BaseFragment {
     TextView tvCharge;
     @BindView(R.id.tv_money)
     TextView tvMoney;
-    Unbinder unbinder;
+
 
     @Override
     protected void initView() {
@@ -44,13 +43,9 @@ public class MyFragment extends BaseFragment {
     }
 
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
-    @OnClick({R.id.iv_more, R.id.tv_charge, R.id.tv_money, R.id.gp_walllet, R.id.gp_certify, R.id.gp_feedback, R.id.gp_loginout})
+
+    @OnClick({R.id.iv_more, R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_loginout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_more:
@@ -59,15 +54,15 @@ public class MyFragment extends BaseFragment {
                 break;
             case R.id.tv_money:
                 break;
-            case R.id.gp_walllet:
+            case R.id.tv_wallet:
                 gotoWallet();
                 break;
-            case R.id.gp_certify:
+            case R.id.tv_certify:
                 gotoCertify();
                 break;
-            case R.id.gp_feedback:
+            case R.id.tv_feedback:
                 break;
-            case R.id.gp_loginout:
+            case R.id.tv_loginout:
                 new CommonDialog(getActivity())
                         .setMsg(getString(R.string.want_to_log_out))
                         .setListener(new CommonDialog.OnClickListener() {
