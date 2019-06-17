@@ -1,11 +1,10 @@
 package com.hala.base;
 
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.view.View;
 
 import com.hala.rxbus.RxBus;
 import com.hala.utils.ActivityManagerUtil;
+import com.hala.utils.StatusbarUtils;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import butterknife.ButterKnife;
@@ -20,6 +19,7 @@ public abstract class BaseActivity extends RxAppCompatActivity  {
         super.onCreate(savedInstanceState);
         //Activity栈
         ActivityManagerUtil.getActivityManager().pushActivity2Stack(this);
+        StatusbarUtils.enableTranslucentStatusbar(this);
         beforeInitView();
         setContentView(getContentViewId());
         ButterKnife.bind(this);
