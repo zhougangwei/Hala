@@ -68,9 +68,8 @@
 
         app:layout_constraintTop_toBottomOf="@+id/cl"
         android:id="@+id/vp"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="400dp" />
 
 
 </android.support.constraint.ConstraintLayout>

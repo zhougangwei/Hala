@@ -74,13 +74,15 @@ public class HomeFragment extends BaseFragment {
         switch (type) {
             case HOT:
                 tvHot.setTextSize(26f);
+                tvNew.setTextSize(17f);
                 ivHot.setVisibility(View.VISIBLE);
                 ivNew.setVisibility(View.GONE);
                 break;
             case NEW:
+                tvNew.setTextSize(26f);
                 tvHot.setTextSize(17f);
-                ivNew.setVisibility(View.GONE);
-                ivHot.setVisibility(View.VISIBLE);
+                ivNew.setVisibility(View.VISIBLE);
+                ivHot.setVisibility(View.GONE);
                 break;
         }
 
