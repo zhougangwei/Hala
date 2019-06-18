@@ -1,14 +1,17 @@
 package com.hala.adapter;
 
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
+import com.blankj.utilcode.utils.TimeUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hala.R;
 import com.hala.bean.CallListBean;
 import com.hala.bean.MessageUnreadBean;
+import com.hala.utils.TimeUtil;
 
 import java.util.List;
 
@@ -44,6 +47,13 @@ public class CallListAdapter extends BaseQuickAdapter<CallListBean.DataBean.Cont
                 break;
         }
         helper.setText(R.id.tv_content, content);
+        String startedAt = item.getStartedAt();
+        if (!TextUtils.isEmpty(startedAt)) {
+            String s = TimeUtil.dealDateFormat(startedAt);
+
+        }
+
+
         ImageView imageView = (ImageView) helper.getView(R.id.iv_head);
         Glide.with(mContext).load(item.getTargetInfo().getAvatarUrl())
                 .placeholder(imageView.getDrawable())

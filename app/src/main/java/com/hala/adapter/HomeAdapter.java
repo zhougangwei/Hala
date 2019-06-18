@@ -1,22 +1,59 @@
 package com.hala.adapter;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.hala.R;
-import com.hala.bean.BaseBean;
 
-import java.util.List;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
-public class HomeAdapter extends BaseQuickAdapter<BaseBean, BaseViewHolder> {
-    public HomeAdapter(int layoutResId, List data) {
-        super(layoutResId, data);
+import com.hala.fragment.HomeFragment;
+import com.hala.fragment.HotFragment;
+import com.hala.fragment.MessageListFragment;
+import com.hala.fragment.MyFragment;
+import com.hala.fragment.NewFragment;
+
+import java.util.ArrayList;
+
+/**
+ * Created by kiddo on 2017/11/28.
+ */
+
+public class HomeAdapter extends FragmentPagerAdapter{
+    private ArrayList<Fragment> fragments = new ArrayList<>();
+    private Fragment currentFragment;
+
+
+    public HomeAdapter(FragmentManager fm) {
+        super(fm);
+        fragments.clear();
+        fragments.add(new HotFragment());
+        fragments.add(new NewFragment());
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, BaseBean item) {
-        /*helper.setText(R.id.text, item.getTitle());*/
-        /*helper.setImageResource(R.id.icon, item.getImageResource());*/
-        // 加载网络图片
-
+    public Fragment getItem(int position) {
+        return fragments.get(position);
     }
+
+    @Override
+    public int getCount() {
+        return fragments.size();
+    }
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        if (getCurrentFragment() != object) {
+            currentFragment = ((Fragment) object);
+        }
+        super.setPrimaryItem(container, position, object);
+    }
+
+    public Fragment getCurrentFragment() {
+        return currentFragment;
+    }
+
+
+
+
+
 }

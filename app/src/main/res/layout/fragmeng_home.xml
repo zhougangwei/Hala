@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:layout_marginTop="23dp">
+
+        <TextView
+            android:layout_marginBottom="9dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/tv_hot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="15dp"
+            android:gravity="bottom"
+            android:text="Hot"
+            android:textColor="@color/black"
+            android:textSize="26sp"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_hot"
+            android:layout_width="12dp"
+            android:layout_height="4dp"
+            android:src="@drawable/bg_rec_colorful_r2"
+            app:layout_constraintEnd_toEndOf="@id/tv_hot"
+            app:layout_constraintStart_toStartOf="@+id/tv_hot"
+            app:layout_constraintTop_toBottomOf="@+id/tv_hot" />
+
+        <TextView
+
+            android:id="@+id/tv_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:gravity="center"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:text="New"
+
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_hot"
+            app:layout_constraintStart_toEndOf="@id/tv_hot"
+            app:layout_constraintTop_toTopOf="@id/tv_hot"
+            app:layout_goneMarginStart="18dp" />
+
+        <ImageView
+            android:id="@+id/iv_new"
+            android:layout_width="12dp"
+            android:layout_height="4dp"
+            android:src="@drawable/bg_rec_colorful_r2"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/tv_new"
+            app:layout_constraintStart_toStartOf="@+id/tv_new"
+            app:layout_constraintTop_toBottomOf="@+id/tv_new" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <com.hala.wight.NoScrollViewPager
+
+        app:layout_constraintTop_toBottomOf="@+id/cl"
+        android:id="@+id/vp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
+
+</android.support.constraint.ConstraintLayout>

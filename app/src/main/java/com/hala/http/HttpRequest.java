@@ -3,8 +3,10 @@ package com.hala.http;
 
 import com.hala.bean.AnchorBean;
 import com.hala.bean.BaseBean;
+import com.hala.bean.CallListBean;
 import com.hala.bean.LoginBean;
 import com.hala.bean.MessageUnreadBean;
+import com.hala.bean.OneToOneListBean;
 import com.hala.bean.QiNiuToken;
 
 import io.reactivex.Observable;
@@ -58,9 +60,24 @@ public interface HttpRequest {
     );
 
 
-    @GET("general/qtoken")
+    @GET("/general/qtoken")
     Observable<QiNiuToken> getQiNiuToken();
 
-    @GET("message/unread")
+    @GET("/message/unread")
     Observable<MessageUnreadBean> getMessageUnread();
+
+    @GET("/call")
+    Observable<CallListBean> getCallList(@Path("page") int page, @Path("size") int size);
+    @GET("/call/reservation")
+    Observable<MessageUnreadBean> getReservationList(@Path("page") int page,@Path("size") int size);
+
+
+    @GET("/anchor/hot")
+    Observable<OneToOneListBean> getHotOneToOneList(@Path("page") int page,@Path("size") int size);
+
+    @GET("/anchor/new")
+    Observable<OneToOneListBean> getNewOneToOneList(@Path("page") int page, @Path("size") int size);
+
+
+
 }

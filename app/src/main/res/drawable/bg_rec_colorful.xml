@@ -5,7 +5,7 @@
         android:bottomRightRadius="18dp"
         />
     <gradient android:startColor="#F46BA6"
-        android:endColor="#F760EB"></gradient>
+        android:endColor="#F760EB"/>
 
 
 </shape>

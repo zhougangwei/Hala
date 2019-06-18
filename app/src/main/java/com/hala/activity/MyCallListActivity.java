@@ -1,7 +1,5 @@
 package com.hala.activity;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,16 +9,19 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hala.R;
 import com.hala.adapter.CallListAdapter;
-import com.hala.adapter.CountryAdapter;
 import com.hala.base.BaseActivity;
+import com.hala.base.Contact;
 import com.hala.bean.CallListBean;
+import com.hala.http.BaseCosumer;
+import com.hala.http.RetrofitFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class MyCallListActivity extends BaseActivity {
 
@@ -34,6 +35,7 @@ public class MyCallListActivity extends BaseActivity {
 
     List<CallListBean.DataBean.ContentBean> callList=new ArrayList<>() ;
     private CallListAdapter adapter;
+    private int page=0;
 
 
     @Override
@@ -60,9 +62,33 @@ public class MyCallListActivity extends BaseActivity {
                 OneToOneActivity.docallOneToOneActivity(MyCallListActivity.this,callList.get(position).getTargetInfo().getId());
             }
         });
+
+        getData();
     }
+
+    private void getData() {
+        RetrofitFactory.getInstance().getCallList(page, Contact.PAGE_SIZE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<CallListBean>() {
+                    @Override
+                    public void onNext(CallListBean callListBean) {
+                        if (Contact.REPONSE_CODE_SUCCESS!=callListBean.getCode()) {
+                            return;
+                        }
+                        List<CallListBean.DataBean.ContentBean> content = callListBean.getData().getContent();
+                        if (content!=null&&content.size()>0) {
+                            callList.addAll(content);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+
+    }
+
 
     @OnClick(R.id.iv_back)
     public void onClick() {
+        finish();
     }
 }

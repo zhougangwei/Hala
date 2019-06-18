@@ -14,4 +14,5 @@ public class Contact {
     public static final int REPONSE_CODE_WRONG_VER = 3;        //验证码错误
     public static final int REPONSE_CODE_OUT_WRONG = 4;        //外部服务错误，如短信平台发送失败等。
 
+    public static final int PAGE_SIZE=20;
 }

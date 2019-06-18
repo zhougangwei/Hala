@@ -12,6 +12,7 @@ import com.hala.activity.MyCallListActivity;
 import com.hala.adapter.MsgAdapter;
 import com.hala.base.BaseFragment;
 import com.hala.base.Contact;
+import com.hala.bean.CallListBean;
 import com.hala.bean.MessageUnreadBean;
 import com.hala.http.BaseCosumer;
 import com.hala.http.RetrofitFactory;
@@ -80,9 +81,11 @@ public class MessageListFragment extends BaseFragment {
                             return;
                         }
                         List<MessageUnreadBean.DataBean> data = messageUnreadBean.getData();
-                        msgDataList.clear();
-                        msgDataList.addAll(data);
-                        msgAdapter.notifyDataSetChanged();
+                        if (data!=null&&data.size()>0) {
+                            msgDataList.clear();
+                            msgDataList.addAll(data);
+                            msgAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
 
