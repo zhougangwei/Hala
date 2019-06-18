@@ -1,13 +1,18 @@
 package com.hala;
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.hala.adapter.TabAdapter;
+import com.hala.avchat.AvchatInfo;
 import com.hala.avchat.QiniuInfo;
+import com.hala.base.App;
 import com.hala.base.BaseActivity;
 import com.hala.base.Contact;
 import com.hala.bean.QiNiuToken;
+import com.hala.bean.RtmTokenBean;
 import com.hala.dialog.CommonDialog;
 import com.hala.http.BaseCosumer;
 import com.hala.http.RetrofitFactory;
@@ -18,11 +23,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.agora.rtm.ErrorInfo;
+import io.agora.rtm.ResultCallback;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
 
+    private static final String TAG = "MainActivity";
     @BindView(R.id.vp)
     NoScrollViewPager vp;
     @BindView(R.id.iv_home)
@@ -56,6 +64,32 @@ public class MainActivity extends BaseActivity {
         viewList.add(ivMsg);
         viewList.add(ivMy);
         initQiniuData();
+        initChat();
+    }
+
+    private void initChat() {
+        RetrofitFactory.getInstance()
+                .getRtmToken()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<RtmTokenBean>() {
+                    @Override
+                    public void onNext(RtmTokenBean rtmTokenBean) {
+                        if (rtmTokenBean.getCode()!= Contact.REPONSE_CODE_SUCCESS) {
+                            return;
+                        }
+                        String token = rtmTokenBean.getData().getAgora_rtm_token();
+                        App.getChatManager().getRtmClient().login(AvchatInfo.getAccount()+"",token,new ResultCallback<Void>() {
+                            @Override
+                            public void onSuccess(Void responseInfo) {
+                            }
+                            @Override
+                            public void onFailure(ErrorInfo errorInfo) {
+                                Log.i(TAG, "login failed: " + errorInfo.getErrorCode());
+                            }
+                        });
+                    }
+                });
 
 
     }

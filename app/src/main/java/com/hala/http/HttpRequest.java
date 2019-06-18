@@ -8,6 +8,7 @@ import com.hala.bean.LoginBean;
 import com.hala.bean.MessageUnreadBean;
 import com.hala.bean.OneToOneListBean;
 import com.hala.bean.QiNiuToken;
+import com.hala.bean.RtmTokenBean;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -67,17 +68,25 @@ public interface HttpRequest {
     Observable<MessageUnreadBean> getMessageUnread();
 
     @GET("/call")
-    Observable<CallListBean> getCallList(@Path("page") int page, @Path("size") int size);
+    Observable<CallListBean> getCallList(@Query("page") int page, @Query("size") int size);
     @GET("/call/reservation")
-    Observable<MessageUnreadBean> getReservationList(@Path("page") int page,@Path("size") int size);
+    Observable<MessageUnreadBean> getReservationList(@Query("page") int page,@Query("size") int size);
 
 
     @GET("/anchor/hot")
-    Observable<OneToOneListBean> getHotOneToOneList(@Path("page") int page,@Path("size") int size);
+    Observable<OneToOneListBean> getHotOneToOneList(@Query("page") int page,@Query("size") int size);
 
     @GET("/anchor/new")
-    Observable<OneToOneListBean> getNewOneToOneList(@Path("page") int page, @Path("size") int size);
+    Observable<OneToOneListBean> getNewOneToOneList(@Query("page") int page, @Query("size") int size);
 
 
+    @GET("/anchor/rand")
+    Observable<OneToOneListBean> getRandOneToOneList( @Query("size") int size);
 
+
+    @POST("/call/{user}/keep")
+    Observable<OneToOneListBean> keepBeatHeart(@Path("user") int user);
+
+    @GET("/call/agora/media/token")
+    Observable<RtmTokenBean> getRtmToken();
 }

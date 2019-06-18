@@ -11,12 +11,21 @@ import android.widget.TextView;
 import com.hala.R;
 import com.hala.adapter.HomeAdapter;
 import com.hala.base.BaseFragment;
+import com.hala.base.Contact;
+import com.hala.bean.OneToOneListBean;
+import com.hala.http.BaseCosumer;
+import com.hala.http.RetrofitFactory;
 import com.hala.wight.NoScrollViewPager;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class HomeFragment extends BaseFragment {
 
@@ -24,7 +33,7 @@ public class HomeFragment extends BaseFragment {
     private static final int HOT = 0;
     private static final int NEW = 1;
     @BindView(R.id.vp)
-    NoScrollViewPager vp;
+    ViewPager vp;
     @BindView(R.id.tv_hot)
     TextView tvHot;
     @BindView(R.id.iv_hot)
@@ -37,10 +46,28 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        HomeAdapter homeAdapter = new HomeAdapter(getActivity().getSupportFragmentManager());
+        HomeAdapter homeAdapter = new HomeAdapter(getChildFragmentManager());
         vp.setAdapter(homeAdapter);
         vp.setOffscreenPageLimit(3);
         vp.setCurrentItem(0, false);
+        vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+            @Override
+            public void onPageSelected(int position) {
+                if (position==0){
+                    setChecked(HOT);
+                }else if(position==1){
+                    setChecked(NEW);
+                }
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -50,6 +77,8 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+
+
 
     }
 

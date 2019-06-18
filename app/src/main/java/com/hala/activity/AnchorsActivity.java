@@ -1,5 +1,7 @@
 package com.hala.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -70,6 +72,14 @@ public class AnchorsActivity extends BaseActivity {
     private List<AnchorBean.DataBean.TagsBean> tagsDatas=new ArrayList<>();
     private SimplePagerAdapter simplePagerAdapter;
     private TagsAdapter tagsAdapter;
+    private int anchorId;
+
+
+    public  static void startAnchorAc(Context context,int anchorId){
+        Intent intent = new Intent(context, AnchorsActivity.class);
+        intent.putExtra("anchorId",anchorId);
+        context.startActivity(intent);
+    }
 
     @Override
     protected int getContentViewId() {
@@ -78,7 +88,8 @@ public class AnchorsActivity extends BaseActivity {
 
     @Override
     protected void beforeInitView() {
-
+        Intent intent = getIntent();
+        anchorId = intent.getIntExtra("anchorId", 0);
     }
 
     @Override
@@ -86,7 +97,6 @@ public class AnchorsActivity extends BaseActivity {
 
         initCovers();
         initTags();
-
         initData();
     }
 
@@ -104,7 +114,7 @@ public class AnchorsActivity extends BaseActivity {
     }
     private void getAuchor() {
         RetrofitFactory.getInstance()
-                .getAnchorData(14)
+                .getAnchorData(anchorId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<AnchorBean>() {
