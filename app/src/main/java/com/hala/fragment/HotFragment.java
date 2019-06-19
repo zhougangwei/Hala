@@ -1,11 +1,7 @@
 package com.hala.fragment;
 
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.hala.R;
 import com.hala.adapter.HotCallAdapter;
@@ -19,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -48,7 +42,7 @@ public class HotFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        RetrofitFactory.getInstance().getHotOneToOneList(0, 20).subscribeOn(Schedulers.io())
+        RetrofitFactory.getInstance().getHotOneToOneList(0, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<OneToOneListBean>() {
                     @Override
@@ -60,10 +54,7 @@ public class HotFragment extends BaseFragment {
                         List<OneToOneListBean.DataBean.ContentBean> content = oneToOneListBean.getData().getContent();
                         if (content!=null&&content.size()>0) {
                             mHotOnetoOneList.addAll(content);
-
                         }
-
-
 
 
 

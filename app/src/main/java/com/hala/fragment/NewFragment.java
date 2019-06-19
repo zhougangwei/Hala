@@ -1,6 +1,5 @@
 package com.hala.fragment;
 
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,7 +7,6 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hala.R;
 import com.hala.activity.AnchorsActivity;
-import com.hala.activity.OneToOneActivity;
 import com.hala.adapter.HotCallAdapter;
 import com.hala.base.BaseFragment;
 import com.hala.base.Contact;
@@ -53,7 +51,7 @@ public class NewFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        RetrofitFactory.getInstance().getNewOneToOneList(0, 20).subscribeOn(Schedulers.io())
+        RetrofitFactory.getInstance().getNewOneToOneList(0, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<OneToOneListBean>() {
                     @Override
