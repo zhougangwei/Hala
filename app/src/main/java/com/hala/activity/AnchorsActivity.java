@@ -95,6 +95,7 @@ public class AnchorsActivity extends BaseActivity {
     @Override
     protected void initView() {
 
+
         initCovers();
         initTags();
         initData();

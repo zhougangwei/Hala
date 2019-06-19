@@ -82,12 +82,10 @@ public class LoginActivity extends BaseActivity {
                 startActivity(intent);
                 finish();
             }
-
             @Override
             public void fail() {
                 ToastUtils.showToast(LoginActivity.this,getString(R.string.login_failed));
             }
-
             @Override
             public void regist(String id) {
                 Intent intent = new Intent(LoginActivity.this,EditProUserActivity.class);

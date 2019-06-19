@@ -9,6 +9,7 @@ import com.hala.adapter.TabAdapter;
 import com.hala.avchat.AvchatInfo;
 import com.hala.avchat.QiniuInfo;
 import com.hala.base.App;
+import com.hala.base.AppLoginManager;
 import com.hala.base.BaseActivity;
 import com.hala.base.Contact;
 import com.hala.bean.QiNiuToken;
@@ -68,30 +69,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initChat() {
-        RetrofitFactory.getInstance()
-                .getRtmToken()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseCosumer<RtmTokenBean>() {
-                    @Override
-                    public void onNext(RtmTokenBean rtmTokenBean) {
-                        if (rtmTokenBean.getCode()!= Contact.REPONSE_CODE_SUCCESS) {
-                            return;
-                        }
-                        String token = rtmTokenBean.getData().getAgora_rtm_token();
-                        App.getChatManager().getRtmClient().login(AvchatInfo.getAccount()+"",token,new ResultCallback<Void>() {
-                            @Override
-                            public void onSuccess(Void responseInfo) {
-                            }
-                            @Override
-                            public void onFailure(ErrorInfo errorInfo) {
-                                Log.i(TAG, "login failed: " + errorInfo.getErrorCode());
-                            }
-                        });
-                    }
-                });
-
-
+        AppLoginManager.loginRtm();
     }
 
     private void initQiniuData() {

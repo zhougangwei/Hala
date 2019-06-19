@@ -9,9 +9,12 @@ import com.hala.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.agora.rtm.ErrorInfo;
+import io.agora.rtm.ResultCallback;
 import io.agora.rtm.RtmClient;
 import io.agora.rtm.RtmClientListener;
 import io.agora.rtm.RtmMessage;
+import io.agora.rtm.RtmStatusCode;
 
 public class ChatManager {
     private static final String TAG = ChatManager.class.getSimpleName();
@@ -61,6 +64,9 @@ public class ChatManager {
     public RtmClient getRtmClient() {
         return mRtmClient;
     }
+
+
+
 
     public void registerListener(RtmClientListener listener) {
         mListenerList.add(listener);

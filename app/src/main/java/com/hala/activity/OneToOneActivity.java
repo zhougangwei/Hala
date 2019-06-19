@@ -1,5 +1,6 @@
 package com.hala.activity;
 
+import com.hala.avchat.AVChatSoundPlayer;
 import com.hala.avchat.AvchatInfo;
 import com.hala.base.BaseActivity;
 
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.hala.R;
 import com.hala.base.App;
 import com.hala.base.ChatManager;
+import com.hala.http.BaseCosumer;
 
 import java.util.List;
 
@@ -30,6 +32,10 @@ import io.agora.rtm.RtmClient;
 import io.agora.rtm.RtmClientListener;
 import io.agora.rtm.RtmMessage;
 import io.agora.rtm.RtmStatusCode;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class OneToOneActivity extends BaseActivity implements ResultCallback<Void> {
 
@@ -98,14 +104,29 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
 
     @Override
     protected void beforeInitView() {
-
+        initIntent();
     }
     @Override
     protected void initView() {
-        initIntent();
+
+        showPreView();
+
+
         initChat();
         initAgoraEngineAndJoinChannel();
     }
+
+    private void showPreView() {
+        AVChatSoundPlayer.instance().play(AVChatSoundPlayer.RingerTypeEnum.RING);
+        sendRtmpMessage(RTM_DO_CALL);
+
+    }
+
+
+
+
+
+
 
     private void initIntent() {
         Intent intent = getIntent();
@@ -122,8 +143,6 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
             callId=otherId;
             receiveId=myId;
         }
-
-
     }
 
 
@@ -237,7 +256,6 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
         mClientListener = new MyRtmClientListener();
         mChatManager.registerListener(mClientListener);
         createAndJoinChannel();
-
     }
 
     @butterknife.OnClick({R.id.iv_hangup_prepare, R.id.iv_hangup, R.id.iv_camera_off, R.id.iv_camera_control})
@@ -263,14 +281,30 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
         RtmMessage message = mRtmClient.createMessage();
         switch (rtmType) {
             case RTM_HANG_UP:
+                message.setText("tel://hangup?"+otherId);
                 break;
             case  RTM_DO_CALL:
                 message.setText("tel://call?"+otherId);
                 break;
         }
         mChatManager.getRtmClient().sendMessageToPeer(otherId+"",message,this);
-
     }
+    ResultCallback rtmResultCallback = new ResultCallback() {
+        @Override
+        public void onSuccess(Object o) {
+
+        }
+
+        @Override
+        public void onFailure(ErrorInfo errorInfo) {
+
+        }
+    };
+
+
+
+
+
 
     @Override
     public void onSuccess(Void aVoid) {
@@ -279,6 +313,29 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
 
     @Override
     public void onFailure(ErrorInfo errorInfo) {
+        Observable.just(errorInfo)
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Consumer<ErrorInfo>() {
+            @Override
+            public void accept(ErrorInfo errorInfo) throws Exception {
+                switch (errorInfo.getErrorCode()) {
+                    case RtmStatusCode.PeerMessageError.PEER_MESSAGE_ERR_TIMEOUT:
+                    case RtmStatusCode.PeerMessageError.PEER_MESSAGE_ERR_FAILURE:
+
+                        break;
+                    case RtmStatusCode.PeerMessageError.PEER_MESSAGE_ERR_PEER_UNREACHABLE:
+
+                        break;
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+
+            }
+        }) ;
+
 
     }
 
