@@ -133,7 +133,6 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
         rlOnshow.setVisibility(View.GONE);
         AVChatSoundPlayer.instance().play(AVChatSoundPlayer.RingerTypeEnum.RING);
         if (doOutCall) {
-
             sendRtmpMessage(RTM_DO_CALL);
             ivAnchorAnswer.setVisibility(View.GONE);
             ivHangupPrepareAnchor.setVisibility(View.GONE);
@@ -192,15 +191,15 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
     }
 
     private void setupLocalVideo() {
-
         SurfaceView surfaceView = RtcEngine.CreateRendererView(getBaseContext());
         surfaceView.setZOrderMediaOverlay(true);
         localVideoViewContainer.addView(surfaceView);
-        mRtcEngine.setupLocalVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, 0));
+        int i = mRtcEngine.setupLocalVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, 0));
+        Log.e(TAG,"setupLocalVideo"+i);
     }
 
     private void joinChannel() {
-        mRtcEngine.joinChannel("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwianRpIjoiZDRkNTc4MGMtZjhiOC00NTM1LThhNjMtMTIzM2ExZTJiNWQ4In0.7nlbvSBm9461WxzSJs8XDw8YGmqzW34yOmRA8g5kY08eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwianRpIjoiZDRkNTc4MGMtZjhiOC00NTM1LThhNjMtMTIzM2ExZTJiNWQ4In0.7nlbvSBm9461WxzSJs8XDw8YGmqzW34yOmRA8g5kY08", "6", "Extra Optional Data", 0); // if you do not specify the uid, we will generate the uid for you
+        mRtcEngine.joinChannel(null, "10086", "Extra Optional Data", 0); // if you do not specify the uid, we will generate the uid for you
     }
 
     private final IRtcEngineEventHandler mRtcEventHandler = new IRtcEngineEventHandler() {
