@@ -72,6 +72,9 @@ public class ChatManager {
         mListenerList.add(listener);
     }
 
+
+
+
     public void unregisterListener(RtmClientListener listener) {
         mListenerList.remove(listener);
     }

@@ -1,24 +1,31 @@
 package com.hala.activity;
 
-import com.hala.avchat.AVChatSoundPlayer;
-import com.hala.avchat.AvchatInfo;
-import com.hala.base.BaseActivity;
-
 import android.content.Context;
 import android.content.Intent;
+import android.nfc.Tag;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hala.R;
+import com.hala.avchat.AVChatSoundPlayer;
+import com.hala.avchat.AvchatInfo;
 import com.hala.base.App;
+import com.hala.base.BaseActivity;
 import com.hala.base.ChatManager;
-import com.hala.http.BaseCosumer;
+import com.hala.base.Contact;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
@@ -40,26 +47,32 @@ import io.reactivex.schedulers.Schedulers;
 public class OneToOneActivity extends BaseActivity implements ResultCallback<Void> {
 
     private static final String TAG = "OneToOneActivity";
-    @butterknife.BindView(R.id.iv_head)
-    android.widget.ImageView ivHead;
-    @butterknife.BindView(R.id.tv_name)
-    android.widget.TextView tvName;
-    @butterknife.BindView(R.id.iv_hangup_prepare)
-    android.widget.ImageView ivHangupPrepare;
-    @butterknife.BindView(R.id.rl_prepare)
-    android.widget.RelativeLayout rlPrepare;
-    @butterknife.BindView(R.id.remote_video_view_container)
+    @BindView(R.id.iv_head)
+    ImageView ivHead;
+    @BindView(R.id.tv_name)
+    TextView tvName;
+    @BindView(R.id.iv_hangup_prepare_audience)
+    ImageView ivHangupPrepareAudience;
+    @BindView(R.id.rl_prepare)
+    RelativeLayout rl_prepare;
+
+
+    @BindView(R.id.remote_video_view_container)
     FrameLayout remoteVideoViewContainer;
-    @butterknife.BindView(R.id.local_video_view_container)
+    @BindView(R.id.local_video_view_container)
     FrameLayout localVideoViewContainer;
-    @butterknife.BindView(R.id.iv_hangup)
-    android.widget.ImageView ivHangup;
-    @butterknife.BindView(R.id.iv_camera_off)
-    android.widget.ImageView ivCameraOff;
-    @butterknife.BindView(R.id.iv_camera_control)
-    android.widget.ImageView ivCameraControl;
-    @butterknife.BindView(R.id.rl_onshow)
-    android.widget.RelativeLayout rlOnshow;
+    @BindView(R.id.iv_hangup)
+    ImageView ivHangup;
+    @BindView(R.id.iv_camera_off)
+    ImageView ivCameraOff;
+    @BindView(R.id.iv_camera_control)
+    ImageView ivCameraControl;
+    @BindView(R.id.rl_onshow)
+    RelativeLayout rlOnshow;
+    @BindView(R.id.iv_anchor_answer)
+    ImageView ivAnchorAnswer;
+    @BindView(R.id.iv_hangup_prepare_anchor)
+    ImageView ivHangupPrepareAnchor;
     private RtcEngine mRtcEngine;
     private ChatManager mChatManager;
     private RtmClient mRtmClient;
@@ -76,23 +89,24 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
     private boolean doOutCall;
 
 
-    private static final int RTM_HANG_UP=1;
-    private static final int RTM_DO_CALL=2;
+    private static final int RTM_HANG_UP = 1;
+    private static final int RTM_DO_CALL = 2;
+    private static final int RTM_ANSWER = 3;
 
 
-
-
-    public static void docallOneToOneActivity(Context context, int anchorId){
-        Intent intent = new Intent(context,MyCallListActivity.class);
-        intent.putExtra("anchorId",anchorId);
-        intent.putExtra("outCall",true);
+    public static void docallOneToOneActivity(Context context, int anchorId) {
+        Intent intent = new Intent(context, OneToOneActivity.class);
+        intent.putExtra("anchorId", anchorId);
+        intent.putExtra("outCall", true);
 
         context.startActivity(intent);
     }
-    public static void doReceivveOneToOneActivity(Context context, int audienceId){
-        Intent intent = new Intent(context,MyCallListActivity.class);
-        intent.putExtra("audienceId",audienceId);
-        intent.putExtra("outCall",false);
+
+    public static void doReceivveOneToOneActivity(Context context, int audienceId) {
+        Intent intent = new Intent(context, OneToOneActivity.class);
+        intent.putExtra("audienceId", audienceId);
+        intent.putExtra("outCall", false);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
     }
 
@@ -106,42 +120,47 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
     protected void beforeInitView() {
         initIntent();
     }
+
     @Override
     protected void initView() {
-
-        showPreView();
-
-
         initChat();
+        showPreView();
         initAgoraEngineAndJoinChannel();
     }
 
     private void showPreView() {
+        rl_prepare.setVisibility(View.VISIBLE);
+        rlOnshow.setVisibility(View.GONE);
         AVChatSoundPlayer.instance().play(AVChatSoundPlayer.RingerTypeEnum.RING);
-        sendRtmpMessage(RTM_DO_CALL);
+        if (doOutCall) {
+
+            sendRtmpMessage(RTM_DO_CALL);
+            ivAnchorAnswer.setVisibility(View.GONE);
+            ivHangupPrepareAnchor.setVisibility(View.GONE);
+            ivHangupPrepareAudience.setVisibility(View.VISIBLE);
+        }else{
+            ivAnchorAnswer.setVisibility(View.VISIBLE);
+            ivHangupPrepareAnchor.setVisibility(View.VISIBLE);
+            ivHangupPrepareAudience.setVisibility(View.GONE);
+        }
+
 
     }
-
-
-
-
-
-
 
     private void initIntent() {
         Intent intent = getIntent();
         int anchorId = intent.getIntExtra("anchorId", -1);
         int audienceId = intent.getIntExtra("audienceId", -1);
-         doOutCall = intent.getBooleanExtra("outCall", false);
-        myId= AvchatInfo.getAccount();
-        if(doOutCall){      //打出去
-            otherId=anchorId;
-            callId=myId;
-            receiveId=otherId;
-        }else{
-            otherId=audienceId;
-            callId=otherId;
-            receiveId=myId;
+        doOutCall = intent.getBooleanExtra("outCall", false);
+        myId = AvchatInfo.getAccount();
+        if (doOutCall) {      //打出去
+            otherId = anchorId;
+            callId = myId;
+            receiveId = otherId;
+        } else {
+            otherId = audienceId;
+            callId = otherId;
+            receiveId = myId;
         }
     }
 
@@ -181,10 +200,24 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
     }
 
     private void joinChannel() {
-        mRtcEngine.joinChannel(null, "demoChannel1", "Extra Optional Data", 0); // if you do not specify the uid, we will generate the uid for you
+        mRtcEngine.joinChannel("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwianRpIjoiZDRkNTc4MGMtZjhiOC00NTM1LThhNjMtMTIzM2ExZTJiNWQ4In0.7nlbvSBm9461WxzSJs8XDw8YGmqzW34yOmRA8g5kY08eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwianRpIjoiZDRkNTc4MGMtZjhiOC00NTM1LThhNjMtMTIzM2ExZTJiNWQ4In0.7nlbvSBm9461WxzSJs8XDw8YGmqzW34yOmRA8g5kY08", "6", "Extra Optional Data", 0); // if you do not specify the uid, we will generate the uid for you
     }
 
     private final IRtcEngineEventHandler mRtcEventHandler = new IRtcEngineEventHandler() {
+
+        @Override
+        public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
+            super.onJoinChannelSuccess(channel, uid, elapsed);
+            Log.e(TAG,"onJoinChannelSuccess");
+        }
+
+        @Override
+        public void onLeaveChannel(RtcStats stats) {
+            super.onLeaveChannel(stats);
+            Log.e(TAG,"onLeaveChannel"+stats.users);
+        }
+
+
         @Override
         public void onFirstRemoteVideoDecoded(final int uid, int width, int height, int elapsed) {
             runOnUiThread(new Runnable() {
@@ -217,12 +250,9 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
     };
 
     private void setupRemoteVideo(int uid) {
-
-
         if (remoteVideoViewContainer.getChildCount() >= 1) {
             return;
         }
-
         SurfaceView surfaceView = RtcEngine.CreateRendererView(getBaseContext());
         remoteVideoViewContainer.addView(surfaceView);
         mRtcEngine.setupRemoteVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid));
@@ -250,6 +280,8 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
     }
 
 
+
+
     private void initChat() {
         mChatManager = App.getChatManager();
         mRtmClient = mChatManager.getRtmClient();
@@ -258,12 +290,19 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
         createAndJoinChannel();
     }
 
-    @butterknife.OnClick({R.id.iv_hangup_prepare, R.id.iv_hangup, R.id.iv_camera_off, R.id.iv_camera_control})
+    @OnClick({R.id.iv_hangup_prepare_audience, R.id.iv_hangup_prepare_anchor, R.id.iv_hangup, R.id.iv_camera_off, R.id.iv_camera_control,R.id.iv_anchor_answer})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_hangup_prepare:
+            case R.id.iv_hangup_prepare_audience:
                 hangup();
                 break;
+            case R.id.iv_hangup_prepare_anchor:
+                hangup();
+                break;
+            case R.id.iv_anchor_answer:
+                answer();
+                break;
+
             case R.id.iv_hangup:
                 break;
             case R.id.iv_camera_off:
@@ -277,70 +316,77 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
         sendRtmpMessage(RTM_HANG_UP);
     }
 
+    private void answer() {
+        sendRtmpMessage(RTM_ANSWER);
+        showOnshow();
+    }
+
+
     public void sendRtmpMessage(int rtmType) {
         RtmMessage message = mRtmClient.createMessage();
         switch (rtmType) {
             case RTM_HANG_UP:
-                message.setText("tel://hangup?"+otherId);
+                message.setText(Contact.RTM_HANG_UP_STRING + myId);
                 break;
-            case  RTM_DO_CALL:
-                message.setText("tel://call?"+otherId);
+            case RTM_DO_CALL:
+                message.setText(Contact.RTM_DO_CALL_STRING + myId);
                 break;
+            case RTM_ANSWER:
+                message.setText(Contact.RTM_ANSWER_STRING + myId);
+                break;
+
         }
-        mChatManager.getRtmClient().sendMessageToPeer(otherId+"",message,this);
+        mChatManager.getRtmClient().sendMessageToPeer(otherId + "", message, this);
     }
+
+
     ResultCallback rtmResultCallback = new ResultCallback() {
         @Override
         public void onSuccess(Object o) {
-
+            Log.e(TAG, "onSuccess");
         }
 
         @Override
         public void onFailure(ErrorInfo errorInfo) {
-
+            Log.e(TAG, errorInfo.getErrorCode() + errorInfo.getErrorDescription());
         }
     };
 
 
-
-
-
-
     @Override
     public void onSuccess(Void aVoid) {
-
+        Log.e(TAG, "onSuccess");
     }
 
     @Override
     public void onFailure(ErrorInfo errorInfo) {
         Observable.just(errorInfo)
-        .subscribeOn(Schedulers.newThread())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Consumer<ErrorInfo>() {
-            @Override
-            public void accept(ErrorInfo errorInfo) throws Exception {
-                switch (errorInfo.getErrorCode()) {
-                    case RtmStatusCode.PeerMessageError.PEER_MESSAGE_ERR_TIMEOUT:
-                    case RtmStatusCode.PeerMessageError.PEER_MESSAGE_ERR_FAILURE:
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<ErrorInfo>() {
+                    @Override
+                    public void accept(ErrorInfo errorInfo) throws Exception {
 
-                        break;
-                    case RtmStatusCode.PeerMessageError.PEER_MESSAGE_ERR_PEER_UNREACHABLE:
+                        Log.e(TAG, errorInfo.getErrorCode() + errorInfo.getErrorDescription());
+                        switch (errorInfo.getErrorCode()) {
+                            case RtmStatusCode.PeerMessageError.PEER_MESSAGE_ERR_TIMEOUT:
+                            case RtmStatusCode.PeerMessageError.PEER_MESSAGE_ERR_FAILURE:
 
-                        break;
-                }
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) throws Exception {
+                                break;
+                            case RtmStatusCode.PeerMessageError.PEER_MESSAGE_ERR_PEER_UNREACHABLE:
 
-            }
-        }) ;
+                                break;
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                });
 
 
     }
-
-
-
 
 
 
@@ -369,7 +415,12 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    String content = message.getText();
+                    Log.e(TAG, "message" + message + "peerId" + peerId);
+                    String text = message.getText();
+                    if (text.contains(Contact.RTM_ANSWER_STRING)) {
+                        showOnshow();
+                    }
+
 
                 }
             });
@@ -379,6 +430,11 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
         public void onTokenExpired() {
 
         }
+    }
+
+    private void showOnshow() {
+        rl_prepare.setVisibility(View.GONE);
+        rlOnshow.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -472,5 +528,42 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
                 Log.e(TAG, "failed to get channel members, err: " + errorInfo.getErrorCode());
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        endVideo();
+    }
+
+    private void endVideo() {
+        AVChatSoundPlayer.instance().stop();
+        mRtmChannel.leave(new ResultCallback<Void>() {
+            @Override
+            public void onSuccess(Void responseInfo) {
+                Log.i(TAG, "leave channel success");
+            }
+            @Override
+            public void onFailure(ErrorInfo errorInfo) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //showToast(getString(R.string.join_channel_failed));
+                        finish();
+                    }
+                });
+            }
+        });
+        mRtmChannel.release();
+        leaveChannel();
+
+
+
     }
 }

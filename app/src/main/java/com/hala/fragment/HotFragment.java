@@ -25,10 +25,11 @@ public class HotFragment extends BaseFragment {
     RecyclerView rv;
 
     List<OneToOneListBean.DataBean.ContentBean> mHotOnetoOneList=new ArrayList<>();
+    private HotCallAdapter hotCallAdapter;
 
     @Override
     protected void initView() {
-        HotCallAdapter hotCallAdapter = new HotCallAdapter(R.layout.item_hot_list,mHotOnetoOneList);
+        hotCallAdapter = new HotCallAdapter(R.layout.item_hot_list,mHotOnetoOneList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(layoutManager);
@@ -55,7 +56,7 @@ public class HotFragment extends BaseFragment {
                         if (content!=null&&content.size()>0) {
                             mHotOnetoOneList.addAll(content);
                         }
-
+                        hotCallAdapter.notifyDataSetChanged();
 
 
                     }

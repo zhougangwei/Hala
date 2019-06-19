@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.hala.R;
 import com.hala.activity.BestarActivity;
+import com.hala.activity.OneToOneActivity;
 import com.hala.activity.WalletActivity;
 import com.hala.base.BaseFragment;
 import com.hala.dialog.CommonDialog;
@@ -51,6 +52,7 @@ public class MyFragment extends BaseFragment {
             case R.id.iv_more:
                 break;
             case R.id.tv_charge:
+                gotoCharge();
                 break;
             case R.id.tv_money:
                 break;
@@ -79,6 +81,12 @@ public class MyFragment extends BaseFragment {
 
                 break;
         }
+    }
+
+    private void gotoCharge() {
+
+        OneToOneActivity.docallOneToOneActivity(getActivity(),5);
+
     }
 
     private void gotoCertify() {

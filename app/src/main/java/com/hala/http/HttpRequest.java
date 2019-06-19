@@ -87,6 +87,6 @@ public interface HttpRequest {
     @POST("/call/{user}/keep")
     Observable<OneToOneListBean> keepBeatHeart(@Path("user") int user);
 
-    @GET("/call/agora/media/token")
+    @GET("/member/agora/rtm/token")
     Observable<RtmTokenBean> getRtmToken();
 }

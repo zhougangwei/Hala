@@ -3,6 +3,7 @@ package com.hala.avchat;
 public class AvchatInfo {
     private static int account;
     private static int name;
+    private static String RTMToken;
 
     public static int getAccount() {
         return account;
@@ -18,5 +19,13 @@ public class AvchatInfo {
 
     public static void setName(int name) {
         AvchatInfo.name = name;
+    }
+
+    public static void setRTMToken(String RTMToken) {
+        AvchatInfo.RTMToken = RTMToken;
+    }
+
+    public static String getRTMToken() {
+        return RTMToken;
     }
 }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.hala.MainActivity;
 import com.hala.R;
+import com.hala.avchat.AvchatInfo;
 import com.hala.base.BaseActivity;
 import com.hala.base.Contact;
 import com.hala.bean.BaseBean;
@@ -18,6 +19,7 @@ import com.hala.http.BaseCosumer;
 import com.hala.http.ProxyPostHttpRequest;
 import com.hala.http.RetrofitFactory;
 import com.hala.utils.FacebookLoginManager;
+import com.hala.utils.SPUtil;
 import com.hala.utils.ToastUtils;
 
 import butterknife.BindView;
@@ -70,8 +72,6 @@ public class LoginPhoneActivity extends BaseActivity {
     }
 
 
-
-
     @OnClick({R.id.iv_back, R.id.tv_login, R.id.tv_try, R.id.iv_facebook})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -79,12 +79,13 @@ public class LoginPhoneActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_login:
-                startLogin();
+                startLogin(1);
                 break;
             case R.id.tv_try:
                 break;
             case R.id.iv_facebook:
-                loginfacebook();
+                startLogin(2);
+              //  loginfacebook();
                 break;
         }
     }
@@ -116,11 +117,16 @@ public class LoginPhoneActivity extends BaseActivity {
         });
     }
 
-    private void startLogin() {
+    private void startLogin(int type) {
+        final String mobileNumber ;
+        if (type==1){
+            mobileNumber= "+"+"8613851668725";
+        }else{
+            mobileNumber="+"+"8612345678910";
+        }
         //final String code = etSmsNum.getText().toString();
         final String code = "151439";
       //  final String mobileNumber = etPhoneNum.getText().toString();
-        final String mobileNumber = "+"+"8613851668725";
         RetrofitFactory.getInstance()
                 .login(ProxyPostHttpRequest.getInstance().login(code, mobileNumber))
                 .subscribeOn(Schedulers.io())
@@ -140,6 +146,12 @@ public class LoginPhoneActivity extends BaseActivity {
                             startActivity(intent);
                             finish();
                         } else if (Contact.SIGN_IN.equals(action)) {
+                            String accessToken = baseBean.getData().getMember().getAccessToken();
+                            int id = baseBean.getData().getMember().getId();
+
+                            AvchatInfo.setAccount(id);
+                             SPUtil.getInstance(LoginPhoneActivity.this).setString(Contact.TOKEN, accessToken);
+
                             Intent intent = new Intent(LoginPhoneActivity.this,MainActivity.class);
                             startActivity(intent);
                             finish();
