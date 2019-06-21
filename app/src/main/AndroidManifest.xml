@@ -45,7 +45,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
-        <activity android:name=".activity.TagActivity"></activity>
+        <activity android:name=".activity.TagActivity" />
         <activity android:name=".activity.BioActivity" />
         <activity android:name=".activity.WalletActivity" />
         <activity android:name=".MainActivity" />
@@ -65,6 +65,8 @@
         <activity android:name=".activity.EditProUserActivity" />
         <activity android:name=".activity.ChargeActivity" />
         <activity android:name=".activity.OneToOneActivity" />
+        <activity android:name=".activity.FeedBackActivity" />
+        <activity android:name=".activity.MyIncomeActivity"></activity>
     </application>
 
 </manifest>

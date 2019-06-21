@@ -45,9 +45,7 @@ public class ReverseDialog {
             String string = getResources().getString(R.string.sign_in_1);
             String userInfo = String.format(string, baseBean.getResult().getSignDays()+"", baseBean.getResult().getTodayMoney()+"",baseBean.getResult().getTomorrowMoney()+"");
             tvContent.setText(userInfo);
-//                                    tvContent.setText(getString(R.string.sign_in_1) + baseBean.getResult().getSignDays() + getString(R.string.sign_in_2) + baseBean.getResult().getTodayMoney()
-//                                            + getString(R.string.sign_in_3) + baseBean.getResult().getTomorrowMoney() + getString(R.string.sign_in_4)
-//                                    );
+
 
             bld.setView(dialogView);
             signDialog = bld.create();

@@ -22,6 +22,7 @@ import com.hala.base.ChatManager;
 import com.hala.base.Contact;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +42,7 @@ import io.agora.rtm.RtmMessage;
 import io.agora.rtm.RtmStatusCode;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -303,6 +305,9 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
                 break;
 
             case R.id.iv_hangup:
+                endVideo();
+                gotoFinish();
+
                 break;
             case R.id.iv_camera_off:
                 break;
@@ -311,6 +316,16 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
         }
     }
 
+    private void gotoFinish() {
+        Observable.timer(300, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        finish();
+                    }
+                });
+    }
     private void hangup() {
         sendRtmpMessage(RTM_HANG_UP);
     }
@@ -319,8 +334,6 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
         sendRtmpMessage(RTM_ANSWER);
         showOnshow();
     }
-
-
     public void sendRtmpMessage(int rtmType) {
         RtmMessage message = mRtmClient.createMessage();
         switch (rtmType) {
@@ -538,10 +551,13 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
     @Override
     public void onBackPressed() {
 
-        endVideo();
+
     }
 
     private void endVideo() {
+
+
+
         AVChatSoundPlayer.instance().stop();
         mRtmChannel.leave(new ResultCallback<Void>() {
             @Override

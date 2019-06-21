@@ -14,4 +14,5 @@
     <color name="grey_8f">#8f8f8f</color>
     <color name="grey_6a">#6a6a6a</color>
     <color name="pink">#FF649C</color>
+    <color name="color_window_bg" >#f8f8f8</color>
 </resources>
