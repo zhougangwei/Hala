@@ -1,4 +1,3 @@
-/*
 package com.hala.activity;
 
 import android.os.Bundle;
@@ -60,8 +59,7 @@ public class BrvaActivity extends AppCompatActivity {
 
 
 
-       */
-/* homeAdapter.setUpFetchEnable(true);
+ homeAdapter.setUpFetchEnable(true);
         homeAdapter.setStartUpFetchPosition(2);
         homeAdapter.setUpFetchListener(new BaseQuickAdapter.UpFetchListener() {
             @Override
@@ -75,7 +73,7 @@ public class BrvaActivity extends AppCompatActivity {
                 }, 300);
 
             }
-        });*//*
+        });
 
         homeAdapter.setUpFetchListener(new BaseQuickAdapter.UpFetchListener() {
             @Override
@@ -134,4 +132,3 @@ public class BrvaActivity extends AppCompatActivity {
         addDatas();
     }
 }
-*/
