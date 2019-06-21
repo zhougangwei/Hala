@@ -27,7 +27,7 @@ public class NewFragment extends BaseFragment {
     @BindView(R.id.rv)
     RecyclerView rv;
 
-    List<OneToOneListBean.DataBean.ContentBean> mHotOnetoOneList=new ArrayList<>();
+    List<OneToOneListBean.DataBean.ListBean> mHotOnetoOneList=new ArrayList<>();
     private HotCallAdapter hotCallAdapter;
 
     @Override
@@ -61,7 +61,7 @@ public class NewFragment extends BaseFragment {
                             return;
                         }
                         mHotOnetoOneList.clear();
-                        List<OneToOneListBean.DataBean.ContentBean> content = oneToOneListBean.getData().getContent();
+                        List<OneToOneListBean.DataBean.ListBean> content = oneToOneListBean.getData().getContent();
                         if (content!=null&&content.size()>0) {
                             mHotOnetoOneList.addAll(content);
                         }

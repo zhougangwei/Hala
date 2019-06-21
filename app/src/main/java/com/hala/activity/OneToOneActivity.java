@@ -2,8 +2,6 @@ package com.hala.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -25,7 +23,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
@@ -42,7 +39,6 @@ import io.agora.rtm.RtmMessage;
 import io.agora.rtm.RtmStatusCode;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -550,8 +546,6 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
 
     @Override
     public void onBackPressed() {
-
-
     }
 
     private void endVideo() {

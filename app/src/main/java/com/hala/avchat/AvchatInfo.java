@@ -4,6 +4,7 @@ public class AvchatInfo {
     private static int account;
     private static int name;
     private static String RTMToken;
+    private static int anchorId;    //主播Id
 
     public static int getAccount() {
         return account;
@@ -27,5 +28,13 @@ public class AvchatInfo {
 
     public static String getRTMToken() {
         return RTMToken;
+    }
+
+    public static void setAnchorId(int anchorId) {
+        AvchatInfo.anchorId = anchorId;
+    }
+
+    public static int getAnchorId() {
+        return anchorId;
     }
 }

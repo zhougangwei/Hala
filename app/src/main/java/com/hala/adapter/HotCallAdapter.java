@@ -11,17 +11,17 @@ import java.util.List;
  * Created by kiddo on 2018/1/9.
  */
 
-public class HotCallAdapter extends BaseQuickAdapter<OneToOneListBean.DataBean.ContentBean, BaseViewHolder> {
+public class HotCallAdapter extends BaseQuickAdapter<OneToOneListBean.DataBean.ListBean, BaseViewHolder> {
 
 
 
 
-    public HotCallAdapter(int layoutIds, List<OneToOneListBean.DataBean.ContentBean> countryDatas) {
+    public HotCallAdapter(int layoutIds, List<OneToOneListBean.DataBean.ListBean> countryDatas) {
         super(layoutIds, countryDatas);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, OneToOneListBean.DataBean.ContentBean item) {
+    protected void convert(BaseViewHolder helper, OneToOneListBean.DataBean.ListBean item) {
 
 
     }

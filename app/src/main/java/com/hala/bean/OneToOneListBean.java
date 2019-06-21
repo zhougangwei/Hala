@@ -3,6 +3,8 @@ package com.hala.bean;
 import java.util.List;
 
 public class OneToOneListBean extends BaseBean {
+
+    //13851668726主播账号
     /**
      * data : {"content":[{"id":14,"memberId":1,"nickname":"old p","mobileNumber":"+8613851668725","height":182,"weight":82,"zodiac":"Taurus","city":"NJ","introduction":"this is introduction","biography":"this is biography","certifyUrl":"http://certify.url","coverUrl":"http://anchor.cover.url","starLevel":0,"cpm":20,"online":true,"available":true,"hotweight":0,"sortby":0,"verified":false,"createdAt":"2019-05-26T04:03:50.000+0000","updatedAt":"2019-05-26T04:03:50.000+0000","tags":[{"id":16,"content":"tag1"},{"id":19,"content":"tag2"}]}],"pageable":{"nextPage":false,"totalPages":1,"currentPage":1}}
      */
@@ -24,7 +26,7 @@ public class OneToOneListBean extends BaseBean {
          */
 
         private PageableBean pageable;
-        private List<ContentBean> content;
+        private List<ListBean> content;
 
         public PageableBean getPageable() {
             return pageable;
@@ -34,11 +36,11 @@ public class OneToOneListBean extends BaseBean {
             this.pageable = pageable;
         }
 
-        public List<ContentBean> getContent() {
+        public List<ListBean> getContent() {
             return content;
         }
 
-        public void setContent(List<ContentBean> content) {
+        public void setContent(List<ListBean> content) {
             this.content = content;
         }
 
@@ -78,7 +80,7 @@ public class OneToOneListBean extends BaseBean {
             }
         }
 
-        public static class ContentBean {
+        public static class ListBean {
             /**
              * id : 14
              * memberId : 1
@@ -115,7 +117,6 @@ public class OneToOneListBean extends BaseBean {
             private String introduction;
             private String biography;
             private String certifyUrl;
-            private String coverUrl;
             private int starLevel;
             private int cpm;
             private boolean online;
@@ -126,7 +127,7 @@ public class OneToOneListBean extends BaseBean {
             private String createdAt;
             private String updatedAt;
             private List<TagsBean> tags;
-
+            private List<CoversBean> covers;
             public int getId() {
                 return id;
             }
@@ -215,13 +216,7 @@ public class OneToOneListBean extends BaseBean {
                 this.certifyUrl = certifyUrl;
             }
 
-            public String getCoverUrl() {
-                return coverUrl;
-            }
 
-            public void setCoverUrl(String coverUrl) {
-                this.coverUrl = coverUrl;
-            }
 
             public int getStarLevel() {
                 return starLevel;
@@ -302,6 +297,14 @@ public class OneToOneListBean extends BaseBean {
             public void setTags(List<TagsBean> tags) {
                 this.tags = tags;
             }
+            public List<CoversBean> getCovers() {
+                return covers;
+            }
+
+            public void setCovers(List<CoversBean> covers) {
+                this.covers = covers;
+            }
+
 
             public static class TagsBean {
                 /**
@@ -328,6 +331,45 @@ public class OneToOneListBean extends BaseBean {
                     this.content = content;
                 }
             }
+
+
+
+            public static class CoversBean {
+                /**
+                 * id : 2
+                 * coverUrl : http://test.anchor14.url2
+                 * sortby : 2
+                 */
+
+                private int id;
+                private String coverUrl;
+                private int sortby;
+
+                public int getId() {
+                    return id;
+                }
+
+                public void setId(int id) {
+                    this.id = id;
+                }
+
+                public String getCoverUrl() {
+                    return coverUrl;
+                }
+
+                public void setCoverUrl(String coverUrl) {
+                    this.coverUrl = coverUrl;
+                }
+
+                public int getSortby() {
+                    return sortby;
+                }
+
+                public void setSortby(int sortby) {
+                    this.sortby = sortby;
+                }
+            }
+
         }
     }
 }

@@ -2,7 +2,9 @@ package com.hala.http;
 
 
 import com.hala.bean.AnchorBean;
+import com.hala.bean.AnchorTagBean;
 import com.hala.bean.BaseBean;
+import com.hala.bean.BeAnchorBean;
 import com.hala.bean.CallListBean;
 import com.hala.bean.LoginBean;
 import com.hala.bean.MessageUnreadBean;
@@ -24,9 +26,6 @@ import retrofit2.http.Query;
 
 public interface HttpRequest {
 
-    @GET("/anchor/{user}")
-    Observable<AnchorBean> getAnchorData(@Path("user") int user
-    );
 
 
 
@@ -54,11 +53,20 @@ public interface HttpRequest {
     );
 
     @POST("/anchor/apply")
-    Observable<BaseBean> applyAnchor(@Body RequestBody requestBody
+    Observable<BeAnchorBean> applyAnchor(@Body RequestBody requestBody
     );
     RequestBody applyAnchor(
             @JsonQuery String dataJson
     );
+
+    @POST("/call")
+    Observable<BaseBean> startCall(@Body RequestBody requestBody
+    );
+    RequestBody startCall(@Query("memberId")String memberId, @Query("anchorId")String anchorId,
+                       @Query("anchorMemberId")String anchorMemberId, @Query("anchorInitiate")String anchorInitiate
+    );
+
+
 
 
     @GET("/general/qtoken")
@@ -89,4 +97,15 @@ public interface HttpRequest {
 
     @GET("/member/agora/rtm/token")
     Observable<RtmTokenBean> getRtmToken();
+
+    @GET("/anchor/tag")
+    Observable<AnchorTagBean> getAnchorTag();
+
+
+    @GET("/anchor/{user}")
+    Observable<AnchorBean> getAnchorData(@Path("user") int user
+    );
+
+
+
 }

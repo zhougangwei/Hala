@@ -11,11 +11,12 @@ import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.hala.R;
+import com.hala.avchat.AvchatInfo;
 import com.hala.avchat.QiniuInfo;
 import com.hala.base.BaseActivity;
 import com.hala.base.Contact;
 import com.hala.bean.ApplyAnchorBean;
-import com.hala.bean.BaseBean;
+import com.hala.bean.BeAnchorBean;
 import com.hala.bean.QiNiuToken;
 import com.hala.http.BaseCosumer;
 import com.hala.http.ProxyPostHttpRequest;
@@ -244,13 +245,15 @@ public class EditProActivity extends BaseActivity {
                         .applyAnchor(GsonUtil.parseObjectToJson(applyAnchorBean)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseCosumer<BaseBean>() {
+                .subscribe(new BaseCosumer<BeAnchorBean>() {
                     @Override
-                    public void onNext(BaseBean baseBean) {
+                    public void onNext(BeAnchorBean baseBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
                             ToastUtils.showToast(EditProActivity.this, "提交失败");
                             return;
                         }
+                        int id = baseBean.getData().getId();
+                        AvchatInfo.setAnchorId(id);
                         ToastUtils.showToast(EditProActivity.this, "提交成功");
                     }
                 });
