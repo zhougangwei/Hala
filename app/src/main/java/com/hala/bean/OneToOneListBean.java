@@ -4,9 +4,9 @@ import java.util.List;
 
 public class OneToOneListBean extends BaseBean {
 
-    //13851668726主播账号
+
     /**
-     * data : {"content":[{"id":14,"memberId":1,"nickname":"old p","mobileNumber":"+8613851668725","height":182,"weight":82,"zodiac":"Taurus","city":"NJ","introduction":"this is introduction","biography":"this is biography","certifyUrl":"http://certify.url","coverUrl":"http://anchor.cover.url","starLevel":0,"cpm":20,"online":true,"available":true,"hotweight":0,"sortby":0,"verified":false,"createdAt":"2019-05-26T04:03:50.000+0000","updatedAt":"2019-05-26T04:03:50.000+0000","tags":[{"id":16,"content":"tag1"},{"id":19,"content":"tag2"}]}],"pageable":{"nextPage":false,"totalPages":1,"currentPage":1}}
+     * data : {"pageable":{"nextPage":false,"totalPages":1,"currentPage":1},"list":[{"memberId":1,"nickname":"old p","avatarUrl":"http://me.avatar.url","mobileNumber":"+8613851668725","height":182,"weight":82,"zodiac":"Aries","city":"NJ","introduction":"this is introduction","biography":"this is biography","certifyUrl":"http://certify.url","starLevel":4,"cpm":20,"online":true,"available":true,"hotweight":0,"sortby":0,"verified":true,"createdAt":"2019-05-26T04:03:50.000+0000","updatedAt":"2019-05-26T04:03:50.000+0000","tags":[{"content":"active","tagId":16},{"content":"aspiring","tagId":19}],"covers":[{"id":2,"coverUrl":"http://test.anchor14.url2","sortby":2},{"id":1,"coverUrl":"http://test.anchor14.url1","sortby":3}],"anchorId":14}]}
      */
 
     private DataBean data;
@@ -21,12 +21,12 @@ public class OneToOneListBean extends BaseBean {
 
     public static class DataBean {
         /**
-         * content : [{"id":14,"memberId":1,"nickname":"old p","mobileNumber":"+8613851668725","height":182,"weight":82,"zodiac":"Taurus","city":"NJ","introduction":"this is introduction","biography":"this is biography","certifyUrl":"http://certify.url","coverUrl":"http://anchor.cover.url","starLevel":0,"cpm":20,"online":true,"available":true,"hotweight":0,"sortby":0,"verified":false,"createdAt":"2019-05-26T04:03:50.000+0000","updatedAt":"2019-05-26T04:03:50.000+0000","tags":[{"id":16,"content":"tag1"},{"id":19,"content":"tag2"}]}]
          * pageable : {"nextPage":false,"totalPages":1,"currentPage":1}
+         * list : [{"memberId":1,"nickname":"old p","avatarUrl":"http://me.avatar.url","mobileNumber":"+8613851668725","height":182,"weight":82,"zodiac":"Aries","city":"NJ","introduction":"this is introduction","biography":"this is biography","certifyUrl":"http://certify.url","starLevel":4,"cpm":20,"online":true,"available":true,"hotweight":0,"sortby":0,"verified":true,"createdAt":"2019-05-26T04:03:50.000+0000","updatedAt":"2019-05-26T04:03:50.000+0000","tags":[{"content":"active","tagId":16},{"content":"aspiring","tagId":19}],"covers":[{"id":2,"coverUrl":"http://test.anchor14.url2","sortby":2},{"id":1,"coverUrl":"http://test.anchor14.url1","sortby":3}],"anchorId":14}]
          */
 
         private PageableBean pageable;
-        private List<ListBean> content;
+        private List<ListBean> list;
 
         public PageableBean getPageable() {
             return pageable;
@@ -36,12 +36,12 @@ public class OneToOneListBean extends BaseBean {
             this.pageable = pageable;
         }
 
-        public List<ListBean> getContent() {
-            return content;
+        public List<ListBean> getList() {
+            return list;
         }
 
-        public void setContent(List<ListBean> content) {
-            this.content = content;
+        public void setList(List<ListBean> list) {
+            this.list = list;
         }
 
         public static class PageableBean {
@@ -82,33 +82,34 @@ public class OneToOneListBean extends BaseBean {
 
         public static class ListBean {
             /**
-             * id : 14
              * memberId : 1
              * nickname : old p
+             * avatarUrl : http://me.avatar.url
              * mobileNumber : +8613851668725
              * height : 182
              * weight : 82
-             * zodiac : Taurus
+             * zodiac : Aries
              * city : NJ
              * introduction : this is introduction
              * biography : this is biography
              * certifyUrl : http://certify.url
-             * coverUrl : http://anchor.cover.url
-             * starLevel : 0
+             * starLevel : 4
              * cpm : 20
              * online : true
              * available : true
              * hotweight : 0
              * sortby : 0
-             * verified : false
+             * verified : true
              * createdAt : 2019-05-26T04:03:50.000+0000
              * updatedAt : 2019-05-26T04:03:50.000+0000
-             * tags : [{"id":16,"content":"tag1"},{"id":19,"content":"tag2"}]
+             * tags : [{"content":"active","tagId":16},{"content":"aspiring","tagId":19}]
+             * covers : [{"id":2,"coverUrl":"http://test.anchor14.url2","sortby":2},{"id":1,"coverUrl":"http://test.anchor14.url1","sortby":3}]
+             * anchorId : 14
              */
 
-            private int id;
             private int memberId;
             private String nickname;
+            private String avatarUrl;
             private String mobileNumber;
             private int height;
             private int weight;
@@ -126,15 +127,9 @@ public class OneToOneListBean extends BaseBean {
             private boolean verified;
             private String createdAt;
             private String updatedAt;
+            private int anchorId;
             private List<TagsBean> tags;
             private List<CoversBean> covers;
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
 
             public int getMemberId() {
                 return memberId;
@@ -150,6 +145,14 @@ public class OneToOneListBean extends BaseBean {
 
             public void setNickname(String nickname) {
                 this.nickname = nickname;
+            }
+
+            public String getAvatarUrl() {
+                return avatarUrl;
+            }
+
+            public void setAvatarUrl(String avatarUrl) {
+                this.avatarUrl = avatarUrl;
             }
 
             public String getMobileNumber() {
@@ -215,8 +218,6 @@ public class OneToOneListBean extends BaseBean {
             public void setCertifyUrl(String certifyUrl) {
                 this.certifyUrl = certifyUrl;
             }
-
-
 
             public int getStarLevel() {
                 return starLevel;
@@ -290,6 +291,14 @@ public class OneToOneListBean extends BaseBean {
                 this.updatedAt = updatedAt;
             }
 
+            public int getAnchorId() {
+                return anchorId;
+            }
+
+            public void setAnchorId(int anchorId) {
+                this.anchorId = anchorId;
+            }
+
             public List<TagsBean> getTags() {
                 return tags;
             }
@@ -297,6 +306,7 @@ public class OneToOneListBean extends BaseBean {
             public void setTags(List<TagsBean> tags) {
                 this.tags = tags;
             }
+
             public List<CoversBean> getCovers() {
                 return covers;
             }
@@ -305,23 +315,14 @@ public class OneToOneListBean extends BaseBean {
                 this.covers = covers;
             }
 
-
             public static class TagsBean {
                 /**
-                 * id : 16
-                 * content : tag1
+                 * content : active
+                 * tagId : 16
                  */
 
-                private int id;
                 private String content;
-
-                public int getId() {
-                    return id;
-                }
-
-                public void setId(int id) {
-                    this.id = id;
-                }
+                private int tagId;
 
                 public String getContent() {
                     return content;
@@ -330,9 +331,15 @@ public class OneToOneListBean extends BaseBean {
                 public void setContent(String content) {
                     this.content = content;
                 }
+
+                public int getTagId() {
+                    return tagId;
+                }
+
+                public void setTagId(int tagId) {
+                    this.tagId = tagId;
+                }
             }
-
-
 
             public static class CoversBean {
                 /**
@@ -369,7 +376,6 @@ public class OneToOneListBean extends BaseBean {
                     this.sortby = sortby;
                 }
             }
-
         }
     }
 }

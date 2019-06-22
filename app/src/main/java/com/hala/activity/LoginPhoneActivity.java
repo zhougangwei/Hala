@@ -1,20 +1,16 @@
 package com.hala.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hala.MainActivity;
 import com.hala.R;
 import com.hala.avchat.AvchatInfo;
 import com.hala.base.BaseActivity;
 import com.hala.base.Contact;
-import com.hala.bean.BaseBean;
 import com.hala.bean.LoginBean;
-import com.hala.bean.LoginBean2;
 import com.hala.http.BaseCosumer;
 import com.hala.http.ProxyPostHttpRequest;
 import com.hala.http.RetrofitFactory;
@@ -23,7 +19,6 @@ import com.hala.utils.SPUtil;
 import com.hala.utils.ToastUtils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -147,7 +142,7 @@ public class LoginPhoneActivity extends BaseActivity {
                             finish();
                         } else if (Contact.SIGN_IN.equals(action)) {
                             String accessToken = baseBean.getData().getMember().getAccessToken();
-                            int id = baseBean.getData().getMember().getId();
+                            int id = baseBean.getData().getMember().getMemberId();
 
                             AvchatInfo.setAccount(id);
                              SPUtil.getInstance(LoginPhoneActivity.this).setString(Contact.TOKEN, accessToken);

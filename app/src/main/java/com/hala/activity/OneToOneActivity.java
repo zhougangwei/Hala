@@ -1,5 +1,6 @@
 package com.hala.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -81,6 +82,7 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
 
     private int callId;
     private int receiveId;
+
     private int otherId;
     private int myId;
 
@@ -92,9 +94,15 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
     private static final int RTM_ANSWER = 3;
 
 
-    public static void docallOneToOneActivity(Context context, int anchorId) {
+    /**
+     * @param context
+     * @param anchorId 主播Id
+     * @param anchorMemberId
+     */
+    public static void docallOneToOneActivity(Context context, int anchorId,int anchorMemberId) {
         Intent intent = new Intent(context, OneToOneActivity.class);
         intent.putExtra("anchorId", anchorId);
+        intent.putExtra("anchorMemberId", anchorMemberId);
         intent.putExtra("outCall", true);
 
         context.startActivity(intent);
@@ -106,6 +114,25 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
         intent.putExtra("outCall", false);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
+    }
+
+    private void initIntent() {
+        Intent intent = getIntent();
+        int anchorId = intent.getIntExtra("anchorId", -1);      //主播AnchorId很有用
+        int anchorMemberId = intent.getIntExtra("anchorMemberId", -1);
+
+        int audienceId = intent.getIntExtra("audienceId", -1);
+        doOutCall = intent.getBooleanExtra("outCall", false);
+        myId = AvchatInfo.getAccount();
+        if (doOutCall) {      //打出去
+            otherId = anchorMemberId;
+            callId = myId;
+            receiveId = otherId;
+        } else {
+            otherId = audienceId;
+            callId = otherId;
+            receiveId = myId;
+        }
     }
 
     @Override
@@ -144,22 +171,7 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
 
     }
 
-    private void initIntent() {
-        Intent intent = getIntent();
-        int anchorId = intent.getIntExtra("anchorId", -1);
-        int audienceId = intent.getIntExtra("audienceId", -1);
-        doOutCall = intent.getBooleanExtra("outCall", false);
-        myId = AvchatInfo.getAccount();
-        if (doOutCall) {      //打出去
-            otherId = anchorId;
-            callId = myId;
-            receiveId = otherId;
-        } else {
-            otherId = audienceId;
-            callId = otherId;
-            receiveId = myId;
-        }
-    }
+
 
 
     private void initAgoraEngineAndJoinChannel() {
@@ -299,10 +311,9 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
             case R.id.iv_anchor_answer:
                 answer();
                 break;
-
             case R.id.iv_hangup:
                 endVideo();
-                gotoFinish();
+
 
                 break;
             case R.id.iv_camera_off:
@@ -313,7 +324,7 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
     }
 
     private void gotoFinish() {
-        Observable.timer(300, TimeUnit.MILLISECONDS)
+        Observable.timer(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Long>() {
                     @Override
@@ -324,6 +335,7 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
     }
     private void hangup() {
         sendRtmpMessage(RTM_HANG_UP);
+        endVideo();
     }
 
     private void answer() {
@@ -348,24 +360,13 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
     }
 
 
-    ResultCallback rtmResultCallback = new ResultCallback() {
-        @Override
-        public void onSuccess(Object o) {
-            Log.e(TAG, "onSuccess");
-        }
-
-        @Override
-        public void onFailure(ErrorInfo errorInfo) {
-            Log.e(TAG, errorInfo.getErrorCode() + errorInfo.getErrorDescription());
-        }
-    };
-
 
     @Override
     public void onSuccess(Void aVoid) {
         Log.e(TAG, "onSuccess");
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onFailure(ErrorInfo errorInfo) {
         Observable.just(errorInfo)
@@ -549,9 +550,6 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
     }
 
     private void endVideo() {
-
-
-
         AVChatSoundPlayer.instance().stop();
         mRtmChannel.leave(new ResultCallback<Void>() {
             @Override
@@ -571,8 +569,6 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
         });
         mRtmChannel.release();
         leaveChannel();
-
-
-
+        gotoFinish();
     }
 }

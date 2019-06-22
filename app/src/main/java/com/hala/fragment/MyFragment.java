@@ -84,9 +84,7 @@ public class MyFragment extends BaseFragment {
     }
 
     private void gotoCharge() {
-
-        OneToOneActivity.docallOneToOneActivity(getActivity(),5);
-
+        //OneToOneActivity.docallOneToOneActivity(getActivity(),5);
     }
 
     private void gotoCertify() {

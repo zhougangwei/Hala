@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
-import com.hala.MainActivity;
 import com.hala.R;
 import com.hala.base.BaseActivity;
 import com.hala.utils.FacebookLoginManager;

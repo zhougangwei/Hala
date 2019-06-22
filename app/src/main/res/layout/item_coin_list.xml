@@ -11,8 +11,8 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginStart="15dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/ic_facebook" />
 
@@ -23,13 +23,13 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
-        android:textSize="14sp"
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="13dp"
         android:text="唐诗"
         android:textColor="#676767"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@id/iv_head"
         app:layout_constraintTop_toTopOf="@id/iv_head" />
 
@@ -43,24 +43,36 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
     <TextView
-        android:textColor="@color/grey_8f"
-        android:layout_marginEnd="13dp"
-        android:text="Feb4"
-        app:layout_constraintTop_toTopOf="@+id/tv_name"
-        app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/tv_week"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="13dp"
+        android:text="Feb4"
+        android:textColor="@color/grey_8f"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_name" />
+
     <TextView
         android:id="@+id/tv_hour"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/grey_8f"
-        android:layout_marginEnd="13dp"
-        android:text="20:58"
-        app:layout_constraintTop_toBottomOf="@+id/tv_week"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="13dp"
+        android:layout_marginTop="5dp"
+        android:text="20:58"
+        android:textColor="@color/grey_8f"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_week" />
 
+    <TextView
+        android:id="@+id/tv_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:text="+8"
+        android:textColor="@color/coin_gain"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_hour"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

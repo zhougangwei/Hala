@@ -26,7 +26,7 @@ public class ReverseListBean extends BaseBean {
          */
 
         private PageableBean pageable;
-        private List<ContentBean> content;
+        private List<ListBean> list;
 
         public PageableBean getPageable() {
             return pageable;
@@ -36,12 +36,12 @@ public class ReverseListBean extends BaseBean {
             this.pageable = pageable;
         }
 
-        public List<ContentBean> getContent() {
-            return content;
+        public List<ListBean> getList() {
+            return list;
         }
 
-        public void setContent(List<ContentBean> content) {
-            this.content = content;
+        public void setList(List<ListBean> list) {
+            this.list = list;
         }
 
         public static class PageableBean {
@@ -80,7 +80,7 @@ public class ReverseListBean extends BaseBean {
             }
         }
 
-        public static class ContentBean {
+        public static class ListBean {
             /**
              * id : 1
              * state : in_process

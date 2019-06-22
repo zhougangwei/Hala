@@ -18,8 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_behavior="com.hala.wight.FlingBehavior"
-            >
+            app:layout_behavior="com.hala.wight.FlingBehavior">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
@@ -31,7 +30,6 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
 
-
                 <LinearLayout
                     android:id="@+id/rl_banner"
                     android:layout_width="match_parent"
@@ -40,14 +38,12 @@
                     android:orientation="vertical"
                     app:layout_collapseMode="parallax">
 
-                <ImageView
-                    android:background="#00ff00 "
-                    android:layout_width="match_parent"
-                    android:layout_height="370dp" />
+
                 <android.support.v4.view.ViewPager
+                    android:background="#00ff00"
                     android:id="@+id/vp_cover"
                     android:layout_width="match_parent"
-                    android:layout_height="370dp"/>
+                    android:layout_height="570dp"/>
 
                 </LinearLayout>
 
@@ -59,11 +55,11 @@
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-                <TextView
-                    android:text="你好"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="你好"
+                        android:textColor="@color/colorPrimaryDark" />
                 </android.support.v7.widget.Toolbar>
 
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -78,118 +74,126 @@
             android:background="#fff7f7f7"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <RelativeLayout
-
-            android:layout_below="@id/view"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:textColor="@color/black"
-                android:layout_marginTop="21dp"
-                android:layout_marginStart="15dp"
-                android:textSize="28sp"
-                android:id="@+id/tv_name"
-                android:text="Namo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <com.hala.wight.RatingBarView
-                android:layout_alignStart="@+id/tv_name"
-                android:layout_marginTop="9dp"
-                tools:layout_width="90dp"
-                android:gravity="center"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/tv_name"
-                app:starCount="5"
-                android:id="@+id/rbv"
-                app:starFill="@drawable/eva_star_choose"
-                app:starImageSize="15dp"
-                app:starPadding="3dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
 
 
-            <TextView
-                android:layout_marginTop="5dp"
-                android:id="@+id/tv_introduction"
-                android:textColor="@color/grey_6a"
-                android:layout_below="@+id/rbv"
-                android:layout_alignStart="@+id/tv_name"
-                android:text="喵系女友情"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
-            <TextView
-                android:layout_marginTop="22dp"
-                android:textSize="17sp"
-                android:textColor="#F7357F"
-               android:id="@+id/tv1"
-                android:layout_below="@+id/tv_introduction"
-                android:layout_alignStart="@+id/tv_name"
-                android:text="Bio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_marginStart="9dp"
-                android:gravity="center"
-                android:layout_alignTop="@+id/tv1"
-                android:layout_alignBottom="@+id/tv1"
-                android:background="@drawable/bg_rec_pink"
-                android:layout_below="@+id/tv_introduction"
-                android:layout_toEndOf="@+id/tv1"
-                android:id="@+id/tv_biography"
-                android:paddingEnd="15dp"
-                android:paddingStart="15dp"
-                android:text="Dream like a Star as you"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp" />
-
-            <include
-                android:layout_marginTop="13dp"
-                android:layout_height="1dp"
-                android:layout_below="@+id/tv1"
-                android:layout_marginEnd="15dp"
-                android:layout_alignStart="@+id/tv_name"
                 android:layout_width="match_parent"
-                layout="@layout/include_line"/>
-            <TextView
-                android:id="@id/tv2"
-                android:layout_below="@+id/tv1"
-                android:layout_marginTop="46dp"
-                android:textColor="#5f5f5f"
-                android:layout_alignStart="@+id/tv_name"
-                android:text="个人资料"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_tags"
+                android:layout_height="wrap_content">
 
-                android:layout_alignStart="@+id/tv_name"
-                android:layout_marginTop="12dp"
-                android:layout_below="@+id/tv2"
-                android:layout_marginEnd="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="21dp"
+                    android:text="Namo"
+                    android:textColor="@color/black"
+                    android:textSize="28sp" />
 
+                <com.hala.wight.RatingBarView
+                    android:id="@+id/rbv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/tv_name"
+                    android:layout_below="@+id/tv_name"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="9dp"
+                    android:gravity="center"
+                    app:starCount="5"
+                    app:starFill="@drawable/eva_star_choose"
+                    app:starImageSize="15dp"
+                    app:starPadding="3dp"
+                    tools:layout_width="90dp" />
+
+
+                <TextView
+                    android:id="@+id/tv_introduction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/tv_name"
+                    android:layout_below="@+id/rbv"
+                    android:layout_marginTop="5dp"
+                    android:text="喵系女友情"
+                    android:textColor="@color/grey_6a" />
+
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/tv_name"
+                    android:layout_below="@+id/tv_introduction"
+                    android:layout_marginTop="22dp"
+                    android:text="Bio"
+                    android:textColor="#F7357F"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_biography"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_alignBottom="@+id/tv1"
+                    android:layout_alignTop="@+id/tv1"
+                    android:layout_below="@+id/tv_introduction"
+                    android:layout_marginStart="9dp"
+                    android:layout_toEndOf="@+id/tv1"
+                    android:background="@drawable/bg_rec_pink"
+                    android:gravity="center"
+                    android:paddingEnd="15dp"
+                    android:paddingStart="15dp"
+                    android:text="Dream like a Star as you" />
+
+                <include
+                    layout="@layout/include_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignStart="@+id/tv_name"
+                    android:layout_below="@+id/tv1"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="13dp" />
+
+                <TextView
+                    android:id="@id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/tv_name"
+                    android:layout_below="@+id/tv1"
+                    android:layout_marginTop="46dp"
+                    android:text="个人资料"
+                    android:textColor="#5f5f5f" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_tags"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/tv_name"
+                    android:layout_below="@+id/tv2"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="12dp" />
+            </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
     </android.support.design.widget.CoordinatorLayout>
 
     <TextView
         android:id="@+id/tv_call"
-        android:paddingStart="19dp"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="35dp"
+        android:background="@drawable/bg_rec_pureple_r25"
+        android:drawablePadding="5dp"
         android:drawableStart="@drawable/ic_videocall"
         android:gravity="center"
-        android:drawablePadding="5dp"
-        android:textColor="@color/white"
-        android:background="@drawable/bg_rec_pureple_r25"
-        android:layout_alignParentEnd="true"
-        android:text="Video Call"
         android:paddingEnd="19dp"
-        android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_marginEnd="35dp"
-        android:layout_marginBottom="24dp"
-        android:layout_height="44dp" />
+        android:paddingStart="19dp"
+        android:text="Video Call"
+        android:textColor="@color/white" />
 </RelativeLayout>

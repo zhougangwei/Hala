@@ -3,8 +3,9 @@ package com.hala.bean;
 import java.util.List;
 
 public class CallListBean extends BaseBean {
+
     /**
-     * data : {"content":[{"id":1,"anchorInitiate":false,"startedAt":"2019-05-27T07:21:59.000+0000","endedAt":"2019-05-27T07:21:59.000+0000","durationSeconds":140,"state":"success","worth":60,"targetInfo":{"id":2,"avatarUrl":"http://me.avatar.url","name":"pp"}}],"pageable":{"nextPage":false,"totalPages":1,"currentPage":1}}
+     * data : {"pageable":{"nextPage":true,"totalPages":5,"currentPage":1},"list":[{"channel":"C6547837725262233600","memberId":2,"anchorMemberId":1,"anchorId":14,"anchorInitiate":false,"startedAt":"2019-06-21T14:09:26.000+0000","endedAt":"2019-06-21T14:09:26.000+0000","durationSeconds":0,"state":"calling","worth":0,"targetInfo":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p","form":"anchor"},"date":"2019-06-21","callId":6}]}
      */
 
     private DataBean data;
@@ -19,12 +20,12 @@ public class CallListBean extends BaseBean {
 
     public static class DataBean {
         /**
-         * content : [{"id":1,"anchorInitiate":false,"startedAt":"2019-05-27T07:21:59.000+0000","endedAt":"2019-05-27T07:21:59.000+0000","durationSeconds":140,"state":"success","worth":60,"targetInfo":{"id":2,"avatarUrl":"http://me.avatar.url","name":"pp"}}]
-         * pageable : {"nextPage":false,"totalPages":1,"currentPage":1}
+         * pageable : {"nextPage":true,"totalPages":5,"currentPage":1}
+         * list : [{"channel":"C6547837725262233600","memberId":2,"anchorMemberId":1,"anchorId":14,"anchorInitiate":false,"startedAt":"2019-06-21T14:09:26.000+0000","endedAt":"2019-06-21T14:09:26.000+0000","durationSeconds":0,"state":"calling","worth":0,"targetInfo":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p","form":"anchor"},"date":"2019-06-21","callId":6}]
          */
 
         private PageableBean pageable;
-        private List<ContentBean> content;
+        private List<ListBean> list;
 
         public PageableBean getPageable() {
             return pageable;
@@ -34,18 +35,18 @@ public class CallListBean extends BaseBean {
             this.pageable = pageable;
         }
 
-        public List<ContentBean> getContent() {
-            return content;
+        public List<ListBean> getList() {
+            return list;
         }
 
-        public void setContent(List<ContentBean> content) {
-            this.content = content;
+        public void setList(List<ListBean> list) {
+            this.list = list;
         }
 
         public static class PageableBean {
             /**
-             * nextPage : false
-             * totalPages : 1
+             * nextPage : true
+             * totalPages : 5
              * currentPage : 1
              */
 
@@ -78,19 +79,27 @@ public class CallListBean extends BaseBean {
             }
         }
 
-        public static class ContentBean {
+        public static class ListBean {
             /**
-             * id : 1
+             * channel : C6547837725262233600
+             * memberId : 2
+             * anchorMemberId : 1
+             * anchorId : 14
              * anchorInitiate : false
-             * startedAt : 2019-05-27T07:21:59.000+0000
-             * endedAt : 2019-05-27T07:21:59.000+0000
-             * durationSeconds : 140
-             * state : success
-             * worth : 60
-             * targetInfo : {"id":2,"avatarUrl":"http://me.avatar.url","name":"pp"}
+             * startedAt : 2019-06-21T14:09:26.000+0000
+             * endedAt : 2019-06-21T14:09:26.000+0000
+             * durationSeconds : 0
+             * state : calling
+             * worth : 0
+             * targetInfo : {"id":14,"avatarUrl":"http://me.avatar.url","name":"old p","form":"anchor"}
+             * date : 2019-06-21
+             * callId : 6
              */
 
-            private int id;
+            private String channel;
+            private int memberId;
+            private int anchorMemberId;
+            private int anchorId;
             private boolean anchorInitiate;
             private String startedAt;
             private String endedAt;
@@ -98,13 +107,39 @@ public class CallListBean extends BaseBean {
             private String state;
             private int worth;
             private TargetInfoBean targetInfo;
+            private String date;
+            private int callId;
 
-            public int getId() {
-                return id;
+            public String getChannel() {
+                return channel;
             }
 
-            public void setId(int id) {
-                this.id = id;
+            public void setChannel(String channel) {
+                this.channel = channel;
+            }
+
+            public int getMemberId() {
+                return memberId;
+            }
+
+            public void setMemberId(int memberId) {
+                this.memberId = memberId;
+            }
+
+            public int getAnchorMemberId() {
+                return anchorMemberId;
+            }
+
+            public void setAnchorMemberId(int anchorMemberId) {
+                this.anchorMemberId = anchorMemberId;
+            }
+
+            public int getAnchorId() {
+                return anchorId;
+            }
+
+            public void setAnchorId(int anchorId) {
+                this.anchorId = anchorId;
             }
 
             public boolean isAnchorInitiate() {
@@ -163,16 +198,34 @@ public class CallListBean extends BaseBean {
                 this.targetInfo = targetInfo;
             }
 
+            public String getDate() {
+                return date;
+            }
+
+            public void setDate(String date) {
+                this.date = date;
+            }
+
+            public int getCallId() {
+                return callId;
+            }
+
+            public void setCallId(int callId) {
+                this.callId = callId;
+            }
+
             public static class TargetInfoBean {
                 /**
-                 * id : 2
+                 * id : 14
                  * avatarUrl : http://me.avatar.url
-                 * name : pp
+                 * name : old p
+                 * form : anchor
                  */
 
                 private int id;
                 private String avatarUrl;
                 private String name;
+                private String form;
 
                 public int getId() {
                     return id;
@@ -196,6 +249,14 @@ public class CallListBean extends BaseBean {
 
                 public void setName(String name) {
                     this.name = name;
+                }
+
+                public String getForm() {
+                    return form;
+                }
+
+                public void setForm(String form) {
+                    this.form = form;
                 }
             }
         }

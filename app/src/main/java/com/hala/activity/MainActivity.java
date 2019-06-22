@@ -1,10 +1,11 @@
-package com.hala;
+package com.hala.activity;
 
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.hala.R;
 import com.hala.adapter.TabAdapter;
 import com.hala.avchat.AvchatInfo;
 import com.hala.avchat.QiniuInfo;

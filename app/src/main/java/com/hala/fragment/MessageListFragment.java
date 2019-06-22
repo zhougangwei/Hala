@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hala.R;
 import com.hala.activity.MyCallListActivity;
+import com.hala.activity.MyIncomeActivity;
 import com.hala.adapter.MsgAdapter;
 import com.hala.base.BaseFragment;
 import com.hala.base.Contact;
@@ -52,7 +53,7 @@ public class MessageListFragment extends BaseFragment {
                         startActivity(new Intent(getActivity(), MyCallListActivity.class));
                         break;
                     case COIN:
-                        startActivity(new Intent(getActivity(), MyCallListActivity.class));
+                        startActivity(new Intent(getActivity(), MyIncomeActivity.class));
                         break;
                     case CALL_RESERVATION:
                         startActivity(new Intent(getActivity(), MyCallListActivity.class));

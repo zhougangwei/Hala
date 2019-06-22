@@ -1,3 +1,4 @@
+/*
 package com.hala.activity;
 
 import android.os.Bundle;
@@ -132,3 +133,4 @@ public class BrvaActivity extends AppCompatActivity {
         addDatas();
     }
 }
+*/

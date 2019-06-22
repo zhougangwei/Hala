@@ -4,7 +4,7 @@ import java.util.List;
 
 public class BeAnchorBean extends BaseBean {
     /**
-     * data : {"id":14,"memberId":1,"nickname":"old p","mobileNumber":"+8613851668725","height":182,"weight":82,"zodiac":"Taurus","city":"NJ","introduction":"this is introduction","biography":"this is biography","certifyUrl":"http://certify.url","starLevel":0,"cpm":20,"online":true,"available":true,"sortby":0,"verified":false,"createdAt":"2019-05-26T04:03:50.169+0000","updatedAt":"2019-05-26T04:03:50.169+0000","tags":[{"id":16,"content":"tag1"},{"id":19,"content":"tag2"}],"covers":[{"id":2,"coverUrl":"http://test.anchor14.url2","sortby":2},{"id":1,"coverUrl":"http://test.anchor14.url1","sortby":3}]}
+     * data : {"anchorId":14,"memberId":1,"nickname":"old p","mobileNumber":"+8613851668725","height":182,"weight":82,"zodiac":"Taurus","city":"NJ","introduction":"this is introduction","biography":"this is biography","certifyUrl":"http://certify.url","starLevel":0,"cpm":20,"online":true,"available":true,"sortby":0,"verified":false,"createdAt":"2019-05-26T04:03:50.169+0000","updatedAt":"2019-05-26T04:03:50.169+0000","tags":[{"anchorId":16,"content":"tag1"},{"anchorId":19,"content":"tag2"}],"covers":[{"anchorId":2,"coverUrl":"http://test.anchor14.url2","sortby":2},{"anchorId":1,"coverUrl":"http://test.anchor14.url1","sortby":3}]}
      */
 
     private DataBean data;
@@ -19,7 +19,7 @@ public class BeAnchorBean extends BaseBean {
 
     public static class DataBean {
         /**
-         * id : 14
+         * anchorId : 14
          * memberId : 1
          * nickname : old p
          * mobileNumber : +8613851668725
@@ -38,11 +38,11 @@ public class BeAnchorBean extends BaseBean {
          * verified : false
          * createdAt : 2019-05-26T04:03:50.169+0000
          * updatedAt : 2019-05-26T04:03:50.169+0000
-         * tags : [{"id":16,"content":"tag1"},{"id":19,"content":"tag2"}]
-         * covers : [{"id":2,"coverUrl":"http://test.anchor14.url2","sortby":2},{"id":1,"coverUrl":"http://test.anchor14.url1","sortby":3}]
+         * tags : [{"anchorId":16,"content":"tag1"},{"anchorId":19,"content":"tag2"}]
+         * covers : [{"anchorId":2,"coverUrl":"http://test.anchor14.url2","sortby":2},{"anchorId":1,"coverUrl":"http://test.anchor14.url1","sortby":3}]
          */
 
-        private int id;
+        private int anchorId;
         private int memberId;
         private String nickname;
         private String mobileNumber;
@@ -64,12 +64,12 @@ public class BeAnchorBean extends BaseBean {
         private List<TagsBean> tags;
         private List<CoversBean> covers;
 
-        public int getId() {
-            return id;
+        public int getAnchorId() {
+            return anchorId;
         }
 
-        public void setId(int id) {
-            this.id = id;
+        public void setAnchorId(int anchorId) {
+            this.anchorId = anchorId;
         }
 
         public int getMemberId() {
@@ -234,7 +234,7 @@ public class BeAnchorBean extends BaseBean {
 
         public static class TagsBean {
             /**
-             * id : 16
+             * anchorId : 16
              * content : tag1
              */
 
@@ -260,7 +260,7 @@ public class BeAnchorBean extends BaseBean {
 
         public static class CoversBean {
             /**
-             * id : 2
+             * anchorId : 2
              * coverUrl : http://test.anchor14.url2
              * sortby : 2
              */

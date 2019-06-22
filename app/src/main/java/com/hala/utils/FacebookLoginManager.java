@@ -1,8 +1,5 @@
 package com.hala.utils;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -14,14 +11,8 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.hala.MainActivity;
-import com.hala.R;
-import com.hala.activity.EditProUserActivity;
-import com.hala.activity.LoginActivity;
-import com.hala.activity.LoginPhoneActivity;
 import com.hala.base.BaseActivity;
 import com.hala.base.Contact;
-import com.hala.bean.BaseBean;
 import com.hala.bean.LoginBean;
 import com.hala.http.BaseCosumer;
 import com.hala.http.ProxyPostHttpRequest;

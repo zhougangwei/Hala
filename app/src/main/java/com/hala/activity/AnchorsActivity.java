@@ -20,6 +20,7 @@ import com.hala.adapter.SimplePagerAdapter;
 import com.hala.adapter.TagsAdapter;
 import com.hala.base.BaseActivity;
 import com.hala.base.Contact;
+import com.hala.base.VideoCallManager;
 import com.hala.bean.AnchorBean;
 import com.hala.bean.BaseBean;
 import com.hala.http.BaseCosumer;
@@ -73,11 +74,13 @@ public class AnchorsActivity extends BaseActivity {
     private SimplePagerAdapter simplePagerAdapter;
     private TagsAdapter tagsAdapter;
     private int anchorId;
+    private int anchorIdMemberId;
 
 
-    public  static void startAnchorAc(Context context,int anchorId){
+    public  static void startAnchorAc(Context context,int anchorId,int anchorIdMemberId){
         Intent intent = new Intent(context, AnchorsActivity.class);
         intent.putExtra("anchorId",anchorId);
+        intent.putExtra("anchorIdMemberId",anchorIdMemberId);
         context.startActivity(intent);
     }
 
@@ -90,6 +93,7 @@ public class AnchorsActivity extends BaseActivity {
     protected void beforeInitView() {
         Intent intent = getIntent();
         anchorId = intent.getIntExtra("anchorId", 0);
+        anchorIdMemberId = intent.getIntExtra("anchorIdMemberId", 0);
     }
 
     @Override
@@ -155,7 +159,7 @@ public class AnchorsActivity extends BaseActivity {
             case R.id.toolbar:
                 break;
             case R.id.tv_call:
-                OneToOneActivity.docallOneToOneActivity(this,14);
+                VideoCallManager.gotoCallOrReverse(this,anchorId,anchorIdMemberId);
                 break;
         }
     }

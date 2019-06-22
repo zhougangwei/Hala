@@ -21,4 +21,5 @@
     <string name="hot_online_stars">Hot Online Stars</string>
     <string name="coin">Coin</string>
     <string name="login_failed">登陆失败</string>
+    <string name="anchor_is_not_aviliable">主播不在线!</string>
 </resources>

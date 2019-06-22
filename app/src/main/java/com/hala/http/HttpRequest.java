@@ -2,14 +2,17 @@ package com.hala.http;
 
 
 import com.hala.bean.AnchorBean;
+import com.hala.bean.AnchorStateBean;
 import com.hala.bean.AnchorTagBean;
 import com.hala.bean.BaseBean;
 import com.hala.bean.BeAnchorBean;
 import com.hala.bean.CallListBean;
+import com.hala.bean.CoinListBean;
 import com.hala.bean.LoginBean;
 import com.hala.bean.MessageUnreadBean;
 import com.hala.bean.OneToOneListBean;
 import com.hala.bean.QiNiuToken;
+import com.hala.bean.ReverseBean;
 import com.hala.bean.RtmTokenBean;
 
 import io.reactivex.Observable;
@@ -66,6 +69,14 @@ public interface HttpRequest {
                        @Query("anchorMemberId")String anchorMemberId, @Query("anchorInitiate")String anchorInitiate
     );
 
+    /*
+     * 消息已读回调
+     * */
+    @POST("/message/read/{type}")
+    Observable<BaseBean> readMessage(
+            @Path("type")String type);
+
+
 
 
 
@@ -75,10 +86,26 @@ public interface HttpRequest {
     @GET("/message/unread")
     Observable<MessageUnreadBean> getMessageUnread();
 
+    /*
+    * 获取通话列表
+    * */
     @GET("/call")
     Observable<CallListBean> getCallList(@Query("page") int page, @Query("size") int size);
+
+    /*
+    * 获取预约列表
+    * */
     @GET("/call/reservation")
-    Observable<MessageUnreadBean> getReservationList(@Query("page") int page,@Query("size") int size);
+    Observable<CallListBean> getReservationList(@Query("page") int page,@Query("size") int size);
+
+
+
+    /*
+     * 获取花费列表
+     * */
+    @GET("coin")
+    Observable<CoinListBean> getCoinList(@Query("page") int page, @Query("size") int size);
+
 
 
     @GET("/anchor/hot")
@@ -105,6 +132,20 @@ public interface HttpRequest {
     @GET("/anchor/{user}")
     Observable<AnchorBean> getAnchorData(@Path("user") int user
     );
+
+
+    /*
+    * 获取当前主播状态
+    * */
+    @GET("/call/anchor/{user}/state")
+    Observable<AnchorStateBean> getAnchorState(@Path("user") int user);
+
+
+    @GET("/call/anchor/{user}/reserve")
+    Observable<ReverseBean> reserveAnchor(@Path("user") int user);
+
+
+
 
 
 

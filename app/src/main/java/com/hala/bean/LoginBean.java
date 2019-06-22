@@ -3,7 +3,7 @@ package com.hala.bean;
 public class LoginBean extends BaseBean {
 
     /**
-     * data : {"member":{"id":1,"mobileNumber":"+8613851668725","username":"pete","gender":"male","birthDate":31,"avatarUrl":"http://me.avatar.url","accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiZjdmZDQxZWUtMTNlMS00N2VjLWI4ZjktM2Y3Mjg4MWExMmZhIn0.uwXL8of0EtKK5kG8KLFr0wgG05hoZWVud6243XnnjuY"},"action":"sign_in"}
+     * data : {"member":{"memberId":1,"mobileNumber":"+8613851668725","username":"pete","gender":"male","birthDate":31,"avatarUrl":"http://me.avatar.url","accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiZjdmZDQxZWUtMTNlMS00N2VjLWI4ZjktM2Y3Mjg4MWExMmZhIn0.uwXL8of0EtKK5kG8KLFr0wgG05hoZWVud6243XnnjuY"},"action":"sign_in"}
      */
 
     private DataBean data;
@@ -18,7 +18,7 @@ public class LoginBean extends BaseBean {
 
     public static class DataBean {
         /**
-         * member : {"id":1,"mobileNumber":"+8613851668725","username":"pete","gender":"male","birthDate":31,"avatarUrl":"http://me.avatar.url","agoraId": "1ab6b49b58074ef9aa6ac6acc729f4f7","accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiZjdmZDQxZWUtMTNlMS00N2VjLWI4ZjktM2Y3Mjg4MWExMmZhIn0.uwXL8of0EtKK5kG8KLFr0wgG05hoZWVud6243XnnjuY"}
+         * member : {"memberId":1,"mobileNumber":"+8613851668725","username":"pete","gender":"male","birthDate":31,"avatarUrl":"http://me.avatar.url","agoraId": "1ab6b49b58074ef9aa6ac6acc729f4f7","accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiZjdmZDQxZWUtMTNlMS00N2VjLWI4ZjktM2Y3Mjg4MWExMmZhIn0.uwXL8of0EtKK5kG8KLFr0wgG05hoZWVud6243XnnjuY"}
          * action : sign_in
          */
         private MemberBean member;
@@ -43,7 +43,7 @@ public class LoginBean extends BaseBean {
 
         public static class MemberBean {
             /**
-             * id : 1
+             * memberId : 1
              * mobileNumber : +8613851668725
              * username : pete
              * gender : male
@@ -52,7 +52,7 @@ public class LoginBean extends BaseBean {
              * accessToken : eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiZjdmZDQxZWUtMTNlMS00N2VjLWI4ZjktM2Y3Mjg4MWExMmZhIn0.uwXL8of0EtKK5kG8KLFr0wgG05hoZWVud6243XnnjuY
              */
 
-            private int id;
+            private int memberId;
             private String mobileNumber;
             private String username;
             private String gender;
@@ -61,12 +61,12 @@ public class LoginBean extends BaseBean {
             private String accessToken;
             private String agoraId;
 
-            public int getId() {
-                return id;
+            public int getMemberId() {
+                return memberId;
             }
 
-            public void setId(int id) {
-                this.id = id;
+            public void setMemberId(int memberId) {
+                this.memberId = memberId;
             }
 
             public String getMobileNumber() {
