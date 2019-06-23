@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 
 import com.bumptech.glide.annotation.GlideModule;
 import com.hala.activity.LoginActivity;
+import com.hala.avchat.WorkerThread;
 import com.hala.utils.SPUtil;
 
 import java.util.Locale;
@@ -40,19 +41,8 @@ public class App extends MultiDexApplication {
 
     private static final String TAG = "Application";
 
-
-    /**
-     * 每秒时间到了之后所执行的任务
-     */
-
-    public static String CHANNEL_NAME;
-    public static int CHANNEL_CODE;
-    private int count;
-
     private static App application;
     public static Context sContext;
-    private long startTime;
-    private static ChatManager mChatManager;
 
 
     @Override
@@ -61,8 +51,6 @@ public class App extends MultiDexApplication {
         application = this;
         sContext=this;
         SPUtil.setContext(this);
-        mChatManager = new ChatManager(this);
-        mChatManager.init();
     }
 
     //用来阿拉伯语 本地使用
@@ -109,7 +97,19 @@ public class App extends MultiDexApplication {
     }
 
 
-    public static ChatManager getChatManager() {
-        return mChatManager;
+
+    private WorkerThread mWorkerThread;
+
+    public synchronized void initWorkerThread() {
+        if (mWorkerThread == null) {
+            mWorkerThread = new WorkerThread(getApplicationContext());
+            mWorkerThread.start();
+            mWorkerThread.waitForReady();
+        }
     }
+
+    public synchronized WorkerThread getWorkerThread() {
+        return mWorkerThread;
+    }
+
 }

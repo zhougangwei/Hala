@@ -1,3 +1,4 @@
+/*
 package com.hala.base;
 
 import android.util.Log;
@@ -79,3 +80,4 @@ public class AppLoginManager {
 
 
 }
+*/

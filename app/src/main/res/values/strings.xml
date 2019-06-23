@@ -21,6 +21,8 @@
     <string name="hot_online_stars">Hot Online Stars</string>
     <string name="coin">Coin</string>
     <string name="login_failed">登陆失败</string>
-    <string name="agora_app_id">7cfec1d08b974d56a7935c28c30cf268</string>
+    <string name="agora_app_id">3ca9a2cd0d144c209c5ca85e3a7440e4</string>
     <string name="anchor_is_not_aviliable">主播不在线!</string>
+    <string name="online">Online</string>
+    <string name="offlIine">OffLine</string>
 </resources>

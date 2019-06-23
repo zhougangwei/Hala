@@ -41,7 +41,6 @@ public  class EditHeadAdapter extends BaseQuickAdapter<EditHeadAdapter.UserHead,
         } else {
             Glide.with(mContext)
                     .load(item.getPicPath())
-                    .centerCrop()
                     .into((ImageView) helper.getView(R.id.iv_head));
         }
     }

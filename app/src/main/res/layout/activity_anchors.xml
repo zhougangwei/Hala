@@ -43,7 +43,7 @@
                     android:background="#00ff00"
                     android:id="@+id/vp_cover"
                     android:layout_width="match_parent"
-                    android:layout_height="570dp"/>
+                    android:layout_height="370dp"/>
 
                 </LinearLayout>
 
@@ -167,9 +167,21 @@
                     android:text="个人资料"
                     android:textColor="#5f5f5f" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_tags"
 
+
+                <android.support.v7.widget.RecyclerView
+                    android:visibility="gone"
+                    android:id="@+id/rv_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/tv_name"
+                    android:layout_below="@+id/tv2"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="12dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:visibility="gone"
+                    android:id="@+id/rv_tags"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignStart="@+id/tv_name"
@@ -196,4 +208,7 @@
         android:paddingStart="19dp"
         android:text="Video Call"
         android:textColor="@color/white" />
+
+
+
 </RelativeLayout>

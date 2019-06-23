@@ -5,10 +5,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.hala.R;
 import com.hala.activity.BestarActivity;
+import com.hala.activity.ChargeActivity;
+import com.hala.activity.FeedBackActivity;
 import com.hala.activity.OneToOneActivity;
 import com.hala.activity.WalletActivity;
+import com.hala.avchat.AvchatInfo;
 import com.hala.base.BaseFragment;
 import com.hala.dialog.CommonDialog;
 
@@ -17,20 +22,25 @@ import butterknife.OnClick;
 
 public class MyFragment extends BaseFragment {
     @BindView(R.id.tv_name)
-    TextView tvName;
+    TextView  tvName;
     @BindView(R.id.iv_head)
     ImageView ivHead;
     @BindView(R.id.iv_more)
     ImageView ivMore;
     @BindView(R.id.tv_charge)
-    TextView tvCharge;
+    TextView  tvCharge;
     @BindView(R.id.tv_money)
-    TextView tvMoney;
+    TextView  tvMoney;
 
 
     @Override
     protected void initView() {
-
+        tvName.setText(AvchatInfo.getName());
+        Glide.with(this)
+                .load(AvchatInfo.getAvatarUrl())
+                .apply(RequestOptions.placeholderOf(ivHead.getDrawable()))
+                .into(ivHead);
+        tvMoney.setText(AvchatInfo.getCoin()+"");
     }
 
     @Override
@@ -42,8 +52,6 @@ public class MyFragment extends BaseFragment {
     protected void initData() {
 
     }
-
-
 
 
     @OnClick({R.id.iv_more, R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_loginout})
@@ -63,6 +71,7 @@ public class MyFragment extends BaseFragment {
                 gotoCertify();
                 break;
             case R.id.tv_feedback:
+                gotoFeedback();
                 break;
             case R.id.tv_loginout:
                 new CommonDialog(getActivity())
@@ -72,6 +81,7 @@ public class MyFragment extends BaseFragment {
                             public void onClickConfirm() {
                                 getActivity().finish();
                             }
+
                             @Override
                             public void onClickCancel() {
                             }
@@ -83,8 +93,12 @@ public class MyFragment extends BaseFragment {
         }
     }
 
+    private void gotoFeedback() {
+        startActivity(new Intent(getActivity(), FeedBackActivity.class));
+    }
+
     private void gotoCharge() {
-        //OneToOneActivity.docallOneToOneActivity(getActivity(),5);
+
     }
 
     private void gotoCertify() {
@@ -92,7 +106,8 @@ public class MyFragment extends BaseFragment {
     }
 
     private void gotoWallet() {
-        startActivity(new Intent(getActivity(), WalletActivity.class));
+        startActivity(new Intent(getActivity(), ChargeActivity.class));
     }
+
 
 }

@@ -11,6 +11,8 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.hala.activity.LoginPhoneActivity;
+import com.hala.avchat.AvchatInfo;
 import com.hala.base.BaseActivity;
 import com.hala.base.Contact;
 import com.hala.bean.LoginBean;
@@ -103,14 +105,16 @@ public class FacebookLoginManager {
                                                 mOnResult.fail();
                                                 return;
                                             }
-
                                             String action = baseBean.getData().getAction();
                                             if (Contact.SIGN_UP.equals(action)) {
                                                 mOnResult.regist(id);
 
                                             } else if (Contact.SIGN_IN.equals(action)) {
-
                                                 mOnResult.success();
+                                                AvchatInfo.setName(baseBean.getData().getMember().getUsername());
+                                                AvchatInfo.setCoin(baseBean.getData().getMember().getCoin());
+                                                AvchatInfo.setAvatarUrl(baseBean.getData().getMember().getAvatarUrl());
+                                                SPUtil.getInstance(activity).setString(Contact.TOKEN, baseBean.getData().getMember().getAccessToken());
 
                                             }
                                         }

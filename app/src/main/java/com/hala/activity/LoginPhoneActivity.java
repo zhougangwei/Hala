@@ -115,9 +115,10 @@ public class LoginPhoneActivity extends BaseActivity {
     private void startLogin(int type) {
         final String mobileNumber ;
         if (type==1){
-            mobileNumber= "+"+"8613851668725";
+            mobileNumber="+"+"8613851668726";
         }else{
-            mobileNumber="+"+"8612345678910";
+            mobileNumber= "+"+"86111111";
+
         }
         //final String code = etSmsNum.getText().toString();
         final String code = "151439";
@@ -141,11 +142,14 @@ public class LoginPhoneActivity extends BaseActivity {
                             startActivity(intent);
                             finish();
                         } else if (Contact.SIGN_IN.equals(action)) {
+
                             String accessToken = baseBean.getData().getMember().getAccessToken();
                             int id = baseBean.getData().getMember().getMemberId();
-
                             AvchatInfo.setAccount(id);
-                             SPUtil.getInstance(LoginPhoneActivity.this).setString(Contact.TOKEN, accessToken);
+                            AvchatInfo.setName(baseBean.getData().getMember().getUsername());
+                            AvchatInfo.setCoin(baseBean.getData().getMember().getCoin());
+                            AvchatInfo.setAvatarUrl(baseBean.getData().getMember().getAvatarUrl());
+                          SPUtil.getInstance(LoginPhoneActivity.this).setString(Contact.TOKEN, accessToken);
 
                             Intent intent = new Intent(LoginPhoneActivity.this,MainActivity.class);
                             startActivity(intent);

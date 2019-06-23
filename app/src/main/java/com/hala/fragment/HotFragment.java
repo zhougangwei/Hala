@@ -76,7 +76,7 @@ public class HotFragment extends BaseFragment {
                 Log.e(TAG,"wo ");
                getData(false);
         }},rv);
-        hotCallAdapter.disableLoadMoreIfNotFullPage();
+        hotCallAdapter.disableLoadMoreIfNotFullPage(rv);
     }
 
     @Override

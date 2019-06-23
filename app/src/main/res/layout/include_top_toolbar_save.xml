@@ -6,8 +6,12 @@
 
     android:layout_height="67dp"
     android:background="@color/white"
-    android:orientation="vertical">
-
+    >
+    <ImageView
+        android:background="#00ff00"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="23dp" />
     <RelativeLayout
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"

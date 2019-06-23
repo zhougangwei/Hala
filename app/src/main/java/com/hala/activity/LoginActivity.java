@@ -10,6 +10,8 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
 import com.hala.R;
+import com.hala.avchat.WorkerThread;
+import com.hala.base.App;
 import com.hala.base.BaseActivity;
 import com.hala.utils.FacebookLoginManager;
 import com.hala.utils.ToastUtils;
@@ -100,14 +102,9 @@ public class LoginActivity extends BaseActivity {
 
 
     }
-
-
     private void startLoginPhone() {
         startActivity(new Intent(this,LoginPhoneActivity.class));
     }
-
-
-
 
 
 }

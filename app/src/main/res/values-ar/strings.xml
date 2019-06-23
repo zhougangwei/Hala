@@ -22,4 +22,6 @@
     <string name="coin">Coin</string>
     <string name="login_failed">登陆失败</string>
     <string name="anchor_is_not_aviliable">主播不在线!</string>
+    <string name="online">Online</string>
+    <string name="offlIine">OffLine</string>
 </resources>

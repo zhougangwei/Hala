@@ -2,7 +2,9 @@ package com.hala.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.text.LoginFilter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,6 +20,7 @@ import com.hala.base.Contact;
 import com.hala.bean.ApplyAnchorBean;
 import com.hala.bean.BeAnchorBean;
 import com.hala.bean.QiNiuToken;
+import com.hala.glide.MyGlideEngine;
 import com.hala.http.BaseCosumer;
 import com.hala.http.ProxyPostHttpRequest;
 import com.hala.http.RetrofitFactory;
@@ -88,7 +91,7 @@ public class EditProActivity extends BaseActivity {
     @BindView(R.id.tv_save)
     TextView tvSave;
 
-    List<ApplyAnchorBean.TagsBean> tagsList = new ArrayList();
+    List<ApplyAnchorBean.TagsBean> tagsList = new ArrayList<>();
     List<ApplyAnchorBean.CoversBean> covers = new ArrayList<>();
     private String bio;     //个人经历
     private static final int REQUEST_BIO = 222;
@@ -142,19 +145,23 @@ public class EditProActivity extends BaseActivity {
             case R.id.ll_certified:
                 break;
             case R.id.tv_save:
-                upQiniu();
+                if (uriList==null||uriList.size()==0){
+                    gotoSave(null);
+                }else{
+                    upQiniu();
+                }
                 break;
         }
     }
 
     private void gotoAddPic() {
         Matisse.from(this)
-                .choose(MimeType.allOf())//图片类型
+                .choose(MimeType.ofAll())//图片类型
                 .countable(true)//true:选中后显示数字;false:选中后显示对号
                 .maxSelectable(5)//可选的最大数
                 .capture(true)//选择照片时，是否显示拍照
-                .captureStrategy(new CaptureStrategy(true, "com.example.xx.fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
-                .imageEngine(new GlideEngine())//图片加载引擎
+                .captureStrategy(new CaptureStrategy(true, getPackageName()+".fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
+                .imageEngine(new MyGlideEngine())//图片加载引擎
                 .forResult(REQUEST_CODE_CHOOSE);//
 
 
@@ -219,7 +226,7 @@ public class EditProActivity extends BaseActivity {
 
 
         String userName = etUsername.getText().toString();
-        String phoneNum = etPhoneNum.getText().toString();
+        String phoneNum = "+86"+etPhoneNum.getText().toString();
         String height = etHeight.getText().toString();
         String weight = etWeight.getText().toString();
         String zodiac = etZodiac.getText().toString();  //星座
@@ -235,11 +242,11 @@ public class EditProActivity extends BaseActivity {
         applyAnchorBean.setZodiac(zodiac);
         applyAnchorBean.setCity(city);
         applyAnchorBean.setIntroduction(intro);
-        applyAnchorBean.setTags(tagsList);
+        //applyAnchorBean.setTags(tagsList);
         applyAnchorBean.setCertifyUrl(certify);
         applyAnchorBean.setBiography(bio);
-        applyAnchorBean.setCovers(covers);
-
+       // applyAnchorBean.setCovers(covers);
+        applyAnchorBean.setCpm(20+"");
         RetrofitFactory.getInstance()
                 .applyAnchor(ProxyPostHttpRequest.getJsonInstance()
                         .applyAnchor(GsonUtil.parseObjectToJson(applyAnchorBean)))
@@ -250,6 +257,7 @@ public class EditProActivity extends BaseActivity {
                     public void onNext(BeAnchorBean baseBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
                             ToastUtils.showToast(EditProActivity.this, "提交失败");
+                            Log.e("Edit",GsonUtil.parseObjectToJson(baseBean));
                             return;
                         }
                         int id = baseBean.getData().getMemberId();

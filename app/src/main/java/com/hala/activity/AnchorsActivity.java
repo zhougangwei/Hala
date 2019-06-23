@@ -2,27 +2,30 @@ package com.hala.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.graphics.Paint;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.ScreenUtils;
+import com.blankj.utilcode.utils.SizeUtils;
 import com.hala.R;
+import com.hala.adapter.AnchorDataAdapter;
 import com.hala.adapter.SimplePagerAdapter;
 import com.hala.adapter.TagsAdapter;
 import com.hala.base.BaseActivity;
 import com.hala.base.Contact;
 import com.hala.base.VideoCallManager;
 import com.hala.bean.AnchorBean;
-import com.hala.bean.BaseBean;
+import com.hala.bean.AnchorInfoBean;
 import com.hala.http.BaseCosumer;
 import com.hala.http.RetrofitFactory;
 import com.hala.wight.RatingBarView;
@@ -31,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -65,16 +67,25 @@ public class AnchorsActivity extends BaseActivity {
     TextView tv2;
     @BindView(R.id.rv_tags)
     RecyclerView rvTags;
+
+    @BindView(R.id.rv_info)
+    RecyclerView rvInfo;
     @BindView(R.id.main_content)
     CoordinatorLayout mainContent;
     @BindView(R.id.tv_call)
     TextView tvCall;
-    private List<AnchorBean.DataBean.CoversBean> coverDatas=new ArrayList<>();
-    private List<AnchorBean.DataBean.TagsBean> tagsDatas=new ArrayList<>();
+    private List<AnchorBean.DataBean.CoversBean> coverDatas      =new ArrayList<>();
+    private List<AnchorBean.DataBean.TagsBean>   tagsDatas       =new ArrayList<>();
+    private List<AnchorInfoBean>                 anchorInfoDatas =new ArrayList<>();
+
+
+
     private SimplePagerAdapter simplePagerAdapter;
     private TagsAdapter tagsAdapter;
     private int anchorId;
     private int anchorIdMemberId;
+    private AnchorDataAdapter mAnchorDataAdapter;
+    private Paint mPaint;
 
 
     public  static void startAnchorAc(Context context,int anchorId,int anchorIdMemberId){
@@ -99,19 +110,58 @@ public class AnchorsActivity extends BaseActivity {
     @Override
     protected void initView() {
 
-
+        initPaint();
         initCovers();
         initTags();
         initData();
     }
 
+    private void initPaint() {
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
+        mPaint.setTextSize(SizeUtils.sp2px(this, 13));
+        mPaint.setStyle(Paint.Style.FILL);
+    }
 
 
     private void initTags() {
-        tagsAdapter = new TagsAdapter(R.layout.item_tag, tagsDatas);
+        tagsAdapter = new TagsAdapter(R.layout.item_anchor_infp, tagsDatas);
         rvTags.setAdapter(tagsAdapter);
 
+        mAnchorDataAdapter = new AnchorDataAdapter(R.layout.item_anchor_infp, anchorInfoDatas);
+        rvInfo.setAdapter(mAnchorDataAdapter);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(AnchorsActivity.this, 100);
+        rvInfo.setLayoutManager(gridLayoutManager);
+        rvInfo.setItemAnimator(new DefaultItemAnimator());
+        rvInfo.setAdapter(mAnchorDataAdapter);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
 
+                int width = ScreenUtils.getScreenWidth(AnchorsActivity.this)
+                        - SizeUtils.dp2px(AnchorsActivity.this, 8);
+
+                int itemWidth = getTextWidth(mPaint,
+                        anchorInfoDatas.get(position).getName() +
+                                    " " + anchorInfoDatas.get(position).getContent())
+                            + SizeUtils.dp2px(AnchorsActivity.this, 33);
+                return Math.min(100,itemWidth * 100 / width + 1);
+            }
+        });
+
+    }
+
+    private int getTextWidth(Paint paint, String str) {
+        int iRet = 0;
+        if (str != null && str.length() > 0) {
+            int len = str.length();
+            float[] widths = new float[len];
+            paint.getTextWidths(str, widths);
+            for (int j = 0; j < len; j++) {
+                iRet += (int) Math.ceil(widths[j]);
+            }
+        }
+        return iRet;
     }
 
     private void initData() {
@@ -136,19 +186,32 @@ public class AnchorsActivity extends BaseActivity {
                         List<AnchorBean.DataBean.CoversBean> covers = data.getCovers();
                         coverDatas.addAll(covers);
                         simplePagerAdapter.notifyDataSetChanged();
+
                         List<AnchorBean.DataBean.TagsBean> tags = data.getTags();
                         tagsDatas.addAll(tags);
                         tagsAdapter.notifyDataSetChanged();
+
+                        AnchorInfoBean anchorInfoBean = new AnchorInfoBean("Last login:", data.isOnline() ? getString(R.string.online) : getString(R.string.offlIine));
+                        AnchorInfoBean anchorInfoBean1 = new AnchorInfoBean("Answer rate:", "60%");
+                        AnchorInfoBean anchorInfoBean2 = new AnchorInfoBean("Height:", data.getHeight() + "cm");
+                        AnchorInfoBean anchorInfoBean3 = new AnchorInfoBean("Weight:", data.getWeight() + "kg");
+                        AnchorInfoBean anchorInfoBean4 = new AnchorInfoBean("City:", data.getCity() + "");
+                        AnchorInfoBean anchorInfoBean5 = new AnchorInfoBean("Zodiac:", data.getZodiac() + "");
+                        anchorInfoDatas.add(anchorInfoBean);
+                        anchorInfoDatas.add(anchorInfoBean1);
+                        anchorInfoDatas.add(anchorInfoBean2);
+                        anchorInfoDatas.add(anchorInfoBean3);
+                        anchorInfoDatas.add(anchorInfoBean4);
+                        anchorInfoDatas.add(anchorInfoBean5);
+                        mAnchorDataAdapter.notifyDataSetChanged();
+
                     }
                 });
     }
 
     private void initCovers() {
-
-
-        simplePagerAdapter = new SimplePagerAdapter(this, coverDatas);
+        simplePagerAdapter = new SimplePagerAdapter(AnchorsActivity.this, coverDatas);
         vp_cover.setAdapter(simplePagerAdapter);
-
 
     }
 
@@ -159,7 +222,7 @@ public class AnchorsActivity extends BaseActivity {
             case R.id.toolbar:
                 break;
             case R.id.tv_call:
-                VideoCallManager.gotoCallOrReverse(this,anchorId,anchorIdMemberId);
+                VideoCallManager.gotoCallOrReverse(AnchorsActivity.this,anchorId,anchorIdMemberId);
                 break;
         }
     }

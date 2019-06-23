@@ -57,8 +57,7 @@ public class CoinListAdapter extends BaseQuickAdapter<CoinListBean.DataBean.Tran
         helper.setText(R.id.tv_content, content);
         ImageView imageView = (ImageView) helper.getView(R.id.iv_head);
         Glide.with(mContext).load(item.getInfo().getAvatarUrl())
-                .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(imageView.getDrawable()))
-                .placeholder(imageView.getDrawable())
+                .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(imageView.getDrawable()).placeholder(imageView.getDrawable()))
                 .into(imageView);
 
 

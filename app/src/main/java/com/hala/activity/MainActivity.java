@@ -1,5 +1,6 @@
 package com.hala.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
@@ -7,10 +8,14 @@ import android.widget.ImageView;
 
 import com.hala.R;
 import com.hala.adapter.TabAdapter;
+import com.hala.avchat.AGEventHandler;
 import com.hala.avchat.AvchatInfo;
+import com.hala.avchat.EngineConfig;
+import com.hala.avchat.MyEngineEventHandler;
 import com.hala.avchat.QiniuInfo;
+import com.hala.avchat.WorkerThread;
 import com.hala.base.App;
-import com.hala.base.AppLoginManager;
+
 import com.hala.base.BaseActivity;
 import com.hala.base.Contact;
 import com.hala.bean.QiNiuToken;
@@ -25,12 +30,16 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.agora.rtc.IRtcEngineEventHandler;
+import io.agora.rtc.RtcEngine;
 import io.agora.rtm.ErrorInfo;
+import io.agora.rtm.LocalInvitation;
+import io.agora.rtm.RemoteInvitation;
 import io.agora.rtm.ResultCallback;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements AGEventHandler {
 
     private static final String TAG = "MainActivity";
     @BindView(R.id.vp)
@@ -58,6 +67,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        ((App) getApplication()).initWorkerThread();
         mTabAdapter = new TabAdapter(getSupportFragmentManager());
         vp.setAdapter(mTabAdapter);
         vp.setOffscreenPageLimit(5);
@@ -66,11 +76,32 @@ public class MainActivity extends BaseActivity {
         viewList.add(ivMsg);
         viewList.add(ivMy);
         initQiniuData();
+        initVideoCall();
         initChat();
+
+
+    }
+
+    private void initVideoCall() {
+        this.event().addEventHandler(this);
     }
 
     private void initChat() {
-        AppLoginManager.loginRtm();
+        RetrofitFactory.getInstance()
+                .getRtmToken()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<RtmTokenBean>() {
+                    @Override
+                    public void onNext(RtmTokenBean rtmTokenBean) {
+                        if (rtmTokenBean.getCode()!= Contact.REPONSE_CODE_SUCCESS) {
+                            return;
+                        }
+                        String token = rtmTokenBean.getData().getAgora_rtm_token();
+                        AvchatInfo.setRTMToken(token);
+                        worker().connectToRtmService(AvchatInfo.getAccount()+"",token);
+                    }
+                });
     }
 
     private void initQiniuData() {
@@ -94,7 +125,6 @@ public class MainActivity extends BaseActivity {
                         QiniuInfo.setmStarchatmemberBean(starchatmember);
                     }
                 });
-
     }
 
 
@@ -119,14 +149,6 @@ public class MainActivity extends BaseActivity {
                     .show();
         }
         oldTime = newTime;
-
-        login();
-
-
-    }
-
-
-    private void login() {
 
     }
 
@@ -157,6 +179,111 @@ public class MainActivity extends BaseActivity {
             }
 
         }
+    }
+
+
+    /*通话的*/
+    protected RtcEngine rtcEngine() {
+        return ((App) getApplication()).getWorkerThread().getRtcEngine();
+    }
+
+    protected final WorkerThread worker() {
+        return ((App) getApplication()).getWorkerThread();
+    }
+
+    protected final EngineConfig config() {
+        return ((App) getApplication()).getWorkerThread().getEngineConfig();
+    }
+
+    protected final MyEngineEventHandler event() {
+        return ((App) getApplication()).getWorkerThread().eventHandler();
+    }
+    @Override
+    protected void onDestroy() {
+        this.event().removeEventHandler(this);
+        worker().disconnectFromRtmService();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onLoginSuccess(String uid) {
+        Log.e(TAG, "onLoginSuccess: ");
+    }
+
+    @Override
+    public void onLoginFailed(String uid, ErrorInfo error) {
+        Log.e(TAG, "onLoginFailed: " );
+    }
+
+    @Override
+    public void onPeerOnlineStatusQueried(String uid, boolean online) {
+
+    }
+
+    @Override
+    public void onInvitationReceivedByPeer(LocalInvitation invitation) {
+
+    }
+
+    @Override
+    public void onLocalInvitationAccepted(LocalInvitation invitation, String response) {
+
+    }
+
+    @Override
+    public void onLocalInvitationRefused(LocalInvitation invitation, String response) {
+
+    }
+
+    @Override
+    public void onLocalInvitationCanceled(LocalInvitation invitation) {
+
+    }
+
+    @Override
+    public void onInvitationReceived(RemoteInvitation invitation) {
+        if (AvchatInfo.isIsInCall()){
+            invitation.setResponse("{\"status\":1}"); // Busy, already in call invitation.setResponse("{\"status\":1}"); // Busy, already in call
+            worker().hangupTheCall(invitation);
+        }else {
+            config().mRemoteInvitation = invitation;
+            OneToOneActivity.doReceivveOneToOneActivity(this, invitation.getContent(),Integer.parseInt(invitation.getCallerId()));
+        }
+    }
+
+    @Override
+    public void onInvitationRefused(RemoteInvitation invitation) {
+
+    }
+
+    @Override
+    public void onFirstRemoteVideoDecoded(int uid, int width, int height, int elapsed) {
+
+    }
+
+    @Override
+    public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
+
+    }
+
+    @Override
+    public void onUserOffline(int uid, int reason) {
+
+    }
+
+    @Override
+    public void onExtraCallback(int type, Object... data) {
+
+    }
+
+    @Override
+    public void onLastmileQuality(int quality) {
+
+    }
+
+    @Override
+    public void onLastmileProbeResult(IRtcEngineEventHandler.LastmileProbeResult result) {
+
     }
 }
 

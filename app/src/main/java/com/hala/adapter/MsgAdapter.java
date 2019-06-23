@@ -4,6 +4,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hala.R;
@@ -32,7 +33,7 @@ public class MsgAdapter extends BaseQuickAdapter<MessageUnreadBean.DataBean, Bas
         helper.setText(R.id.tv_content, item.getBrief());
         ImageView imageView = (ImageView) helper.getView(R.id.iv_head);
         Glide.with(mContext).load(item.getIconUrl())
-                .placeholder(imageView.getDrawable())
+                .apply(RequestOptions.placeholderOf(imageView.getDrawable()))
                 .into(imageView);
 
 

@@ -2,8 +2,9 @@ package com.hala.bean;
 
 public class LoginBean extends BaseBean {
 
+
     /**
-     * data : {"member":{"memberId":1,"mobileNumber":"+8613851668725","username":"pete","gender":"male","birthDate":31,"avatarUrl":"http://me.avatar.url","accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiZjdmZDQxZWUtMTNlMS00N2VjLWI4ZjktM2Y3Mjg4MWExMmZhIn0.uwXL8of0EtKK5kG8KLFr0wgG05hoZWVud6243XnnjuY"},"action":"sign_in"}
+     * data : {"member":{"mobileNumber":"+8613851668725","username":"test2","gender":"male","birthDate":31,"avatarUrl":"http://me.avatar.url","anchorId":14,"coin":1520,"online":false,"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiNTE1MjIxYTgtNTNlZC00OWNhLWJiODYtMzQ4MWVjOTJmNzU3In0.3uhD_ezq4aR9jsDn9JyF614_TI2tmXloQ_eQ87Uqofw","memberId":1},"action":"sign_in"}
      */
 
     private DataBean data;
@@ -18,16 +19,16 @@ public class LoginBean extends BaseBean {
 
     public static class DataBean {
         /**
-         * member : {"memberId":1,"mobileNumber":"+8613851668725","username":"pete","gender":"male","birthDate":31,"avatarUrl":"http://me.avatar.url","agoraId": "1ab6b49b58074ef9aa6ac6acc729f4f7","accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiZjdmZDQxZWUtMTNlMS00N2VjLWI4ZjktM2Y3Mjg4MWExMmZhIn0.uwXL8of0EtKK5kG8KLFr0wgG05hoZWVud6243XnnjuY"}
+         * member : {"mobileNumber":"+8613851668725","username":"test2","gender":"male","birthDate":31,"avatarUrl":"http://me.avatar.url","anchorId":14,"coin":1520,"online":false,"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiNTE1MjIxYTgtNTNlZC00OWNhLWJiODYtMzQ4MWVjOTJmNzU3In0.3uhD_ezq4aR9jsDn9JyF614_TI2tmXloQ_eQ87Uqofw","memberId":1}
          * action : sign_in
          */
+
         private MemberBean member;
         private String action;
 
         public MemberBean getMember() {
             return member;
         }
-
 
         public void setMember(MemberBean member) {
             this.member = member;
@@ -43,31 +44,28 @@ public class LoginBean extends BaseBean {
 
         public static class MemberBean {
             /**
-             * memberId : 1
              * mobileNumber : +8613851668725
-             * username : pete
+             * username : test2
              * gender : male
              * birthDate : 31
              * avatarUrl : http://me.avatar.url
-             * accessToken : eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiZjdmZDQxZWUtMTNlMS00N2VjLWI4ZjktM2Y3Mjg4MWExMmZhIn0.uwXL8of0EtKK5kG8KLFr0wgG05hoZWVud6243XnnjuY
+             * anchorId : 14
+             * coin : 1520
+             * online : false
+             * accessToken : eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiNTE1MjIxYTgtNTNlZC00OWNhLWJiODYtMzQ4MWVjOTJmNzU3In0.3uhD_ezq4aR9jsDn9JyF614_TI2tmXloQ_eQ87Uqofw
+             * memberId : 1
              */
 
-            private int memberId;
             private String mobileNumber;
-            private String username;
-            private String gender;
-            private int birthDate;
-            private String avatarUrl;
-            private String accessToken;
-            private String agoraId;
-
-            public int getMemberId() {
-                return memberId;
-            }
-
-            public void setMemberId(int memberId) {
-                this.memberId = memberId;
-            }
+            private String  username;
+            private String  gender;
+            private int     birthDate;
+            private String  avatarUrl;
+            private int     anchorId;
+            private int     coin;
+            private boolean online;
+            private String  accessToken;
+            private int     memberId;
 
             public String getMobileNumber() {
                 return mobileNumber;
@@ -109,6 +107,30 @@ public class LoginBean extends BaseBean {
                 this.avatarUrl = avatarUrl;
             }
 
+            public int getAnchorId() {
+                return anchorId;
+            }
+
+            public void setAnchorId(int anchorId) {
+                this.anchorId = anchorId;
+            }
+
+            public int getCoin() {
+                return coin;
+            }
+
+            public void setCoin(int coin) {
+                this.coin = coin;
+            }
+
+            public boolean isOnline() {
+                return online;
+            }
+
+            public void setOnline(boolean online) {
+                this.online = online;
+            }
+
             public String getAccessToken() {
                 return accessToken;
             }
@@ -117,7 +139,13 @@ public class LoginBean extends BaseBean {
                 this.accessToken = accessToken;
             }
 
+            public int getMemberId() {
+                return memberId;
+            }
 
+            public void setMemberId(int memberId) {
+                this.memberId = memberId;
+            }
         }
     }
 }

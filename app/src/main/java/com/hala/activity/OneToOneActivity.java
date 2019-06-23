@@ -3,6 +3,7 @@ package com.hala.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -13,14 +14,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hala.R;
+import com.hala.avchat.AGEventHandler;
 import com.hala.avchat.AVChatSoundPlayer;
 import com.hala.avchat.AvchatInfo;
+import com.hala.avchat.EngineConfig;
+import com.hala.avchat.MyEngineEventHandler;
+import com.hala.avchat.WorkerThread;
 import com.hala.base.App;
 import com.hala.base.BaseActivity;
-import com.hala.base.ChatManager;
-import com.hala.base.Contact;
+import com.hala.bean.HeartBean;
+import com.hala.bean.MediaToken;
+import com.hala.http.BaseCosumer;
+import com.hala.http.RetrofitFactory;
+import com.hala.utils.GsonUtil;
+import com.hala.utils.ResultUtils;
 
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -28,60 +39,62 @@ import butterknife.OnClick;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
-import io.agora.rtc.video.VideoEncoderConfiguration;
 import io.agora.rtm.ErrorInfo;
-import io.agora.rtm.ResultCallback;
+import io.agora.rtm.LocalInvitation;
+import io.agora.rtm.RemoteInvitation;
 import io.agora.rtm.RtmChannel;
 import io.agora.rtm.RtmChannelListener;
 import io.agora.rtm.RtmChannelMember;
 import io.agora.rtm.RtmClient;
-import io.agora.rtm.RtmClientListener;
 import io.agora.rtm.RtmMessage;
-import io.agora.rtm.RtmStatusCode;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-public class OneToOneActivity extends BaseActivity implements ResultCallback<Void> {
+public class OneToOneActivity extends BaseActivity implements AGEventHandler {
 
+    private final static Logger log = LoggerFactory.getLogger(OneToOneActivity.class);
     private static final String TAG = "OneToOneActivity";
     @BindView(R.id.iv_head)
-    ImageView ivHead;
+    ImageView      ivHead;
     @BindView(R.id.tv_name)
-    TextView tvName;
+    TextView       tvName;
     @BindView(R.id.iv_hangup_prepare_audience)
-    ImageView ivHangupPrepareAudience;
+    ImageView      ivHangupPrepareAudience;
     @BindView(R.id.rl_prepare)
     RelativeLayout rl_prepare;
 
 
     @BindView(R.id.remote_video_view_container)
-    FrameLayout remoteVideoViewContainer;
+    FrameLayout    remoteVideoViewContainer;
     @BindView(R.id.local_video_view_container)
-    FrameLayout localVideoViewContainer;
+    FrameLayout    localVideoViewContainer;
     @BindView(R.id.iv_hangup)
-    ImageView ivHangup;
+    ImageView      ivHangup;
     @BindView(R.id.iv_camera_off)
-    ImageView ivCameraOff;
+    ImageView      ivCameraOff;
     @BindView(R.id.iv_camera_control)
-    ImageView ivCameraControl;
+    ImageView      ivCameraControl;
     @BindView(R.id.rl_onshow)
     RelativeLayout rlOnshow;
     @BindView(R.id.iv_anchor_answer)
-    ImageView ivAnchorAnswer;
+    ImageView      ivAnchorAnswer;
     @BindView(R.id.iv_hangup_prepare_anchor)
-    ImageView ivHangupPrepareAnchor;
-    private RtcEngine mRtcEngine;
-    private ChatManager mChatManager;
+    ImageView      ivHangupPrepareAnchor;
+
+
     private RtmClient mRtmClient;
-    private int mChannelMemberCount;
-    private MyRtmClientListener mClientListener;
+    private int       mChannelMemberCount;
+
     private RtmChannel mRtmChannel;
 
 
-    private int callId;
-    private int receiveId;
+    private int callUserId;
+    private int receiveUserId;
 
     private int otherId;
     private int myId;
@@ -91,48 +104,63 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
 
     private static final int RTM_HANG_UP = 1;
     private static final int RTM_DO_CALL = 2;
-    private static final int RTM_ANSWER = 3;
+    private static final int RTM_ANSWER  = 3;
+    private boolean    mIsCallInRefuse;
+    private String     channelId;       //渠道Id
+    private int        callId;       //服务端通话Id
+    private Disposable mSubscribe;
 
 
     /**
      * @param context
-     * @param anchorId 主播Id
+     * @param anchorId       主播Id
      * @param anchorMemberId
+     * @param channelId
+     * @param callId
      */
-    public static void docallOneToOneActivity(Context context, int anchorId,int anchorMemberId) {
+    public static void docallOneToOneActivity(Context context, int anchorId, int anchorMemberId, String channelId, int callId) {
         Intent intent = new Intent(context, OneToOneActivity.class);
         intent.putExtra("anchorId", anchorId);
         intent.putExtra("anchorMemberId", anchorMemberId);
         intent.putExtra("outCall", true);
-
+        intent.putExtra("channelId", channelId);
+        intent.putExtra("callId", callId);
         context.startActivity(intent);
     }
 
-    public static void doReceivveOneToOneActivity(Context context, int audienceId) {
+    public static void doReceivveOneToOneActivity(Context context, String channelId, int audienceId) {
         Intent intent = new Intent(context, OneToOneActivity.class);
         intent.putExtra("audienceId", audienceId);
         intent.putExtra("outCall", false);
+        intent.putExtra("channelId", channelId);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
     }
 
     private void initIntent() {
+
         Intent intent = getIntent();
         int anchorId = intent.getIntExtra("anchorId", -1);      //主播AnchorId很有用
         int anchorMemberId = intent.getIntExtra("anchorMemberId", -1);
-
         int audienceId = intent.getIntExtra("audienceId", -1);
         doOutCall = intent.getBooleanExtra("outCall", false);
+        channelId = intent.getStringExtra("channelId");
+        callId = intent.getIntExtra("callId", -1);
         myId = AvchatInfo.getAccount();
         if (doOutCall) {      //打出去
             otherId = anchorMemberId;
-            callId = myId;
-            receiveId = otherId;
+            callUserId = myId;
+            receiveUserId = otherId;
+            mIsCallInRefuse = false;
         } else {
             otherId = audienceId;
-            callId = otherId;
-            receiveId = myId;
+            callUserId = otherId;
+            receiveUserId = myId;
+            mIsCallInRefuse = true;
         }
+        Log.e(TAG, "channelId: " + channelId + " callId :" + callId + " otherId :" + otherId + " myId:" + myId);
+
+
     }
 
     @Override
@@ -148,21 +176,21 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
 
     @Override
     protected void initView() {
-        initChat();
+        AvchatInfo.setIsInCall(true);
         showPreView();
         initAgoraEngineAndJoinChannel();
     }
 
     private void showPreView() {
+
         rl_prepare.setVisibility(View.VISIBLE);
         rlOnshow.setVisibility(View.GONE);
         AVChatSoundPlayer.instance().play(AVChatSoundPlayer.RingerTypeEnum.RING);
         if (doOutCall) {
-            sendRtmpMessage(RTM_DO_CALL);
             ivAnchorAnswer.setVisibility(View.GONE);
             ivHangupPrepareAnchor.setVisibility(View.GONE);
             ivHangupPrepareAudience.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             ivAnchorAnswer.setVisibility(View.VISIBLE);
             ivHangupPrepareAnchor.setVisibility(View.VISIBLE);
             ivHangupPrepareAudience.setVisibility(View.GONE);
@@ -171,110 +199,62 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
 
     }
 
-
-
-
     private void initAgoraEngineAndJoinChannel() {
-        initializeAgoraEngine();
-        setupVideoProfile();
+        this.event().addEventHandler(this);
         setupLocalVideo();
-        joinChannel();
+        RetrofitFactory.getInstance().getMediaToken(channelId).subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<MediaToken>() {
+                    @Override
+                    public void onNext(MediaToken mediaToken) {
+                        if (ResultUtils.cheekSuccess(mediaToken)) {
+                            Log.e(TAG, "mediaToken" + mediaToken.getData().getAgora_media_token());
+                            AvchatInfo.setMediaToken(mediaToken.getData().getAgora_media_token());
+                            if (doOutCall){
+
+                                worker().queryPeersOnlineStatus(otherId+"");
+                                 // if you do not specify the uid, we will generate the uid for you
+                            }
+                        }
+
+                    }
+                });
     }
 
-    private void initializeAgoraEngine() {
-        try {
-            mRtcEngine = RtcEngine.create(getBaseContext(), getString(R.string.agora_app_id), mRtcEventHandler);
-        } catch (Exception e) {
-            Log.e(TAG, Log.getStackTraceString(e));
-            throw new RuntimeException("NEED TO check rtc sdk init fatal error\n" + Log.getStackTraceString(e));
-        }
-    }
-
-
-    private void setupVideoProfile() {
-        mRtcEngine.enableVideo();
-
-//      mRtcEngine.setVideoProfile(Constants.VIDEO_PROFILE_360P, false); // Earlier than 2.3.0
-        mRtcEngine.setVideoEncoderConfiguration(new VideoEncoderConfiguration(VideoEncoderConfiguration.VD_640x360, VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15,
-                VideoEncoderConfiguration.STANDARD_BITRATE,
-                VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT));
-    }
 
     private void setupLocalVideo() {
         SurfaceView surfaceView = RtcEngine.CreateRendererView(getBaseContext());
         surfaceView.setZOrderMediaOverlay(true);
         localVideoViewContainer.addView(surfaceView);
-        int i = mRtcEngine.setupLocalVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, 0));
-        Log.e(TAG,"setupLocalVideo"+i);
+        worker().preview(true, surfaceView, 0);
+
     }
 
     private void joinChannel() {
-        mRtcEngine.joinChannel(null, "10086", "Extra Optional Data", 0); // if you do not specify the uid, we will generate the uid for you
+        worker().joinChannel(AvchatInfo.getMediaToken(), channelId, myId);
     }
 
-    private final IRtcEngineEventHandler mRtcEventHandler = new IRtcEngineEventHandler() {
-
-        @Override
-        public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
-            super.onJoinChannelSuccess(channel, uid, elapsed);
-            Log.e(TAG,"onJoinChannelSuccess");
-        }
-
-        @Override
-        public void onLeaveChannel(RtcStats stats) {
-            super.onLeaveChannel(stats);
-            Log.e(TAG,"onLeaveChannel"+stats.users);
-        }
-
-
-        @Override
-        public void onFirstRemoteVideoDecoded(final int uid, int width, int height, int elapsed) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    setupRemoteVideo(uid);
-                }
-            });
-        }
-
-        @Override
-        public void onUserOffline(int uid, int reason) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    onRemoteUserLeft();
-                }
-            });
-        }
-
-        @Override
-        public void onUserMuteVideo(final int uid, final boolean muted) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    onRemoteUserVideoMuted(uid, muted);
-                }
-            });
-        }
-    };
 
     private void setupRemoteVideo(int uid) {
+
         if (remoteVideoViewContainer.getChildCount() >= 1) {
             return;
         }
         SurfaceView surfaceView = RtcEngine.CreateRendererView(getBaseContext());
+
         remoteVideoViewContainer.addView(surfaceView);
-        mRtcEngine.setupRemoteVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid));
+        rtcEngine().setupRemoteVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid));
         surfaceView.setTag(uid); // for mark purpose
 
+
     }
 
-    private void leaveChannel() {
-        mRtcEngine.leaveChannel();
-    }
 
-    private void onRemoteUserLeft() {
-        remoteVideoViewContainer.removeAllViews();
+    private void onRemoteUserLeft(int uid) {
+        if (uid == otherId) {
+            finish();
+        }
     }
 
     private void onRemoteUserVideoMuted(int uid, boolean muted) {
@@ -289,41 +269,36 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
     }
 
 
-
-
-    private void initChat() {
-        mChatManager = App.getChatManager();
-        mRtmClient = mChatManager.getRtmClient();
-        mClientListener = new MyRtmClientListener();
-        mChatManager.registerListener(mClientListener);
-        createAndJoinChannel();
-    }
-
-    @OnClick({R.id.iv_hangup_prepare_audience, R.id.iv_hangup_prepare_anchor, R.id.iv_hangup, R.id.iv_camera_off, R.id.iv_camera_control,R.id.iv_anchor_answer})
+    @OnClick({R.id.iv_hangup_prepare_audience, R.id.iv_hangup_prepare_anchor, R.id.iv_hangup, R.id.iv_camera_off, R.id.iv_camera_control, R.id.iv_anchor_answer})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_hangup_prepare_audience:
-                hangup();
+                callOutHangup();
                 break;
             case R.id.iv_hangup_prepare_anchor:
-                hangup();
+                callInRefuse();
                 break;
             case R.id.iv_anchor_answer:
                 answer();
                 break;
             case R.id.iv_hangup:
-                endVideo();
-
-
+                callOutHangup();
                 break;
             case R.id.iv_camera_off:
+                if (){
+
+                }
+                rtcEngine().muteLocalVideoStream(true);
                 break;
             case R.id.iv_camera_control:
+                rtcEngine().switchCamera();
                 break;
         }
     }
 
-    private void gotoFinish() {
+
+    @SuppressLint("CheckResult")
+    public void onEncCallClicked() {
         Observable.timer(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Long>() {
@@ -333,242 +308,269 @@ public class OneToOneActivity extends BaseActivity implements ResultCallback<Voi
                     }
                 });
     }
-    private void hangup() {
-        sendRtmpMessage(RTM_HANG_UP);
-        endVideo();
+
+
+    private void callInRefuse() {
+        onEncCallClicked();
+        // "status": 0 // Default
+        // "status": 1 // Busy
+        config().mRemoteInvitation.setResponse("{\"status\":0}");
+
+        worker().hangupTheCall(config().mRemoteInvitation);
+    }
+
+    private void callOutHangup() {
+        AVChatSoundPlayer.instance().stop();
+        worker().hangupTheCall(null);
+        onEncCallClicked();
+        //不发心跳包了
+        if (mSubscribe != null && mSubscribe.isDisposed()) {
+            mSubscribe.dispose();
+        }
     }
 
     private void answer() {
-        sendRtmpMessage(RTM_ANSWER);
+        AVChatSoundPlayer.instance().stop();
+        mIsCallInRefuse = false;
+        joinChannel();
+        worker().answerTheCall(config().mRemoteInvitation);
         showOnshow();
     }
-    public void sendRtmpMessage(int rtmType) {
-        RtmMessage message = mRtmClient.createMessage();
-        switch (rtmType) {
-            case RTM_HANG_UP:
-                message.setText(Contact.RTM_HANG_UP_STRING + myId);
-                break;
-            case RTM_DO_CALL:
-                message.setText(Contact.RTM_DO_CALL_STRING + myId);
-                break;
-            case RTM_ANSWER:
-                message.setText(Contact.RTM_ANSWER_STRING + myId);
-                break;
 
-        }
-        mChatManager.getRtmClient().sendMessageToPeer(otherId + "", message, this);
-    }
-
-
-
-    @Override
-    public void onSuccess(Void aVoid) {
-        Log.e(TAG, "onSuccess");
-    }
-
-    @SuppressLint("CheckResult")
-    @Override
-    public void onFailure(ErrorInfo errorInfo) {
-        Observable.just(errorInfo)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<ErrorInfo>() {
-                    @Override
-                    public void accept(ErrorInfo errorInfo) throws Exception {
-
-                        Log.e(TAG, errorInfo.getErrorCode() + errorInfo.getErrorDescription());
-                        switch (errorInfo.getErrorCode()) {
-                            case RtmStatusCode.PeerMessageError.PEER_MESSAGE_ERR_TIMEOUT:
-                            case RtmStatusCode.PeerMessageError.PEER_MESSAGE_ERR_FAILURE:
-
-                                break;
-                            case RtmStatusCode.PeerMessageError.PEER_MESSAGE_ERR_PEER_UNREACHABLE:
-
-                                break;
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-
-                    }
-                });
-
-
-    }
-
-
-
-    class MyRtmClientListener implements RtmClientListener {
-
-        @Override
-        public void onConnectionStateChanged(final int state, int reason) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    switch (state) {
-                        case RtmStatusCode.ConnectionState.CONNECTION_STATE_RECONNECTING:
-                            break;
-                        case RtmStatusCode.ConnectionState.CONNECTION_STATE_ABORTED:
-                            //断开连接
-                            //showToast(getString(R.string.account_offline));
-                            finish();
-                            break;
-                    }
-                }
-            });
-        }
-
-        @Override
-        public void onMessageReceived(final RtmMessage message, final String peerId) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Log.e(TAG, "message" + message + "peerId" + peerId);
-                    String text = message.getText();
-                    if (text.contains(Contact.RTM_ANSWER_STRING)) {
-                        showOnshow();
-                    }
-
-
-                }
-            });
-        }
-
-        @Override
-        public void onTokenExpired() {
-
-        }
-    }
 
     private void showOnshow() {
         rl_prepare.setVisibility(View.GONE);
         rlOnshow.setVisibility(View.VISIBLE);
     }
 
-    /**
-     * API CALLBACK: rtm channel event listener
-     */
-    class MyChannelListener implements RtmChannelListener {
-
-        @Override
-        public void onMessageReceived(final RtmMessage message, final RtmChannelMember fromMember) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    String account = fromMember.getUserId();
-                    String msg = message.getText();
-                }
-            });
-        }
-
-        @Override
-        public void onMemberJoined(RtmChannelMember member) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mChannelMemberCount++;
-
-                }
-            });
-        }
-
-        @Override
-        public void onMemberLeft(RtmChannelMember member) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mChannelMemberCount--;
-
-                }
-            });
-        }
-    }
-
-    private void createAndJoinChannel() {
-
-        // step 1: create a channel instance
-        mRtmChannel = mRtmClient.createChannel("10086", new MyChannelListener());
-        if (mRtmChannel == null) {
-            // showToast(getString(R.string.join_channel_failed));
-            finish();
-            return;
-        }
-
-        // step 2: join the channel
-        mRtmChannel.join(new ResultCallback<Void>() {
-            @Override
-            public void onSuccess(Void responseInfo) {
-                Log.i(TAG, "join channel success");
-                getChannelMemberList();
-            }
-
-            @Override
-            public void onFailure(ErrorInfo errorInfo) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //showToast(getString(R.string.join_channel_failed));
-                        finish();
-                    }
-                });
-            }
-        });
-    }
 
     private void showToast(final String text) {
         Toast.makeText(OneToOneActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 
-    private void getChannelMemberList() {
-        mRtmChannel.getMembers(new ResultCallback<List<RtmChannelMember>>() {
-            @Override
-            public void onSuccess(final List<RtmChannelMember> responseInfo) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mChannelMemberCount = responseInfo.size();
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(ErrorInfo errorInfo) {
-                Log.e(TAG, "failed to get channel members, err: " + errorInfo.getErrorCode());
-            }
-        });
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        if (mSubscribe != null && mSubscribe.isDisposed()) {
+            mSubscribe.dispose();
+        }
+        AvchatInfo.setIsInCall(false);
+        worker().leaveChannel(channelId);
+        this.event().removeEventHandler(this);
+        AVChatSoundPlayer.instance().stop();
     }
 
     @Override
     public void onBackPressed() {
+        if (!doOutCall && mIsCallInRefuse) {
+            callInRefuse();
+        } else {
+            callOutHangup();
+        }
+        super.onBackPressed();
     }
 
-    private void endVideo() {
+
+    protected RtcEngine rtcEngine() {
+        return ((App) getApplication()).getWorkerThread().getRtcEngine();
+    }
+
+    protected final WorkerThread worker() {
+        return ((App) getApplication()).getWorkerThread();
+    }
+
+    protected final EngineConfig config() {
+        return ((App) getApplication()).getWorkerThread().getEngineConfig();
+    }
+
+    protected final MyEngineEventHandler event() {
+        return ((App) getApplication()).getWorkerThread().eventHandler();
+    }
+
+    @Override
+    public void onLoginSuccess(String uid) {
+
+    }
+
+    @Override
+    public void onLoginFailed(String uid, ErrorInfo error) {
+
+    }
+
+    @Override
+    public void onPeerOnlineStatusQueried(String uid, boolean online) {
+        Log.e(TAG, "onPeerOnlineStatusQueried: " );
+        if (online) {
+            joinChannel();
+            worker().makeACall(otherId + "", channelId);
+        } else {
+            // TODO: 2019/6/23 0023 对方不在线 把他下线
+        }
+    }
+
+    /*
+     * 被叫收到了呼叫
+     * */
+    @Override
+    public void onInvitationReceivedByPeer(LocalInvitation invitation) {
+
+    }
+
+
+    /*
+     *
+     *被叫接受了呼叫
+     * */
+    @Override
+    public void onLocalInvitationAccepted(LocalInvitation invitation, String response) {
+
         AVChatSoundPlayer.instance().stop();
-        mRtmChannel.leave(new ResultCallback<Void>() {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onSuccess(Void responseInfo) {
-                Log.i(TAG, "leave channel success");
-            }
-            @Override
-            public void onFailure(ErrorInfo errorInfo) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //showToast(getString(R.string.join_channel_failed));
-                        finish();
-                    }
-                });
+            public void run() {
+                startHeartBeat();
+                showOnshow();
             }
         });
-        mRtmChannel.release();
-        leaveChannel();
-        gotoFinish();
+
     }
+
+    /*
+     * 开始心跳
+     * */
+    private void startHeartBeat() {
+        mSubscribe = Observable.interval(15, TimeUnit.SECONDS)
+                .flatMap(new Function<Long, ObservableSource<HeartBean>>() {
+                    @Override
+                    public ObservableSource<HeartBean> apply(Long aLong) throws Exception {
+                        return RetrofitFactory.getInstance().keepBeatHeart(myId).subscribeOn(Schedulers.io());
+                    }
+                }).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<HeartBean>() {
+                    @Override
+                    public void accept(HeartBean heartBean) throws Exception {
+                        Log.e(TAG, "accept: "+ GsonUtil.parseObjectToJson(heartBean)+"");
+                        if (ResultUtils.cheekSuccess(heartBean)) {
+                            // TODO: 2019/6/24 0024 剩余多少时间
+                            int restSeconds = heartBean.getData().getRestSeconds();
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
+                    }
+                });
+
+
+    }
+
+    /*
+     * 打电话过去被拒绝了
+     * */
+
+    @Override
+    public void onLocalInvitationRefused(LocalInvitation invitation, final String response) {
+        log.debug("onLocalInvitationRefused " + invitation + " " + invitation.getResponse() + " " + response);
+        Log.e(TAG, "onLocalInvitationRefused " + invitation + " " + invitation.getResponse() + " " + response );
+        AVChatSoundPlayer.instance().stop();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (response.contains("status") && response.contains("1")) {
+                    // TODO: 2019/6/23 0023 对方忙线
+                } else {
+                    // TODO: 2019/6/23 0023 对方拒绝
+                }
+                onEncCallClicked();
+            }
+        });
+    }
+
+    /*
+     * 取消了呼叫
+     * */
+    @Override
+    public void onLocalInvitationCanceled(LocalInvitation invitation) {
+        Log.e(TAG, "onLocalInvitationCanceled: " );
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                onEncCallClicked();
+            }
+        });
+    }
+
+    /*
+     *
+     * 收到邀请
+     * */
+    @Override
+    public void onInvitationReceived(RemoteInvitation invitation) {
+        // TODO: 2019/6/23 0023 已经在通话中 就要把人家拒绝掉
+        invitation.setResponse("{\"status\":1}"); // Busy, already in call invitation.setResponse("{\"status\":1}"); // Busy, already in call
+        worker().hangupTheCall(invitation);
+
+    }
+
+    @Override
+    public void onInvitationRefused(RemoteInvitation invitation) {
+        String channel = config().mChannel;
+        Log.e(TAG, "onInvitationRefused " + invitation + " " + invitation.getResponse() + " " + channel );
+        if (channel == null) {
+            return;
+        }
+        // TODO RTM 1.0 will support getChannelId()
+        if (TextUtils.equals(channel, invitation.getChannelId()) || TextUtils.equals(channel, invitation.getContent())) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    onEncCallClicked();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onFirstRemoteVideoDecoded(final int uid, int width, int height, int elapsed) {
+
+        Log.e(TAG, "onFirstRemoteVideoDecoded: " +uid+" otherId"+otherId);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setupRemoteVideo(uid);
+            }
+        });
+    }
+
+    @Override
+    public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
+        Log.e(TAG, "onJoinChannelSuccess: " );
+    }
+
+    @Override
+    public void onUserOffline(int uid, int reason) {
+        onRemoteUserLeft(uid);
+    }
+
+    @Override
+    public void onExtraCallback(int type, Object... data) {
+        //Log.e(TAG, "onExtraCallback: "+type+"" );
+        if (EVENT_TYPE_ON_USER_VIDEO_MUTED == type) {
+            onRemoteUserVideoMuted((int) data[0], (boolean) data[1]);
+        }
+    }
+
+    @Override
+    public void onLastmileQuality(int quality) {
+
+    }
+
+    @Override
+    public void onLastmileProbeResult(IRtcEngineEventHandler.LastmileProbeResult result) {
+
+    }
+
 }

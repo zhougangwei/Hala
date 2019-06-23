@@ -3,12 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/title_hight"
-    android:layout_marginTop="23dp"
+    android:layout_height="67dp"
+
     android:background="@color/white"
     android:orientation="vertical">
-
+    <ImageView
+        android:background="#00ff00"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="23dp" />
     <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_alignParentBottom="true">

@@ -9,10 +9,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hala.R;
+import com.hala.avchat.AvchatInfo;
 import com.hala.base.BaseActivity;
 import com.hala.base.Contact;
 import com.hala.bean.BaseBean;
 import com.hala.bean.LoginBean;
+import com.hala.bean.RegistBean;
 import com.hala.http.BaseCosumer;
 import com.hala.http.ProxyPostHttpRequest;
 import com.hala.http.RetrofitFactory;
@@ -114,22 +116,25 @@ public class EditProUserActivity extends BaseActivity {
         String gender=etGender.getText().toString();
         String birthDate= etBirth.getText().toString();
 
-        Observable<BaseBean> regist=null;
+        Observable<RegistBean> regist=null;
         if (type.equals(FROM_PHONE)) {
             regist= RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(code, avatarUrl, username, gender, birthDate, mobileNumber));
         }else if (type.equals(FROM_FACEBOOK)){
             regist=RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(avatarUrl, username, gender, birthDate,facebookId));
         }
         regist.subscribeOn(Schedulers.io())
-                .compose(this.<BaseBean>bindToLifecycle())
+                .compose(this.<RegistBean>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseCosumer<BaseBean>() {
+                .subscribe(new BaseCosumer<RegistBean>() {
                     @Override
-                    public void onNext(BaseBean baseBean) {
+                    public void onNext(RegistBean baseBean) {
                         if (Contact.REPONSE_CODE_SUCCESS!=baseBean.getCode()) {
                             ToastUtils.showToast(EditProUserActivity.this, "注册失败");
                             return;
                         }
+                        AvchatInfo.setName(baseBean.getData().getUsername());
+                        AvchatInfo.setCoin(baseBean.getData().getCoin());
+                        AvchatInfo.setAvatarUrl(baseBean.getData().getAvatarUrl());
                         ToastUtils.showToast(EditProUserActivity.this, "注册成功");
                     }
                 });

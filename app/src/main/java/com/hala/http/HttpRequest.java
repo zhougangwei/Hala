@@ -6,14 +6,19 @@ import com.hala.bean.AnchorStateBean;
 import com.hala.bean.AnchorTagBean;
 import com.hala.bean.BaseBean;
 import com.hala.bean.BeAnchorBean;
+import com.hala.bean.CallBean;
 import com.hala.bean.CallListBean;
 import com.hala.bean.CoinListBean;
+import com.hala.bean.HeartBean;
 import com.hala.bean.LoginBean;
+import com.hala.bean.MediaToken;
 import com.hala.bean.MessageUnreadBean;
 import com.hala.bean.OneToOneListBean;
 import com.hala.bean.QiNiuToken;
+import com.hala.bean.RegistBean;
 import com.hala.bean.ReverseBean;
 import com.hala.bean.RtmTokenBean;
+import com.hala.bean.RuleBean;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -46,7 +51,7 @@ public interface HttpRequest {
 
 
     @POST("/account/mobile_signup")
-    Observable<BaseBean> regist(@Body RequestBody requestBody
+    Observable<RegistBean> regist(@Body RequestBody requestBody
     );
     RequestBody regist(@Query("avatarUrl")String avatarUrl, @Query("username")String username,
                        @Query("gender")String gender, @Query("birthDate")String birthDate, @Query("facebookId")String facebookId
@@ -120,10 +125,15 @@ public interface HttpRequest {
 
 
     @POST("/call/{user}/keep")
-    Observable<OneToOneListBean> keepBeatHeart(@Path("user") int user);
+    Observable<HeartBean> keepBeatHeart(@Path("user") int user);
 
     @GET("/member/agora/rtm/token")
     Observable<RtmTokenBean> getRtmToken();
+
+    @GET("call/agora/media/token")
+    Observable<MediaToken> getMediaToken(@Query("channel")String channel);
+
+
 
     @GET("/anchor/tag")
     Observable<AnchorTagBean> getAnchorTag();
@@ -145,8 +155,12 @@ public interface HttpRequest {
     Observable<ReverseBean> reserveAnchor(@Path("user") int user);
 
 
+    @POST("/call/anchor/{user}")
+    Observable<CallBean> callAnchor(@Path("user") int user);
 
-
-
-
+    /*
+    * 获取钱的价格
+    * */
+    @GET("/general/rule")
+    Observable<RuleBean> getRuleList();
 }

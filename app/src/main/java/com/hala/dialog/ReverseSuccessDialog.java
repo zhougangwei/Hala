@@ -1,5 +1,6 @@
 package com.hala.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -7,15 +8,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hala.R;
-import com.hala.activity.AnchorsActivity;
 import com.hala.activity.OneToOneActivity;
-import com.hala.adapter.HotCallAdapter;
 import com.hala.adapter.RandomAnchorAdapter;
 import com.hala.base.Contact;
+import com.hala.base.VideoCallManager;
 import com.hala.bean.OneToOneListBean;
 import com.hala.http.BaseCosumer;
 import com.hala.http.RetrofitFactory;
@@ -60,7 +59,7 @@ public class ReverseSuccessDialog extends Dialog {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.tv_call:
-                        OneToOneActivity.docallOneToOneActivity(mContext, mRanodmList.get(position).getAnchorId(),mRanodmList.get(position).getMemberId());
+                        VideoCallManager.gotoCallOrReverse((Activity) mContext, mRanodmList.get(position).getAnchorId(),mRanodmList.get(position).getMemberId());
                         dismiss();
                         break;
                 }
