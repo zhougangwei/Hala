@@ -1,7 +1,6 @@
 package com.hala.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,25 +11,33 @@ import com.hala.R;
 import com.hala.avchat.AvchatInfo;
 import com.hala.base.BaseActivity;
 import com.hala.base.Contact;
-import com.hala.bean.BaseBean;
-import com.hala.bean.LoginBean;
 import com.hala.bean.RegistBean;
 import com.hala.http.BaseCosumer;
 import com.hala.http.ProxyPostHttpRequest;
 import com.hala.http.RetrofitFactory;
 import com.hala.utils.ToastUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.qqtheme.framework.picker.SinglePicker;
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.http.Query;
 
 public class EditProUserActivity extends BaseActivity {
 
+
+    private final static String[] constellationThArr = new String[] { "ราศีมังกร",
+            "ราศีกุมภ์", "ราศีมีน", "ราศีเมษ", "ราศีพฤษภ", "ราศีเมถุน", "ราศีกรกฎ", "ราศีสิงห์", "ราศีกันย์", "ราศีตุล",
+            "ราศีพิจิก", "ราศีธนู", "ราศีมังกร" };
+
+    private final static String[] constellationEnArr = new String[] { "Capricornus",
+            "Aquarius", "Pisces", "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra",
+            "Scorpio", "Sagittarius", "Capricornus" };
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -97,6 +104,7 @@ public class EditProUserActivity extends BaseActivity {
             case R.id.iv_back:
                 break;
             case R.id.ll_user_avatar:
+                chooseAvatar();
                 break;
             case R.id.ll_user_name:
                 break;
@@ -108,6 +116,20 @@ public class EditProUserActivity extends BaseActivity {
                 startConfirm();
                 break;
         }
+    }
+
+    private void chooseAvatar() {
+        List<String> data = Arrays.asList(constellationEnArr);
+        SinglePicker<String> picker = new SinglePicker<String>(this, data);
+        picker.setCanceledOnTouchOutside(false);
+        picker.setSelectedIndex(1);
+        picker.setCycleDisable(false);
+        picker.setOnItemPickListener(new SinglePicker.OnItemPickListener<String>() {
+            @Override
+            public void onItemPicked(int index, String item) {
+            }
+        });
+        picker.show();
     }
 
     private void startConfirm() {
