@@ -376,6 +376,7 @@ public class EditProActivity extends BaseActivity {
                             int id = baseBean.getData().getMemberId();
                             AvchatInfo.setAnchorId(id);
                             ToastUtils.showToast(EditProActivity.this, "提交成功");
+                            finish();
                         }
                     });
 
