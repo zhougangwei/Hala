@@ -24,4 +24,5 @@
     <string name="anchor_is_not_aviliable">主播不在线!</string>
     <string name="online">Online</string>
     <string name="offlIine">OffLine</string>
+    <string name="charged_coins_per_min">Charged %1$s coins per Min</string>
 </resources>

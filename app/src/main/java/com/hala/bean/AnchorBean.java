@@ -3,8 +3,9 @@ package com.hala.bean;
 import java.util.List;
 
 public class AnchorBean extends BaseBean {
+
     /**
-     * data : {"id":14,"memberId":1,"nickname":"old p","mobileNumber":"+8613851668725","height":0,"weight":82,"zodiac":"Taurus","city":"NJ","introduction":"this is introduction","biography":"this is biography","certifyUrl":"http://certify.url","coverUrl":"http://anchor.cover.url","starLevel":0,"cpm":20,"online":true,"available":true,"sortby":0,"verified":false,"createdAt":"2019-05-26T04:03:50.000+0000","updatedAt":"2019-05-26T04:03:50.000+0000","tags":[{"id":16,"content":"tag1"},{"id":19,"content":"tag2"}],"covers":[{"id":2,"coverUrl":"http://test.anchor14.url2","sortby":2},{"id":1,"coverUrl":"http://test.anchor14.url1","sortby":3}]}
+     * data : {"memberId":2,"nickname":"old p","avatarUrl":"http://me.avatar.url","mobileNumber":"+8613851668726","height":182,"weight":82,"zodiac":"Aries","city":"NJ","introduction":"this is introduction","biography":"this is biography","certifyUrl":"http://certify.url","starLevel":4,"cpm":20,"online":true,"available":true,"hotweight":0,"sortby":0,"verified":true,"createdAt":"2019-05-26T04:03:50.000+0000","updatedAt":"2019-05-26T04:03:50.000+0000","tags":[],"covers":[{"id":2,"coverUrl":"http://test.anchor14.url2","sortby":2},{"id":1,"coverUrl":"http://test.anchor14.url1","sortby":3}],"anchorId":14}
      */
 
     private DataBean data;
@@ -19,60 +20,54 @@ public class AnchorBean extends BaseBean {
 
     public static class DataBean {
         /**
-         * id : 14
-         * memberId : 1
+         * memberId : 2
          * nickname : old p
-         * mobileNumber : +8613851668725
-         * height : 0
+         * avatarUrl : http://me.avatar.url
+         * mobileNumber : +8613851668726
+         * height : 182
          * weight : 82
-         * zodiac : Taurus
+         * zodiac : Aries
          * city : NJ
          * introduction : this is introduction
          * biography : this is biography
          * certifyUrl : http://certify.url
-         * coverUrl : http://anchor.cover.url
-         * starLevel : 0
+         * starLevel : 4
          * cpm : 20
          * online : true
          * available : true
+         * hotweight : 0
          * sortby : 0
-         * verified : false
+         * verified : true
          * createdAt : 2019-05-26T04:03:50.000+0000
          * updatedAt : 2019-05-26T04:03:50.000+0000
-         * tags : [{"id":16,"content":"tag1"},{"id":19,"content":"tag2"}]
+         * tags : []
          * covers : [{"id":2,"coverUrl":"http://test.anchor14.url2","sortby":2},{"id":1,"coverUrl":"http://test.anchor14.url1","sortby":3}]
+         * anchorId : 14
          */
 
-        private int id;
         private int memberId;
-        private String nickname;
-        private String mobileNumber;
-        private int height;
-        private int weight;
-        private String zodiac;
-        private String city;
-        private String introduction;
-        private String biography;
-        private String certifyUrl;
-        private String coverUrl;
-        private int starLevel;
-        private int cpm;
-        private boolean online;
-        private boolean available;
-        private int sortby;
-        private boolean verified;
-        private String createdAt;
-        private String updatedAt;
-        private List<TagsBean> tags;
+        private String           nickname;
+        private String           avatarUrl;
+        private String           mobileNumber;
+        private int              height;
+        private int              weight;
+        private String           zodiac;
+        private String           city;
+        private String           introduction;
+        private String           biography;
+        private String           certifyUrl;
+        private int              starLevel;
+        private int              cpm;
+        private boolean          online;
+        private boolean          available;
+        private int              hotweight;
+        private int              sortby;
+        private boolean          verified;
+        private String           createdAt;
+        private String           updatedAt;
+        private int              anchorId;
+        private List<TagsBean>          tags;
         private List<CoversBean> covers;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
 
         public int getMemberId() {
             return memberId;
@@ -88,6 +83,14 @@ public class AnchorBean extends BaseBean {
 
         public void setNickname(String nickname) {
             this.nickname = nickname;
+        }
+
+        public String getAvatarUrl() {
+            return avatarUrl;
+        }
+
+        public void setAvatarUrl(String avatarUrl) {
+            this.avatarUrl = avatarUrl;
         }
 
         public String getMobileNumber() {
@@ -154,14 +157,6 @@ public class AnchorBean extends BaseBean {
             this.certifyUrl = certifyUrl;
         }
 
-        public String getCoverUrl() {
-            return coverUrl;
-        }
-
-        public void setCoverUrl(String coverUrl) {
-            this.coverUrl = coverUrl;
-        }
-
         public int getStarLevel() {
             return starLevel;
         }
@@ -192,6 +187,14 @@ public class AnchorBean extends BaseBean {
 
         public void setAvailable(boolean available) {
             this.available = available;
+        }
+
+        public int getHotweight() {
+            return hotweight;
+        }
+
+        public void setHotweight(int hotweight) {
+            this.hotweight = hotweight;
         }
 
         public int getSortby() {
@@ -226,6 +229,14 @@ public class AnchorBean extends BaseBean {
             this.updatedAt = updatedAt;
         }
 
+        public int getAnchorId() {
+            return anchorId;
+        }
+
+        public void setAnchorId(int anchorId) {
+            this.anchorId = anchorId;
+        }
+
         public List<TagsBean> getTags() {
             return tags;
         }
@@ -242,13 +253,14 @@ public class AnchorBean extends BaseBean {
             this.covers = covers;
         }
 
+
         public static class TagsBean {
             /**
              * id : 16
              * content : tag1
              */
 
-            private int id;
+            private int    id;
             private String content;
 
             public int getId() {
@@ -268,7 +280,8 @@ public class AnchorBean extends BaseBean {
             }
         }
 
-        public static class CoversBean {
+
+            public static class CoversBean {
             /**
              * id : 2
              * coverUrl : http://test.anchor14.url2
@@ -277,7 +290,7 @@ public class AnchorBean extends BaseBean {
 
             private int id;
             private String coverUrl;
-            private int sortby;
+            private int    sortby;
 
             public int getId() {
                 return id;

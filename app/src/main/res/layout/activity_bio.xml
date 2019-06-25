@@ -6,4 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".activity.BioActivity">
 
+
+    <include layout="@layout/include_top_toolbar_save"/>
+    
+    <EditText
+        android:id="@+id/et_bio"
+        android:paddingTop="14dp"
+        android:paddingStart="29dp"
+        android:hint="Fill in your personal signature."
+        android:textColor="#e0e0e0e"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="74dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="158dp"/>
 </android.support.constraint.ConstraintLayout>

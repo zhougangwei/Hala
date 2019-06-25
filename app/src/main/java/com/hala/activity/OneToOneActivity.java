@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.hala.R;
 import com.hala.avchat.AGEventHandler;
 import com.hala.avchat.AVChatSoundPlayer;
@@ -22,6 +23,7 @@ import com.hala.avchat.MyEngineEventHandler;
 import com.hala.avchat.WorkerThread;
 import com.hala.base.App;
 import com.hala.base.BaseActivity;
+import com.hala.bean.AnchorBean;
 import com.hala.bean.HeartBean;
 import com.hala.bean.MediaToken;
 import com.hala.http.BaseCosumer;
@@ -63,6 +65,9 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     ImageView      ivHead;
     @BindView(R.id.tv_name)
     TextView       tvName;
+
+    @BindView(R.id.tv_minute_cost)
+    TextView       tvMinuteCost;
     @BindView(R.id.iv_hangup_prepare_audience)
     ImageView      ivHangupPrepareAudience;
     @BindView(R.id.rl_prepare)
@@ -87,12 +92,6 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     ImageView      ivHangupPrepareAnchor;
 
 
-    private RtmClient mRtmClient;
-    private int       mChannelMemberCount;
-
-    private RtmChannel mRtmChannel;
-
-
     private int callUserId;
     private int receiveUserId;
 
@@ -109,7 +108,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     private String     channelId;       //渠道Id
     private int        callId;       //服务端通话Id
     private Disposable mSubscribe;
-
+    private int        mAnchorId;
 
     /**
      * @param context
@@ -140,7 +139,8 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     private void initIntent() {
 
         Intent intent = getIntent();
-        int anchorId = intent.getIntExtra("anchorId", -1);      //主播AnchorId很有用
+        //主播AnchorId很有用
+        mAnchorId = intent.getIntExtra("anchorId", -1);
         int anchorMemberId = intent.getIntExtra("anchorMemberId", -1);
         int audienceId = intent.getIntExtra("audienceId", -1);
         doOutCall = intent.getBooleanExtra("outCall", false);
@@ -182,7 +182,6 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     }
 
     private void showPreView() {
-
         rl_prepare.setVisibility(View.VISIBLE);
         rlOnshow.setVisibility(View.GONE);
         AVChatSoundPlayer.instance().play(AVChatSoundPlayer.RingerTypeEnum.RING);
@@ -195,7 +194,19 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
             ivHangupPrepareAnchor.setVisibility(View.VISIBLE);
             ivHangupPrepareAudience.setVisibility(View.GONE);
         }
-
+        RetrofitFactory.getInstance().getAnchorData(mAnchorId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<AnchorBean>() {
+                    @Override
+                    public void onNext(AnchorBean anchorBean) {
+                        tvName.setText(anchorBean.getData().getNickname());
+                        Glide.with(OneToOneActivity.this)
+                                .load(anchorBean.getData().getAvatarUrl())
+                                .into(ivHead);
+                        tvMinuteCost.setText(String.format(getString(R.string.charged_coins_per_min),anchorBean.getData().getCpm()+""));
+                    }
+                });
 
     }
 
@@ -211,10 +222,10 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                         if (ResultUtils.cheekSuccess(mediaToken)) {
                             Log.e(TAG, "mediaToken" + mediaToken.getData().getAgora_media_token());
                             AvchatInfo.setMediaToken(mediaToken.getData().getAgora_media_token());
-                            if (doOutCall){
+                            if (doOutCall) {
 
-                                worker().queryPeersOnlineStatus(otherId+"");
-                                 // if you do not specify the uid, we will generate the uid for you
+                                worker().queryPeersOnlineStatus(otherId + "");
+                                // if you do not specify the uid, we will generate the uid for you
                             }
                         }
 
@@ -285,9 +296,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 callOutHangup();
                 break;
             case R.id.iv_camera_off:
-                if (){
 
-                }
                 rtcEngine().muteLocalVideoStream(true);
                 break;
             case R.id.iv_camera_control:
@@ -400,7 +409,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
 
     @Override
     public void onPeerOnlineStatusQueried(String uid, boolean online) {
-        Log.e(TAG, "onPeerOnlineStatusQueried: " );
+        Log.e(TAG, "onPeerOnlineStatusQueried: ");
         if (online) {
             joinChannel();
             worker().makeACall(otherId + "", channelId);
@@ -450,7 +459,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 .subscribe(new Consumer<HeartBean>() {
                     @Override
                     public void accept(HeartBean heartBean) throws Exception {
-                        Log.e(TAG, "accept: "+ GsonUtil.parseObjectToJson(heartBean)+"");
+                        Log.e(TAG, "accept: " + GsonUtil.parseObjectToJson(heartBean) + "");
                         if (ResultUtils.cheekSuccess(heartBean)) {
                             // TODO: 2019/6/24 0024 剩余多少时间
                             int restSeconds = heartBean.getData().getRestSeconds();
@@ -473,7 +482,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     @Override
     public void onLocalInvitationRefused(LocalInvitation invitation, final String response) {
         log.debug("onLocalInvitationRefused " + invitation + " " + invitation.getResponse() + " " + response);
-        Log.e(TAG, "onLocalInvitationRefused " + invitation + " " + invitation.getResponse() + " " + response );
+        Log.e(TAG, "onLocalInvitationRefused " + invitation + " " + invitation.getResponse() + " " + response);
         AVChatSoundPlayer.instance().stop();
         runOnUiThread(new Runnable() {
             @Override
@@ -493,7 +502,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
      * */
     @Override
     public void onLocalInvitationCanceled(LocalInvitation invitation) {
-        Log.e(TAG, "onLocalInvitationCanceled: " );
+        Log.e(TAG, "onLocalInvitationCanceled: ");
 
         runOnUiThread(new Runnable() {
             @Override
@@ -518,7 +527,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     @Override
     public void onInvitationRefused(RemoteInvitation invitation) {
         String channel = config().mChannel;
-        Log.e(TAG, "onInvitationRefused " + invitation + " " + invitation.getResponse() + " " + channel );
+        Log.e(TAG, "onInvitationRefused " + invitation + " " + invitation.getResponse() + " " + channel);
         if (channel == null) {
             return;
         }
@@ -536,7 +545,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     @Override
     public void onFirstRemoteVideoDecoded(final int uid, int width, int height, int elapsed) {
 
-        Log.e(TAG, "onFirstRemoteVideoDecoded: " +uid+" otherId"+otherId);
+        Log.e(TAG, "onFirstRemoteVideoDecoded: " + uid + " otherId" + otherId);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -547,7 +556,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
 
     @Override
     public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
-        Log.e(TAG, "onJoinChannelSuccess: " );
+        Log.e(TAG, "onJoinChannelSuccess: ");
     }
 
     @Override

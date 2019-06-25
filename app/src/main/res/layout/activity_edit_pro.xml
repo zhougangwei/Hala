@@ -1,429 +1,481 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-android:orientation="vertical"
-    tools:context=".activity.EditProActivity">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".activity.EditProActivity">
 
     <include layout="@layout/include_top_toolbar_save"/>
 
 
     <HorizontalScrollView
-        android:background="#F4F4F4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#F4F4F4">
+
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/iv_add_pic"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:src="@drawable/ic_add_pic"
-            android:layout_height="wrap_content" />
-        <android.support.v7.widget.RecyclerView
-            android:background="#F4F4F4"
-            android:id="@+id/rv_pic"
-            android:layout_width="wrap_content"
-            tools:layout_height="106dp"
-            android:layout_height="wrap_content">
-        </android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_add_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_add_pic"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#F4F4F4"
+                tools:layout_height="106dp">
+            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
     </HorizontalScrollView>
-
 
     <LinearLayout
         android:id="@+id/ll_username"
         android:layout_width="match_parent"
         android:layout_height="44dp">
+
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginStart="9dp"
-            android:textSize="15sp"
-            android:textColor="@color/black"
             android:text="username"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
+
+        <EditText
+            android:id="@+id/et_username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    <EditText
-        android:text="fuck"
-        android:id="@+id/et_username"
-        android:textAlignment="textEnd"
-        android:paddingEnd="10dp"
-        android:textSize="15sp"
-        android:textColorHint="#C7C7CE"
-        android:background="@null"
-        android:gravity="end"
-        android:layout_marginStart="10dp"
-        android:layout_gravity="center_vertical"
-        android:hint="fill in username"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content" />
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="end"
+            android:hint="fill in username"
+            android:paddingEnd="10dp"
+            android:text="fuck"
+            android:textAlignment="textEnd"
+            android:textColorHint="#C7C7CE"
+            android:textSize="15sp"/>
+
         <ImageView
-            android:layout_marginEnd="10dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_next_10"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_next_10"/>
     </LinearLayout>
+
     <include
-        android:layout_marginStart="15dp"
+        layout="@layout/include_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        layout="@layout/include_line"/>
+        android:layout_marginStart="15dp"/>
+
     <LinearLayout
         android:id="@+id/ll_phone_num"
         android:layout_width="match_parent"
         android:layout_height="44dp">
+
         <TextView
-            android:layout_marginStart="9dp"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-                android:text="Phonenumber"
-            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="9dp"
+            android:text="Phonenumber"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
+
         <EditText
-            android:inputType="number"
-            android:maxLength="15"
             android:id="@+id/et_phone_num"
-            android:textAlignment="textEnd"
-            android:paddingEnd="10dp"
-            android:textSize="15sp"
-            android:textColorHint="#C7C7CE"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
             android:background="@null"
             android:gravity="end"
-            android:text="12345678910"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="center_vertical"
             android:hint="fill in username"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:inputType="number"
+            android:maxLength="15"
+            android:paddingEnd="10dp"
+            android:text="12345678910"
+            android:textAlignment="textEnd"
+            android:textColorHint="#C7C7CE"
+            android:textSize="15sp"/>
+
         <ImageView
-            android:layout_marginEnd="10dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_next_10"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_next_10"/>
     </LinearLayout>
+
     <include
-        android:layout_marginStart="15dp"
+        layout="@layout/include_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        layout="@layout/include_line"/>
+        android:layout_marginStart="15dp"/>
+
     <LinearLayout
         android:id="@+id/ll_height"
         android:layout_width="match_parent"
         android:layout_height="44dp">
+
         <TextView
-            android:layout_marginStart="9dp"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:text="Height"
-            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="9dp"
+            android:text="Height"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
+
         <EditText
-            android:inputType="number"
-            android:maxLength="3"
             android:id="@+id/et_height"
-            android:textAlignment="textEnd"
-            android:paddingEnd="10dp"
-            android:textSize="15sp"
-            android:textColorHint="#C7C7CE"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
             android:background="@null"
             android:gravity="end"
-            tools:text="111"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="center_vertical"
             android:hint="fill in username"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:inputType="number"
+            android:maxLength="3"
+            android:paddingEnd="10dp"
+            android:textAlignment="textEnd"
+            android:textColorHint="#C7C7CE"
+            android:textSize="15sp"
+            tools:text="111"/>
+
         <ImageView
-            android:layout_marginEnd="10dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_next_10"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_next_10"/>
     </LinearLayout>
+
     <include
-        android:layout_marginStart="15dp"
+        layout="@layout/include_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        layout="@layout/include_line"/>
+        android:layout_marginStart="15dp"/>
+
     <LinearLayout
         android:id="@+id/ll_weight"
         android:layout_width="match_parent"
         android:layout_height="44dp">
+
         <TextView
-            android:layout_marginStart="9dp"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:text="Weight"
-            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="9dp"
+            android:text="Weight"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
+
         <EditText
-            android:inputType="number"
-            android:maxLength="3"
             android:id="@+id/et_weight"
-            android:textAlignment="textEnd"
-            android:paddingEnd="10dp"
-            android:textSize="15sp"
-            android:textColorHint="#C7C7CE"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
             android:background="@null"
             android:gravity="end"
-            tools:text="111"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="center_vertical"
             android:hint="fill in username"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:inputType="number"
+            android:maxLength="3"
+            android:paddingEnd="10dp"
+            android:textAlignment="textEnd"
+            android:textColorHint="#C7C7CE"
+            android:textSize="15sp"
+            tools:text="111"/>
+
         <ImageView
-            android:layout_marginEnd="10dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_next_10"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_next_10"/>
     </LinearLayout>
+
     <include
-        android:layout_marginStart="15dp"
+        layout="@layout/include_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        layout="@layout/include_line"/>
+        android:layout_marginStart="15dp"/>
+
     <LinearLayout
         android:id="@+id/ll_zodiac"
         android:layout_width="match_parent"
         android:layout_height="44dp">
+
         <TextView
-            android:layout_marginStart="9dp"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:text="Zodiac"
-            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="9dp"
+            android:text="Zodiac"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
+
         <EditText
             android:id="@+id/et_zodiac"
-            android:textAlignment="textEnd"
-            android:paddingEnd="10dp"
-            android:textSize="15sp"
-            android:textColorHint="#C7C7CE"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
             android:background="@null"
             android:gravity="end"
-            android:text="Taurus"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="center_vertical"
             android:hint="fill in username"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:paddingEnd="10dp"
+            android:text="Taurus"
+            android:textAlignment="textEnd"
+            android:textColorHint="#C7C7CE"
+            android:textSize="15sp"/>
+
         <ImageView
-            android:layout_marginEnd="10dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_next_10"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_next_10"/>
     </LinearLayout>
+
     <include
-        android:layout_marginStart="15dp"
+        layout="@layout/include_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        layout="@layout/include_line"/>
+        android:layout_marginStart="15dp"/>
+
     <LinearLayout
         android:id="@+id/ll_city"
         android:layout_width="match_parent"
         android:layout_height="44dp">
+
         <TextView
-            android:layout_marginStart="9dp"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:text="City"
-            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="9dp"
+            android:text="City"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
+
         <EditText
             android:id="@+id/et_city"
-            android:textAlignment="textEnd"
-            android:paddingEnd="10dp"
-            android:textSize="15sp"
-            android:textColorHint="#C7C7CE"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
             android:background="@null"
             android:gravity="end"
-            android:text="hangzhou"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="center_vertical"
             android:hint="fill in username"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:paddingEnd="10dp"
+            android:text="hangzhou"
+            android:textAlignment="textEnd"
+            android:textColorHint="#C7C7CE"
+            android:textSize="15sp"/>
+
         <ImageView
-            android:layout_marginEnd="10dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_next_10"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_next_10"/>
     </LinearLayout>
+
     <include
-        android:layout_marginStart="15dp"
+        layout="@layout/include_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        layout="@layout/include_line"/>
+        android:layout_marginStart="15dp"/>
+
     <LinearLayout
         android:id="@+id/ll_introction"
         android:layout_width="match_parent"
         android:layout_height="44dp">
+
         <TextView
-            android:layout_marginStart="9dp"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:text="Introction"
-            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="9dp"
+            android:text="Introction"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
+
         <EditText
             android:id="@+id/et_introction"
-            android:textAlignment="textEnd"
-            android:paddingEnd="10dp"
-            android:textSize="15sp"
-            android:textColorHint="#C7C7CE"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
             android:background="@null"
             android:gravity="end"
-            tools:text="111"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="center_vertical"
             android:hint="fill in username"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:paddingEnd="10dp"
+            android:textAlignment="textEnd"
+            android:textColorHint="#C7C7CE"
+            android:textSize="15sp"
+            tools:text="111"/>
+
         <ImageView
-            android:layout_marginEnd="10dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_next_10"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_next_10"/>
     </LinearLayout>
+
     <include
-        android:layout_marginStart="15dp"
+        layout="@layout/include_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        layout="@layout/include_line"/>
+        android:layout_marginStart="15dp"/>
+
     <LinearLayout
         android:id="@+id/ll_tags"
         android:layout_width="match_parent"
         android:layout_height="44dp">
+
         <TextView
-            android:layout_marginStart="9dp"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:text="Tags"
-            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="9dp"
+            android:text="Tags"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
+
         <EditText
             android:id="@+id/et_tags"
-            android:textAlignment="textEnd"
-            android:paddingEnd="10dp"
-            android:textSize="15sp"
-            android:textColorHint="#C7C7CE"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
             android:background="@null"
             android:gravity="end"
-            tools:text="111"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="center_vertical"
             android:hint="fill in username"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:paddingEnd="10dp"
+            android:textAlignment="textEnd"
+            android:textColorHint="#C7C7CE"
+            android:textSize="15sp"
+            tools:text="111"/>
+
         <ImageView
-            android:layout_marginEnd="10dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_next_10"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_next_10"/>
     </LinearLayout>
+
     <include
-        android:layout_marginStart="15dp"
+        layout="@layout/include_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        layout="@layout/include_line"/>
+        android:layout_marginStart="15dp"/>
+
     <LinearLayout
         android:id="@+id/ll_bio"
         android:layout_width="match_parent"
         android:layout_height="44dp">
+
         <TextView
-            android:layout_marginStart="9dp"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:text="Bio"
-            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <EditText
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="9dp"
+            android:text="Bio"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
+
+        <TextView
             android:id="@+id/et_bio"
-            android:textAlignment="textEnd"
-            android:paddingEnd="10dp"
-            android:textSize="15sp"
-            android:textColorHint="#C7C7CE"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="70dp"
+            android:layout_weight="1"
             android:background="@null"
             android:gravity="end"
-            tools:text="111"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="center_vertical"
             android:hint="fill in username"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:maxLines="1"
+
+            android:paddingEnd="10dp"
+            android:textAlignment="textEnd"
+            android:textColorHint="#C7C7CE"
+            android:textSize="15sp"
+            tools:text="1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"/>
+
         <ImageView
-            android:layout_marginEnd="10dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_next_10"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_next_10"/>
     </LinearLayout>
+
     <include
-        android:layout_marginStart="15dp"
+        layout="@layout/include_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        layout="@layout/include_line"/>
+        android:layout_marginStart="15dp"/>
+
     <LinearLayout
         android:id="@+id/ll_certified"
         android:layout_width="match_parent"
         android:layout_height="44dp">
+
         <TextView
-            android:layout_marginStart="9dp"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:text="Certified"
-            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="9dp"
+            android:text="Certified"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
+
         <EditText
             android:id="@+id/et_certified"
-            android:textAlignment="textEnd"
-            android:paddingEnd="10dp"
-            android:textSize="15sp"
-            android:textColorHint="#C7C7CE"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
             android:background="@null"
             android:gravity="end"
-            tools:text="111"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="center_vertical"
             android:hint="fill in username"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:paddingEnd="10dp"
+            android:textAlignment="textEnd"
+            android:textColorHint="#C7C7CE"
+            android:textSize="15sp"
+            tools:text="111"/>
+
         <ImageView
-            android:layout_marginEnd="10dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_next_10"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_next_10"/>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

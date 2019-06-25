@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.OneToOneActivity">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".activity.OneToOneActivity">
 
     <RelativeLayout
-        tools:visibility="visible"
         android:id="@+id/rl_prepare"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_rec_purple">
+        android:background="@drawable/bg_rec_purple"
+        tools:visibility="visible">
 
         <ImageView
-            tools:background="@color/white"
             android:id="@+id/iv_head"
             android:layout_width="92dp"
             android:layout_height="92dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="175dp" />
+            android:layout_marginTop="175dp"
+            tools:background="@color/white"/>
 
         <TextView
             android:id="@+id/tv_name"
@@ -30,78 +30,78 @@
             android:layout_marginTop="18dp"
             android:text="Ahamd Li"
             android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
+
         <TextView
             android:id="@+id/tv1"
-            android:layout_marginTop="10dp"
-            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/tv_name"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:text="Make your time helpful and have fun！"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-
-            android:background="@drawable/bg_rec_10white"
-            android:layout_marginTop="12dp"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/tv1"
+            android:layout_marginTop="10dp"
             android:gravity="center"
-            android:textColor="@color/white"
-            android:text="Charged 8 coins per Min"
+            android:text="Make your time helpful and have fun！"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/tv_minute_cost"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />v
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_rec_10white"
+            android:gravity="center"
+            android:text="@string/charged_coins_per_min"
+            android:textColor="@color/white"/>v
 
         <ImageView
             android:id="@+id/iv_hangup_prepare_audience"
-            android:layout_marginBottom="25dp"
-           android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_calling"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_marginBottom="25dp"
+            android:src="@drawable/ic_calling"/>
 
         <ImageView
 
-            android:layout_marginEnd="50dp"
-            android:layout_alignParentEnd="true"
             android:id="@+id/iv_anchor_answer"
-            android:layout_marginBottom="25dp"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/ic_answering"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="25dp"
+            android:layout_marginEnd="50dp"
+            android:src="@drawable/ic_answering"/>
 
         <ImageView
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="50dp"
             android:id="@+id/iv_hangup_prepare_anchor"
-            android:layout_marginBottom="25dp"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/ic_calling"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="25dp"
+            android:layout_marginStart="50dp"
+            android:src="@drawable/ic_calling"/>
 
 
     </RelativeLayout>
 
 
-
-
     <RelativeLayout
-        tools:visibility="visible"
-
         android:id="@+id/rl_onshow"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:visibility="visible"
         >
 
         <FrameLayout
             android:id="@+id/remote_video_view_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white" />
+            android:background="@android:color/white"/>
 
         <FrameLayout
             android:id="@+id/local_video_view_container"
@@ -111,7 +111,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginEnd="5dp"
             android:layout_marginTop="30dp"
-            tools:background="@color/black" />
+            tools:background="@color/black"/>
 
         <ImageView
             android:id="@+id/iv_hangup"
@@ -120,7 +120,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="25dp"
-            android:src="@drawable/ic_calling_hang_up" />
+            android:src="@drawable/ic_calling_hang_up"/>
 
         <ImageView
             android:id="@+id/iv_camera_off"
@@ -130,7 +130,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/iv_hangup"
             android:layout_marginStart="18dp"
-            android:src="@drawable/ic_cameraoff" />
+            android:src="@drawable/ic_cameraoff"/>
 
         <ImageView
             android:id="@+id/iv_camera_control"
@@ -139,7 +139,7 @@
             android:layout_alignBottom="@+id/iv_hangup"
             android:layout_alignTop="@+id/iv_hangup"
             android:layout_marginStart="83dp"
-            android:src="@drawable/ic_cameraroll" />
+            android:src="@drawable/ic_cameraroll"/>
     </RelativeLayout>
 
 </RelativeLayout>

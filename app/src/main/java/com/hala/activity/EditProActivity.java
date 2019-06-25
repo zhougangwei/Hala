@@ -32,72 +32,93 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.qqtheme.framework.picker.SinglePicker;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class EditProActivity extends BaseActivity {
 
 
-
+    private static final String TAG = "EditProActivity";
     @BindView(R.id.iv_back)
-    ImageView ivBack;
+    ImageView    ivBack;
     @BindView(R.id.tv_title)
-    TextView tvTitle;
+    TextView     tvTitle;
     @BindView(R.id.et_username)
-    EditText etUsername;
+    EditText     etUsername;
     @BindView(R.id.ll_username)
     LinearLayout llUsername;
     @BindView(R.id.et_phone_num)
-    EditText etPhoneNum;
+    EditText     etPhoneNum;
     @BindView(R.id.ll_phone_num)
     LinearLayout llPhoneNum;
     @BindView(R.id.et_height)
-    EditText etHeight;
+    EditText     etHeight;
     @BindView(R.id.ll_height)
     LinearLayout llHeight;
     @BindView(R.id.et_weight)
-    EditText etWeight;
+    EditText     etWeight;
     @BindView(R.id.ll_weight)
     LinearLayout llWeight;
     @BindView(R.id.et_zodiac)
-    EditText etZodiac;
+    EditText     etZodiac;
     @BindView(R.id.ll_zodiac)
     LinearLayout llZodiac;
     @BindView(R.id.et_city)
-    EditText etCity;
+    EditText     etCity;
     @BindView(R.id.ll_city)
     LinearLayout llCity;
     @BindView(R.id.et_introction)
-    EditText etIntroction;
+    EditText     etIntroction;
     @BindView(R.id.ll_introction)
     LinearLayout llIntroction;
     @BindView(R.id.et_tags)
-    EditText etTags;
+    EditText     etTags;
     @BindView(R.id.ll_tags)
     LinearLayout llTags;
     @BindView(R.id.et_bio)
-    EditText etBio;
+    TextView         etBio;
     @BindView(R.id.ll_bio)
     LinearLayout llBio;
     @BindView(R.id.et_certified)
-    EditText etCertified;
+    EditText     etCertified;
     @BindView(R.id.ll_certified)
     LinearLayout llCertified;
     @BindView(R.id.tv_save)
-    TextView tvSave;
+    TextView     tvSave;
 
-    List<ApplyAnchorBean.TagsBean> tagsList = new ArrayList<>();
-    List<ApplyAnchorBean.CoversBean> covers = new ArrayList<>();
+    List<ApplyAnchorBean.TagsBean>   tagsList = new ArrayList<>();
+    List<ApplyAnchorBean.CoversBean> covers   = new ArrayList<>();
     private String bio;     //个人经历
-    private static final int REQUEST_BIO = 222;
-    private static final int REQUEST_TAG = 223;
-    private static final int REQUEST_CODE_CHOOSE =224 ;
+    private static final int REQUEST_BIO         = 222;
+    private static final int REQUEST_TAG         = 223;
+    private static final int REQUEST_CODE_CHOOSE = 224;
     private List<Uri> uriList;
+
+    private final static String[] constellationThArr = new String[]{"ราศีมังกร",
+            "ราศีกุมภ์", "ราศีมีน", "ราศีเมษ", "ราศีพฤษภ", "ราศีเมถุน", "ราศีกรกฎ", "ราศีสิงห์", "ราศีกันย์", "ราศีตุล",
+            "ราศีพิจิก", "ราศีธนู", "ราศีมังกร"};
+
+    private final static String[] constellationEnArr = new String[]{"Capricornus",
+            "Aquarius", "Pisces", "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra",
+            "Scorpio", "Sagittarius", "Capricornus"};
+    private String userName;
+    private String phoneNum;
+    private String height;
+    private String weight;
+    private String zodiac;
+    private String city;
+    private String intro;
+    private String certify;
+
 
     @Override
     protected int getContentViewId() {
@@ -114,21 +135,16 @@ public class EditProActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.iv_add_pic, R.id.ll_username, R.id.ll_phone_num, R.id.ll_height, R.id.ll_weight, R.id.ll_zodiac, R.id.ll_city, R.id.ll_introction, R.id.ll_tags, R.id.ll_bio, R.id.ll_certified, R.id.tv_save})
+    @OnClick({R.id.iv_add_pic, R.id.ll_zodiac, R.id.ll_city, R.id.ll_introction, R.id.ll_tags, R.id.ll_bio, R.id.ll_certified, R.id.tv_save})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_add_pic:
                 gotoAddPic();
                 break;
-            case R.id.ll_username:
-                break;
-            case R.id.ll_phone_num:
-                break;
-            case R.id.ll_height:
-                break;
-            case R.id.ll_weight:
-                break;
+
+
             case R.id.ll_zodiac:
+                setZodiac();
                 break;
             case R.id.ll_city:
                 break;
@@ -145,14 +161,87 @@ public class EditProActivity extends BaseActivity {
             case R.id.ll_certified:
                 break;
             case R.id.tv_save:
-                if (uriList==null||uriList.size()==0){
-                    gotoSave(null);
-                }else{
+                if (!judgeEmpty()) {
+                    return;
+                } else {
                     upQiniu();
                 }
                 break;
         }
     }
+
+    private boolean judgeEmpty() {
+         userName = etUsername.getText().toString();
+         phoneNum = etPhoneNum.getText().toString();
+         height = etHeight.getText().toString();
+         weight = etWeight.getText().toString();
+         zodiac = etZodiac.getText().toString();  //星座
+         city = etCity.getText().toString();
+         intro = etIntroction.getText().toString();
+         certify = etCertified.getText().toString();
+
+        if (TextUtils.isEmpty(userName)) {
+            ToastUtils.showToast(this, "userName" + "不可以为空");
+            return false;
+        }
+        if (TextUtils.isEmpty(phoneNum)) {
+            ToastUtils.showToast(this, "phoneNum" + "不可以为空");
+            return false;
+        }
+        phoneNum = "+86" + phoneNum;
+
+        if (TextUtils.isEmpty(height)) {
+            ToastUtils.showToast(this, "height" + "不可以为空");
+            return false;
+        }
+        if (TextUtils.isEmpty(weight)) {
+            ToastUtils.showToast(this, "weight" + "不可以为空");
+            return false;
+        }
+        if (TextUtils.isEmpty(zodiac)) {
+            ToastUtils.showToast(this, "zodiac" + "不可以为空");
+            return false;
+        }
+        if (TextUtils.isEmpty(city)) {
+            ToastUtils.showToast(this, "city" + "不可以为空");
+            return false;
+        }
+        if (TextUtils.isEmpty(intro)) {
+            ToastUtils.showToast(this, "intro" + "不可以为空");
+            return false;
+        }
+        if (TextUtils.isEmpty(certify)) {
+            ToastUtils.showToast(this, "certify" + "不可以为空");
+            return false;
+        }
+
+        if (tagsList == null || tagsList.size() == 0) {
+            ToastUtils.showToast(this, "tagsList" + "不可以为空");
+            return false;
+        }
+        if (uriList == null || uriList.size() == 0) {
+            ToastUtils.showToast(this, "uriList" + "不可以为空");
+            return false;
+        }
+        return true;
+
+    }
+
+    private void setZodiac() {
+        List<String> data = Arrays.asList(constellationEnArr);
+        SinglePicker<String> picker = new SinglePicker<String>(this, data);
+        picker.setCanceledOnTouchOutside(false);
+        picker.setSelectedIndex(1);
+        picker.setCycleDisable(false);
+        picker.setOnItemPickListener(new SinglePicker.OnItemPickListener<String>() {
+            @Override
+            public void onItemPicked(int index, String item) {
+            }
+        });
+        picker.show();
+
+    }
+
 
     private void gotoAddPic() {
         Matisse.from(this)
@@ -160,7 +249,7 @@ public class EditProActivity extends BaseActivity {
                 .countable(true)//true:选中后显示数字;false:选中后显示对号
                 .maxSelectable(5)//可选的最大数
                 .capture(true)//选择照片时，是否显示拍照
-                .captureStrategy(new CaptureStrategy(true, getPackageName()+".fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
+                .captureStrategy(new CaptureStrategy(true, getPackageName() + ".fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
                 .imageEngine(new MyGlideEngine())//图片加载引擎
                 .forResult(REQUEST_CODE_CHOOSE);//
 
@@ -181,11 +270,9 @@ public class EditProActivity extends BaseActivity {
                 tagsList.addAll(tagList);
             } else if (requestCode == REQUEST_BIO) {
                 bio = data.getStringExtra("bio");
-            }else if(requestCode==REQUEST_CODE_CHOOSE){
+                etBio.setText(bio);
+            } else if (requestCode == REQUEST_CODE_CHOOSE) {
                 uriList = Matisse.obtainResult(data);
-
-
-
             }
 
 
@@ -196,7 +283,7 @@ public class EditProActivity extends BaseActivity {
 
     private void upQiniu() {
         QiNiuToken.DataBean.StarchatanchorBean starchatanchorBean = QiniuInfo.getmStarchatanchorBean();
-        if (starchatanchorBean==null) {
+        if (starchatanchorBean == null) {
             return;
         }
         new UploadPicManger().uploadImageArray(uriList, 0, starchatanchorBean.getToken(), starchatanchorBean.getUrl(), new UploadPicManger.QiNiuUploadCompletionHandler() {
@@ -204,17 +291,17 @@ public class EditProActivity extends BaseActivity {
             public void uploadSuccess(String path, List<String> paths) {
                 gotoSave(paths);
             }
+
             @Override
             public void uploadFailure() {
-                gotoSave(null);
+                // TODO: 2019/6/25 0025 上传图片失败
+                Log.e(TAG, "uploadFailure: 失败");
             }
         });
     }
 
     private void gotoSave(List<String> paths) {
-
-
-        if (paths!=null) {
+        if (paths != null) {
             covers.clear();
             for (int i = 0; i < paths.size(); i++) {
                 ApplyAnchorBean.CoversBean coversBean = new ApplyAnchorBean.CoversBean();
@@ -222,18 +309,6 @@ public class EditProActivity extends BaseActivity {
                 covers.add(coversBean);
             }
         }
-
-
-
-        String userName = etUsername.getText().toString();
-        String phoneNum = "+86"+etPhoneNum.getText().toString();
-        String height = etHeight.getText().toString();
-        String weight = etWeight.getText().toString();
-        String zodiac = etZodiac.getText().toString();  //星座
-        String city = etCity.getText().toString();
-        String intro = etIntroction.getText().toString();
-
-        String certify = etCertified.getText().toString();
         ApplyAnchorBean applyAnchorBean = new ApplyAnchorBean();
         applyAnchorBean.setNickname(userName);
         applyAnchorBean.setMobileNumber(phoneNum);
@@ -242,11 +317,11 @@ public class EditProActivity extends BaseActivity {
         applyAnchorBean.setZodiac(zodiac);
         applyAnchorBean.setCity(city);
         applyAnchorBean.setIntroduction(intro);
-        //applyAnchorBean.setTags(tagsList);
+        applyAnchorBean.setTags(tagsList);
         applyAnchorBean.setCertifyUrl(certify);
         applyAnchorBean.setBiography(bio);
-       // applyAnchorBean.setCovers(covers);
-        applyAnchorBean.setCpm(20+"");
+        applyAnchorBean.setCovers(covers);
+        applyAnchorBean.setCpm(20 + "");
         RetrofitFactory.getInstance()
                 .applyAnchor(ProxyPostHttpRequest.getJsonInstance()
                         .applyAnchor(GsonUtil.parseObjectToJson(applyAnchorBean)))
@@ -257,7 +332,7 @@ public class EditProActivity extends BaseActivity {
                     public void onNext(BeAnchorBean baseBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
                             ToastUtils.showToast(EditProActivity.this, "提交失败");
-                            Log.e("Edit",GsonUtil.parseObjectToJson(baseBean));
+                            Log.e("Edit", GsonUtil.parseObjectToJson(baseBean));
                             return;
                         }
                         int id = baseBean.getData().getMemberId();
