@@ -1,9 +1,7 @@
 package com.hala.http;
 
-import android.net.Uri;
 import android.util.Log;
 
-import com.hala.utils.UriUtil;
 import com.qiniu.android.common.AutoZone;
 import com.qiniu.android.common.FixedZone;
 import com.qiniu.android.http.ResponseInfo;
@@ -45,7 +43,7 @@ public class UploadPicManger {
                 }, null);
     }
 
-    public void uploadImageArray(final List<Uri> imageArray, final int index, final String token, final String qiNiuUrl, final QiNiuUploadCompletionHandler completionHandler ) {
+    public void uploadImageArray(final List<String> imageArray, final int index, final String token, final String qiNiuUrl, final QiNiuUploadCompletionHandler completionHandler ) {
         imageIndex = index;
         if (index == imageArray.size()) {
             if (completionHandler != null) {
@@ -56,7 +54,7 @@ public class UploadPicManger {
                     .zone(AutoZone.autoZone)
                     .zone(FixedZone.zone0)
                     .build();
-            String realFilePath = UriUtil.getRealFilePath(imageArray.get(imageIndex));
+            String realFilePath = imageArray.get(imageIndex);
             final String name = realFilePath.substring(realFilePath.lastIndexOf("/") + 1, realFilePath.length());
             UploadManager uploadManager = new UploadManager(config);
                 uploadManager.put(realFilePath, name, token,

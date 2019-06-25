@@ -66,7 +66,7 @@ public class AnchorBean extends BaseBean {
         private String           createdAt;
         private String           updatedAt;
         private int              anchorId;
-        private List<TagsBean>          tags;
+        private List<AnchorTagBean.DataBean>          tags;
         private List<CoversBean> covers;
 
         public int getMemberId() {
@@ -237,11 +237,11 @@ public class AnchorBean extends BaseBean {
             this.anchorId = anchorId;
         }
 
-        public List<TagsBean> getTags() {
+        public List<AnchorTagBean.DataBean> getTags() {
             return tags;
         }
 
-        public void setTags(List<TagsBean> tags) {
+        public void setTags(List<AnchorTagBean.DataBean> tags) {
             this.tags = tags;
         }
 
@@ -254,31 +254,6 @@ public class AnchorBean extends BaseBean {
         }
 
 
-        public static class TagsBean {
-            /**
-             * id : 16
-             * content : tag1
-             */
-
-            private int    id;
-            private String content;
-
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public String getContent() {
-                return content;
-            }
-
-            public void setContent(String content) {
-                this.content = content;
-            }
-        }
 
 
             public static class CoversBean {

@@ -1,27 +1,25 @@
 package com.hala.activity;
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.SizeUtils;
 import com.hala.R;
-import com.hala.adapter.AnchorDataAdapter;
 import com.hala.adapter.ChargeAdapter;
 import com.hala.base.BaseActivity;
 import com.hala.bean.RuleBean;
-import com.hala.http.HttpRequest;
 import com.hala.http.RetrofitFactory;
+import com.hala.itemdecoration.SpaceItemDecoration;
 import com.hala.utils.ResultUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -61,6 +59,7 @@ public class ChargeActivity extends BaseActivity {
         mChargeAdapter = new ChargeAdapter(R.layout.item_charge, mdataList);
         mRv.setAdapter(mChargeAdapter);
         mRv.setLayoutManager(new GridLayoutManager(this,3));
+        mRv.addItemDecoration(new SpaceItemDecoration(SizeUtils.dp2px(this,13)));
         initData();
     }
 

@@ -1,7 +1,6 @@
 package com.hala.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -10,10 +9,7 @@ import android.widget.TextView;
 import com.hala.R;
 import com.hala.base.BaseActivity;
 
-import javax.xml.transform.Result;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class BioActivity extends BaseActivity {
@@ -53,7 +49,7 @@ public class BioActivity extends BaseActivity {
                 Intent intent = new Intent();
                 intent.putExtra("bio",mEtBio.getText().toString());
                 setResult(RESULT_OK,intent);
-
+                finish();
                 break;
             case R.id.et_bio:
                 break;

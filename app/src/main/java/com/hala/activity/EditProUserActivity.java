@@ -1,7 +1,6 @@
 package com.hala.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hala.R;
 import com.hala.avchat.AvchatInfo;
 import com.hala.avchat.QiniuInfo;
@@ -28,12 +28,10 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import cn.qqtheme.framework.picker.SinglePicker;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -91,7 +89,7 @@ public class EditProUserActivity extends BaseActivity {
     public static final String FROM_FACEBOOK = "from_facebook";
     public static final String FROM_PHONE = "from_phone";
     private String avatarUrl;
-    private List<Uri> uriList;
+    private List<String> uriList=new ArrayList<>();
 
 
     @Override
@@ -178,7 +176,7 @@ public class EditProUserActivity extends BaseActivity {
 
     private void chooseAvatar() {
         Matisse.from(this)
-                .choose(MimeType.ofAll())//图片类型
+                .choose(MimeType.of(MimeType.PNG, MimeType.JPEG))//图片类型
                 .countable(true)//true:选中后显示数字;false:选中后显示对号
                 .maxSelectable(1)//可选的最大数
                 .capture(true)//选择照片时，是否显示拍照
@@ -218,9 +216,13 @@ public class EditProUserActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-         if(requestCode==REQUEST_CODE_CHOOSE){
-            uriList = Matisse.obtainResult(data);
+         if(resultCode==RESULT_OK&&requestCode==REQUEST_CODE_CHOOSE){
+             List<String> strings = Matisse.obtainPathResult(data);
+             if (strings!=null) {
+                 uriList.clear();
+                 uriList.addAll(strings) ;
+                 Glide.with(this).load(uriList.get(0)) .into(ivHead) ;
+             }
         }
-
     }
 }

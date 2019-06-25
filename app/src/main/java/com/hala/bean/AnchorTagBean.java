@@ -22,19 +22,19 @@ public class AnchorTagBean extends BaseBean{
 
     public static class DataBean {
         /**
-         * id : 46
+         * tagId : 46
          * content : نشيط
          */
 
-        private int id;
+        private int tagId;
         private String content;
 
-        public int getId() {
-            return id;
+        public int getTagId() {
+            return tagId;
         }
 
-        public void setId(int id) {
-            this.id = id;
+        public void setTagId(int tagId) {
+            this.tagId = tagId;
         }
 
         public String getContent() {

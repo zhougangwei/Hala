@@ -128,7 +128,7 @@ public class OneToOneListBean extends BaseBean {
             private String createdAt;
             private String updatedAt;
             private int anchorId;
-            private List<TagsBean> tags;
+            private List<AnchorTagBean.DataBean> tags;
             private List<CoversBean> covers;
 
             public int getMemberId() {
@@ -299,11 +299,11 @@ public class OneToOneListBean extends BaseBean {
                 this.anchorId = anchorId;
             }
 
-            public List<TagsBean> getTags() {
+            public List<AnchorTagBean.DataBean> getTags() {
                 return tags;
             }
 
-            public void setTags(List<TagsBean> tags) {
+            public void setTags(List<AnchorTagBean.DataBean> tags) {
                 this.tags = tags;
             }
 
@@ -315,31 +315,7 @@ public class OneToOneListBean extends BaseBean {
                 this.covers = covers;
             }
 
-            public static class TagsBean {
-                /**
-                 * content : active
-                 * tagId : 16
-                 */
 
-                private String content;
-                private int tagId;
-
-                public String getContent() {
-                    return content;
-                }
-
-                public void setContent(String content) {
-                    this.content = content;
-                }
-
-                public int getTagId() {
-                    return tagId;
-                }
-
-                public void setTagId(int tagId) {
-                    this.tagId = tagId;
-                }
-            }
 
             public static class CoversBean {
                 /**

@@ -1,7 +1,5 @@
 package com.hala.adapter;
 
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -9,8 +7,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hala.R;
 
-
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -50,23 +46,14 @@ public  class EditHeadAdapter extends BaseQuickAdapter<EditHeadAdapter.UserHead,
 
 
     public static class UserHead {
-        private boolean isNetImg;
-        private String picPath;
+         String picPath;
         private boolean isAdd;
 
-        public UserHead(boolean isNetImg, String picPath,boolean isAdd) {
-            this.isNetImg = isNetImg;
+        public UserHead( String picPath,boolean isAdd) {
             this.picPath = picPath;
             this.isAdd = isAdd;
         }
 
-        public boolean isNetImg() {
-            return isNetImg;
-        }
-
-        public void setNetImg(boolean netImg) {
-            isNetImg = netImg;
-        }
 
         public String getPicPath() {
             return picPath;

@@ -26,6 +26,7 @@ import com.hala.base.Contact;
 import com.hala.base.VideoCallManager;
 import com.hala.bean.AnchorBean;
 import com.hala.bean.AnchorInfoBean;
+import com.hala.bean.AnchorTagBean;
 import com.hala.http.BaseCosumer;
 import com.hala.http.RetrofitFactory;
 import com.hala.wight.RatingBarView;
@@ -75,7 +76,7 @@ public class AnchorsActivity extends BaseActivity {
     @BindView(R.id.tv_call)
     TextView tvCall;
     private List<AnchorBean.DataBean.CoversBean> coverDatas      =new ArrayList<>();
-    private List<AnchorBean.DataBean.TagsBean>   tagsDatas       =new ArrayList<>();
+    private List<AnchorTagBean.DataBean>   tagsDatas       =new ArrayList<>();
     private List<AnchorInfoBean>                 anchorInfoDatas =new ArrayList<>();
 
 
@@ -187,7 +188,8 @@ public class AnchorsActivity extends BaseActivity {
                         coverDatas.addAll(covers);
                         simplePagerAdapter.notifyDataSetChanged();
 
-                        List<AnchorBean.DataBean.TagsBean> tags = data.getTags();
+                        List<AnchorTagBean.DataBean> tags = data.getTags();
+                        tagsDatas.clear();
                         tagsDatas.addAll(tags);
                         tagsAdapter.notifyDataSetChanged();
 

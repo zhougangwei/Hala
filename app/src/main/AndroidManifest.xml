@@ -68,7 +68,7 @@
         <activity android:name=".activity.FeedBackActivity" />
         <activity android:name=".activity.MyIncomeActivity" />
         <activity android:name=".activity.MyReserveListActivity" />
-        <activity android:name=".activity.MyCoinsListActivity"></activity>
+        <activity android:name=".activity.MyCoinsListActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

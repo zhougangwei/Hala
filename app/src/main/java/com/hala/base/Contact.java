@@ -15,6 +15,12 @@ public class Contact {
     public static final int REPONSE_CODE_OUT_WRONG   = 4;        //外部服务错误，如短信平台发送失败等。
 
 
+     public static final int REPONSE_CODE_REGIST_FAIL_ALREADY_NAME=               101  ;//   用户名存在，无法注册
+     public static final int REPONSE_CODE_REGIST_FAIL_ALREADY_PHONE=   102  ;//   用户手机号存在，无法注册
+     public static final int REPONSE_CODE_REGIST_FAIL_ALREADY_FACEBOOK=   103  ;//   用户facebookId存在，无法注册
+     public static final int REPONSE_CODE_APPLYANCHOR_FAIL_ALREADY_NAME_OR_PHONE=           201  ;//   主播用户名或手机号存在，无法申请
+     public static final int REPONSE_CODE_APPLYANCHOR_FAIL_ANCHOR_NOT_EXIT=   202  ;//   请求的主播不存在
+
     public static final int REPONSE_CODE_REVERSE_NOMONEY  = 301;//     余额不足，无法预约
     public static final int REPONSE_CODE_REVERSE_SAME  = 302;//     已经有一个与相同主播的预约，无法预约
     public static final int REPONSE_CODE_CALL_IN_CALL  = 303;//     通话对象在通话中

@@ -1,29 +1,24 @@
 package com.hala.activity;
 
-import android.Manifest;
-import android.graphics.Color;
-import android.os.Bundle;
+import android.content.Intent;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.chad.library.adapter.base.listener.SimpleClickListener;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hala.R;
 import com.hala.adapter.EditHeadAdapter;
 import com.hala.base.BaseActivity;
+import com.hala.glide.MyGlideEngine;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
 public class FeedBackActivity extends BaseActivity {
 
@@ -31,14 +26,8 @@ public class FeedBackActivity extends BaseActivity {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     private List<EditHeadAdapter.UserHead> mList;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed_back);
-        ButterKnife.bind(this);
-
-    }
+    private static final int REQUEST_CODE_CHOOSE = 224;
+    private List<String> uriList=new ArrayList<>();
 
     @Override
     protected int getContentViewId() {
@@ -53,99 +42,47 @@ public class FeedBackActivity extends BaseActivity {
     @Override
     protected void initView() {
         mList = new ArrayList<>();
-        mList.add(new EditHeadAdapter.UserHead(false, "", true));
+        mList.add(new EditHeadAdapter.UserHead("", true));
         mAdapter = new EditHeadAdapter( mList);
         mAdapter.setEnableLoadMore(false);
-
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
-
-      //  recyclerView.addOnItemTouchListener(touchListener);
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (mList.get(position).isAdd()) {
+                    Matisse.from(FeedBackActivity.this)
+                            .choose(MimeType.of(MimeType.PNG, MimeType.JPEG))//图片类型
+                            .countable(true)//true:选中后显示数字;false:选中后显示对号
+                            .maxSelectable(5)//可选的最大数
+                            .capture(true)//选择照片时，是否显示拍照
+                            .captureStrategy(new CaptureStrategy(true, getPackageName() + ".fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
+                            .imageEngine(new MyGlideEngine())//图片加载引擎
+                            .forResult(REQUEST_CODE_CHOOSE);//
+                }
+            }
+        });
 
     }
-    /*private SimpleClickListener<EditHeadAdapter> touchListener = new SimpleClickListener<EditHeadAdapter>() {
-        @Override
-        public void onItemClick(EditHeadAdapter adapter, View view, final int position) {
-            //最后一张图片进行添加
-            if (mList.get(position).isAdd()) {
-                addPic();
-            } else {
 
-                IosBottomDialog.Builder builderHead = new IosBottomDialog.Builder(AnchorsUserActivity.this);
-                //无标题，只有操作
-                builderHead.setTitle(getString(R.string.title_replace_or_del), Color.parseColor("#aaaaaa"));
-                builderHead.addOption(AnchorsUserActivity.this.getString(R.string.delete_has_blank),
-                        Color.parseColor("#ff0000"), new IosBottomDialog.OnOptionClickListener() {
-                            @Override
-                            public void onOptionClick() {
-                                if (mList.size() <= 2) {
-                                    ToastUtils.showToast(AnchorsUserActivity.this, getString(R.string.keep_one));
-                                    return;
-                                }
-                                mAdapter.remove(position);
-                            }
-                        }).addOption(AnchorsUserActivity.this.getString(R.string.photo),
-                        Color.parseColor("#0077ff"), new IosBottomDialog.OnOptionClickListener() {
-                            @Override
-                            public void onOptionClick() {
-                                RxPermissions rxPermissions = new RxPermissions(AnchorsUserActivity.this);
-                                rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-                                        .subscribe(new Observer<Boolean>() {
-                                            @Override
-                                            public void onSubscribe(Disposable d) {
-
-                                            }
-
-                                            @Override
-                                            public void onNext(Boolean aBoolean) {
-                                                if (aBoolean) {
-                                                    replacePosition = position;
-                                                    Matisse.from(AnchorsUserActivity.this)
-                                                            .choose(MimeType.of(MimeType.PNG, MimeType.JPEG))
-                                                            .capture(true)
-                                                            .captureStrategy(new CaptureStrategy(true, getPackageName()+".fileprovider"))
-                                                            .showSingleMediaType(true)
-                                                            .countable(true)
-                                                            .maxSelectable(1)
-                                                            .imageEngine(new GlideEngine())
-                                                            .forResult(REQUEST_LOCAL_IMG);
-                                                } else {
-                                                    ToastUtils.showToast(AnchorsUserActivity.this,
-                                                            getString(R.string.modify_user_no_add_permission));
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onError(Throwable e) {
-
-                                            }
-
-                                            @Override
-                                            public void onComplete() {
-
-                                            }
-                                        });
-                            }
-                        })
-                        .create().show();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK&&requestCode==REQUEST_CODE_CHOOSE){
+            List<String> strings = Matisse.obtainPathResult(data);
+            if (strings!=null) {
+                uriList.clear();
+                uriList.addAll(strings) ;
+                for (String s : uriList) {
+                    mList.add(new EditHeadAdapter.UserHead(s,false));
+                }
+                mAdapter.notifyDataSetChanged();
             }
-        }
 
 
-        @Override
-        public void onItemLongClick(EditHeadAdapter adapter, View view, int position) {
 
         }
 
-        @Override
-        public void onItemChildClick(EditHeadAdapter adapter, View view, int position) {
-
-        }
-
-        @Override
-        public void onItemChildLongClick(EditHeadAdapter adapter, View view, int position) {
-
-        }
-    };*/
+    }
 }

@@ -8,11 +8,12 @@ public class ApplyAnchorBean extends BaseBean {
     /**
      * mobileNumber : +8613851668725
      * introduction : this is introduction
-     * tags : [{"content":"tag1","id":"16"},{"content":"tag2"}]
+     * tagIds : [16,19]
      * weight : 82
      * certifyUrl : http://certify.url
      * biography : this is biography
      * city : NJ
+     * country : CHINA
      * height : 182
      * covers : [{"coverUrl":"http://test.anchor.url2","sortby":2},{"coverUrl":"http://test.anchor.url1","sortby":3}]
      * nickname : old p
@@ -26,11 +27,12 @@ public class ApplyAnchorBean extends BaseBean {
     private String certifyUrl;
     private String biography;
     private String city;
+    private String country;
     private int height;
     private String nickname;
     private String zodiac;
     private String cpm;
-    private List<TagsBean> tags;
+    private List<Integer> tagIds;
     private List<CoversBean> covers;
 
     public String getMobileNumber() {
@@ -81,6 +83,14 @@ public class ApplyAnchorBean extends BaseBean {
         this.city = city;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     public int getHeight() {
         return height;
     }
@@ -113,12 +123,12 @@ public class ApplyAnchorBean extends BaseBean {
         this.cpm = cpm;
     }
 
-    public List<TagsBean> getTags() {
-        return tags;
+    public List<Integer> getTagIds() {
+        return tagIds;
     }
 
-    public void setTags(List<TagsBean> tags) {
-        this.tags = tags;
+    public void setTagIds(List<Integer> tagIds) {
+        this.tagIds = tagIds;
     }
 
     public List<CoversBean> getCovers() {
@@ -127,32 +137,6 @@ public class ApplyAnchorBean extends BaseBean {
 
     public void setCovers(List<CoversBean> covers) {
         this.covers = covers;
-    }
-
-    public static class TagsBean {
-        /**
-         * content : tag1
-         * id : 16
-         */
-
-        private String content;
-        private String id;
-
-        public String getContent() {
-            return content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
     }
 
     public static class CoversBean {

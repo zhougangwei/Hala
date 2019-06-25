@@ -16,7 +16,7 @@ import java.util.List;
 
 public class BrvaActivity extends AppCompatActivity {
 
-    List<String> datas = new ArrayList<String>();
+    List<String> allDatas = new ArrayList<String>();
     List<String> modeDatas = new ArrayList<String>();
     private HomeAdapter homeAdapter;
     private int mCurrentCounter;
@@ -36,7 +36,7 @@ public class BrvaActivity extends AppCompatActivity {
         for (int i = 21; i < 40; i++) {
             modeDatas.add("----" + i + "" + i + "" + "-----");
         }
-        homeAdapter = new HomeAdapter(R.layout.simplestring, datas);
+        homeAdapter = new HomeAdapter(R.layout.simplestring, allDatas);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(homeAdapter);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -122,9 +122,9 @@ public class BrvaActivity extends AppCompatActivity {
     }
 
     private void addDatas() {
-        datas.clear();
+        allDatas.clear();
         for (int i = 0; i < 20; i++) {
-            datas.add("----" + i + "" + i + "" + "-----");
+            allDatas.add("----" + i + "" + i + "" + "-----");
         }
     }
 
