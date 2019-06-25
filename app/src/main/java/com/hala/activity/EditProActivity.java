@@ -24,16 +24,14 @@ import com.hala.bean.AnchorTagBean;
 import com.hala.bean.ApplyAnchorBean;
 import com.hala.bean.BeAnchorBean;
 import com.hala.bean.QiNiuToken;
-import com.hala.glide.MyGlideEngine;
 import com.hala.http.BaseCosumer;
 import com.hala.http.ProxyPostHttpRequest;
 import com.hala.http.RetrofitFactory;
 import com.hala.http.UploadPicManger;
+import com.hala.manager.ChoosePicManager;
 import com.hala.utils.GsonUtil;
 import com.hala.utils.ToastUtils;
 import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,7 +102,7 @@ public class EditProActivity extends BaseActivity {
     private String bio;     //个人经历
     private static final int REQUEST_BIO = 222;
     private static final int REQUEST_TAG = 223;
-    private static final int REQUEST_CODE_CHOOSE = 224;
+
 
 
     EditHeadAdapter mAdapter;
@@ -149,14 +147,7 @@ public class EditProActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mList.get(position).isAdd()) {
-                    Matisse.from(EditProActivity.this)
-                            .choose(MimeType.of(MimeType.PNG, MimeType.JPEG))//图片类型
-                            .countable(true)//true:选中后显示数字;false:选中后显示对号
-                            .maxSelectable(5)//可选的最大数
-                            .capture(true)//选择照片时，是否显示拍照
-                            .captureStrategy(new CaptureStrategy(true, getPackageName() + ".fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
-                            .imageEngine(new MyGlideEngine())//图片加载引擎
-                            .forResult(REQUEST_CODE_CHOOSE);//
+                    ChoosePicManager.choosePic(EditProActivity.this,5);
                 }
             }
         });
@@ -283,7 +274,7 @@ public class EditProActivity extends BaseActivity {
             } else if (requestCode == REQUEST_BIO) {
                 bio = data.getStringExtra("bio");
                 etBio.setText(bio);
-            } else if (requestCode == REQUEST_CODE_CHOOSE) {
+            } else if (requestCode == ChoosePicManager.REQUEST_CODE_CHOOSE) {
                 List<String> strings = Matisse.obtainPathResult(data);
                 if (uriList != null) {
                     uriList.clear();

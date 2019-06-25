@@ -10,10 +10,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hala.R;
 import com.hala.adapter.EditHeadAdapter;
 import com.hala.base.BaseActivity;
-import com.hala.glide.MyGlideEngine;
+import com.hala.manager.ChoosePicManager;
 import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,18 +50,10 @@ public class FeedBackActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mList.get(position).isAdd()) {
-                    Matisse.from(FeedBackActivity.this)
-                            .choose(MimeType.of(MimeType.PNG, MimeType.JPEG))//图片类型
-                            .countable(true)//true:选中后显示数字;false:选中后显示对号
-                            .maxSelectable(5)//可选的最大数
-                            .capture(true)//选择照片时，是否显示拍照
-                            .captureStrategy(new CaptureStrategy(true, getPackageName() + ".fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
-                            .imageEngine(new MyGlideEngine())//图片加载引擎
-                            .forResult(REQUEST_CODE_CHOOSE);//
+                    ChoosePicManager.choosePic(FeedBackActivity.this,5);
                 }
             }
         });
-
     }
 
     @Override

@@ -17,15 +17,13 @@ import com.hala.base.BaseActivity;
 import com.hala.base.Contact;
 import com.hala.bean.QiNiuToken;
 import com.hala.bean.RegistBean;
-import com.hala.glide.MyGlideEngine;
 import com.hala.http.BaseCosumer;
 import com.hala.http.ProxyPostHttpRequest;
 import com.hala.http.RetrofitFactory;
 import com.hala.http.UploadPicManger;
+import com.hala.manager.ChoosePicManager;
 import com.hala.utils.ToastUtils;
 import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +36,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class EditProUserActivity extends BaseActivity {
 
-    private static final int REQUEST_CODE_CHOOSE =224 ;
+
     private final static String[] constellationThArr = new String[] { "ราศีมังกร",
             "ราศีกุมภ์", "ราศีมีน", "ราศีเมษ", "ราศีพฤษภ", "ราศีเมถุน", "ราศีกรกฎ", "ราศีสิงห์", "ราศีกันย์", "ราศีตุล",
             "ราศีพิจิก", "ราศีธนู", "ราศีมังกร" };
@@ -175,15 +173,7 @@ public class EditProUserActivity extends BaseActivity {
 
 
     private void chooseAvatar() {
-        Matisse.from(this)
-                .choose(MimeType.of(MimeType.PNG, MimeType.JPEG))//图片类型
-                .countable(true)//true:选中后显示数字;false:选中后显示对号
-                .maxSelectable(1)//可选的最大数
-                .capture(true)//选择照片时，是否显示拍照
-                .captureStrategy(new CaptureStrategy(true, getPackageName()+".fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
-                .imageEngine(new MyGlideEngine())//图片加载引擎
-                .forResult(REQUEST_CODE_CHOOSE);//
-
+        ChoosePicManager.choosePic(EditProUserActivity.this,1);
     }
 
     private void startConfirm() {
@@ -216,7 +206,7 @@ public class EditProUserActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-         if(resultCode==RESULT_OK&&requestCode==REQUEST_CODE_CHOOSE){
+         if(resultCode==RESULT_OK&&requestCode==ChoosePicManager.REQUEST_CODE_CHOOSE){
              List<String> strings = Matisse.obtainPathResult(data);
              if (strings!=null) {
                  uriList.clear();
