@@ -7,14 +7,13 @@
     tools:context=".activity.BioActivity">
 
 
-    <include layout="@layout/include_top_toolbar_save"/>
+    <include layout="@layout/include_top_toolbar_save_2"/>
     
     <EditText
         android:id="@+id/et_bio"
         android:paddingTop="14dp"
         android:paddingStart="29dp"
         android:hint="Fill in your personal signature."
-
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="74dp"
         android:background="@color/white"

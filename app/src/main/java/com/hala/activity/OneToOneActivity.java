@@ -62,9 +62,9 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     private final static Logger log = LoggerFactory.getLogger(OneToOneActivity.class);
     private static final String TAG = "OneToOneActivity";
     @BindView(R.id.iv_head)
-    ImageView      ivHead;
+    ImageView ivHead;
     @BindView(R.id.tv_name)
-    TextView       tvName;
+    TextView  tvName;
 
     @BindView(R.id.tv_minute_cost)
     TextView       tvMinuteCost;
@@ -204,7 +204,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                         Glide.with(OneToOneActivity.this)
                                 .load(anchorBean.getData().getAvatarUrl())
                                 .into(ivHead);
-                        tvMinuteCost.setText(String.format(getString(R.string.charged_coins_per_min),anchorBean.getData().getCpm()+""));
+                        tvMinuteCost.setText(String.format(getString(R.string.charged_coins_per_min), anchorBean.getData().getCpm() + ""));
                     }
                 });
 
@@ -313,9 +313,19 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
-                        finish();
+
                     }
                 });
+    }
+
+    public void gotoVideoFinsh() {
+        Intent intent = new Intent(OneToOneActivity.this, VideoFinishActivity.class);
+        intent.putExtra("name");
+        intent.putExtra("time");
+        intent.putExtra("cost");
+        intent.putExtra("starLevel", 0);
+        startActivity(intent);
+        finish();
     }
 
 
@@ -344,6 +354,9 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         joinChannel();
         worker().answerTheCall(config().mRemoteInvitation);
         showOnshow();
+        RetrofitFactory.getInstance().
+
+
     }
 
 

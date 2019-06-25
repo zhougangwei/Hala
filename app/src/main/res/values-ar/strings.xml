@@ -25,4 +25,6 @@
     <string name="online">Online</string>
     <string name="offlIine">OffLine</string>
     <string name="charged_coins_per_min">Charged %1$s coins per Min</string>
+    <string name="call_duration_10_mins">Call duration: %1$s</string>
+    <string name="fee_100_coins">Fee: %1$s coins</string>
 </resources>

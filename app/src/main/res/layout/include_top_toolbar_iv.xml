@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="23dp"
         android:layout_alignParentTop="true"
-        android:background="#00ff00" />
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"

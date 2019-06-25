@@ -1,5 +1,6 @@
 package com.hala.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.widget.GridLayoutManager;
@@ -65,8 +66,11 @@ public class TagActivity extends BaseActivity {
         mPaint.setStyle(Paint.Style.FILL);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     protected void initView() {
+        tvSave.setBackground(getResources().getDrawable(R.drawable.bg_rec_15blue));
+
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 100);
         rvAll.setLayoutManager(gridLayoutManager);
         GridLayoutManager gridLayoutManager2 = new GridLayoutManager(this, 100);

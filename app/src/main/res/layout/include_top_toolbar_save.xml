@@ -8,7 +8,7 @@
     android:background="@color/white"
     >
     <ImageView
-        android:background="#00ff00"
+
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="23dp" />
@@ -38,12 +38,13 @@
             android:textStyle="bold" />
 
         <TextView
+           android:paddingStart="18dp"
+           android:paddingEnd="18dp"
             android:id="@+id/tv_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="16dp"
             android:padding="4dp"
             android:text="save"
 
