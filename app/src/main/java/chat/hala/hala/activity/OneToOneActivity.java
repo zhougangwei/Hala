@@ -314,13 +314,13 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     }
 
     public void gotoVideoFinsh() {
-       //Intent intent = new Intent(OneToOneActivity.this, VideoFinishActivity.class);
-       //intent.putExtra("name");
-       //intent.putExtra("time");
-       //intent.putExtra("cost");
-       //intent.putExtra("starLevel", 0);
-       //startActivity(intent);
-       //finish();
+       Intent intent = new Intent(OneToOneActivity.this, VideoFinishActivity.class);
+       intent.putExtra("name");
+       intent.putExtra("time");
+       intent.putExtra("cost");
+       intent.putExtra("starLevel", 0);
+       startActivity(intent);
+       finish();
     }
 
 
@@ -349,7 +349,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         joinChannel();
         worker().answerTheCall(config().mRemoteInvitation);
         showOnshow();
-       // RetrofitFactory.getInstance().
+        RetrofitFactory.getInstance().
 
 
     }

@@ -67,6 +67,7 @@
         <activity android:name="chat.hala.hala.activity.OneToOneActivity"/>
         <activity android:name="chat.hala.hala.activity.FeedBackActivity"/>
         <activity android:name="chat.hala.hala.activity.MyIncomeActivity"/>
+        <activity android:name="chat.hala.hala.activity.MyCostActivity"/>
         <activity android:name="chat.hala.hala.activity.MyReserveListActivity"/>
         <activity android:name="chat.hala.hala.activity.MyCoinsListActivity"/>
         <activity

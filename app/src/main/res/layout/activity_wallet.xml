@@ -41,7 +41,18 @@
         app:layout_constraintStart_toStartOf="@id/tv_coin_num"
         app:layout_constraintTop_toBottomOf="@id/tv_coin_num"/>
 
+    <android.support.v7.widget.RecyclerView
+        android:visibility="gone"
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_marginEnd="23dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="42dp"
+        android:background="@drawable/bg_rec_white_r12"
+        app:layout_constraintTop_toBottomOf="@id/tv1"
+        android:layout_height="wrap_content"/>
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="174dp"
         android:layout_marginEnd="23dp"
@@ -52,49 +63,58 @@
         app:layout_constraintTop_toBottomOf="@id/tv1">
 
         <LinearLayout
+            android:id="@+id/ll_recharge"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/ic_dollor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="69dp"
-                android:text="recharge"
+                android:layout_marginStart="34dp"
+                android:text="Recharge"
                 android:textColor="#4a4a4a"/>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_income"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/ic_income"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="69dp"
-                android:text="recharge"
+                android:layout_marginStart="34dp"
+                android:text="My Income"
                 android:textColor="#4a4a4a"/>
 
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_cost"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/ic_cost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="69dp"
-                android:text="recharge"
+                android:layout_marginStart="34dp"
+                android:text="Cost"
                 android:textColor="#4a4a4a"/>
         </LinearLayout>
     </LinearLayout>

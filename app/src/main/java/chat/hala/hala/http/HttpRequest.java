@@ -8,6 +8,7 @@ import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.bean.BeAnchorBean;
 import chat.hala.hala.bean.CallBean;
 import chat.hala.hala.bean.CallListBean;
+import chat.hala.hala.bean.CoinBriefBean;
 import chat.hala.hala.bean.CoinListBean;
 import chat.hala.hala.bean.HeartBean;
 import chat.hala.hala.bean.LoginBean;
@@ -111,6 +112,16 @@ public interface HttpRequest {
     @GET("coin")
     Observable<CoinListBean> getCoinList(@Query("page") int page, @Query("size") int size);
 
+    /*
+     * 获取收入列表
+     * */
+    @GET("coin/income")
+    Observable<CoinListBean> getCoinInComeList(@Query("page") int page, @Query("size") int size);
+    /*
+     * 获取花费列表
+     * */
+    @GET("coin/cost")
+    Observable<CoinListBean> getCoinCostList(@Query("page") int page, @Query("size") int size);
 
 
     @GET("/anchor/hot")
@@ -163,4 +174,7 @@ public interface HttpRequest {
     * */
     @GET("/general/rule")
     Observable<RuleBean> getRuleList();
+
+    @GET("/coin/brief")
+    Observable<CoinBriefBean> getCoinBrief();
 }
