@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MyReserveListActivity">
+    tools:context="chat.hala.hala.activity.MyReserveListActivity">
     <include layout="@layout/include_top_toolbar_iv"
         android:id="@+id/title"
         />

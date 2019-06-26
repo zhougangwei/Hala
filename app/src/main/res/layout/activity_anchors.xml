@@ -95,7 +95,7 @@
                     android:textColor="@color/black"
                     android:textSize="28sp" />
 
-                <com.hala.wight.RatingBarView
+                <chat.hala.hala.wight.RatingBarView
                     android:id="@+id/rbv"
                     app:starEmpty="@drawable/eva_star_un_choose"
                     android:layout_width="wrap_content"
