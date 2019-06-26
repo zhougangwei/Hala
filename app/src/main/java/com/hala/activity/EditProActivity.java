@@ -152,7 +152,6 @@ public class EditProActivity extends BaseActivity {
             }
         });
 
-
     }
 
     @OnClick({R.id.ll_zodiac, R.id.ll_city, R.id.ll_introction, R.id.ll_tags, R.id.ll_bio, R.id.ll_certified, R.id.tv_save})

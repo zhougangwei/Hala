@@ -74,6 +74,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void loginfacebook() {
+
         FacebookLoginManager facebookLoginManager = new FacebookLoginManager();
         facebookLoginManager.init();
         facebookLoginManager.loginFaceBook(this, new FacebookLoginManager.OnResult() {

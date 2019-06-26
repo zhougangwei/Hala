@@ -8,7 +8,7 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.DisplayMetrics;
 
-import com.bumptech.glide.annotation.GlideModule;
+import com.facebook.FacebookSdk;
 import com.hala.activity.LoginActivity;
 import com.hala.avchat.WorkerThread;
 import com.hala.utils.SPUtil;
@@ -50,6 +50,7 @@ public class App extends MultiDexApplication {
         super.onCreate();
         application = this;
         sContext=this;
+
         SPUtil.setContext(this);
     }
 

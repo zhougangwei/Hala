@@ -11,7 +11,6 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.hala.activity.LoginPhoneActivity;
 import com.hala.avchat.AvchatInfo;
 import com.hala.base.BaseActivity;
 import com.hala.base.Contact;

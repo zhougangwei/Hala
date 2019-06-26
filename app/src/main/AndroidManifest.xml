@@ -70,6 +70,10 @@
         <activity android:name=".activity.MyReserveListActivity"/>
         <activity android:name=".activity.MyCoinsListActivity"/>
 
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="306102296576531" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
