@@ -55,11 +55,12 @@
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-                    <TextView
+                    <ImageView
+                        android:id="@+id/iv_back"
+                        android:src="@drawable/ic_back_white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="你好"
-                        android:textColor="@color/colorPrimaryDark" />
+                        />
                 </android.support.v7.widget.Toolbar>
 
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -165,13 +166,13 @@
                     android:layout_alignStart="@+id/tv_name"
                     android:layout_below="@+id/tv1"
                     android:layout_marginTop="46dp"
-                    android:text="个人资料"
+                    android:text="Profile"
                     android:textColor="#5f5f5f" />
 
 
 
                 <android.support.v7.widget.RecyclerView
-                    android:visibility="gone"
+
                     android:id="@+id/rv_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -180,13 +181,23 @@
                     android:layout_marginEnd="15dp"
                     android:layout_marginTop="12dp" />
 
+                <TextView
+                    android:id="@+id/tv3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/tv_name"
+                    android:layout_below="@+id/rv_info"
+                    android:layout_marginTop="19dp"
+                    android:text="Star Tags"
+                    android:textColor="#5f5f5f" />
+
+
                 <android.support.v7.widget.RecyclerView
-                    android:visibility="gone"
                     android:id="@+id/rv_tags"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignStart="@+id/tv_name"
-                    android:layout_below="@+id/tv2"
+                    android:layout_below="@+id/tv3"
                     android:layout_marginEnd="15dp"
                     android:layout_marginTop="12dp" />
             </RelativeLayout>

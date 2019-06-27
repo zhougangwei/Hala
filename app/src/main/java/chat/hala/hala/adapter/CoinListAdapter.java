@@ -2,6 +2,7 @@ package chat.hala.hala.adapter;
 
 import android.widget.ImageView;
 
+import com.blankj.utilcode.utils.TimeUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
@@ -11,6 +12,9 @@ import chat.hala.hala.R;
 
 import chat.hala.hala.bean.CoinListBean;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -31,9 +35,10 @@ public class CoinListAdapter extends BaseQuickAdapter<CoinListBean.DataBean.Tran
     protected void convert(BaseViewHolder helper, CoinListBean.DataBean.TransactionsBean.ListBean item) {
         helper.setText(R.id.tv_name, item.getInfo().getName());
         String content = "";
-        String startedAt = item.getDate();
-        helper.setText(R.id.tv_hour, startedAt);
-        helper.setText(R.id.tv_cost,item.getDigit());
+        String startedAt = item.getDatetime();
+
+        helper.setText(R.id.tv_hour, TimeUtils.date2String(TimeUtils.string2Date(startedAt,new SimpleDateFormat("yyyy-MM-dd HH:mm")), new SimpleDateFormat("HH:mm")));
+        helper.setText(R.id.tv_cost,item.getDigit()+"");
         switch (item.getCategory()) {
             case RECHARGE:
                 content="RECHARGE";

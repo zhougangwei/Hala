@@ -121,6 +121,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     public static final String Call_NO_ANSWERED     = "no_answered"; //即对方无应答，类似打电话对方无人接但是一直不挂直到通讯公司告知无人接听给挂了
     public static final String Call_SELF_HUNG_UP    = "self_hung_up"; //即拨打后没到对方无应答的状态自己给挂了，类似打电话响了两声就挂了。
     private int callTime =0;            //通话时间 单位是秒
+    private String anchorName="";         //主播名字
 
 
     /**
@@ -131,7 +132,6 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
      * @param callId
      */
     public static void docallOneToOneActivity(Context context, int anchorId, int anchorMemberId, String channelId, int callId) {
-
 
         Intent intent = new Intent(context, OneToOneActivity.class);
         intent.putExtra("anchorId", anchorId);
@@ -180,6 +180,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
 
     }
 
+    @SuppressLint("CheckResult")
     private void startTimerCount() {
         Observable.timer(60,TimeUnit.SECONDS)
                 .compose(this.<Long>bindToLifecycle())
@@ -346,19 +347,18 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
-
+                        finish();
                     }
                 });
     }
 
-    public void gotoVideoFinsh() {
-        //Intent intent = new Intent(OneToOneActivity.this, VideoFinishActivity.class);
-        //intent.putExtra("name");
-        //intent.putExtra("time");
-        //intent.putExtra("cost");
-        //intent.putExtra("starLevel", 0);
-        //startActivity(intent);
-        //finish();
+    public void gotoVideoFinsh(String name,String time,String cost) {
+       Intent intent = new Intent(OneToOneActivity.this, VideoFinishActivity.class);
+       intent.putExtra("name",name);
+       intent.putExtra("time",time);
+       intent.putExtra("cost",cost);
+       intent.putExtra("starLevel", 0);
+       startActivity(intent);
     }
 
 
@@ -392,7 +392,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
 
     }
 
-    private void changeCallState(String mcallstate) {
+    private void changeCallState(final String mcallstate) {
         callstate=mcallstate;
         RetrofitFactory.getInstance()
                 .changeCallState(ProxyPostHttpRequest.getInstance().changeCallState(callstate,callTime),callId)
@@ -402,7 +402,12 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                     @Override
                     public void onNext(CallStateBean callStateBean) {
                         if (ResultUtils.cheekSuccess(callStateBean)) {
-
+                            if (Call_SUCCEED_HUNG_UP.equals(mcallstate)){
+                                if (!AvchatInfo.isAnchor()){
+                                    gotoVideoFinsh(anchorName,callStateBean.getData().getDurationSeconds()+"",callStateBean.getData().getWorth()+"");
+                                    finish();
+                                }
+                            }
                         }
                     }
                 });
@@ -508,6 +513,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
 
     }
 
+    @SuppressLint("CheckResult")
     private void startChargeTimerCount() {
            Observable.interval(1,TimeUnit.SECONDS)
            .observeOn(AndroidSchedulers.mainThread())

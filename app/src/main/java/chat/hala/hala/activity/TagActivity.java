@@ -69,6 +69,7 @@ public class TagActivity extends BaseActivity {
     @SuppressLint("CheckResult")
     @Override
     protected void initView() {
+        tvTitle.setText("Select Tags");
          tvSave.setBackground(getResources().getDrawable(R.drawable.bg_rec_15blue));
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 100);
@@ -77,7 +78,7 @@ public class TagActivity extends BaseActivity {
         rvAll.setLayoutManager(gridLayoutManager);
         rvChoose.setLayoutManager(gridLayoutManager2);
 
-        allTagsAdapter = new TagsAdapter(R.layout.item_choose_tag, allDatas);
+        allTagsAdapter = new TagsAdapter(R.layout.item_choose_all_tag, allDatas);
         chooseAdapter = new TagsAdapter(R.layout.item_choose_tag, chooseDatas);
         rvAll.setAdapter(allTagsAdapter);
         rvChoose.setAdapter(chooseAdapter);

@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_facebook" />
+        android:src="@drawable/ic_head_place" />
 
     <ImageView
         android:layout_width="match_parent"
@@ -34,6 +34,7 @@
         app:layout_constraintTop_toTopOf="@id/iv_head" />
 
     <TextView
+        android:id="@+id/tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"

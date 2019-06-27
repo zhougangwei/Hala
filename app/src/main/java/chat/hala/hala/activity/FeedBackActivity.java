@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhihu.matisse.Matisse;
 
@@ -28,6 +29,7 @@ import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.manager.ChoosePicManager;
 import chat.hala.hala.utils.ResultUtils;
+import chat.hala.hala.utils.ToastUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -37,16 +39,21 @@ public class FeedBackActivity extends BaseActivity {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.iv_back)
-    ImageView ivBack;
+    ImageView    ivBack;
     @BindView(R.id.tv_title)
-    TextView tvTitle;
+    TextView     tvTitle;
     @BindView(R.id.tv_save)
-    TextView tvSave;
+    TextView     tvSave;
     @BindView(R.id.et_content)
-    EditText etContent;
+    EditText     etContent;
+    @BindView(R.id.iv_screen)
+    ImageView    ivScreen;
+
+
+
     private List<EditHeadAdapter.UserHead> mList;
-    private static final int REQUEST_CODE_CHOOSE = 224;
-    private List<String> uriList = new ArrayList<>();
+    private static final int          REQUEST_CODE_CHOOSE = 224;
+    private              List<String> uriList             = new ArrayList<>();
     private String mediaurl;
 
     @Override
@@ -61,6 +68,8 @@ public class FeedBackActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        tvSave.setText("Submit");
+        tvTitle.setText("Feedback");
         mList = new ArrayList<>();
         mList.add(new EditHeadAdapter.UserHead("", true));
         mAdapter = new EditHeadAdapter(mList);
@@ -83,13 +92,14 @@ public class FeedBackActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_CHOOSE) {
             List<String> strings = Matisse.obtainPathResult(data);
-            if (strings != null&&strings.size()>0) {
+            if (strings != null && strings.size() > 0) {
                 uriList.clear();
                 uriList.addAll(strings);
                 for (String s : uriList) {
                     mList.add(new EditHeadAdapter.UserHead(s, false));
                 }
                 mediaurl = uriList.get(0);
+                Glide.with(this).load(mediaurl).into(ivScreen);
                 mAdapter.notifyDataSetChanged();
             }
         }
@@ -103,7 +113,7 @@ public class FeedBackActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_save})
+    @OnClick({R.id.iv_back, R.id.tv_save,R.id.iv_screen})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -112,21 +122,24 @@ public class FeedBackActivity extends BaseActivity {
             case R.id.tv_save:
                 gotoSave();
                 break;
+            case R.id.iv_screen:
+                ChoosePicManager.choosePic(FeedBackActivity.this, 1);
+                break;
         }
     }
 
     private void gotoSave() {
-        String descr=etContent.getText().toString();
-        String  category="general";
+        String descr = etContent.getText().toString();
+        String category = "general";
         RetrofitFactory.getInstance()
-                .feedBack(ProxyPostHttpRequest.getInstance().feedBack(descr, mediaurl,category))
+                .feedBack(ProxyPostHttpRequest.getInstance().feedBack(descr, mediaurl, category))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<FeedBackBean>() {
                     @Override
                     public void onNext(FeedBackBean feedBackBean) {
                         if (ResultUtils.cheekSuccess(feedBackBean)) {
-
+                            ToastUtils.showToast(FeedBackActivity.this,"FeedBack Success!!");
                             finish();
                         }
                     }

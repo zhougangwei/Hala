@@ -5,10 +5,8 @@ import java.util.List;
 public class CoinListBean extends BaseBean{
 
 
-
-
     /**
-     * data : {"total":900,"transactions":{"content":[{"id":6,"memberId":2,"category":"recharge","digit":1000,"date":"2019-06-02","info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p"}},{"id":5,"memberId":2,"category":"reservation","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p"},"date":"2019-06-02"},{"id":4,"memberId":2,"category":"reservation","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p"},"date":"2019-06-02"},{"id":3,"memberId":2,"category":"reservation","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p"},"date":"2019-06-02"},{"id":2,"memberId":2,"category":"reservation","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p"},"date":"2019-06-02"}],"pageable":{"nextPage":false,"totalPages":1,"currentPage":1}}}
+     * data : {"total":900,"transactions":{"list":[{"id":22,"memberId":2,"category":"calling","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p","form":"anchor"},"datetime":"2019-06-22 01:07","date":"2019-06-22"}],"pageable":{"nextPage":false,"totalPages":1,"currentPage":1}}}
      */
 
     private DataBean data;
@@ -24,7 +22,7 @@ public class CoinListBean extends BaseBean{
     public static class DataBean {
         /**
          * total : 900
-         * transactions : {"content":[{"id":6,"memberId":2,"category":"recharge","digit":1000,"date":"2019-06-02"},{"id":5,"memberId":2,"category":"reservation","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p"},"date":"2019-06-02"},{"id":4,"memberId":2,"category":"reservation","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p"},"date":"2019-06-02"},{"id":3,"memberId":2,"category":"reservation","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p"},"date":"2019-06-02"},{"id":2,"memberId":2,"category":"reservation","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p"},"date":"2019-06-02"}],"pageable":{"nextPage":false,"totalPages":1,"currentPage":1}}
+         * transactions : {"list":[{"id":22,"memberId":2,"category":"calling","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p","form":"anchor"},"datetime":"2019-06-22 01:07","date":"2019-06-22"}],"pageable":{"nextPage":false,"totalPages":1,"currentPage":1}}
          */
 
         private int total;
@@ -48,7 +46,7 @@ public class CoinListBean extends BaseBean{
 
         public static class TransactionsBean {
             /**
-             * list : [{"id":6,"memberId":2,"category":"recharge","digit":1000,"date":"2019-06-02"},{"id":5,"memberId":2,"category":"reservation","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p"},"date":"2019-06-02"},{"id":4,"memberId":2,"category":"reservation","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p"},"date":"2019-06-02"},{"id":3,"memberId":2,"category":"reservation","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p"},"date":"2019-06-02"},{"id":2,"memberId":2,"category":"reservation","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p"},"date":"2019-06-02"}]
+             * list : [{"id":22,"memberId":2,"category":"calling","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p","form":"anchor"},"datetime":"2019-06-22 01:07","date":"2019-06-22"}]
              * pageable : {"nextPage":false,"totalPages":1,"currentPage":1}
              */
 
@@ -109,20 +107,22 @@ public class CoinListBean extends BaseBean{
 
             public static class ListBean {
                 /**
-                 * id : 6
+                 * id : 22
                  * memberId : 2
-                 * category : recharge
-                 * digit : 1000
-                 * date : 2019-06-02
-                 * info : {"id":14,"avatarUrl":"http://me.avatar.url","name":"old p"}
+                 * category : calling
+                 * digit : -20
+                 * info : {"id":14,"avatarUrl":"http://me.avatar.url","name":"old p","form":"anchor"}
+                 * datetime : 2019-06-22 01:07
+                 * date : 2019-06-22
                  */
 
                 private int id;
-                private int memberId;
-                private String category;
-                private int digit;
-                private String date;
+                private int      memberId;
+                private String   category;
+                private int      digit;
                 private InfoBean info;
+                private String   datetime;
+                private String   date;
 
                 public int getId() {
                     return id;
@@ -156,14 +156,6 @@ public class CoinListBean extends BaseBean{
                     this.digit = digit;
                 }
 
-                public String getDate() {
-                    return date;
-                }
-
-                public void setDate(String date) {
-                    this.date = date;
-                }
-
                 public InfoBean getInfo() {
                     return info;
                 }
@@ -172,16 +164,34 @@ public class CoinListBean extends BaseBean{
                     this.info = info;
                 }
 
+                public String getDatetime() {
+                    return datetime;
+                }
+
+                public void setDatetime(String datetime) {
+                    this.datetime = datetime;
+                }
+
+                public String getDate() {
+                    return date;
+                }
+
+                public void setDate(String date) {
+                    this.date = date;
+                }
+
                 public static class InfoBean {
                     /**
                      * id : 14
                      * avatarUrl : http://me.avatar.url
                      * name : old p
+                     * form : anchor
                      */
 
                     private int id;
                     private String avatarUrl;
                     private String name;
+                    private String form;
 
                     public int getId() {
                         return id;
@@ -205,6 +215,14 @@ public class CoinListBean extends BaseBean{
 
                     public void setName(String name) {
                         this.name = name;
+                    }
+
+                    public String getForm() {
+                        return form;
+                    }
+
+                    public void setForm(String form) {
+                        this.form = form;
                     }
                 }
             }

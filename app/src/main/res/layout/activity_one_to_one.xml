@@ -113,12 +113,43 @@
             android:layout_marginTop="30dp"
             tools:background="@color/black"/>
 
-        <TextView
-            android:id="@+id/tv_call_duration"
-            android:text="shijian "
-            android:layout_marginTop="30dp"
+
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="28dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="40dp">
+            <ImageView
+                android:layout_alignStart="@id/tv_charge"
+                android:background="@drawable/bg_rec_grey14"
+                android:layout_alignEnd="@+id/tv_call_duration"
+                android:layout_width="0dp"
+
+                android:layout_height="match_parent"/>
+            <TextView
+                android:id="@+id/tv_charge"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_rec_red14"
+                android:gravity="center"
+                android:paddingEnd="11dp"
+                android:paddingStart="11dp"
+                android:text="Recharge"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+            <TextView
+               android:paddingEnd="9dp"
+                android:layout_marginStart="9dp"
+                android:layout_toEndOf="@+id/tv_charge"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:id="@+id/tv_call_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="shijian "/>
+        </RelativeLayout>
+
 
         <ImageView
             android:id="@+id/iv_hangup"

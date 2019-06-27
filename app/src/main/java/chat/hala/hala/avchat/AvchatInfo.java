@@ -10,6 +10,9 @@ public class AvchatInfo {
     private static int coin;
     private static String sAvatarUrl;
 
+
+
+
     public static int getAccount() {
         return account;
     }
@@ -50,6 +53,10 @@ public class AvchatInfo {
         return anchorId;
     }
 
+    public static boolean isAnchor(){
+        return anchorId!=0;
+    }
+
     public static void setIsInCall(boolean isInCall) {
         sIsInCall = isInCall;
     }
@@ -73,4 +80,7 @@ public class AvchatInfo {
     public static String getAvatarUrl() {
         return sAvatarUrl;
     }
+
+
+
 }

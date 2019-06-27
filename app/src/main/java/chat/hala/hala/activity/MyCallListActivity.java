@@ -2,6 +2,7 @@ package chat.hala.hala.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import chat.hala.hala.utils.GsonUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -37,6 +39,7 @@ public class MyCallListActivity extends BaseActivity {
     List<CallListBean.DataBean.ListBean> callList=new ArrayList<>() ;
     private CallListAdapter adapter;
     private int page=0;
+    private String TAG ="MyCallListActivity";
 
 
     @Override
@@ -50,7 +53,7 @@ public class MyCallListActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
+        tvTitle.setText("My Calls");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(layoutManager);
@@ -75,6 +78,7 @@ public class MyCallListActivity extends BaseActivity {
                 .subscribe(new BaseCosumer<CallListBean>() {
                     @Override
                     public void onNext(CallListBean callListBean) {
+                        Log.e(TAG, "onNext: "+GsonUtil.parseObjectToJson(callListBean.getData()) );
                         if (Contact.REPONSE_CODE_SUCCESS!=callListBean.getCode()) {
                             return;
                         }

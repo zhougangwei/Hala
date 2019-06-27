@@ -3,6 +3,7 @@ package chat.hala.hala.adapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -25,10 +26,13 @@ public class CoinIncomeAdapter extends BaseQuickAdapter<CoinListBean.DataBean.Tr
 
     @Override
     protected void convert(BaseViewHolder helper, CoinListBean.DataBean.TransactionsBean.ListBean item) {
-        helper.setText(R.id.tv_cost, item.getDigit() + " coins");
-        helper.setText(R.id.tv_time, item.getDate()+"");
-        Glide.with(mContext).load(item.getInfo().getAvatarUrl()).into((ImageView) helper.getView(R.id.iv_head));
-        helper.setText(R.id.tv_name,item.getInfo().getName());
+        helper.setText(R.id.tv_cost, (item.getDigit() > 0 ? "+" : "-") + item.getDigit() + " coins");
+        helper.setText(R.id.tv_time, item.getDate() + "");
+        ImageView view = (ImageView) helper.getView(R.id.iv_head);
+        Glide.with(mContext).load(item.getInfo().getAvatarUrl())
+                .apply(RequestOptions.placeholderOf(view.getDrawable()))
+                .into(view);
+        helper.setText(R.id.tv_name, item.getInfo().getName());
 
     }
 }

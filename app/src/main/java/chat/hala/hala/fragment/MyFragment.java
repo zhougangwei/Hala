@@ -11,6 +11,7 @@ import chat.hala.hala.R;
 import chat.hala.hala.activity.BestarActivity;
 import chat.hala.hala.activity.ChargeActivity;
 import chat.hala.hala.activity.FeedBackActivity;
+import chat.hala.hala.activity.WalletActivity;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.dialog.CommonDialog;
@@ -79,7 +80,6 @@ public class MyFragment extends BaseFragment {
                             public void onClickConfirm() {
                                 getActivity().finish();
                             }
-
                             @Override
                             public void onClickCancel() {
                             }
@@ -96,7 +96,7 @@ public class MyFragment extends BaseFragment {
     }
 
     private void gotoCharge() {
-
+        startActivity(new Intent(getActivity(), ChargeActivity.class));
     }
 
     private void gotoCertify() {
@@ -104,7 +104,7 @@ public class MyFragment extends BaseFragment {
     }
 
     private void gotoWallet() {
-        startActivity(new Intent(getActivity(), ChargeActivity.class));
+        startActivity(new Intent(getActivity(), WalletActivity.class));
     }
 
 

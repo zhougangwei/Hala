@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="chat.hala.hala.activity.MyCallListActivity">
 
-    <include layout="@layout/include_top_toolbar_iv"
+    <include layout="@layout/include_top_toolbar_iv_line"
         android:id="@+id/title"
         />
     <android.support.v7.widget.RecyclerView

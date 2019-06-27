@@ -8,12 +8,14 @@
 
     <chat.hala.hala.wight.NoScrollViewPager
     android:id="@+id/vp"
+    android:layout_above="@id/rl1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
          />
 
 
     <RelativeLayout
+        android:id="@+id/rl1"
         android:layout_width="match_parent"
         android:layout_height="49dp"
         android:layout_alignParentBottom="true">

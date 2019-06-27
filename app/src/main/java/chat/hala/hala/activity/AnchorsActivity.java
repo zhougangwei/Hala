@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.AnchorDataAdapter;
+import chat.hala.hala.adapter.AnchorTagsAdapter;
 import chat.hala.hala.adapter.SimplePagerAdapter;
 import chat.hala.hala.adapter.TagsAdapter;
 import chat.hala.hala.base.BaseActivity;
@@ -82,7 +83,7 @@ public class AnchorsActivity extends BaseActivity {
 
 
     private SimplePagerAdapter simplePagerAdapter;
-    private TagsAdapter tagsAdapter;
+    private AnchorTagsAdapter tagsAdapter;
     private int anchorId;
     private int anchorIdMemberId;
     private AnchorDataAdapter mAnchorDataAdapter;
@@ -126,11 +127,33 @@ public class AnchorsActivity extends BaseActivity {
 
 
     private void initTags() {
-        tagsAdapter = new TagsAdapter(R.layout.item_anchor_infp, tagsDatas);
+        tagsAdapter = new AnchorTagsAdapter(R.layout.item_anchor_tag, tagsDatas);
         rvTags.setAdapter(tagsAdapter);
+        GridLayoutManager tagGridLayoutManager = new GridLayoutManager(AnchorsActivity.this, 100);
+        rvTags.setLayoutManager(tagGridLayoutManager);
+        rvTags.setItemAnimator(new DefaultItemAnimator());
+        rvTags.setAdapter(mAnchorDataAdapter);
+        tagGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                int width = ScreenUtils.getScreenWidth(AnchorsActivity.this)
+                        - SizeUtils.dp2px(AnchorsActivity.this, 28);
+                int itemWidth = getTextWidth(mPaint,
+                        tagsDatas.get(position).getContent() +
+                        + SizeUtils.dp2px(AnchorsActivity.this, 57));
+                return Math.min(100,itemWidth * 100 / width + 1);
+            }
+        });
+
+
+
+
+
+
+
+
 
         mAnchorDataAdapter = new AnchorDataAdapter(R.layout.item_anchor_infp, anchorInfoDatas);
-        rvInfo.setAdapter(mAnchorDataAdapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(AnchorsActivity.this, 100);
         rvInfo.setLayoutManager(gridLayoutManager);
         rvInfo.setItemAnimator(new DefaultItemAnimator());
@@ -138,14 +161,12 @@ public class AnchorsActivity extends BaseActivity {
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-
                 int width = ScreenUtils.getScreenWidth(AnchorsActivity.this)
-                        - SizeUtils.dp2px(AnchorsActivity.this, 8);
-
+                        - SizeUtils.dp2px(AnchorsActivity.this, 28);
                 int itemWidth = getTextWidth(mPaint,
                         anchorInfoDatas.get(position).getName() +
                                     " " + anchorInfoDatas.get(position).getContent())
-                            + SizeUtils.dp2px(AnchorsActivity.this, 33);
+                            + SizeUtils.dp2px(AnchorsActivity.this, 67);
                 return Math.min(100,itemWidth * 100 / width + 1);
             }
         });
@@ -218,13 +239,15 @@ public class AnchorsActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.toolbar, R.id.tv_call})
+    @OnClick({R.id.toolbar, R.id.tv_call,R.id.iv_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.toolbar:
                 break;
             case R.id.tv_call:
                 VideoCallManager.gotoCallOrReverse(AnchorsActivity.this,anchorId,anchorIdMemberId);
+                break;
+            case R.id.iv_back:
                 break;
         }
     }

@@ -9,6 +9,7 @@
 <include layout="@layout/include_top_toolbar_save_2"/>
 
 <TextView
+    android:background="@color/white"
     android:id="@+id/tv1"
     android:layout_marginTop="75dp"
     android:textColor="@color/black"
@@ -20,6 +21,7 @@
     android:layout_height="wrap_content" />
 
 <android.support.v7.widget.RecyclerView
+    android:background="@color/white"
     android:id="@+id/rv_choose"
     android:layout_marginTop="18dp"
     android:layout_width="0dp"
@@ -27,9 +29,11 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/tv1"
     app:layout_constraintStart_toStartOf="@id/tv1"
+
     android:layout_height="wrap_content"/>
 
 <ImageView
+    android:layout_marginTop="18dp"
     android:id="@+id/iv1"
     android:background="#F2F2F2"
     app:layout_constraintTop_toBottomOf="@+id/rv_choose"

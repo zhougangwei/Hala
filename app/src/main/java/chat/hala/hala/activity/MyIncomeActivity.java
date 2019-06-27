@@ -39,7 +39,7 @@ public class MyIncomeActivity extends BaseActivity {
     private CoinIncomeAdapter adapter;
     private int page=0;
     List<CoinListBean.DataBean.TransactionsBean.ListBean> callList = new ArrayList<>();
-    private boolean isLoadMore;
+    private boolean isLoadMore=true;
 
     @Override
     protected int getContentViewId() {
@@ -55,6 +55,7 @@ public class MyIncomeActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        mTvTitle.setText("My Income");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRv.setLayoutManager(layoutManager);
@@ -68,8 +69,6 @@ public class MyIncomeActivity extends BaseActivity {
             }},mRv);
         adapter.setPreLoadNumber(5);
         getData(page);
-
-
 
     }
 

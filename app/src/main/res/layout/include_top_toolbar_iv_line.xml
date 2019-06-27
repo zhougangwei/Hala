@@ -39,6 +39,10 @@
             android:textSize="17sp"
             android:textStyle="bold" />
 
-
+        <include layout="@layout/include_line"
+                 android:layout_height="1dp"
+                 android:layout_width="match_parent"
+                 android:layout_alignParentBottom="true"
+            />
     </RelativeLayout>
 </RelativeLayout>

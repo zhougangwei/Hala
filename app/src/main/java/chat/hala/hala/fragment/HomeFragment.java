@@ -15,7 +15,6 @@ import butterknife.Unbinder;
 
 public class HomeFragment extends BaseFragment {
 
-
     private static final int HOT = 0;
     private static final int NEW = 1;
     @BindView(R.id.vp)
@@ -91,13 +90,13 @@ public class HomeFragment extends BaseFragment {
                 tvHot.setTextSize(26f);
                 tvNew.setTextSize(17f);
                 ivHot.setVisibility(View.VISIBLE);
-                ivNew.setVisibility(View.GONE);
+                ivNew.setVisibility(View.INVISIBLE);
                 break;
             case NEW:
                 tvNew.setTextSize(26f);
                 tvHot.setTextSize(17f);
                 ivNew.setVisibility(View.VISIBLE);
-                ivHot.setVisibility(View.GONE);
+                ivHot.setVisibility(View.INVISIBLE);
                 break;
         }
 

@@ -69,7 +69,7 @@ public class WalletActivity extends BaseActivity {
                     @Override
                     public void accept(CoinBriefBean coinBriefBean) throws Exception {
                         if (ResultUtils.cheekSuccess(coinBriefBean)) {
-                            mTvCoinNum.setText(coinBriefBean.getData().getTotal());
+                            mTvCoinNum.setText(coinBriefBean.getData().getTotal()+"");
                         }
                     }
                 });
@@ -96,7 +96,7 @@ public class WalletActivity extends BaseActivity {
                 startActivity(new Intent(this,MyIncomeActivity.class));
                 break;
             case R.id.ll_cost:
-                startActivity(new Intent(this,MyIncomeActivity.class));
+                startActivity(new Intent(this,MyCostActivity.class));
                 break;
         }
     }

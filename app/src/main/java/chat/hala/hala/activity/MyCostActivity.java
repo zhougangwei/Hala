@@ -38,7 +38,7 @@ public class MyCostActivity extends BaseActivity {
     private CoinIncomeAdapter adapter;
     private int page=0;
     List<CoinListBean.DataBean.TransactionsBean.ListBean> callList = new ArrayList<>();
-    private boolean isLoadMore;
+    private boolean isLoadMore=true;
 
     @Override
     protected int getContentViewId() {
@@ -54,6 +54,7 @@ public class MyCostActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        mTvTitle.setText("My Cost");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRv.setLayoutManager(layoutManager);
@@ -68,15 +69,13 @@ public class MyCostActivity extends BaseActivity {
         adapter.setPreLoadNumber(5);
         getData(page);
 
-
-
     }
 
     private void getData(int page) {
         if (!isLoadMore){
             return;
         }
-        RetrofitFactory.getInstance().getCoinInComeList(page, Contact.PAGE_SIZE)
+        RetrofitFactory.getInstance().getCoinCostList(page, Contact.PAGE_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<CoinListBean>() {

@@ -57,10 +57,11 @@ public class ChargeActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        mTvTitle.setText("Recharge");
         mChargeAdapter = new ChargeAdapter(R.layout.item_charge, mdataList);
         mRv.setAdapter(mChargeAdapter);
         mRv.setLayoutManager(new GridLayoutManager(this,3));
-        mRv.addItemDecoration(new SpaceItemDecoration(SizeUtils.dp2px(this,13)));
+       // mRv.addItemDecoration(new SpaceItemDecoration(SizeUtils.dp2px(this,13)));
         initData();
     }
 
@@ -85,6 +86,7 @@ public class ChargeActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
+                finish();
                 break;
             case R.id.tv_contact:
                 break;

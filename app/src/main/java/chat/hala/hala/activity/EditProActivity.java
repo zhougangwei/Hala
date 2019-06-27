@@ -154,7 +154,7 @@ public class EditProActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.ll_zodiac, R.id.ll_city, R.id.ll_introction, R.id.ll_tags, R.id.ll_bio, R.id.ll_certified, R.id.tv_save})
+    @OnClick({R.id.ll_zodiac, R.id.ll_city, R.id.ll_introction, R.id.ll_tags, R.id.ll_bio, R.id.ll_certified, R.id.tv_save,R.id.iv_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_zodiac:
@@ -174,6 +174,9 @@ public class EditProActivity extends BaseActivity {
                 } else {
                     upQiniu();
                 }
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
         }
     }

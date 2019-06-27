@@ -9,10 +9,10 @@
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
         android:layout_height="41dp"
-        android:background="@drawable/bg_rec_3blue"
+        android:background="@drawable/bg_rec_3grey"
         android:gravity="center"
         android:padding="10dp"
         android:text="tag"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
 
 </android.support.constraint.ConstraintLayout>

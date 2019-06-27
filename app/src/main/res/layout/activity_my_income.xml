@@ -11,7 +11,7 @@
     <TextView
         android:id="@+id/tv_coin"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="102dp"
+        android:layout_marginTop="90dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textColor="@color/black"
@@ -27,31 +27,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:textColor="#A2A2A2"
         android:textSize="17sp"
-        android:text="TotaCoins"
+        android:text="Total Coins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-    <include
-        android:id="@+id/line"
-        layout="@layout/include_line"
-        android:layout_marginTop="47dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginEnd="35dp"
-        app:layout_constraintTop_toBottomOf="@+id/tv_coin"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        />
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"
-        app:layout_constraintStart_toStartOf="@id/line"
-        android:layout_marginTop="33dp"
-        app:layout_constraintTop_toBottomOf="@+id/line"
-        android:layout_width="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="54dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_coin"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"/>
 
 </android.support.constraint.ConstraintLayout>

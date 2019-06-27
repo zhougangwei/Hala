@@ -2,6 +2,7 @@ package chat.hala.hala.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import chat.hala.hala.utils.GsonUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -33,6 +35,7 @@ public class MyCoinsListActivity extends BaseActivity {
     List<CoinListBean.DataBean.TransactionsBean.ListBean> callList = new ArrayList<>();
     private CoinListAdapter adapter;
     private int page = 0;
+    private String TAG ="MyCoinsListActivity";
 
     @Override
     protected int getContentViewId() {
@@ -46,6 +49,7 @@ public class MyCoinsListActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        tvTitle.setText("My Coins");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(layoutManager);
@@ -65,6 +69,7 @@ public class MyCoinsListActivity extends BaseActivity {
                         if (Contact.REPONSE_CODE_SUCCESS != callListBean.getCode()) {
                             return;
                         }
+                        Log.e(TAG, "onNext: "+GsonUtil.parseObjectToJson(callListBean));
                         List<CoinListBean.DataBean.TransactionsBean.ListBean> list = callListBean.getData().getTransactions().getList();
                         if (list != null && list.size() > 0) {
                             callList.addAll(list);
