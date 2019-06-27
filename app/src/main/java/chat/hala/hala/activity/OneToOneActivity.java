@@ -15,8 +15,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import chat.hala.hala.R;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import chat.hala.hala.R;
 import chat.hala.hala.avchat.AGEventHandler;
 import chat.hala.hala.avchat.AVChatSoundPlayer;
 import chat.hala.hala.avchat.AvchatInfo;
@@ -41,6 +40,7 @@ import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ResultUtils;
+import chat.hala.hala.utils.TimeUtil;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
@@ -66,6 +66,9 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
 
     @BindView(R.id.tv_minute_cost)
     TextView       tvMinuteCost;
+
+    @BindView(R.id.tv_call_duration)
+    TextView       tvCallDuration;
     @BindView(R.id.iv_hangup_prepare_audience)
     ImageView      ivHangupPrepareAudience;
     @BindView(R.id.rl_prepare)
@@ -117,7 +120,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     public static final String Call_SUCCEED_HUNG_UP = "succeed_hung_up"; //表明接通成功后，通话结束挂断，当传入此状态时带上参数durationSeconds表明通话持续秒数
     public static final String Call_NO_ANSWERED     = "no_answered"; //即对方无应答，类似打电话对方无人接但是一直不挂直到通讯公司告知无人接听给挂了
     public static final String Call_SELF_HUNG_UP    = "self_hung_up"; //即拨打后没到对方无应答的状态自己给挂了，类似打电话响了两声就挂了。
-    private int duration =0;            //通话时间 单位是秒
+    private int callTime =0;            //通话时间 单位是秒
 
 
     /**
@@ -128,6 +131,8 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
      * @param callId
      */
     public static void docallOneToOneActivity(Context context, int anchorId, int anchorMemberId, String channelId, int callId) {
+
+
         Intent intent = new Intent(context, OneToOneActivity.class);
         intent.putExtra("anchorId", anchorId);
         intent.putExtra("anchorMemberId", anchorMemberId);
@@ -148,6 +153,8 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
 
     private void initIntent() {
 
+
+        startTimerCount();
         Intent intent = getIntent();
         //主播AnchorId很有用
         mAnchorId = intent.getIntExtra("anchorId", -1);
@@ -170,6 +177,20 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         }
         Log.e(TAG, "channelId: " + channelId + " callId :" + callId + " otherId :" + otherId + " myId:" + myId);
 
+
+    }
+
+    private void startTimerCount() {
+        Observable.timer(60,TimeUnit.SECONDS)
+                .compose(this.<Long>bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        callOutHangup();
+                        changeCallState(Call_NO_ANSWERED);
+                    }
+                });
 
     }
 
@@ -295,6 +316,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         switch (view.getId()) {
             case R.id.iv_hangup_prepare_audience:
                 callOutHangup();
+                changeCallState(Call_SELF_HUNG_UP);
                 break;
             case R.id.iv_hangup_prepare_anchor:
                 callInRefuse();
@@ -304,6 +326,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 break;
             case R.id.iv_hangup:
                 callOutHangup();
+                changeCallState(Call_SUCCEED_HUNG_UP);
                 break;
             case R.id.iv_camera_off:
 
@@ -364,17 +387,15 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         joinChannel();
         worker().answerTheCall(config().mRemoteInvitation);
         showOnshow();
-        changeCallState(Call_SUCCEED_HUNG_UP);
-
-
-
+        startChargeTimerCount();
+        changeCallState(Call_CONNECTED);
 
     }
 
     private void changeCallState(String mcallstate) {
         callstate=mcallstate;
         RetrofitFactory.getInstance()
-                .changeCallState(ProxyPostHttpRequest.getInstance().changeCallState(callstate,duration),callId)
+                .changeCallState(ProxyPostHttpRequest.getInstance().changeCallState(callstate,callTime),callId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<CallStateBean>() {
@@ -481,9 +502,23 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
             public void run() {
                 startHeartBeat();
                 showOnshow();
+                startChargeTimerCount();
             }
         });
 
+    }
+
+    private void startChargeTimerCount() {
+           Observable.interval(1,TimeUnit.SECONDS)
+           .observeOn(AndroidSchedulers.mainThread())
+           .subscribe(new Consumer<Long>() {
+               @Override
+               public void accept(Long aLong) throws Exception {
+                   callTime =callTime+1;
+                   String stringForTime = TimeUtil.stringForTime(callTime * 1000);
+                   tvCallDuration.setText(stringForTime);
+               }
+           });
     }
 
     /*

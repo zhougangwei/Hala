@@ -113,6 +113,13 @@
             android:layout_marginTop="30dp"
             tools:background="@color/black"/>
 
+        <TextView
+            android:id="@+id/tv_call_duration"
+            android:text="shijian "
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <ImageView
             android:id="@+id/iv_hangup"
             android:layout_width="wrap_content"

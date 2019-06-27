@@ -7,52 +7,63 @@ import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import chat.hala.hala.R;
-import chat.hala.hala.activity.AnchorsActivity;
-import chat.hala.hala.adapter.HotCallAdapter;
-import chat.hala.hala.base.BaseFragment;
-import chat.hala.hala.base.Contact;
-import chat.hala.hala.bean.OneToOneListBean;
-import chat.hala.hala.http.BaseCosumer;
-import chat.hala.hala.http.RetrofitFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import chat.hala.hala.R;
+import chat.hala.hala.activity.AnchorsActivity;
+import chat.hala.hala.adapter.HotCallAdapter;
+import chat.hala.hala.base.BaseFragment;
+import chat.hala.hala.base.Contact;
+import chat.hala.hala.bean.AdBean;
+import chat.hala.hala.bean.OneToOneListBean;
+import chat.hala.hala.http.BaseCosumer;
+import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.GsonUtil;
+import chat.hala.hala.utils.ResultUtils;
+import chat.hala.hala.wight.GlideImageLoader;
+import chat.hala.hala.wight.banner.Banner;
+import chat.hala.hala.wight.banner.BannerConfig;
+import chat.hala.hala.wight.banner.listener.OnBannerListener;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class HotFragment extends BaseFragment {
 
 
-    public  static String TAG="HotFragment";
+    public static String TAG = "HotFragment";
     @BindView(R.id.rv)
     RecyclerView rv;
 
     @BindView(R.id.swrl)
     SwipeRefreshLayout swrl;
-    private boolean isLoadMore=true;
+    private boolean isLoadMore = true;
 
 
-
-    List<OneToOneListBean.DataBean.ListBean> mHotOnetoOneList=new ArrayList<>();
+    List<OneToOneListBean.DataBean.ListBean> mHotOnetoOneList = new ArrayList<>();
     private HotCallAdapter hotCallAdapter;
     private int page;
+    Banner banner;
+    private List<String> imagesList=new ArrayList<>();
 
     @Override
     protected void initView() {
-        hotCallAdapter = new HotCallAdapter(R.layout.item_hot_list,mHotOnetoOneList);
+        hotCallAdapter = new HotCallAdapter(R.layout.item_hot_list, mHotOnetoOneList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(hotCallAdapter);
 
+        View headView = View.inflate(getActivity(), R.layout.item_hotfragment_header, null);
+        banner=headView.findViewById(R.id.banner);
+        hotCallAdapter.addHeaderView(headView);
+
         hotCallAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                AnchorsActivity.startAnchorAc(getActivity(),mHotOnetoOneList.get(position).getAnchorId(),mHotOnetoOneList.get(position).getMemberId());
+                AnchorsActivity.startAnchorAc(getActivity(), mHotOnetoOneList.get(position).getAnchorId(), mHotOnetoOneList.get(position).getMemberId());
             }
         });
 
@@ -63,7 +74,7 @@ public class HotFragment extends BaseFragment {
                 swrl.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e(TAG,"wo222");
+                        Log.e(TAG, "wo222");
                         getData(true);
                         swrl.setRefreshing(false);
                     }
@@ -73,11 +84,48 @@ public class HotFragment extends BaseFragment {
         hotCallAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                Log.e(TAG,"wo ");
-               getData(false);
-        }},rv);
+                Log.e(TAG, "wo ");
+                getData(false);
+            }
+        }, rv);
+        getBannerData();
+
+
         hotCallAdapter.setPreLoadNumber(5);
         hotCallAdapter.disableLoadMoreIfNotFullPage(rv);
+    }
+
+    private void getBannerData() {
+        RetrofitFactory.getInstance().getAd().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<AdBean>() {
+                    @Override
+                    public void onNext(AdBean adBean) {
+                        if (ResultUtils.cheekSuccess(adBean)) {
+                            List<AdBean.DataBean> data = adBean.getData();
+                            if (data!=null&&data.size()>0) {
+                                imagesList.clear();
+                                for (AdBean.DataBean datum : data) {
+                                    imagesList.add(datum.getMediaUrl());
+                                    banner();
+                                }
+                            }
+                        }
+                    }
+                });
+    }
+
+
+    private void banner() {
+        banner.setImages(imagesList)
+                .setImageLoader(new GlideImageLoader())
+                .setOnBannerListener(new OnBannerListener() {
+                    @Override
+                    public void OnBannerClick(int position) {
+                    }
+                })
+                .start();
+        banner.setIndicatorGravity(BannerConfig.RIGHT);
     }
 
     @Override
@@ -92,20 +140,19 @@ public class HotFragment extends BaseFragment {
 
     private void getData(final boolean isRefresh) {
 
-        if (!isLoadMore){
+        if (!isLoadMore) {
             return;
         }
         if (isRefresh) {
-            page =0;
-        }else{
+            page = 0;
+        } else {
             page++;
         }
-        Log.e(TAG,"aaa"+page);
+        Log.e(TAG, "aaa" + page);
 
         RetrofitFactory.getInstance().getHotOneToOneList(0, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<OneToOneListBean>() {
-
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
@@ -114,23 +161,22 @@ public class HotFragment extends BaseFragment {
 
                     @Override
                     public void onNext(OneToOneListBean oneToOneListBean) {
-
                         if (Contact.REPONSE_CODE_SUCCESS != oneToOneListBean.getCode()) {
                             hotCallAdapter.loadMoreFail();
                             return;
                         }
-                        Log.e(TAG, "onNext: "+ GsonUtil.parseObjectToJson(oneToOneListBean));
+                        Log.e(TAG, "onNext: " + GsonUtil.parseObjectToJson(oneToOneListBean));
 
                         if (oneToOneListBean.getData().getPageable().isNextPage()) {
                             hotCallAdapter.loadMoreEnd();
-                            isLoadMore=false;
+                            isLoadMore = false;
                         } else {
                             hotCallAdapter.loadMoreComplete();
                         }
                         if (isRefresh) {
                             mHotOnetoOneList.clear();
                         }
-                        Log.e(TAG,"aaaListBean");
+                        Log.e(TAG, "aaaListBean");
 
                         List<OneToOneListBean.DataBean.ListBean> content = oneToOneListBean.getData().getList();
                         if (content != null && content.size() > 0) {

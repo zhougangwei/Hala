@@ -1,6 +1,7 @@
 package chat.hala.hala.http;
 
 
+import chat.hala.hala.bean.AdBean;
 import chat.hala.hala.bean.AnchorBean;
 import chat.hala.hala.bean.AnchorStateBean;
 import chat.hala.hala.bean.AnchorTagBean;
@@ -11,6 +12,7 @@ import chat.hala.hala.bean.CallListBean;
 import chat.hala.hala.bean.CallStateBean;
 import chat.hala.hala.bean.CoinBriefBean;
 import chat.hala.hala.bean.CoinListBean;
+import chat.hala.hala.bean.FeedBackBean;
 import chat.hala.hala.bean.HeartBean;
 import chat.hala.hala.bean.LoginBean;
 import chat.hala.hala.bean.MediaToken;
@@ -21,7 +23,6 @@ import chat.hala.hala.bean.RegistBean;
 import chat.hala.hala.bean.ReverseBean;
 import chat.hala.hala.bean.RtmTokenBean;
 import chat.hala.hala.bean.RuleBean;
-
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
@@ -186,5 +187,14 @@ public interface HttpRequest {
     RequestBody changeCallState(@Query("state")String state,@Query("durationSeconds")int durationSeconds
     );
 
+    @POST("/member/feedback")
+    Observable<FeedBackBean> feedBack(@Body RequestBody requestBody
+    );
+    RequestBody feedBack(@Query("description")String description,@Query("mediaUrl")String mediaUrl
+            ,@Query("category")String category
+    );
+
+    @GET("/general/rule")
+    Observable<AdBean> getAd();
 
 }
