@@ -9,7 +9,7 @@
         android:id="@+id/tv_content"
         android:layout_width="100dp"
         android:layout_height="41dp"
-
+        android:background="@drawable/bg_rec_3blue"
         android:gravity="center"
         android:padding="10dp"
         android:text="tag"

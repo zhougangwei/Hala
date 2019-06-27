@@ -69,7 +69,7 @@ public class TagActivity extends BaseActivity {
     @SuppressLint("CheckResult")
     @Override
     protected void initView() {
-      //  tvSave.setBackground(getResources().getDrawable(R.drawable.bg_rec_15blue));
+         tvSave.setBackground(getResources().getDrawable(R.drawable.bg_rec_15blue));
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 100);
         rvAll.setLayoutManager(gridLayoutManager);

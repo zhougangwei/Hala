@@ -1,5 +1,6 @@
 package chat.hala.hala.adapter;
 
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -32,6 +33,7 @@ public class HotCallAdapter extends BaseQuickAdapter<OneToOneListBean.DataBean.L
         helper.setText(R.id.tv_content,item.getBiography());
         helper.setText(R.id.tv_cost,item.getCpm()+" /min");
         ImageView imageView = (ImageView) helper.getView(R.id.iv_bg);
+        Log.e(TAG, "convert: "+item.getAvatarUrl());
         Glide.with(mContext).load(item.getAvatarUrl())
                 .apply(RequestOptions.placeholderOf(imageView.getDrawable()))
                 .into(imageView);

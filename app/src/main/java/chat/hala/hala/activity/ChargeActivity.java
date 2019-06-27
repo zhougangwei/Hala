@@ -12,6 +12,7 @@ import chat.hala.hala.R;
 import chat.hala.hala.adapter.ChargeAdapter;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.bean.RuleBean;
+import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.itemdecoration.SpaceItemDecoration;
 import chat.hala.hala.utils.ResultUtils;
@@ -68,9 +69,9 @@ public class ChargeActivity extends BaseActivity {
         RetrofitFactory.getInstance().getRuleList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<RuleBean>() {
+                .subscribe(new BaseCosumer<RuleBean>() {
                     @Override
-                    public void accept(RuleBean ruleBean) throws Exception {
+                    public void onNext(RuleBean ruleBean) {
                         if (ResultUtils.cheekSuccess(ruleBean)) {
                             List<RuleBean.DataBean.RechargeSettingBean> recharge_setting = ruleBean.getData().getRecharge_setting();
                             mdataList.clear();

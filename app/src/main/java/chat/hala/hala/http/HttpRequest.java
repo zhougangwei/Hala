@@ -8,6 +8,7 @@ import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.bean.BeAnchorBean;
 import chat.hala.hala.bean.CallBean;
 import chat.hala.hala.bean.CallListBean;
+import chat.hala.hala.bean.CallStateBean;
 import chat.hala.hala.bean.CoinBriefBean;
 import chat.hala.hala.bean.CoinListBean;
 import chat.hala.hala.bean.HeartBean;
@@ -177,4 +178,13 @@ public interface HttpRequest {
 
     @GET("/coin/brief")
     Observable<CoinBriefBean> getCoinBrief();
+
+
+    @POST("/call/{callId}/state")
+    Observable<CallStateBean> changeCallState(@Body RequestBody requestBody,@Path("callId") int callId
+    );
+    RequestBody changeCallState(@Query("state")String state,@Query("durationSeconds")int durationSeconds
+    );
+
+
 }

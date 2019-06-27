@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+
 import chat.hala.hala.R;
 
 import org.slf4j.Logger;
@@ -32,9 +33,11 @@ import chat.hala.hala.avchat.WorkerThread;
 import chat.hala.hala.base.App;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.bean.AnchorBean;
+import chat.hala.hala.bean.CallStateBean;
 import chat.hala.hala.bean.HeartBean;
 import chat.hala.hala.bean.MediaToken;
 import chat.hala.hala.http.BaseCosumer;
+import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ResultUtils;
@@ -104,6 +107,18 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     private int        callId;       //服务端通话Id
     private Disposable mSubscribe;
     private int        mAnchorId;
+
+
+    private String callstate;
+
+
+    public static final String Call_CALLING         = "calling"; //发起通话时预制状态，为拨打中
+    public static final String Call_CONNECTED       = "connected"; //表明已接通，开始通话
+    public static final String Call_SUCCEED_HUNG_UP = "succeed_hung_up"; //表明接通成功后，通话结束挂断，当传入此状态时带上参数durationSeconds表明通话持续秒数
+    public static final String Call_NO_ANSWERED     = "no_answered"; //即对方无应答，类似打电话对方无人接但是一直不挂直到通讯公司告知无人接听给挂了
+    public static final String Call_SELF_HUNG_UP    = "self_hung_up"; //即拨打后没到对方无应答的状态自己给挂了，类似打电话响了两声就挂了。
+    private int duration =0;            //通话时间 单位是秒
+
 
     /**
      * @param context
@@ -314,13 +329,13 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     }
 
     public void gotoVideoFinsh() {
-       Intent intent = new Intent(OneToOneActivity.this, VideoFinishActivity.class);
-       intent.putExtra("name");
-       intent.putExtra("time");
-       intent.putExtra("cost");
-       intent.putExtra("starLevel", 0);
-       startActivity(intent);
-       finish();
+        //Intent intent = new Intent(OneToOneActivity.this, VideoFinishActivity.class);
+        //intent.putExtra("name");
+        //intent.putExtra("time");
+        //intent.putExtra("cost");
+        //intent.putExtra("starLevel", 0);
+        //startActivity(intent);
+        //finish();
     }
 
 
@@ -349,9 +364,27 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         joinChannel();
         worker().answerTheCall(config().mRemoteInvitation);
         showOnshow();
-        RetrofitFactory.getInstance().
+        changeCallState(Call_SUCCEED_HUNG_UP);
 
 
+
+
+    }
+
+    private void changeCallState(String mcallstate) {
+        callstate=mcallstate;
+        RetrofitFactory.getInstance()
+                .changeCallState(ProxyPostHttpRequest.getInstance().changeCallState(callstate,duration),callId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<CallStateBean>() {
+                    @Override
+                    public void onNext(CallStateBean callStateBean) {
+                        if (ResultUtils.cheekSuccess(callStateBean)) {
+
+                        }
+                    }
+                });
     }
 
 

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import chat.hala.hala.utils.GsonUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -118,6 +119,8 @@ public class HotFragment extends BaseFragment {
                             hotCallAdapter.loadMoreFail();
                             return;
                         }
+                        Log.e(TAG, "onNext: "+ GsonUtil.parseObjectToJson(oneToOneListBean));
+
                         if (oneToOneListBean.getData().getPageable().isNextPage()) {
                             hotCallAdapter.loadMoreEnd();
                             isLoadMore=false;
