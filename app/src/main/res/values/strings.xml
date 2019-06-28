@@ -30,4 +30,6 @@
     <string name="fee_100_coins">Fee: %1$s coins</string>
     <string name="facebook_app_id">306102296576531</string>
     <string name="fb_login_protocol_scheme">fb306102296576531</string>
+    <string name="policy">By clicking Sign up, you are indicating that you have read and agreed to the EULA and Privacy Policy</string>
+    <string name="continue_user_rules">By continuing to use our app and services, you are agreeing to be bound by below terms and conditions</string>
 </resources>

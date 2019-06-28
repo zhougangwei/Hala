@@ -22,11 +22,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.EditHeadAdapter;
+import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.bean.FeedBackBean;
+import chat.hala.hala.bean.QiNiuToken;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.http.UploadPicManger;
 import chat.hala.hala.manager.ChoosePicManager;
 import chat.hala.hala.utils.ResultUtils;
 import chat.hala.hala.utils.ToastUtils;
@@ -120,7 +123,7 @@ public class FeedBackActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_save:
-                gotoSave();
+                upQiniu();
                 break;
             case R.id.iv_screen:
                 ChoosePicManager.choosePic(FeedBackActivity.this, 1);
@@ -129,6 +132,9 @@ public class FeedBackActivity extends BaseActivity {
     }
 
     private void gotoSave() {
+
+
+
         String descr = etContent.getText().toString();
         String category = "general";
         RetrofitFactory.getInstance()
@@ -145,5 +151,23 @@ public class FeedBackActivity extends BaseActivity {
                     }
                 });
 
+    }
+
+    private boolean upQiniu() {
+        QiNiuToken.DataBean.StarchatfeedbackBean starchatfeedbackBean = QiniuInfo.getmStarchatfeedbackBean();
+        if (starchatfeedbackBean == null) {
+            return true;
+        }
+        new UploadPicManger().uploadImageArray(uriList, 0, starchatfeedbackBean.getToken(), starchatfeedbackBean.getUrl(), new UploadPicManger.QiNiuUploadCompletionHandler() {
+            @Override
+            public void uploadSuccess(String path, List<String> paths) {
+                gotoSave();
+            }
+            @Override
+            public void uploadFailure() {
+                gotoSave();
+            }
+        });
+        return false;
     }
 }

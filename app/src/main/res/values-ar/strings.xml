@@ -27,4 +27,5 @@
     <string name="charged_coins_per_min">Charged %1$s coins per Min</string>
     <string name="call_duration_10_mins">Call duration: %1$s</string>
     <string name="fee_100_coins">Fee: %1$s coins</string>
+    <string name="continue_user_rules">By continuing to use our app and services, you are agreeing to be bound by below terms and conditions</string>
 </resources>

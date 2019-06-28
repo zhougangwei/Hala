@@ -62,6 +62,16 @@ public interface HttpRequest {
     RequestBody regist(@Query("code") String code, @Query("avatarUrl")String avatarUrl, @Query("username")String username,
                        @Query("gender")String gender, @Query("birthDate")String birthDate, @Query("mobileNumber")String mobileNumber
     );
+    RequestBody changeUserInfo(@Query("avatarUrl")String avatarUrl, @Query("username")String username,
+                       @Query("gender")String gender, @Query("birthDate")String birthDate, @Query("mobileNumber")String mobileNumber
+    );
+
+    @POST("/member")
+    Observable<RegistBean> changeUserInfo(@Body RequestBody requestBody
+    );
+
+
+
 
     @POST("/anchor/apply")
     Observable<BeAnchorBean> applyAnchor(@Body RequestBody requestBody

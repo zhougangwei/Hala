@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import chat.hala.hala.R;
 import com.zhihu.matisse.Matisse;
 
 import java.util.ArrayList;
@@ -18,6 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import chat.hala.hala.R;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.base.BaseActivity;
@@ -74,21 +74,16 @@ public class EditProUserActivity extends BaseActivity {
     private String code;
 
 
-
     private String username;
     private String gender;
     private String birthDate;
 
 
-
-
-
-
     public static final String FROM_FACEBOOK = "from_facebook";
     public static final String FROM_PHONE = "from_phone";
+    public static final String FROM_MYFRAG_MENT = "from_myfrag_ment";
     private String avatarUrl;
     private List<String> uriList=new ArrayList<>();
-
 
     @Override
     protected int getContentViewId() {
@@ -165,6 +160,7 @@ public class EditProUserActivity extends BaseActivity {
             @Override
             public void uploadFailure() {
                 // TODO: 2019/6/25 0025 上传图片失败
+                startConfirm();
                 Log.e(TAG, "uploadFailure: 失败");
             }
         });
@@ -183,6 +179,8 @@ public class EditProUserActivity extends BaseActivity {
             regist= RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(code, avatarUrl, username, gender, birthDate, mobileNumber));
         }else if (type.equals(FROM_FACEBOOK)){
             regist=RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(avatarUrl, username, gender, birthDate,facebookId));
+        }else if(type.equals(FROM_MYFRAG_MENT)){
+            regist=RetrofitFactory.getInstance().changeUserInfo(ProxyPostHttpRequest.getInstance().changeUserInfo( avatarUrl, username, gender, birthDate, mobileNumber));
         }
         regist.subscribeOn(Schedulers.io())
                 .compose(this.<RegistBean>bindToLifecycle())
@@ -191,13 +189,13 @@ public class EditProUserActivity extends BaseActivity {
                     @Override
                     public void onNext(RegistBean baseBean) {
                         if (Contact.REPONSE_CODE_SUCCESS!=baseBean.getCode()) {
-                            ToastUtils.showToast(EditProUserActivity.this, "注册失败");
+                            ToastUtils.showToast(EditProUserActivity.this, "保存失败");
                             return;
                         }
                         AvchatInfo.setName(baseBean.getData().getUsername());
                         AvchatInfo.setCoin(baseBean.getData().getCoin());
                         AvchatInfo.setAvatarUrl(baseBean.getData().getAvatarUrl());
-                        ToastUtils.showToast(EditProUserActivity.this, "注册成功");
+                        ToastUtils.showToast(EditProUserActivity.this, "保存成功");
                     }
                 });
 

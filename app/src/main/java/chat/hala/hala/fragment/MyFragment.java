@@ -7,9 +7,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+
 import chat.hala.hala.R;
 import chat.hala.hala.activity.BestarActivity;
 import chat.hala.hala.activity.ChargeActivity;
+import chat.hala.hala.activity.EditProUserActivity;
 import chat.hala.hala.activity.FeedBackActivity;
 import chat.hala.hala.activity.WalletActivity;
 import chat.hala.hala.avchat.AvchatInfo;
@@ -21,15 +23,15 @@ import butterknife.OnClick;
 
 public class MyFragment extends BaseFragment {
     @BindView(R.id.tv_name)
-    TextView  tvName;
+    TextView tvName;
     @BindView(R.id.iv_head)
     ImageView ivHead;
     @BindView(R.id.iv_more)
     ImageView ivMore;
     @BindView(R.id.tv_charge)
-    TextView  tvCharge;
+    TextView tvCharge;
     @BindView(R.id.tv_money)
-    TextView  tvMoney;
+    TextView tvMoney;
 
 
     @Override
@@ -39,7 +41,7 @@ public class MyFragment extends BaseFragment {
                 .load(AvchatInfo.getAvatarUrl())
                 .apply(RequestOptions.placeholderOf(ivHead.getDrawable()))
                 .into(ivHead);
-        tvMoney.setText(AvchatInfo.getCoin()+"");
+        tvMoney.setText(AvchatInfo.getCoin() + "");
     }
 
     @Override
@@ -57,6 +59,9 @@ public class MyFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_more:
+                Intent intent = new Intent(getActivity(), EditProUserActivity.class);
+                intent.putExtra("type",EditProUserActivity.FROM_MYFRAG_MENT);
+                startActivity(intent);
                 break;
             case R.id.tv_charge:
                 gotoCharge();
@@ -80,6 +85,7 @@ public class MyFragment extends BaseFragment {
                             public void onClickConfirm() {
                                 getActivity().finish();
                             }
+
                             @Override
                             public void onClickCancel() {
                             }
