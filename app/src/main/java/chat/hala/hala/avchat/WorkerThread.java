@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 
+import chat.hala.hala.bean.MessageBean;
 import io.agora.rtc.Constants;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
@@ -30,6 +31,7 @@ import io.agora.rtm.ResultCallback;
 import io.agora.rtm.RtmCallManager;
 import io.agora.rtm.RtmChannel;
 import io.agora.rtm.RtmClient;
+import io.agora.rtm.RtmMessage;
 
 public class WorkerThread extends Thread {
     private final static Logger log = LoggerFactory.getLogger(WorkerThread.class);
@@ -57,6 +59,7 @@ public class WorkerThread extends Thread {
     private static final int ACTION_WORKER_MAKE_THE_CALL = 0X2019;
 
     private static final int ACTION_WORKER_HANG_UP_THE_CALL = 0X2020;
+    private static final int ACTION_SEND_MESSAGE = 0X2021;
 
     private static final class WorkerThreadHandler extends Handler {
 
@@ -120,6 +123,10 @@ public class WorkerThread extends Thread {
                 case ACTION_WORKER_PREVIEW:
                     Object[] previewData = (Object[]) msg.obj;
                     mWorkerThread.preview((boolean) previewData[0], (SurfaceView) previewData[1], (int) previewData[2]);
+                    break;
+                case ACTION_SEND_MESSAGE:
+                    MessageBean messaeData = (MessageBean) msg.obj;
+                    mWorkerThread.sendMessage(messaeData);
                     break;
             }
         }
@@ -341,7 +348,6 @@ public class WorkerThread extends Thread {
                 public void onSuccess(Void aVoid) {
 
                 }
-
                 @Override
                 public void onFailure(ErrorInfo errorInfo) {
 
@@ -365,6 +371,34 @@ public class WorkerThread extends Thread {
 
         log.debug("hangupTheCall " + invitation + " " + invitation.getCallerId() + " " + invitation.getChannelId() + " " + callMgr);
     }
+
+    public final void sendMessage(MessageBean message){
+        if (Thread.currentThread() != this) {
+            Message envelop = new Message();
+            envelop.what = ACTION_SEND_MESSAGE;
+            envelop.obj = message;
+            mWorkerHandler.sendMessage(envelop);
+            return;
+        }
+        ensureRtmClientReadyLock();
+        RtmMessage rtmMessage = mRtmClient.createMessage();
+        rtmMessage.setText(message.getMessage());
+        mRtmClient.sendMessageToPeer(message.getId() + "", rtmMessage, new ResultCallback<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.e("sendMessageToPeer", "onSuccess: " );
+            }
+
+            @Override
+            public void onFailure(ErrorInfo errorInfo) {
+                Log.e("sendMessageToPeer", "onFailure: " +errorInfo.getErrorCode());
+            }
+        });
+
+
+    }
+
+
 
     public final void joinChannel(String mediaToken, final String channel, int uid) {
         if (Thread.currentThread() != this) {

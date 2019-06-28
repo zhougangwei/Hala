@@ -26,6 +26,7 @@ import io.reactivex.schedulers.Schedulers;
 public class LoginPhoneActivity extends BaseActivity {
 
 
+    private static final int REQUEST_CHOOSE_COUNTRY = 666;
     @BindView(R.id.iv_back)
     ImageView ivBack;
     @BindView(R.id.tv_title)
@@ -46,6 +47,7 @@ public class LoginPhoneActivity extends BaseActivity {
     TextView tvTry;
     @BindView(R.id.iv_facebook)
     ImageView ivFacebook;
+    private Integer mCountryCode;       //电话国家前面的countryCode
 
     @Override
     protected int getContentViewId() {
@@ -64,7 +66,7 @@ public class LoginPhoneActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_back, R.id.tv_login, R.id.tv_try, R.id.iv_facebook})
+    @OnClick({R.id.iv_back, R.id.tv_login, R.id.tv_try, R.id.iv_facebook,R.id.tv_country_name})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -79,7 +81,26 @@ public class LoginPhoneActivity extends BaseActivity {
                 startLogin(2);
               //  loginfacebook();
                 break;
+            case R.id.tv_country_name:
+                Intent intent = new Intent(this, ChooseCountryActivity.class);
+                startActivityForResult(intent,REQUEST_CHOOSE_COUNTRY);
+                break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==RESULT_OK){
+            if (requestCode==REQUEST_CHOOSE_COUNTRY) {
+                String countryName = data.getStringExtra("countryName");
+                mCountryCode = data.getIntExtra("countryCode",0);
+                tvCountryName.setText(countryName);
+                ToastUtils.showToast(LoginPhoneActivity.this,mCountryCode+"");
+                tvCountryCode.setText("+"+mCountryCode);
+            }
+        }
+
     }
 
     private void loginfacebook() {
@@ -112,7 +133,7 @@ public class LoginPhoneActivity extends BaseActivity {
     private void startLogin(int type) {
         final String mobileNumber ;
         if (type==1){
-            mobileNumber="+"+"8613851668726";
+            mobileNumber="+"+"8613851668725";
         }else{
             mobileNumber= "+"+"86111111";
 

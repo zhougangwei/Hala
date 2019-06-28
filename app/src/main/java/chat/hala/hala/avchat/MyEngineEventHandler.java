@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
+import chat.hala.hala.base.Contact;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtm.ErrorInfo;
@@ -225,6 +226,15 @@ public class MyEngineEventHandler {
         @Override
         public void onMessageReceived(RtmMessage rtmMessage, String s) {
 
+            String text = rtmMessage.getText();
+            Log.e(TAG, "onReceiveMessage: "+text );
+            if (text.contains(Contact.RTM_DO_CALL_STRING)) {
+                Iterator<AGEventHandler> it = mEventHandlerList.keySet().iterator();
+                while (it.hasNext()) {
+                    AGEventHandler handler = it.next();
+                    handler.onReceiveMessage(text);
+                }
+            }
         }
 
         @Override

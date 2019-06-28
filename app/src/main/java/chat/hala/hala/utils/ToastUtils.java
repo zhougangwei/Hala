@@ -2,6 +2,7 @@ package chat.hala.hala.utils;
 
 import android.content.Context;
 import android.os.Build;
+import android.view.Gravity;
 import android.widget.Toast;
 
 import chat.hala.hala.base.App;
@@ -32,17 +33,20 @@ public class ToastUtils {
                 }else{
                     mToast = Toast.makeText(App.sContext, text, Toast.LENGTH_SHORT);
                 }
+                mToast.setGravity(Gravity.CENTER, 0, 0);
                 mToast.show();
                 oneTime = System.currentTimeMillis();
             } else {
                 twoTime = System.currentTimeMillis();
                 if (text.equals(oldMsg)) {
                     if (twoTime - oneTime > Toast.LENGTH_SHORT) {
+                        mToast.setGravity(Gravity.CENTER, 0, 0);
                         mToast.show();
                     }
                 } else {
                     oldMsg = text;
                     mToast.setText(text);
+                    mToast.setGravity(Gravity.CENTER, 0, 0);
                     mToast.show();
                 }
             }

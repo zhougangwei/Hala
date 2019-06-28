@@ -40,7 +40,7 @@
         android:id="@+id/tv3"
         android:textColor="#472EB4"
         app:layout_constraintTop_toBottomOf="@id/tv2"
-        android:text="Terms of Use and EULA &amp; Privacy Policy"
+        android:text="@string/terms_of_use_and_eula_amp_privacy_policy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView

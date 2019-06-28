@@ -9,8 +9,7 @@ public class AvchatInfo {
     private static String sMediaToken;
     private static int coin;
     private static String sAvatarUrl;
-
-
+    private static String sCallText;
 
 
     public static int getAccount() {
@@ -82,5 +81,11 @@ public class AvchatInfo {
     }
 
 
+    public static void setCallText(String callText) {
+        sCallText = callText;
+    }
 
+    public static String getCallText() {
+        return sCallText;
+    }
 }

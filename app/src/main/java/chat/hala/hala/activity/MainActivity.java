@@ -282,6 +282,12 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     public void onLastmileProbeResult(IRtcEngineEventHandler.LastmileProbeResult result) {
 
     }
+
+    @Override
+    public void onReceiveMessage(String text) {
+        AvchatInfo.setCallText(text);
+        Log.e(TAG, "onReceiveMessage: "+text );
+    }
 }
 
 

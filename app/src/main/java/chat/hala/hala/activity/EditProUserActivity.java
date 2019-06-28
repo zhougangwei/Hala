@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.zhihu.matisse.Matisse;
 
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.http.UploadPicManger;
 import chat.hala.hala.manager.ChoosePicManager;
+import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ToastUtils;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -154,6 +157,7 @@ public class EditProUserActivity extends BaseActivity {
             @Override
             public void uploadSuccess(String path, List<String> paths) {
                 avatarUrl=path;
+                Log.e(TAG, "uploadSuccess: "+avatarUrl);
                 startConfirm();
             }
 
@@ -188,6 +192,7 @@ public class EditProUserActivity extends BaseActivity {
                 .subscribe(new BaseCosumer<RegistBean>() {
                     @Override
                     public void onNext(RegistBean baseBean) {
+                        Log.e(TAG, "onNext: " +GsonUtil.parseObjectToJson(baseBean));
                         if (Contact.REPONSE_CODE_SUCCESS!=baseBean.getCode()) {
                             ToastUtils.showToast(EditProUserActivity.this, "保存失败");
                             return;
@@ -196,9 +201,9 @@ public class EditProUserActivity extends BaseActivity {
                         AvchatInfo.setCoin(baseBean.getData().getCoin());
                         AvchatInfo.setAvatarUrl(baseBean.getData().getAvatarUrl());
                         ToastUtils.showToast(EditProUserActivity.this, "保存成功");
+                        finish();
                     }
                 });
-
     }
 
     @Override
@@ -209,7 +214,7 @@ public class EditProUserActivity extends BaseActivity {
              if (strings!=null) {
                  uriList.clear();
                  uriList.addAll(strings) ;
-                 Glide.with(this).load(uriList.get(0)) .into(ivHead) ;
+                 Glide.with(this).load(uriList.get(0)).apply(RequestOptions.bitmapTransform(new CircleCrop())) .into(ivHead) ;
              }
         }
     }

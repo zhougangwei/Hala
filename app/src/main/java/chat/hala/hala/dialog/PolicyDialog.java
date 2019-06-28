@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.blankj.utilcode.utils.ScreenUtils;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 
@@ -35,6 +36,7 @@ public class PolicyDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_policy);
+        ButterKnife.bind(this);
     }
 
     public PolicyDialog setListener(PolicyDialog.OnClickListener mListener) {
@@ -53,7 +55,7 @@ public class PolicyDialog extends Dialog {
     }
 
     @OnClick({R.id.tv_agree,R.id.iv_close})
-    public void onViewClicked(View view) {
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_agree:
                 if (mListener!=null) {
@@ -65,9 +67,6 @@ public class PolicyDialog extends Dialog {
                 dismiss();
                 break;
         }
-
-
-
     }
 
     public interface OnClickListener {

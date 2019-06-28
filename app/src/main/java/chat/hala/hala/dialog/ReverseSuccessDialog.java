@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import butterknife.ButterKnife;
 import chat.hala.hala.R;
 
 import chat.hala.hala.adapter.RandomAnchorAdapter;
@@ -48,6 +50,7 @@ public class ReverseSuccessDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_reserve_success);
+        ButterKnife.bind(this);
         randomAnchorAdapter = new RandomAnchorAdapter(R.layout.item_random_anchor, mRanodmList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);

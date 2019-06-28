@@ -31,16 +31,19 @@ import chat.hala.hala.avchat.MyEngineEventHandler;
 import chat.hala.hala.avchat.WorkerThread;
 import chat.hala.hala.base.App;
 import chat.hala.hala.base.BaseActivity;
+import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.AnchorBean;
 import chat.hala.hala.bean.CallStateBean;
 import chat.hala.hala.bean.HeartBean;
 import chat.hala.hala.bean.MediaToken;
+import chat.hala.hala.bean.MessageBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ResultUtils;
 import chat.hala.hala.utils.TimeUtil;
+import chat.hala.hala.utils.ToastUtils;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
@@ -226,20 +229,26 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
             ivHangupPrepareAnchor.setVisibility(View.VISIBLE);
             ivHangupPrepareAudience.setVisibility(View.GONE);
         }
+        getAnchorData();
+
+    }
+
+    private void getAnchorData() {
         RetrofitFactory.getInstance().getAnchorData(mAnchorId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<AnchorBean>() {
                     @Override
                     public void onNext(AnchorBean anchorBean) {
-                        tvName.setText(anchorBean.getData().getNickname());
-                        Glide.with(OneToOneActivity.this)
-                                .load(anchorBean.getData().getAvatarUrl())
-                                .into(ivHead);
-                        tvMinuteCost.setText(String.format(getString(R.string.charged_coins_per_min), anchorBean.getData().getCpm() + ""));
+                        if (ResultUtils.cheekSuccess(anchorBean)) {
+                            tvName.setText(anchorBean.getData().getNickname());
+                            Glide.with(OneToOneActivity.this)
+                                    .load(anchorBean.getData().getAvatarUrl())
+                                    .into(ivHead);
+                            tvMinuteCost.setText(String.format(getString(R.string.charged_coins_per_min), anchorBean.getData().getCpm() + ""));
+                        }
                     }
                 });
-
     }
 
     private void initAgoraEngineAndJoinChannel() {
@@ -252,7 +261,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                     @Override
                     public void onNext(MediaToken mediaToken) {
                         if (ResultUtils.cheekSuccess(mediaToken)) {
-                            Log.e(TAG, "mediaToken" + mediaToken.getData().getAgora_media_token());
+
                             AvchatInfo.setMediaToken(mediaToken.getData().getAgora_media_token());
                             if (doOutCall) {
 
@@ -401,6 +410,9 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 .subscribe(new BaseCosumer<CallStateBean>() {
                     @Override
                     public void onNext(CallStateBean callStateBean) {
+
+                        Log.e(TAG, "onNext: "+GsonUtil.parseObjectToJson(callStateBean) );
+
                         if (ResultUtils.cheekSuccess(callStateBean)) {
                             if (Call_SUCCEED_HUNG_UP.equals(mcallstate)){
                                 if (!AvchatInfo.isAnchor()){
@@ -480,11 +492,20 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         if (online) {
             joinChannel();
             worker().makeACall(otherId + "", channelId);
+
+            Observable.timer(2000,TimeUnit.MILLISECONDS)
+                    .observeOn(Schedulers.io())
+                    .subscribe(new Consumer<Long>() {
+                        @Override
+                        public void accept(Long aLong) throws Exception {
+                            worker().sendMessage(new MessageBean(otherId+"", Contact.RTM_DO_CALL_STRING+mAnchorId));
+                        }
+                    });
+           changeCallState(Call_CALLING);
         } else {
             // TODO: 2019/6/23 0023 对方不在线 把他下线
         }
     }
-
     /*
      * 被叫收到了呼叫
      * */
@@ -573,6 +594,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                     // TODO: 2019/6/23 0023 对方忙线
                 } else {
                     // TODO: 2019/6/23 0023 对方拒绝
+                    changeCallState(Call_NO_ANSWERED);
                 }
                 onEncCallClicked();
             }
@@ -662,6 +684,17 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     @Override
     public void onLastmileProbeResult(IRtcEngineEventHandler.LastmileProbeResult result) {
 
+    }
+
+    @Override
+    public void onReceiveMessage(String text) {
+        Log.e(TAG, "onReceiveMessage: "+text );
+        try{
+            mAnchorId= Integer.parseInt(text.split("\\?")[1]);
+            getAnchorData();
+        }catch (Exception e){
+           e.printStackTrace();
+        }
     }
 
 }

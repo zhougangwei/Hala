@@ -58,7 +58,7 @@
             android:layout_width="12dp"
             android:layout_height="4dp"
             android:src="@drawable/bg_rec_colorful_r2"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="@id/tv_new"
             app:layout_constraintStart_toStartOf="@+id/tv_new"
             tools:visibility="visible"/>

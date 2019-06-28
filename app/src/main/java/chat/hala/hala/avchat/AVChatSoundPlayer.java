@@ -62,23 +62,23 @@ public class AVChatSoundPlayer {
         int ringId = 0;
         switch (type) {
             case NO_RESPONSE:
-                ringId = R.raw.avchat_no_response;
+                ringId = R.raw.basic_ring;
                 loop = false;
                 break;
             case PEER_BUSY:
-                ringId = R.raw.avchat_peer_busy;
+                ringId = R.raw.basic_ring;
                 loop = false;
                 break;
             case PEER_REJECT:
-                ringId = R.raw.avchat_peer_reject;
+                ringId = R.raw.basic_ring;
                 loop = false;
                 break;
             case CONNECTING:
-                ringId = R.raw.avchat_connecting;
+                ringId = R.raw.basic_ring;
                 loop = true;
                 break;
             case RING:
-                ringId = R.raw.avchat_ring;
+                ringId = R.raw.basic_ring;
                 loop = true;
                 break;
         }

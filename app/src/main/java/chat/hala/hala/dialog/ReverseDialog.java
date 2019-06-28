@@ -12,6 +12,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.ScreenUtils;
+
+import butterknife.ButterKnife;
 import chat.hala.hala.R;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.ReverseBean;
@@ -41,7 +43,7 @@ public class ReverseDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_start_reserve);
-
+        ButterKnife.bind(this);
     }
 
 

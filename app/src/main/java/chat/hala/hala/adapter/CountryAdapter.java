@@ -4,6 +4,7 @@ package chat.hala.hala.adapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
+import chat.hala.hala.R;
 import chat.hala.hala.bean.CountryBean;
 
 import java.util.List;
@@ -23,9 +24,9 @@ public class CountryAdapter extends BaseQuickAdapter<CountryBean, BaseViewHolder
 
     @Override
     protected void convert(BaseViewHolder helper, CountryBean item) {
-        /*helper.setText(R.id.text, item.getTitle());*/
-        /*helper.setImageResource(R.id.icon, item.getImageResource());*/
-        // 加载网络图片
+        helper.setText(R.id.tv_country_code, item.getCountryCode());
+        helper.setText(R.id.tv_country_name, item.getCountryName());
+
 
     }
 }
