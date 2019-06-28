@@ -3,24 +3,28 @@ package chat.hala.hala.activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import chat.hala.hala.R;
-import chat.hala.hala.adapter.CoinListAdapter;
-import chat.hala.hala.base.BaseActivity;
-import chat.hala.hala.base.Contact;
-import chat.hala.hala.bean.CoinListBean;
-import chat.hala.hala.http.BaseCosumer;
-import chat.hala.hala.http.RetrofitFactory;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import chat.hala.hala.R;
+import chat.hala.hala.adapter.CoinListAdapter;
+import chat.hala.hala.base.BaseActivity;
+import chat.hala.hala.base.Contact;
+import chat.hala.hala.bean.BaseBean;
+import chat.hala.hala.bean.CoinListBean;
+import chat.hala.hala.http.BaseCosumer;
+import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.GsonUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class MyCoinsListActivity extends BaseActivity {
@@ -56,6 +60,22 @@ public class MyCoinsListActivity extends BaseActivity {
         adapter = new CoinListAdapter(R.layout.item_coin_list, callList);
         rv.setAdapter(adapter);
         adapter.disableLoadMoreIfNotFullPage(rv);
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                RetrofitFactory.getInstance().readMessage("coin")
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                            }
+                        });
+            }
+        });
         getData();
     }
 

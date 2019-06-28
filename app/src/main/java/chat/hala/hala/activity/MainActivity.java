@@ -4,6 +4,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.TabAdapter;
 import chat.hala.hala.avchat.AGEventHandler;
@@ -13,7 +18,6 @@ import chat.hala.hala.avchat.MyEngineEventHandler;
 import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.avchat.WorkerThread;
 import chat.hala.hala.base.App;
-
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.QiNiuToken;
@@ -22,12 +26,6 @@ import chat.hala.hala.dialog.CommonDialog;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.wight.NoScrollViewPager;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtm.ErrorInfo;
@@ -75,6 +73,8 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
         initQiniuData();
         initVideoCall();
         initChat();
+        setClicked(ivHome);
+
 
 
     }

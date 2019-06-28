@@ -88,7 +88,7 @@ public interface HttpRequest {
     );
 
     /*
-     * 消息已读回调
+     * 消息已读回调 call和coin
      * */
     @POST("/message/read/{type}")
     Observable<BaseBean> readMessage(
@@ -206,5 +206,7 @@ public interface HttpRequest {
 
     @GET("/general/rule")
     Observable<AdBean> getAd();
+
+
 
 }

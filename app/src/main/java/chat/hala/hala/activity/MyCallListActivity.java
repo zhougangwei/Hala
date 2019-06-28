@@ -8,22 +8,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import chat.hala.hala.R;
-import chat.hala.hala.adapter.CallListAdapter;
-import chat.hala.hala.base.BaseActivity;
-import chat.hala.hala.base.Contact;
-import chat.hala.hala.base.VideoCallManager;
-import chat.hala.hala.bean.CallListBean;
-import chat.hala.hala.http.BaseCosumer;
-import chat.hala.hala.http.RetrofitFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import chat.hala.hala.R;
+import chat.hala.hala.adapter.CallListAdapter;
+import chat.hala.hala.base.BaseActivity;
+import chat.hala.hala.base.Contact;
+import chat.hala.hala.base.VideoCallManager;
+import chat.hala.hala.bean.BaseBean;
+import chat.hala.hala.bean.CallListBean;
+import chat.hala.hala.http.BaseCosumer;
+import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.GsonUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class MyCallListActivity extends BaseActivity {
@@ -59,12 +61,22 @@ public class MyCallListActivity extends BaseActivity {
         rv.setLayoutManager(layoutManager);
         adapter = new CallListAdapter(R.layout.item_call_list,callList,CallListAdapter.MYCALL) ;
         rv.setAdapter(adapter);
-
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, final int position) {
             VideoCallManager.gotoCallOrReverse(MyCallListActivity.this,callList.get(position).getAnchorId(),callList.get(position).getTargetInfo().getId());
+            RetrofitFactory.getInstance().readMessage("call")
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(new Consumer<BaseBean>() {
+                        @Override
+                        public void accept(BaseBean baseBean) throws Exception {
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+                        }
+                    });
+
             }
         });
 

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -51,17 +52,26 @@ public class PolicyDialog extends Dialog {
         this.getWindow().setAttributes(lp);
     }
 
-    @OnClick(R.id.tv_agree)
-    public void onViewClicked() {
-        if (mListener!=null) {
-            mListener.onClickConfirm();
+    @OnClick({R.id.tv_agree,R.id.iv_close})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tv_agree:
+                if (mListener!=null) {
+                    mListener.onClickConfirm();
+                }
+                dismiss();
+                break;
+            case R.id.iv_close:
+                dismiss();
+                break;
         }
+
+
 
     }
 
     public interface OnClickListener {
         void onClickConfirm();
-
         void onClickCancel();
     }
 

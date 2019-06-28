@@ -35,6 +35,12 @@
             android:src="@drawable/btn_tab_home" />
 
         <ImageView
+            android:layout_alignEnd="@+id/iv_msg"
+            android:layout_alignTop="@+id/iv_msg"
+            android:src="@drawable/ic_count_msg"
+            android:layout_width="8dp"
+            android:layout_height="8dp" />
+        <ImageView
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:paddingTop="5dp"

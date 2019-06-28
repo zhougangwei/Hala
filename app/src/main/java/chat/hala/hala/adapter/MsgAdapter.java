@@ -6,11 +6,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import chat.hala.hala.R;
-
-import chat.hala.hala.bean.MessageUnreadBean;
 
 import java.util.List;
+
+import chat.hala.hala.R;
+import chat.hala.hala.bean.MessageUnreadBean;
 
 /**
  * Created by kiddo on 2018/1/9.
@@ -33,8 +33,12 @@ public class MsgAdapter extends BaseQuickAdapter<MessageUnreadBean.DataBean, Bas
         Glide.with(mContext).load(item.getIconUrl())
                 .apply(RequestOptions.placeholderOf(imageView.getDrawable()))
                 .into(imageView);
-
-
+        if (item.getUnreadCount()>0){
+            helper.setVisible(R.id.tv_count, true);
+            helper.setText(R.id.tv_count, item.getUnreadCount()+"");
+        }else{
+            helper.setVisible(R.id.tv_count, false);
+        }
 
     }
 }
