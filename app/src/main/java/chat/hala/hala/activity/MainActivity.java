@@ -305,6 +305,11 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
         AvchatInfo.setCallText(text);
         Log.e(TAG, "onReceiveMessage: " + text);
     }
+
+    @Override
+    public void onRemoteInvitationCanceled(RemoteInvitation remoteInvitation) {
+
+    }
 }
 
 

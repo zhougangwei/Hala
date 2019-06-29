@@ -42,6 +42,9 @@ public interface AGEventHandler {
 
     void onReceiveMessage(String text);
 
+
+    void onRemoteInvitationCanceled(RemoteInvitation remoteInvitation);
+
     int EVENT_TYPE_ON_DATA_CHANNEL_MSG = 3;
 
     int EVENT_TYPE_ON_USER_VIDEO_MUTED = 6;
@@ -59,4 +62,6 @@ public interface AGEventHandler {
     int EVENT_TYPE_ON_AUDIO_ROUTE_CHANGED = 18;
 
     int EVENT_TYPE_ON_RELOGIN_NEEDED = 19;
+
+
 }

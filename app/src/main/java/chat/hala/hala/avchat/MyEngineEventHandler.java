@@ -328,7 +328,11 @@ public class MyEngineEventHandler {
 
         @Override
         public void onRemoteInvitationCanceled(RemoteInvitation remoteInvitation) {
-
+            Iterator<AGEventHandler> it = mEventHandlerList.keySet().iterator();
+            while (it.hasNext()) {
+                AGEventHandler handler = it.next();
+                handler.onRemoteInvitationCanceled(remoteInvitation);
+            }
         }
 
         @Override
