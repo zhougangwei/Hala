@@ -3,16 +3,18 @@ package chat.hala.hala.adapter;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import com.blankj.utilcode.utils.TimeUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+
+import java.util.List;
+
 import chat.hala.hala.R;
 import chat.hala.hala.bean.CallListBean;
 import chat.hala.hala.utils.TimeUtil;
-
-import java.util.List;
 
 
 public class CallListAdapter extends BaseQuickAdapter<CallListBean.DataBean.ListBean, BaseViewHolder> {
@@ -73,8 +75,11 @@ public class CallListAdapter extends BaseQuickAdapter<CallListBean.DataBean.List
         helper.setText(R.id.tv_content, content);
         String startedAt = item.getStartedAt();
         if (!TextUtils.isEmpty(startedAt)) {
-            String s = TimeUtil.dealDateFormat(startedAt);
-            helper.setText(R.id.tv_hour, s);
+            String hour = TimeUtil.dealDateFormat(startedAt);
+            String time = TimeUtil.dealDateFormat2(startedAt);
+            helper.setText(R.id.tv_hour, hour);
+            String week = TimeUtils.getWeek(time);
+            helper.setText(R.id.tv_week,week);
         }
 
         ImageView imageView = (ImageView) helper.getView(R.id.iv_head);

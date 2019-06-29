@@ -3,23 +3,29 @@ package chat.hala.hala.activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import chat.hala.hala.R;
-import chat.hala.hala.adapter.CallListAdapter;
-import chat.hala.hala.base.BaseActivity;
-import chat.hala.hala.base.Contact;
-import chat.hala.hala.bean.CallListBean;
-import chat.hala.hala.http.BaseCosumer;
-import chat.hala.hala.http.RetrofitFactory;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import chat.hala.hala.R;
+import chat.hala.hala.adapter.CallListAdapter;
+import chat.hala.hala.avchat.AvchatInfo;
+import chat.hala.hala.base.BaseActivity;
+import chat.hala.hala.base.Contact;
+import chat.hala.hala.base.VideoCallManager;
+import chat.hala.hala.bean.BaseBean;
+import chat.hala.hala.bean.CallListBean;
+import chat.hala.hala.http.BaseCosumer;
+import chat.hala.hala.http.RetrofitFactory;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class MyReserveListActivity extends BaseActivity {
@@ -59,13 +65,28 @@ public class MyReserveListActivity extends BaseActivity {
         adapter = new CallListAdapter(R.layout.item_appointment, callList,CallListAdapter.REVERSE);
         rv.setAdapter(adapter);
 
-      /*  adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+       adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                VideoCallManager.gotoCallOrReverse(MyReserveListActivity.this,callList.);
-                OneToOneActivity.docallOneToOneActivity(MyReserveListActivity.this, callList.get(position).getTargetInfo().getId());
+                //VideoCallManager.gotoCallOrReverse(MyReserveListActivity.this,callList.);
+
+                if (AvchatInfo.isAnchor()){
+                    VideoCallManager.gotoCallOrReverse(MyReserveListActivity.this,AvchatInfo.getAnchorId(),AvchatInfo.getAccount());
+                }
+                RetrofitFactory.getInstance().readMessage("reverse")
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                            }
+                        });
+
             }
-        });*/
+        });
 
         getData();
     }

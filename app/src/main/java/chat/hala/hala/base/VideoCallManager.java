@@ -48,6 +48,7 @@ public class VideoCallManager {
                                             }
                                             if (!anchorStateBean.getData().isOnline()) {
                                                 ToastUtils.showToast(activity, activity.getString(R.string.anchor_is_not_aviliable));
+                                                new ReverseDialog(activity, anchorId).show();
                                                 return;
                                             }
                                             if (!anchorStateBean.getData().isAvailable()) {
@@ -69,8 +70,8 @@ public class VideoCallManager {
                                                                                 public void onClickConfirm() {
                                                                                     CallBean callBean1 = new CallBean();
                                                                                     CallBean.DataBean dataBean = new CallBean.DataBean();
-                                                                                    dataBean.setChannel("10086");
-                                                                                    dataBean.setCallId(66);
+                                                                                    dataBean.setChannel(callBean.getData().getChannel());
+                                                                                    dataBean.setCallId(callBean.getData().getCallId());
                                                                                     callBean1.setData(dataBean);
                                                                                     getMediaToken(callBean1, activity, anchorId, anchorMemberId);
                                                                                 }

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -13,15 +14,16 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.utils.ScreenUtils;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.ReverseBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
-
-import butterknife.BindView;
-import butterknife.OnClick;
+import chat.hala.hala.utils.GsonUtil;
+import chat.hala.hala.utils.ToastUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -32,6 +34,7 @@ public class ReverseDialog extends Dialog {
     TextView tvReverse;
 
     int anchorId;
+    private String TAG ="ReverseDialog";
 
     public ReverseDialog(@NonNull Context context, int anchorId) {
         super(context);
@@ -54,6 +57,13 @@ public class ReverseDialog extends Dialog {
                 .subscribe(new BaseCosumer<ReverseBean>() {
                     @Override
                     public void onNext(ReverseBean reverseBean) {
+                        Log.e(TAG, "onNext: "+ GsonUtil.parseObjectToJson(reverseBean));
+
+                        if (Contact.REPONSE_CODE_REVERSE_SAME==reverseBean.getCode()){
+                            ToastUtils.showToast(getContext(),"你已预约过该主播");
+                            dismiss();
+                        }
+
                         if (Contact.REPONSE_CODE_SUCCESS != reverseBean.getCode()) {
                             return;
                         }

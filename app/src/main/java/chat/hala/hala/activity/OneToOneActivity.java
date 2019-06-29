@@ -43,7 +43,6 @@ import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ResultUtils;
 import chat.hala.hala.utils.TimeUtil;
-import chat.hala.hala.utils.ToastUtils;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
@@ -96,8 +95,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     ImageView      ivHangupPrepareAnchor;
 
 
-    private int callUserId;
-    private int receiveUserId;
+
 
     private int otherId;
     private int myId;
@@ -145,9 +143,9 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         context.startActivity(intent);
     }
 
-    public static void doReceivveOneToOneActivity(Context context, String channelId, int audienceId) {
+    public static void doReceivveOneToOneActivity(Context context, String channelId, int callId) {
         Intent intent = new Intent(context, OneToOneActivity.class);
-        intent.putExtra("audienceId", audienceId);
+        intent.putExtra("callerId", callId);
         intent.putExtra("outCall", false);
         intent.putExtra("channelId", channelId);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -162,20 +160,16 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         //主播AnchorId很有用
         mAnchorId = intent.getIntExtra("anchorId", -1);
         int anchorMemberId = intent.getIntExtra("anchorMemberId", -1);
-        int audienceId = intent.getIntExtra("audienceId", -1);
+        int callerId = intent.getIntExtra("callerId", -1);
         doOutCall = intent.getBooleanExtra("outCall", false);
         channelId = intent.getStringExtra("channelId");
         callId = intent.getIntExtra("callId", -1);
         myId = AvchatInfo.getAccount();
         if (doOutCall) {      //打出去
             otherId = anchorMemberId;
-            callUserId = myId;
-            receiveUserId = otherId;
             mIsCallInRefuse = false;
         } else {
-            otherId = audienceId;
-            callUserId = otherId;
-            receiveUserId = myId;
+            otherId = callerId;
             mIsCallInRefuse = true;
         }
         Log.e(TAG, "channelId: " + channelId + " callId :" + callId + " otherId :" + otherId + " myId:" + myId);
@@ -402,6 +396,8 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     }
 
     private void changeCallState(final String mcallstate) {
+
+        Log.e(TAG, "callId:" + callId);
         callstate=mcallstate;
         RetrofitFactory.getInstance()
                 .changeCallState(ProxyPostHttpRequest.getInstance().changeCallState(callstate,callTime),callId)
@@ -410,7 +406,6 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 .subscribe(new BaseCosumer<CallStateBean>() {
                     @Override
                     public void onNext(CallStateBean callStateBean) {
-
                         Log.e(TAG, "onNext: "+GsonUtil.parseObjectToJson(callStateBean) );
 
                         if (ResultUtils.cheekSuccess(callStateBean)) {

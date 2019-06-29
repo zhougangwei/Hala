@@ -20,10 +20,11 @@
     <ImageView
         android:id="@+id/iv_head"
         android:layout_width="90dp"
+        android:scaleType="centerCrop"
         android:layout_height="90dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:background="@color/black" />
+        android:background="@drawable/ic_head_place" />
 
     <TextView
         android:id="@+id/tv1"

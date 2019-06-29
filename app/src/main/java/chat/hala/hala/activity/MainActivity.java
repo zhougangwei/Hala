@@ -1,8 +1,11 @@
 package chat.hala.hala.activity;
 
+import android.Manifest;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,7 @@ import io.agora.rtm.ErrorInfo;
 import io.agora.rtm.LocalInvitation;
 import io.agora.rtm.RemoteInvitation;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity implements AGEventHandler {
@@ -76,7 +80,6 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
         setClicked(ivHome);
 
 
-
     }
 
     private void initVideoCall() {
@@ -91,12 +94,12 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                 .subscribe(new BaseCosumer<RtmTokenBean>() {
                     @Override
                     public void onNext(RtmTokenBean rtmTokenBean) {
-                        if (rtmTokenBean.getCode()!= Contact.REPONSE_CODE_SUCCESS) {
+                        if (rtmTokenBean.getCode() != Contact.REPONSE_CODE_SUCCESS) {
                             return;
                         }
                         String token = rtmTokenBean.getData().getAgora_rtm_token();
                         AvchatInfo.setRTMToken(token);
-                        worker().connectToRtmService(AvchatInfo.getAccount()+"",token);
+                        worker().connectToRtmService(AvchatInfo.getAccount() + "", token);
                     }
                 });
     }
@@ -195,6 +198,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     protected final MyEngineEventHandler event() {
         return ((App) getApplication()).getWorkerThread().eventHandler();
     }
+
     @Override
     protected void onDestroy() {
         this.event().removeEventHandler(this);
@@ -209,7 +213,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
 
     @Override
     public void onLoginFailed(String uid, ErrorInfo error) {
-        Log.e(TAG, "onLoginFailed: " );
+        Log.e(TAG, "onLoginFailed: ");
     }
 
     @Override
@@ -238,13 +242,26 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     }
 
     @Override
-    public void onInvitationReceived(RemoteInvitation invitation) {
-        if (AvchatInfo.isIsInCall()){
+    public void onInvitationReceived(final RemoteInvitation invitation) {
+        if (AvchatInfo.isIsInCall()) {
             invitation.setResponse("{\"status\":1}"); // Busy, already in call invitation.setResponse("{\"status\":1}"); // Busy, already in call
             worker().hangupTheCall(invitation);
-        }else {
-            config().mRemoteInvitation = invitation;
-            OneToOneActivity.doReceivveOneToOneActivity(this, invitation.getContent(),Integer.parseInt(invitation.getCallerId()));
+        } else {
+            final RxPermissions rxPermissions = new RxPermissions(this);
+            rxPermissions.setLogging(true);
+            rxPermissions.request(Manifest.permission.CAMERA, Manifest
+                    .permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO)
+                    .subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean aBoolean) throws Exception {
+                            if (aBoolean) {
+                                config().mRemoteInvitation = invitation;
+                                OneToOneActivity.doReceivveOneToOneActivity(MainActivity.this, invitation.getContent(), Integer.parseInt(invitation.getCallerId()));
+                            }
+                        }
+                    });
+
+
         }
     }
 
@@ -286,7 +303,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     @Override
     public void onReceiveMessage(String text) {
         AvchatInfo.setCallText(text);
-        Log.e(TAG, "onReceiveMessage: "+text );
+        Log.e(TAG, "onReceiveMessage: " + text);
     }
 }
 

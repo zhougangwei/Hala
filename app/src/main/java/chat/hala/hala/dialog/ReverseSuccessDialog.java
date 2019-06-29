@@ -3,29 +3,33 @@ package chat.hala.hala.dialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 
+import com.blankj.utilcode.utils.ScreenUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
-import butterknife.ButterKnife;
-import chat.hala.hala.R;
+import java.util.ArrayList;
+import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import chat.hala.hala.R;
 import chat.hala.hala.adapter.RandomAnchorAdapter;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.base.VideoCallManager;
 import chat.hala.hala.bean.OneToOneListBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -52,11 +56,10 @@ public class ReverseSuccessDialog extends Dialog {
         setContentView(R.layout.dialog_reserve_success);
         ButterKnife.bind(this);
         randomAnchorAdapter = new RandomAnchorAdapter(R.layout.item_random_anchor, mRanodmList);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
+        LinearLayoutManager layoutManager = new GridLayoutManager(mContext,3);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(randomAnchorAdapter);
-
         randomAnchorAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -87,14 +90,21 @@ public class ReverseSuccessDialog extends Dialog {
                         if (content != null && content.size() > 0) {
                             mRanodmList.addAll(content);
                         }
-
-
+                        randomAnchorAdapter.notifyDataSetChanged();
                         randomAnchorAdapter.notifyDataSetChanged();
                     }
                 });
     }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams lp = this.getWindow().getAttributes();
+        lp.width = 4 * ScreenUtils.getScreenWidth(mContext) / 5;
+        lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        this.getWindow().setAttributes(lp);
+    }
     @OnClick(R.id.iv_close)
     public void onClick() {
         dismiss();

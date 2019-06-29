@@ -174,7 +174,7 @@ public interface HttpRequest {
     Observable<AnchorStateBean> getAnchorState(@Path("user") int user);
 
 
-    @GET("/call/anchor/{user}/reserve")
+    @POST ("/call/anchor/{user}/reserve")
     Observable<ReverseBean> reserveAnchor(@Path("user") int user);
 
 
