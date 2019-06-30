@@ -38,7 +38,7 @@ public class CoinListAdapter extends BaseQuickAdapter<CoinListBean.DataBean.Tran
         String startedAt = item.getDatetime();
 
         helper.setText(R.id.tv_hour, TimeUtils.date2String(TimeUtils.string2Date(startedAt,new SimpleDateFormat("yyyy-MM-dd HH:mm")), new SimpleDateFormat("HH:mm")));
-        helper.setText(R.id.tv_cost,item.getDigit()+"");
+        helper.setText(R.id.tv_cost,(item.getDigit()>0?"+":"")+item.getDigit()+"");
         switch (item.getCategory()) {
             case RECHARGE:
                 content="RECHARGE";

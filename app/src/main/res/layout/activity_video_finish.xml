@@ -57,7 +57,8 @@
                 android:layout_toEndOf="@+id/iv_head"
                 android:text="baitang"/>
 
-            <com.hala.wight.RatingBarView
+            <chat.hala.hala.wight.RatingBarView
+
                 android:id="@+id/rbv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -95,6 +95,11 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     @BindView(R.id.iv_hangup_prepare_anchor)
     ImageView ivHangupPrepareAnchor;
 
+    @BindView(R.id.tv_charge)
+    TextView tvCharge;
+
+
+
 
     private int otherId;
     private int myId;
@@ -184,6 +189,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
+                        // TODO: 2019/6/30 0030 关闭 
                         callOutHangup();
                         changeCallState(Call_NO_ANSWERED);
                     }
@@ -316,7 +322,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     }
 
 
-    @OnClick({R.id.iv_hangup_prepare_audience, R.id.iv_hangup_prepare_anchor, R.id.iv_hangup, R.id.iv_camera_off, R.id.iv_camera_control, R.id.iv_anchor_answer})
+    @OnClick({R.id.tv_charge,R.id.iv_hangup_prepare_audience, R.id.iv_hangup_prepare_anchor, R.id.iv_hangup, R.id.iv_camera_off, R.id.iv_camera_control, R.id.iv_anchor_answer})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_hangup_prepare_audience:
@@ -336,12 +342,16 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 }
                 break;
             case R.id.iv_camera_off:
-
+                // TODO: 2019/6/30 0030 ga 
                 rtcEngine().muteLocalVideoStream(true);
                 break;
             case R.id.iv_camera_control:
                 rtcEngine().switchCamera();
                 break;
+            case R.id.tv_charge:
+               startActivity(new Intent(this,ChargeActivity.class));
+                break;
+
         }
     }
 
@@ -410,7 +420,6 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                     @Override
                     public void onNext(CallStateBean callStateBean) {
                         Log.e(TAG, "onNext: " + GsonUtil.parseObjectToJson(callStateBean));
-                        new CommonDialog(OneToOneActivity.this).setTitle(mcallstate+  "callId:" + callId+"-----"+GsonUtil.parseObjectToJson(callStateBean)).show();
                         if (ResultUtils.cheekSuccess(callStateBean)) {
                             if (Call_SUCCEED_HUNG_UP.equals(mcallstate)) {
                                 if (!AvchatInfo.isAnchor()) {
