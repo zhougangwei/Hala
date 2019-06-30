@@ -29,7 +29,7 @@
         android:drawableEnd="@drawable/ic_next_6"
         android:drawablePadding="11dp"
         android:padding="7dp"
-        android:text="ChinaChina"
+        android:text="China"
         app:layout_constraintBottom_toBottomOf="@id/tv1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv1" />
@@ -87,7 +87,6 @@
         app:layout_constraintTop_toBottomOf="@id/tv_country_code" />
 
     <EditText
-
         android:layout_marginTop="36dp"
         android:inputType="number"
         android:id="@+id/et_sms_num"
@@ -99,10 +98,22 @@
         app:layout_constraintStart_toStartOf="@id/tv_country_code"
         app:layout_constraintTop_toBottomOf="@id/et_phone_num" />
 
-<TextView
 
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginEnd="27dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/et_sms_num"
+        android:id="@+id/tv_send_msm"
+        android:paddingEnd="11dp"
+        android:paddingStart="11dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="Send"
+
+        android:background="@drawable/bg_rec_3_send_msm"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp" />
     <include
         android:id="@+id/ll_3"
         layout="@layout/include_line"
@@ -147,6 +158,8 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:visibility="gone"
+        android:id="@+id/tv3"
         android:layout_marginBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -154,7 +167,11 @@
         android:text="@string/quick_login_with"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+
+
     <ImageView
+        android:visibility="gone"
         android:id="@+id/iv_facebook"
         android:layout_marginBottom="38dp"
         app:layout_constraintEnd_toEndOf="parent"

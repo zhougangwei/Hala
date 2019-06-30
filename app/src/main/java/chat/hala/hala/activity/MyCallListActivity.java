@@ -23,7 +23,10 @@ import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.bean.CallListBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.rxbus.RxBus;
+import chat.hala.hala.rxbus.event.RefreshMsgEvent;
 import chat.hala.hala.utils.GsonUtil;
+import chat.hala.hala.utils.ResultUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -70,6 +73,9 @@ public class MyCallListActivity extends BaseActivity {
                     .subscribe(new Consumer<BaseBean>() {
                         @Override
                         public void accept(BaseBean baseBean) throws Exception {
+                            if (ResultUtils.cheekSuccess(baseBean)) {
+                                RxBus.getIntanceBus().post(new RefreshMsgEvent(RefreshMsgEvent.MSG_COIN));
+                            }
                         }
                     }, new Consumer<Throwable>() {
                         @Override

@@ -18,12 +18,10 @@ import chat.hala.hala.avchat.AGEventHandler;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.avchat.EngineConfig;
 import chat.hala.hala.avchat.MyEngineEventHandler;
-import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.avchat.WorkerThread;
 import chat.hala.hala.base.App;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
-import chat.hala.hala.bean.QiNiuToken;
 import chat.hala.hala.bean.RtmTokenBean;
 import chat.hala.hala.dialog.CommonDialog;
 import chat.hala.hala.http.BaseCosumer;
@@ -74,7 +72,6 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
         viewList.add(ivHome);
         viewList.add(ivMsg);
         viewList.add(ivMy);
-        initQiniuData();
         initVideoCall();
         initChat();
         setClicked(ivHome);
@@ -104,28 +101,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                 });
     }
 
-    private void initQiniuData() {
-        RetrofitFactory
-                .getInstance()
-                .getQiNiuToken()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseCosumer<QiNiuToken>() {
-                    @Override
-                    public void onNext(QiNiuToken baseBean) {
-                        if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
-                            return;
-                        }
-                        QiNiuToken.DataBean.StarchatanchorBean starchatanchor = baseBean.getData().getStarchatanchor();
-                        QiNiuToken.DataBean.StarchatfeedbackBean starchatfeedback = baseBean.getData().getStarchatfeedback();
-                        QiNiuToken.DataBean.StarchatmemberBean starchatmember = baseBean.getData().getStarchatmember();
 
-                        QiniuInfo.setmStarchatanchorBean(starchatanchor);
-                        QiniuInfo.setmStarchatfeedbackBean(starchatfeedback);
-                        QiniuInfo.setmStarchatmemberBean(starchatmember);
-                    }
-                });
-    }
 
 
     @Override

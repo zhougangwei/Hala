@@ -7,7 +7,7 @@ import io.agora.rtm.RemoteInvitation;
 
 /**
  * Forward event from engine to UI
- * TODO make it simple, now we have lots of event in it
+ *
  */
 public interface AGEventHandler {
     void onLoginSuccess(String uid);

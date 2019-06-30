@@ -25,6 +25,7 @@ import chat.hala.hala.bean.AnchorTagBean;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ResultUtils;
+import chat.hala.hala.utils.ToastUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -70,7 +71,7 @@ public class TagActivity extends BaseActivity {
     @Override
     protected void initView() {
         tvTitle.setText("Select Tags");
-         tvSave.setBackground(getResources().getDrawable(R.drawable.bg_rec_15blue));
+        tvSave.setBackground(getResources().getDrawable(R.drawable.bg_rec_15blue));
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 100);
         rvAll.setLayoutManager(gridLayoutManager);
@@ -86,8 +87,14 @@ public class TagActivity extends BaseActivity {
         allTagsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+                if (chooseDatas.size() > 5) {
+                    ToastUtils.showToast(TagActivity.this, "最多选五个!");
+                    return;
+                }
                 chooseDatas.add(allDatas.get(position));
                 chooseAdapter.notifyDataSetChanged();
+
             }
         });
         chooseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -157,7 +164,7 @@ public class TagActivity extends BaseActivity {
             case R.id.tv_save:
                 Intent intent = new Intent();
                 intent.putExtra("tags", GsonUtil.parseListToJson(chooseDatas));
-                setResult(RESULT_OK,intent);
+                setResult(RESULT_OK, intent);
                 finish();
                 break;
         }

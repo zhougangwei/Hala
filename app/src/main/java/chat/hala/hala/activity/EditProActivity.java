@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
-import chat.hala.hala.R;
 import com.zhihu.matisse.Matisse;
 
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import chat.hala.hala.R;
 import chat.hala.hala.adapter.EditHeadAdapter;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.avchat.QiniuInfo;
@@ -152,6 +152,7 @@ public class EditProActivity extends BaseActivity {
             }
         });
 
+
     }
 
     @OnClick({R.id.ll_zodiac, R.id.ll_city, R.id.ll_introction, R.id.ll_tags, R.id.ll_bio, R.id.ll_certified, R.id.tv_save,R.id.iv_back})
@@ -241,7 +242,7 @@ public class EditProActivity extends BaseActivity {
     private void setZodiac() {
         List<String> data = Arrays.asList(constellationEnArr);
         SinglePicker<String> picker = new SinglePicker<String>(this, data);
-        picker.setCanceledOnTouchOutside(false);
+        picker.setCanceledOnTouchOutside(true);
         picker.setSelectedIndex(1);
         picker.setCycleDisable(false);
         picker.setOnItemPickListener(new SinglePicker.OnItemPickListener<String>() {
@@ -303,7 +304,6 @@ public class EditProActivity extends BaseActivity {
                     }
                     gotoSave(paths);
                 }
-
                 @Override
                 public void uploadFailure() {
                     // TODO: 2019/6/25 0025 上传图片失败
@@ -322,17 +322,6 @@ public class EditProActivity extends BaseActivity {
                     covers.add(coversBean);
                 }
             }
-       /*StringBuilder tag=new StringBuilder();
-        tag.append("[");
-        for (int i = 0; i < tagsList.size(); i++) {
-            if(i==tagsList.size()-1){
-                tag.append(tagsList.get(i)+"");
-            }else{
-                tag.append(tagsList.get(i)+"").append(",");
-            }
-        }
-        tag.append("]");*/
-
 
             ApplyAnchorBean applyAnchorBean = new ApplyAnchorBean();
             applyAnchorBean.setNickname(userName);
@@ -365,7 +354,6 @@ public class EditProActivity extends BaseActivity {
                                 ToastUtils.showToast(EditProActivity.this, "主播用户名或手机号存在");
                                 return;
                             }
-
                             int id = baseBean.getData().getMemberId();
                             AvchatInfo.setAnchorId(id);
                             ToastUtils.showToast(EditProActivity.this, "提交成功");

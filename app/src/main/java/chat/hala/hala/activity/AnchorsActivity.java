@@ -27,7 +27,6 @@ import chat.hala.hala.R;
 import chat.hala.hala.adapter.AnchorDataAdapter;
 import chat.hala.hala.adapter.AnchorTagsAdapter;
 import chat.hala.hala.adapter.SimplePagerAdapter;
-import chat.hala.hala.adapter.TagsAdapter;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.base.VideoCallManager;
@@ -248,6 +247,7 @@ public class AnchorsActivity extends BaseActivity {
                 VideoCallManager.gotoCallOrReverse(AnchorsActivity.this,anchorId,anchorIdMemberId);
                 break;
             case R.id.iv_back:
+                finish();
                 break;
         }
     }

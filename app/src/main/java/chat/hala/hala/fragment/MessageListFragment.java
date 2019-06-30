@@ -7,10 +7,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 import chat.hala.hala.R;
 import chat.hala.hala.activity.MyCallListActivity;
 import chat.hala.hala.activity.MyCoinsListActivity;
-import chat.hala.hala.activity.MyIncomeActivity;
 import chat.hala.hala.activity.MyReserveListActivity;
 import chat.hala.hala.adapter.MsgAdapter;
 import chat.hala.hala.base.BaseFragment;
@@ -18,12 +22,10 @@ import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.MessageUnreadBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
+import chat.hala.hala.rxbus.RxBus;
+import chat.hala.hala.rxbus.event.RefreshMsgEvent;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class MessageListFragment extends BaseFragment {
@@ -63,7 +65,17 @@ public class MessageListFragment extends BaseFragment {
 
             }
         });
+        initRxbus();
     }
+
+    private void initRxbus() {
+        RxBus.getIntanceBus().doSubscribe(RefreshMsgEvent.class, new Consumer<RefreshMsgEvent>() {
+            @Override
+            public void accept(RefreshMsgEvent event) throws Exception {
+                initData();
+            }
+        });
+    };
 
 
     @Override

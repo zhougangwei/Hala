@@ -285,7 +285,7 @@ public class WorkerThread extends Thread {
         RtmCallManager callMgr = mRtmClient.getRtmCallManager();
 
         mEngineConfig.mInvitation = callMgr.createLocalInvitation(peerUid);
-        mEngineConfig.mInvitation.setChannelId(channel); // TODO Available in RTM 1.0, use Content so far
+        mEngineConfig.mInvitation.setChannelId(channel);
         mEngineConfig.mInvitation.setContent(channel);
 
         callMgr.sendLocalInvitation(mEngineConfig.mInvitation, new ResultCallback<Void>() {

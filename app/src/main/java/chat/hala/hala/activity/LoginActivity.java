@@ -10,12 +10,19 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
+import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.base.BaseActivity;
+import chat.hala.hala.base.Contact;
+import chat.hala.hala.bean.QiNiuToken;
 import chat.hala.hala.dialog.PolicyDialog;
+import chat.hala.hala.http.BaseCosumer;
+import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.FacebookLoginManager;
 import chat.hala.hala.utils.IdViewListener;
 import chat.hala.hala.utils.TextUtils;
 import chat.hala.hala.utils.ToastUtils;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class LoginActivity extends BaseActivity implements IdViewListener {
 
@@ -44,8 +51,30 @@ public class LoginActivity extends BaseActivity implements IdViewListener {
     protected void initView() {
         TextUtils.makeTextViewCLick(tvPolicy, "EULA", Color.parseColor("#472EB4"), false, this, this);
         TextUtils.makeTextViewCLick(tvPolicy, "Privacy Policy", Color.parseColor("#472EB4"), false, this, this);
+        initQiniuData();
     }
+    private void initQiniuData() {
+        RetrofitFactory
+                .getInstance()
+                .getQiNiuToken()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<QiNiuToken>() {
+                    @Override
+                    public void onNext(QiNiuToken baseBean) {
+                        if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
+                            return;
+                        }
+                        QiNiuToken.DataBean.StarchatanchorBean starchatanchor = baseBean.getData().getStarchatanchor();
+                        QiNiuToken.DataBean.StarchatfeedbackBean starchatfeedback = baseBean.getData().getStarchatfeedback();
+                        QiNiuToken.DataBean.StarchatmemberBean starchatmember = baseBean.getData().getStarchatmember();
 
+                        QiniuInfo.setmStarchatanchorBean(starchatanchor);
+                        QiniuInfo.setmStarchatfeedbackBean(starchatfeedback);
+                        QiniuInfo.setmStarchatmemberBean(starchatmember);
+                    }
+                });
+    }
 
     @OnClick({R.id.ll_face_login, R.id.ll_phone})
     public void onClick(View view) {

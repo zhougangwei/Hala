@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -37,7 +38,6 @@ import chat.hala.hala.bean.CallStateBean;
 import chat.hala.hala.bean.HeartBean;
 import chat.hala.hala.bean.MediaToken;
 import chat.hala.hala.bean.MessageBean;
-import chat.hala.hala.dialog.CommonDialog;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
@@ -98,7 +98,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     @BindView(R.id.tv_charge)
     TextView tvCharge;
 
-
+    private final AtomicBoolean startTimer = new AtomicBoolean(true);
 
 
     private int otherId;
@@ -189,9 +189,12 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
-                        // TODO: 2019/6/30 0030 关闭 
-                        callOutHangup();
-                        changeCallState(Call_NO_ANSWERED);
+                        // TODO: 2019/6/30 0030 关闭
+                        if (startTimer.get()){
+                            callOutHangup();
+                            changeCallState(Call_NO_ANSWERED);
+                        }
+
                     }
                 });
 
@@ -409,7 +412,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     }
 
     private void changeCallState(final String mcallstate) {
-
+        startTimer.compareAndSet(true,false);
         Log.e(TAG, "callId:" + callId);
         callstate = mcallstate;
         RetrofitFactory.getInstance()
@@ -641,7 +644,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         if (channel == null) {
             return;
         }
-        // TODO RTM 1.0 will support getChannelId()
+
         if (TextUtils.equals(channel, invitation.getChannelId()) || TextUtils.equals(channel, invitation.getContent())) {
             runOnUiThread(new Runnable() {
                 @Override
