@@ -102,10 +102,11 @@ public class FacebookLoginManager {
 
                                             } else if (Contact.SIGN_IN.equals(action)) {
                                                 mOnResult.success();
-                                                AvchatInfo.setName(baseBean.getData().getMember().getUsername());
-                                                AvchatInfo.setCoin(baseBean.getData().getMember().getCoin());
-                                                AvchatInfo.setAvatarUrl(baseBean.getData().getMember().getAvatarUrl());
-                                                SPUtil.getInstance(activity).setString(Contact.TOKEN, baseBean.getData().getMember().getAccessToken());
+                                                LoginBean.DataBean.MemberBean member = baseBean.getData().getMember();
+
+                                                AvchatInfo.saveBaseData(member,activity);
+
+                                                SPUtil.getInstance(activity).setString(Contact.TOKEN, member.getAccessToken());
 
                                             }
                                         }

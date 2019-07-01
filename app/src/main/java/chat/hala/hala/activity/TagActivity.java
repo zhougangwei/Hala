@@ -110,7 +110,7 @@ public class TagActivity extends BaseActivity {
             @Override
             public int getSpanSize(int position) {
                 int width = ScreenUtils.getScreenWidth(TagActivity.this) - SizeUtils.dp2px(TagActivity.this, 39);
-                int itemWidth = getTextWidth(mPaint, allDatas.get(position).getContent()) + SizeUtils.dp2px(TagActivity.this, 52);
+                int itemWidth = getTextWidth(mPaint, allDatas.get(position).getContent()) + SizeUtils.dp2px(TagActivity.this, 30);
                 return Math.min(100, itemWidth * 100 / width + 1);
             }
         });
@@ -118,7 +118,7 @@ public class TagActivity extends BaseActivity {
             @Override
             public int getSpanSize(int position) {
                 int width = ScreenUtils.getScreenWidth(TagActivity.this) - SizeUtils.dp2px(TagActivity.this, 39);
-                int itemWidth = getTextWidth(mPaint, allDatas.get(position).getContent()) + SizeUtils.dp2px(TagActivity.this, 52);
+                int itemWidth = getTextWidth(mPaint, chooseDatas.get(position).getContent()) + SizeUtils.dp2px(TagActivity.this, 30);
                 return Math.min(100, itemWidth * 100 / width + 1);
             }
         });

@@ -95,6 +95,10 @@ public class EditProActivity extends BaseActivity {
     TextView tvSave;
     @BindView(R.id.rv_pic)
     RecyclerView recyclerView;
+
+    @BindView(R.id.tv_country)
+    TextView tvCountry;
+
     private List<EditHeadAdapter.UserHead> mList;
     private List<String> uriList = new ArrayList<>();
     List<Integer> tagsList = new ArrayList<>();
@@ -102,8 +106,7 @@ public class EditProActivity extends BaseActivity {
     private String bio;     //个人经历
     private static final int REQUEST_BIO = 222;
     private static final int REQUEST_TAG = 223;
-
-
+    private static final int REQUEST_CHOOSE_COUNTRY = 666;
 
     EditHeadAdapter mAdapter;
 
@@ -120,6 +123,7 @@ public class EditProActivity extends BaseActivity {
     private String weight;
     private String zodiac;
     private String city;
+    private String country;
     private String intro;
     private String certify;
 
@@ -155,11 +159,15 @@ public class EditProActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.ll_zodiac, R.id.ll_city, R.id.ll_introction, R.id.ll_tags, R.id.ll_bio, R.id.ll_certified, R.id.tv_save,R.id.iv_back})
+    @OnClick({R.id.ll_zodiac, R.id.ll_country,R.id.ll_city, R.id.ll_introction, R.id.ll_tags, R.id.ll_bio, R.id.ll_certified, R.id.tv_save,R.id.iv_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_zodiac:
                 setZodiac();
+                break;
+            case R.id.ll_country:
+                Intent intent1 = new Intent(this, ChooseCountryActivity.class);
+                startActivityForResult(intent1,REQUEST_CHOOSE_COUNTRY);
                 break;
             case R.id.ll_tags:
                 Intent tagIntent = new Intent(this, TagActivity.class);
@@ -189,6 +197,7 @@ public class EditProActivity extends BaseActivity {
         weight = etWeight.getText().toString();
         zodiac = etZodiac.getText().toString();  //星座
         city = etCity.getText().toString();
+        country = tvCountry.getText().toString();
         intro = etIntroction.getText().toString();
         certify = etCertified.getText().toString();
 
@@ -214,8 +223,18 @@ public class EditProActivity extends BaseActivity {
             ToastUtils.showToast(this, "zodiac" + "不可以为空");
             return false;
         }
+        if (TextUtils.isEmpty(country)) {
+            ToastUtils.showToast(this, "country" + "不可以为空");
+            return false;
+        }
+
         if (TextUtils.isEmpty(city)) {
             ToastUtils.showToast(this, "city" + "不可以为空");
+            return false;
+        }
+
+        if (uriList == null || uriList.size() == 0) {
+            ToastUtils.showToast(this, "uriList" + "不可以为空");
             return false;
         }
         if (TextUtils.isEmpty(intro)) {
@@ -235,6 +254,7 @@ public class EditProActivity extends BaseActivity {
             ToastUtils.showToast(this, "uriList" + "不可以为空");
             return false;
         }
+
         return true;
 
     }
@@ -272,7 +292,6 @@ public class EditProActivity extends BaseActivity {
                         tagsList.add(dataBean.getTagId());
                     }
                 }
-
                 etTags.setText(tag);
             } else if (requestCode == REQUEST_BIO) {
                 bio = data.getStringExtra("bio");
@@ -287,6 +306,9 @@ public class EditProActivity extends BaseActivity {
                     }
                     mAdapter.notifyDataSetChanged();
                 }
+            }else if(requestCode ==REQUEST_CHOOSE_COUNTRY){
+                String countryName = data.getStringExtra("countryName");
+                tvCountry.setText(countryName);
             }
         }
         }
@@ -331,7 +353,7 @@ public class EditProActivity extends BaseActivity {
             applyAnchorBean.setZodiac(zodiac);
             applyAnchorBean.setCity(city);
             applyAnchorBean.setIntroduction(intro);
-
+            applyAnchorBean.setCountry(country);
             applyAnchorBean.setTagIds(tagsList);
             applyAnchorBean.setCertifyUrl(certify);
             applyAnchorBean.setBiography(bio);

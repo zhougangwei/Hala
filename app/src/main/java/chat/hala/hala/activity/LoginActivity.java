@@ -35,6 +35,7 @@ public class LoginActivity extends BaseActivity implements IdViewListener {
     CheckBox cb;
     @BindView(R.id.tv_policy)
     TextView tvPolicy;
+    private boolean performLoginPhone=true;
 
     @Override
     protected int getContentViewId() {
@@ -84,6 +85,7 @@ public class LoginActivity extends BaseActivity implements IdViewListener {
                     loginfacebook();
                 }else{
                     alertPloicu();
+                    performLoginPhone =false;
                 }
                 break;
             case R.id.ll_phone:
@@ -91,6 +93,7 @@ public class LoginActivity extends BaseActivity implements IdViewListener {
                     startLoginPhone();
                 }else{
                     alertPloicu();
+                    performLoginPhone =true;
                 }
                 break;
 
@@ -132,6 +135,12 @@ public class LoginActivity extends BaseActivity implements IdViewListener {
                     @Override
                     public void onClickConfirm() {
                        cb.setChecked(true);
+                        if (performLoginPhone) {
+                            startLoginPhone();
+                        }else
+                        {
+                            loginfacebook();
+                        }
                     }
                     @Override
                     public void onClickCancel() {

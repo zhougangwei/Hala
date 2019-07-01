@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseActivity;
@@ -18,11 +20,7 @@ import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.FacebookLoginManager;
-import chat.hala.hala.utils.SPUtil;
 import chat.hala.hala.utils.ToastUtils;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -233,16 +231,8 @@ public class LoginPhoneActivity extends BaseActivity {
                             intent.putExtra("code", code);
                             intent.putExtra("type", EditProUserActivity.FROM_PHONE);
                             startActivityForResult(intent,REQUEST_PHONE);
-
                         } else if (Contact.SIGN_IN.equals(action)) {
-                            String accessToken = baseBean.getData().getMember().getAccessToken();
-                            int id = baseBean.getData().getMember().getMemberId();
-                            AvchatInfo.setAccount(id);
-                            AvchatInfo.setName(baseBean.getData().getMember().getUsername());
-                            AvchatInfo.setCoin(baseBean.getData().getMember().getCoin());
-                            AvchatInfo.setAvatarUrl(baseBean.getData().getMember().getAvatarUrl());
-                          SPUtil.getInstance(LoginPhoneActivity.this).setString(Contact.TOKEN, accessToken);
-
+                            AvchatInfo.saveBaseData(baseBean.getData().getMember(),LoginPhoneActivity.this);
                             Intent intent = new Intent(LoginPhoneActivity.this,MainActivity.class);
                             startActivity(intent);
                             finish();

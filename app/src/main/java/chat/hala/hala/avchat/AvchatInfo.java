@@ -1,5 +1,12 @@
 package chat.hala.hala.avchat;
 
+import android.content.Context;
+
+import chat.hala.hala.base.Contact;
+import chat.hala.hala.bean.LoginBean;
+import chat.hala.hala.utils.GsonUtil;
+import chat.hala.hala.utils.SPUtil;
+
 public class AvchatInfo {
     private static int account;
     private static String name;
@@ -87,5 +94,34 @@ public class AvchatInfo {
 
     public static String getCallText() {
         return sCallText;
+    }
+
+    public static void saveBaseData(LoginBean.DataBean.MemberBean member, Context context) {
+
+        String memeberJson = GsonUtil.parseObjectToJson(member);
+        AvchatInfo.setAnchorId(member.getAnchorId());
+        AvchatInfo.setAccount(member.getMemberId());
+        AvchatInfo.setName(member.getUsername());
+        AvchatInfo.setCoin(member.getCoin());
+        AvchatInfo.setAvatarUrl(member.getAvatarUrl());
+        String accessToken = member.getAccessToken();
+        SPUtil.getInstance(context).setString(Contact.TOKEN, accessToken);
+        SPUtil.getInstance(context).setMemberJson( memeberJson);
+        SPUtil.getInstance(context).setUserId(member.getMemberId());
+        SPUtil.getInstance(context).setAnchorId(member.getAnchorId());
+    }
+
+
+    public static void clearBaseData(Context context) {
+        AvchatInfo.setAnchorId(0);
+        AvchatInfo.setAccount(0);
+        AvchatInfo.setName("");
+        AvchatInfo.setCoin(0);
+        AvchatInfo.setAvatarUrl("");
+
+        SPUtil.getInstance(context).setString(Contact.TOKEN, "");
+        SPUtil.getInstance(context).setUserId(0);
+        SPUtil.getInstance(context).setAnchorId(0);
+        SPUtil.getInstance(context).setMemberJson("");
     }
 }

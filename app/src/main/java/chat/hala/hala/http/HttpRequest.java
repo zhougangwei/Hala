@@ -204,7 +204,7 @@ public interface HttpRequest {
             ,@Query("category")String category
     );
 
-    @GET("/general/rule")
+    @GET("/general/ad?locate=banner")
     Observable<AdBean> getAd();
 
 

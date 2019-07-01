@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="9dp"
-                android:text="username"
+                android:text="Username"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -51,7 +51,6 @@
                 android:gravity="end"
                 android:hint="fill in username"
                 android:paddingEnd="10dp"
-                android:text="fuck"
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
                 android:textSize="15sp" />
@@ -80,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="9dp"
-                android:text="Phonenumber"
+                android:text="Phone number"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -93,11 +92,10 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in username"
+                android:hint="fill in phonenumber"
                 android:inputType="number"
                 android:maxLength="15"
                 android:paddingEnd="10dp"
-                android:text="12345678910"
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
                 android:textSize="15sp" />
@@ -131,7 +129,7 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:text="155"
+
                 android:id="@+id/et_height"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -140,14 +138,14 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in username"
+                android:hint="fill in height"
                 android:inputType="number"
                 android:maxLength="3"
                 android:paddingEnd="10dp"
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
                 android:textSize="15sp"
-                tools:text="111" />
+                />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -178,7 +176,6 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:text="155"
                 android:id="@+id/et_weight"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -187,14 +184,14 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in username"
+                android:hint="fill in weight"
                 android:inputType="number"
                 android:maxLength="3"
                 android:paddingEnd="10dp"
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
                 android:textSize="15sp"
-                tools:text="111" />
+           />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -233,9 +230,8 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in username"
+                android:hint="fill in zodiac"
                 android:paddingEnd="10dp"
-                android:text="Taurus"
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
                 android:textSize="15sp" />
@@ -277,9 +273,47 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in username"
+                android:hint="fill in city"
                 android:paddingEnd="10dp"
-                android:text="hangzhou"
+
+                android:textAlignment="textEnd"
+                android:textColorHint="#C7C7CE"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_next_10" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_country"
+            android:layout_width="match_parent"
+            android:layout_height="44dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="9dp"
+                android:text="Country"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_country"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="end"
+                android:hint="fill in country"
+                android:paddingEnd="10dp"
+
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
                 android:textSize="15sp" />
@@ -308,12 +342,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="9dp"
-                android:text="Introction"
+                android:text="Introduction"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
             <EditText
-                android:text="我是介绍"
+
                 android:id="@+id/et_introction"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -322,12 +356,12 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in username"
+                android:hint="fill in instroction"
                 android:paddingEnd="10dp"
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
                 android:textSize="15sp"
-                tools:text="111" />
+                />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -366,12 +400,12 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in username"
+                android:hint="fill in tags"
                 android:paddingEnd="10dp"
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
                 android:textSize="15sp"
-                tools:text="111" />
+                 />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -410,14 +444,13 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in username"
+                android:hint="fill in Bio"
                 android:maxLines="1"
-
                 android:paddingEnd="10dp"
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
                 android:textSize="15sp"
-                tools:text="1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111" />
+                 />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -448,7 +481,8 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:text="https://www.baidu.com"
+                android:hint="instagram link"
+
                 android:id="@+id/et_certified"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -461,7 +495,7 @@
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
                 android:textSize="15sp"
-                tools:text="111" />
+                />
 
             <ImageView
                 android:layout_width="wrap_content"

@@ -6,8 +6,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.activity.BestarActivity;
 import chat.hala.hala.activity.ChargeActivity;
@@ -17,9 +20,6 @@ import chat.hala.hala.activity.WalletActivity;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.dialog.CommonDialog;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 public class MyFragment extends BaseFragment {
     @BindView(R.id.tv_name)
@@ -39,7 +39,7 @@ public class MyFragment extends BaseFragment {
         tvName.setText(AvchatInfo.getName());
         Glide.with(this)
                 .load(AvchatInfo.getAvatarUrl())
-                .apply(RequestOptions.placeholderOf(ivHead.getDrawable()))
+                .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(ivHead.getDrawable()))
                 .into(ivHead);
         tvMoney.setText(AvchatInfo.getCoin() + "");
     }
@@ -83,6 +83,7 @@ public class MyFragment extends BaseFragment {
                         .setListener(new CommonDialog.OnClickListener() {
                             @Override
                             public void onClickConfirm() {
+                                AvchatInfo.clearBaseData(getActivity());
                                 getActivity().finish();
                             }
 
@@ -91,8 +92,6 @@ public class MyFragment extends BaseFragment {
                             }
                         })
                         .show();
-
-
                 break;
         }
     }

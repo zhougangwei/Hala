@@ -51,7 +51,7 @@ public class EditProUserActivity extends BaseActivity {
     private final static String[] constellationEnArr = new String[]{"Capricornus",
             "Aquarius", "Pisces", "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra",
             "Scorpio", "Sagittarius", "Capricornus"};
-    private final static String[] sexArr = new String[]{"male","female"};
+    private final static String[] sexArr = new String[]{"male","female","secret"};
 
     private static final String TAG = "EditProUserActivity";
 
@@ -122,7 +122,6 @@ public class EditProUserActivity extends BaseActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s != null && s.length() > 0) {
@@ -131,7 +130,6 @@ public class EditProUserActivity extends BaseActivity {
                     tvConfirm.setBackgroundResource(R.drawable.bg_rec_purple_r1);
                 }
             }
-
             @Override
             public void afterTextChanged(Editable s) {
 
@@ -169,6 +167,7 @@ public class EditProUserActivity extends BaseActivity {
         picker.setSelectedIndex(1);
         picker.setCycleDisable(true);
         picker.setTextSize(13);
+        picker.setTextPadding(4);
         picker.setOnItemPickListener(new SinglePicker.OnItemPickListener<String>() {
             @Override
             public void onItemPicked(int index, String item) {

@@ -75,6 +75,10 @@ public class AnchorsActivity extends BaseActivity {
     CoordinatorLayout mainContent;
     @BindView(R.id.tv_call)
     TextView tvCall;
+    @BindView(R.id.tv_cost)
+    TextView tvCost;
+
+
     private List<AnchorBean.DataBean.CoversBean> coverDatas      =new ArrayList<>();
     private List<AnchorTagBean.DataBean>   tagsDatas       =new ArrayList<>();
     private List<AnchorInfoBean>                 anchorInfoDatas =new ArrayList<>();
@@ -146,12 +150,6 @@ public class AnchorsActivity extends BaseActivity {
 
 
 
-
-
-
-
-
-
         mAnchorDataAdapter = new AnchorDataAdapter(R.layout.item_anchor_infp, anchorInfoDatas);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(AnchorsActivity.this, 100);
         rvInfo.setLayoutManager(gridLayoutManager);
@@ -203,6 +201,7 @@ public class AnchorsActivity extends BaseActivity {
                         tvName.setText(data.getNickname());
                         rbv.setStar(data.getStarLevel(),false);
                         tvBiography.setText(data.getBiography());
+                        tvCost.setText(data.getCpm()+"");
                         tvIntroduction.setText(data.getIntroduction());
                         List<AnchorBean.DataBean.CoversBean> covers = data.getCovers();
                         coverDatas.addAll(covers);
@@ -212,6 +211,7 @@ public class AnchorsActivity extends BaseActivity {
                         tagsDatas.clear();
                         tagsDatas.addAll(tags);
                         tagsAdapter.notifyDataSetChanged();
+
 
                         AnchorInfoBean anchorInfoBean = new AnchorInfoBean("Last login:", data.isOnline() ? getString(R.string.online) : getString(R.string.offlIine));
                         AnchorInfoBean anchorInfoBean1 = new AnchorInfoBean("Answer rate:", "60%");

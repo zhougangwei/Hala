@@ -1,6 +1,8 @@
 package chat.hala.hala.activity;
 
 import android.Manifest;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,10 +24,13 @@ import chat.hala.hala.avchat.WorkerThread;
 import chat.hala.hala.base.App;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
+import chat.hala.hala.bean.LoginBean;
 import chat.hala.hala.bean.RtmTokenBean;
 import chat.hala.hala.dialog.CommonDialog;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.utils.GsonUtil;
+import chat.hala.hala.utils.SPUtil;
 import chat.hala.hala.wight.NoScrollViewPager;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
@@ -64,6 +69,21 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
 
     @Override
     protected void initView() {
+        int userId = SPUtil.getInstance(this).getUserId();
+        if (userId==0){
+            startActivity(new Intent(this,LoginActivity.class));
+            finish();
+            return;
+        }else{
+            String memberJson = SPUtil.getInstance(this).getMemberJson();
+            if (TextUtils.isEmpty(memberJson)) {
+                startActivity(new Intent(this,LoginActivity.class));
+                finish();
+            }else{
+                LoginBean.DataBean.MemberBean memberBean = GsonUtil.parseJsonToBean(memberJson, LoginBean.DataBean.MemberBean.class);
+                AvchatInfo.saveBaseData(memberBean,this);
+            }
+        }
         ((App) getApplication()).initWorkerThread();
         mTabAdapter = new TabAdapter(getSupportFragmentManager());
         vp.setAdapter(mTabAdapter);
@@ -177,8 +197,15 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
 
     @Override
     protected void onDestroy() {
-        this.event().removeEventHandler(this);
-        worker().disconnectFromRtmService();
+        if (worker()!=null){
+            if (event()!=null){
+                event().removeEventHandler(this);
+            }
+            worker().disconnectFromRtmService();
+        }
+
+
+
         super.onDestroy();
     }
 

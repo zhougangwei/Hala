@@ -106,7 +106,7 @@
         app:layout_constraintTop_toTopOf="@id/iv_wallet"
         app:layout_constraintBottom_toBottomOf="@id/iv_wallet"
         app:layout_constraintStart_toEndOf="@id/iv_wallet"
-        android:text="wallet"
+        android:text="Wallet"
         app:layout_constraintEnd_toStartOf="@id/iv1"
         android:id="@+id/tv_wallet"
         android:layout_width="0dp"
@@ -142,7 +142,7 @@
         app:layout_constraintTop_toTopOf="@id/iv_certify"
         app:layout_constraintBottom_toBottomOf="@id/iv_certify"
         app:layout_constraintStart_toEndOf="@id/iv_certify"
-        android:text="certify"
+        android:text="To Be Star"
         android:id="@+id/tv_certify"
         android:layout_width="0dp"
         android:layout_height="wrap_content" />
@@ -173,7 +173,7 @@
         app:layout_constraintTop_toTopOf="@id/iv_feedback"
         app:layout_constraintBottom_toBottomOf="@id/iv_feedback"
         app:layout_constraintStart_toEndOf="@id/iv_feedback"
-        android:text="feedback"
+        android:text="Feedback"
         android:id="@+id/tv_feedback"
         android:layout_width="0dp"
         android:layout_height="wrap_content" />
@@ -204,7 +204,7 @@
         app:layout_constraintTop_toTopOf="@id/iv_loginout"
         app:layout_constraintBottom_toBottomOf="@id/iv_loginout"
         app:layout_constraintStart_toEndOf="@id/iv_loginout"
-        android:text="loginout"
+        android:text="Login Out"
         android:id="@+id/tv_loginout"
         android:layout_width="0dp"
         android:layout_height="wrap_content" />

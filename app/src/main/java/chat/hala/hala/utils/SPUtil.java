@@ -3,6 +3,8 @@ package chat.hala.hala.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import chat.hala.hala.base.Contact;
+
 
 /**
  * @Description:SharedPreferences单例工具
@@ -106,5 +108,27 @@ public class SPUtil {
 
     public void clear() {
         sp.edit().clear().apply();
+    }
+
+    public void setUserId(int id) {
+        setInt(Contact.USER_ID,id);
+    }
+
+    public void setAnchorId(int id) {
+        setInt(Contact.ANCHOR_ID,id);
+    }
+    public int getUserId() {
+       return getInt(Contact.USER_ID,0);
+    }
+    public int getAnchorId() {
+        return getInt(Contact.ANCHOR_ID,0);
+    }
+
+    public void setMemberJson(String memeberJson) {
+        setString(Contact.MEMBER_DATA,memeberJson);
+    }
+
+    public String getMemberJson() {
+        return  getString(Contact.MEMBER_DATA);
     }
 }

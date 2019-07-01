@@ -48,13 +48,14 @@
         <activity android:name="chat.hala.hala.activity.TagActivity"/>
         <activity android:name="chat.hala.hala.activity.BioActivity"/>
         <activity android:name="chat.hala.hala.activity.WalletActivity"/>
-        <activity android:name="chat.hala.hala.activity.MainActivity"/>
-        <activity android:name="chat.hala.hala.activity.LoginActivity">
+        <activity android:name="chat.hala.hala.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name="chat.hala.hala.activity.LoginActivity">
+
         </activity>
         <activity android:name="chat.hala.hala.activity.ChooseCountryActivity"/>
         <activity android:name="chat.hala.hala.activity.LoginPhoneActivity"/>
