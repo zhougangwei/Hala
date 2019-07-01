@@ -21,6 +21,7 @@ import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.FacebookLoginManager;
 import chat.hala.hala.utils.ToastUtils;
+import chat.hala.hala.wight.country.CountryActivity;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -59,7 +60,7 @@ public class LoginPhoneActivity extends BaseActivity {
 
 
 
-    private Integer mCountryCode=86;       //电话国家前面的countryCode
+    private String mCountryCode="+86";       //电话国家前面的countryCode
 
     @Override
     protected int getContentViewId() {
@@ -142,7 +143,8 @@ public class LoginPhoneActivity extends BaseActivity {
                loginfacebook();
                 break;
             case R.id.tv_country_name:
-                Intent intent = new Intent(this, ChooseCountryActivity.class);
+                Intent intent = new Intent(this, CountryActivity.class);
+                intent.putExtra("type",CountryActivity.FROM_LOGIN_PHONE);
                 startActivityForResult(intent,REQUEST_CHOOSE_COUNTRY);
                 break;
 
@@ -165,10 +167,10 @@ public class LoginPhoneActivity extends BaseActivity {
         if (resultCode==RESULT_OK){
             if (requestCode==REQUEST_CHOOSE_COUNTRY) {
                 String countryName = data.getStringExtra("countryName");
-                mCountryCode = data.getIntExtra("countryCode",0);
+                mCountryCode = data.getStringExtra("countryCode");
                 tvCountryName.setText(countryName);
                 ToastUtils.showToast(LoginPhoneActivity.this,mCountryCode+"");
-                tvCountryCode.setText("+"+mCountryCode);
+                tvCountryCode.setText(mCountryCode);
             }else if(requestCode==REQUEST_FACEBOOK){
                 loginfacebook();
             }else if(requestCode==REQUEST_PHONE){
@@ -213,7 +215,7 @@ public class LoginPhoneActivity extends BaseActivity {
        //}
        final String code = etSmsNum.getText().toString();
         // final String code = "151439";
-      final String mobileNumber = "+"+mCountryCode+etPhoneNum.getText().toString();
+      final String mobileNumber = mCountryCode+etPhoneNum.getText().toString();
         RetrofitFactory.getInstance()
                 .login(ProxyPostHttpRequest.getInstance().login(code, mobileNumber))
                 .subscribeOn(Schedulers.io())

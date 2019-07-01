@@ -30,6 +30,7 @@ import chat.hala.hala.utils.GsonUtil;
 public class ChooseCountryActivity extends BaseActivity {
 
 
+
     @BindView(R.id.tv_cancel)
     TextView     mTvCancel;
     @BindView(R.id.tv_title)

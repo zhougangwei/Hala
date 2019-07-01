@@ -23,6 +23,7 @@ import java.util.List;
 
 import chat.hala.hala.R;
 import chat.hala.hala.activity.MainActivity;
+import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.wight.country.Tools.CharacterParserUtil;
 import chat.hala.hala.wight.country.Tools.CountryComparator;
 import chat.hala.hala.wight.country.Tools.CountrySortAdapter;
@@ -40,7 +41,7 @@ import chat.hala.hala.wight.country.Tools.SideBar;
  *
  * @author duanbokan
  */
-public class CountryActivity extends Activity {
+public class CountryActivity extends BaseActivity {
 
     String TAG = "CountryActivity";
 
@@ -64,26 +65,33 @@ public class CountryActivity extends Activity {
 
     private CharacterParserUtil characterParserUtil;
 
+    public static final int FROM_EDIT_PRO = 1 ;
+    public static final int FROM_LOGIN_PHONE = 2 ;
+    private int mType;
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int getContentViewId() {
+        return R.layout.coogame_country;
+    }
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.coogame_country);
+    @Override
+    protected void beforeInitView() {
+        Intent intent = getIntent();
+        mType = intent.getIntExtra("type",0);
 
-        initView();
-        setListener();
 
-        getCountryList();
+
 
     }
 
     /**
      * 初始化界面
      */
-    private void initView() {
+    @Override
+    public void initView() {
+
+
         country_edt_search = (EditText) findViewById(R.id.country_et_search);
         country_lv_countryList = (ListView) findViewById(R.id.country_lv_list);
         country_iv_clearText = (ImageView) findViewById(R.id.country_iv_cleartext);
@@ -96,12 +104,19 @@ public class CountryActivity extends Activity {
         pinyinComparator = new CountryComparator();
         countryChangeUtil = new GetCountryNameSort();
         characterParserUtil = new CharacterParserUtil();
-
         // 将联系人进行排序，按照A~Z的顺序
         Collections.sort(mAllCountryList, pinyinComparator);
         adapter = new CountrySortAdapter(this, mAllCountryList);
         country_lv_countryList.setAdapter(adapter);
 
+        if (mType ==FROM_EDIT_PRO){
+            adapter.setHideCountryCode(true);
+        }else if (mType ==FROM_LOGIN_PHONE){
+            adapter.setHideCountryCode(false);
+        }
+
+        setListener();
+        getCountryList();
     }
 
     /****
@@ -134,9 +149,9 @@ public class CountryActivity extends Activity {
             public void afterTextChanged(Editable s) {
                 String searchContent = country_edt_search.getText().toString();
                 if (searchContent.equals("")) {
-                    country_iv_clearText.setVisibility(View.INVISIBLE);
+                   // country_iv_clearText.setVisibility(View.INVISIBLE);
                 } else {
-                    country_iv_clearText.setVisibility(View.VISIBLE);
+                   // country_iv_clearText.setVisibility(View.VISIBLE);
                 }
 
                 if (searchContent.length() > 0) {
@@ -186,11 +201,9 @@ public class CountryActivity extends Activity {
                 }
 
                 Intent intent = new Intent();
-                intent.setClass(CountryActivity.this, MainActivity.class);
                 intent.putExtra("countryName", countryName);
-                intent.putExtra("countryNumber", countryNumber);
-                setResult(RESULT_OK, intent);
-                Log.e(TAG, "countryName: + " + countryName + "countryNumber: " + countryNumber);
+                intent.putExtra("countryCode", countryNumber);
+                setResult(RESULT_OK,intent);
                 finish();
 
             }
@@ -202,7 +215,7 @@ public class CountryActivity extends Activity {
      * 获取国家列表
      */
     private void getCountryList() {
-        String[] countryList = getResources().getStringArray(R.array.country_code_list_ch);
+        String[] countryList = getResources().getStringArray(R.array.country_code_list_en);
 
         for (int i = 0, length = countryList.length; i < length; i++) {
             String[] country = countryList[i].split("\\*");
@@ -223,6 +236,6 @@ public class CountryActivity extends Activity {
 
         Collections.sort(mAllCountryList, pinyinComparator);
         adapter.updateListView(mAllCountryList);
-        Log.e(TAG, "changdu" + mAllCountryList.size());
+
     }
 }

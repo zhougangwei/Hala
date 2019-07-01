@@ -12,11 +12,13 @@ import android.widget.BaseAdapter;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.area.R;
+
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import chat.hala.hala.R;
 
 
 /**
@@ -39,6 +41,7 @@ public class CountrySortAdapter extends BaseAdapter implements SectionIndexer
     private Context mContext;
 
     LayoutInflater mInflater;
+    private boolean mHideCountryCode;
 
     /***
      * 初始化
@@ -114,6 +117,11 @@ public class CountrySortAdapter extends BaseAdapter implements SectionIndexer
         viewHolder.country_name.setText(this.mList.get(position).countryName);
         viewHolder.country_number.setText(this.mList.get(position).countryNumber);
 
+        if(mHideCountryCode){
+            viewHolder.country_number.setVisibility(View.GONE);
+        }
+
+
         return view;
     }
 
@@ -168,6 +176,14 @@ public class CountrySortAdapter extends BaseAdapter implements SectionIndexer
             this.mList = list;
         }
         notifyDataSetChanged();
+    }
+
+    public void setHideCountryCode(boolean hideCountryCode) {
+        mHideCountryCode = hideCountryCode;
+    }
+
+    public boolean isHideCountryCode() {
+        return mHideCountryCode;
     }
 
     public static class ViewHolder

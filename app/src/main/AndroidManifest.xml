@@ -72,6 +72,9 @@
         <activity android:name="chat.hala.hala.activity.MyReserveListActivity"/>
         <activity android:name="chat.hala.hala.activity.MyCoinsListActivity"/>
         <activity android:name="chat.hala.hala.activity.VideoFinishActivity"/>
+        <activity android:name=".wight.country.CountryActivity">
+
+        </activity>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

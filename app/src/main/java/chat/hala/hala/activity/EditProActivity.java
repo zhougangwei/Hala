@@ -39,6 +39,7 @@ import chat.hala.hala.http.UploadPicManger;
 import chat.hala.hala.manager.ChoosePicManager;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ToastUtils;
+import chat.hala.hala.wight.country.CountryActivity;
 import cn.qqtheme.framework.picker.SinglePicker;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -166,7 +167,8 @@ public class EditProActivity extends BaseActivity {
                 setZodiac();
                 break;
             case R.id.ll_country:
-                Intent intent1 = new Intent(this, ChooseCountryActivity.class);
+                Intent intent1 = new Intent(this, CountryActivity.class);
+                intent1.putExtra("type",CountryActivity.FROM_EDIT_PRO);
                 startActivityForResult(intent1,REQUEST_CHOOSE_COUNTRY);
                 break;
             case R.id.ll_tags:

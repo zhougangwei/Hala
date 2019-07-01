@@ -14,6 +14,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.SizeUtils;
+
 
 /**
  * 类简要描述
@@ -71,7 +73,7 @@ public class SideBar extends View {
             paint.setTypeface(Typeface.DEFAULT_BOLD);
             // 抗锯齿
             paint.setAntiAlias(true);
-            paint.setTextSize(20);
+            paint.setTextSize(SizeUtils.dp2px(getContext(),13));
 
             if (i == choose) {
                 paint.setColor(Color.BLUE);

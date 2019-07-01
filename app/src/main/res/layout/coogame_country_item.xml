@@ -20,7 +20,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10dip">
+        android:padding="13dp">
 
         <TextView
             android:id="@+id/country_name"
