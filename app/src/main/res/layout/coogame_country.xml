@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
+    android:background="@color/white"
     android:orientation="vertical" >
 
     <FrameLayout
@@ -63,7 +63,7 @@
             android:textSize="30.0dip"
             android:visibility="invisible" />
 
-        <com.area.Tools.SideBar
+        <chat.hala.hala.wight.country.Tools.SideBar
             android:id="@+id/country_sidebar"
             android:layout_width="30.0dip"
             android:layout_height="match_parent"

@@ -74,7 +74,6 @@ public class CountryActivity extends Activity {
         setContentView(R.layout.coogame_country);
 
         initView();
-
         setListener();
 
         getCountryList();
