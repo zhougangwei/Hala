@@ -1,15 +1,10 @@
 package chat.hala.hala.wight.country;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
@@ -22,7 +17,6 @@ import java.util.Collections;
 import java.util.List;
 
 import chat.hala.hala.R;
-import chat.hala.hala.activity.MainActivity;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.wight.country.Tools.CharacterParserUtil;
 import chat.hala.hala.wight.country.Tools.CountryComparator;
@@ -68,6 +62,7 @@ public class CountryActivity extends BaseActivity {
     public static final int FROM_EDIT_PRO = 1 ;
     public static final int FROM_LOGIN_PHONE = 2 ;
     private int mType;
+    private TextView tv_cancel;
 
 
     @Override
@@ -95,6 +90,7 @@ public class CountryActivity extends BaseActivity {
         country_edt_search = (EditText) findViewById(R.id.country_et_search);
         country_lv_countryList = (ListView) findViewById(R.id.country_lv_list);
         country_iv_clearText = (ImageView) findViewById(R.id.country_iv_cleartext);
+        tv_cancel = (TextView) findViewById(R.id.tv_cancel);
 
         dialog = (TextView) findViewById(R.id.country_dialog);
         sideBar = (SideBar) findViewById(R.id.country_sidebar);
@@ -123,6 +119,12 @@ public class CountryActivity extends BaseActivity {
      * 添加监听
      */
     private void setListener() {
+        tv_cancel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         country_iv_clearText.setOnClickListener(new OnClickListener() {
 
             @Override

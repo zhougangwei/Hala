@@ -85,12 +85,20 @@ public class LoginPhoneActivity extends BaseActivity {
 
                 if(s!=null&&s.length()>7){
                     if (etSmsNum.getText().length()>0){
+                        //tvLogin.setEnabled(true);
+                        //tvLogin.setClickable(true);
                         tvLogin.setBackgroundResource(R.drawable.bg_rec_purple_r2);
                     }else{
+                        //tvLogin.setEnabled(false);
+                        //tvLogin.setClickable(false);
                         tvLogin.setBackgroundResource(R.drawable.bg_rec_purple_r1);
                     }
+                    //tv_send_msm.setEnabled(true);
+                    //tv_send_msm.setClickable(true);
                     tv_send_msm.setBackgroundResource(R.drawable.bg_rec_3_send_msm2);
                 }else if(s!=null){
+                    //tv_send_msm.setEnabled(false);
+                    //tv_send_msm.setClickable(false);
                     tv_send_msm.setBackgroundResource(R.drawable.bg_rec_3_send_msm);
                 }
 

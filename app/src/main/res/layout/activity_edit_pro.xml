@@ -129,7 +129,6 @@
                 android:textSize="15sp" />
 
             <TextView
-
                 android:id="@+id/et_height"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -139,8 +138,6 @@
                 android:background="@null"
                 android:gravity="end"
                 android:hint="fill in height"
-                android:inputType="number"
-                android:maxLength="3"
                 android:paddingEnd="10dp"
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
@@ -185,8 +182,6 @@
                 android:background="@null"
                 android:gravity="end"
                 android:hint="fill in weight"
-                android:inputType="number"
-                android:maxLength="3"
                 android:paddingEnd="10dp"
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"

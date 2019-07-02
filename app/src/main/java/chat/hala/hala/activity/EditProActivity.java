@@ -40,6 +40,7 @@ import chat.hala.hala.manager.ChoosePicManager;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ToastUtils;
 import chat.hala.hala.wight.country.CountryActivity;
+import cn.qqtheme.framework.picker.DoublePicker;
 import cn.qqtheme.framework.picker.SinglePicker;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -127,6 +128,8 @@ public class EditProActivity extends BaseActivity {
     private String country;
     private String intro;
     private String certify;
+    private DoublePicker weightPicker;
+    private DoublePicker heightPicker;
 
 
     @Override
@@ -152,7 +155,7 @@ public class EditProActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mList.get(position).isAdd()) {
-                    ChoosePicManager.choosePic(EditProActivity.this,5);
+                    ChoosePicManager.choosePic(EditProActivity.this, 5);
                 }
             }
         });
@@ -160,7 +163,7 @@ public class EditProActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.ll_zodiac, R.id.ll_country,R.id.ll_city, R.id.ll_introction, R.id.ll_tags, R.id.ll_bio, R.id.ll_certified, R.id.tv_save,R.id.iv_back,R.id.ll_height,R.id.ll_weight})
+    @OnClick({R.id.ll_zodiac, R.id.ll_country, R.id.ll_city, R.id.ll_introction, R.id.ll_tags, R.id.ll_bio, R.id.ll_certified, R.id.tv_save, R.id.iv_back, R.id.ll_height, R.id.ll_weight})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_zodiac:
@@ -168,8 +171,8 @@ public class EditProActivity extends BaseActivity {
                 break;
             case R.id.ll_country:
                 Intent intent1 = new Intent(this, CountryActivity.class);
-                intent1.putExtra("type",CountryActivity.FROM_EDIT_PRO);
-                startActivityForResult(intent1,REQUEST_CHOOSE_COUNTRY);
+                intent1.putExtra("type", CountryActivity.FROM_EDIT_PRO);
+                startActivityForResult(intent1, REQUEST_CHOOSE_COUNTRY);
                 break;
             case R.id.ll_tags:
                 Intent tagIntent = new Intent(this, TagActivity.class);
@@ -192,16 +195,77 @@ public class EditProActivity extends BaseActivity {
             case R.id.ll_height:
                 chooseHeight();
                 break;
-            case R.id.ll_weight :
+            case R.id.ll_weight:
                 chooseWeight();
                 break;
         }
     }
 
     private void chooseWeight() {
-
+        if (weightPicker == null) {
+            final ArrayList<String> firstData = new ArrayList<>();
+            firstData.add("0");
+            firstData.add("1");
+            firstData.add("2");
+            final ArrayList<String> secondData = new ArrayList<>();
+            for (int i = 0; i <= 99; i++) {
+                if (i < 10) {
+                    secondData.add("0" + i);
+                } else {
+                    secondData.add("" + i);
+                }
+            }
+            weightPicker = new DoublePicker(this, firstData, secondData);
+            weightPicker.setDividerVisible(true);
+            weightPicker.setCycleDisable(true);
+            weightPicker.setSelectedIndex(0, 0);
+            weightPicker.setSecondLabel("", "KG");
+            weightPicker.setTextSize(15);
+            weightPicker.setContentPadding(15, 15);
+            weightPicker.setOnPickListener(new DoublePicker.OnPickListener() {
+                @Override
+                public void onPicked(int selectedFirstIndex, int selectedSecondIndex) {
+                    String height = ("0".equals(firstData.get(selectedFirstIndex)) ? "" : firstData.get(selectedFirstIndex)) + secondData.get(selectedSecondIndex);
+                    etWeight.setText(height);
+                }
+            });
+            weightPicker.show();
+        } else {
+            weightPicker.show();
+        }
     }
+
     private void chooseHeight() {
+        if(heightPicker==null){
+            final ArrayList<String> firstData = new ArrayList<>();
+            firstData.add("1");
+            firstData.add("2");
+            final ArrayList<String> secondData = new ArrayList<>();
+            for (int i = 0; i <= 99; i++) {
+                if (i < 10) {
+                    secondData.add("0" + i);
+                } else {
+                    secondData.add("" + i);
+                }
+            }
+            heightPicker = new DoublePicker(this, firstData, secondData);
+            heightPicker.setDividerVisible(true);
+            heightPicker.setCycleDisable(true);
+            heightPicker.setSelectedIndex(0, 0);
+            heightPicker.setSecondLabel("", "CM");
+            heightPicker.setTextSize(15);
+            heightPicker.setContentPadding(15, 15);
+            heightPicker.setOnPickListener(new DoublePicker.OnPickListener() {
+                @Override
+                public void onPicked(int selectedFirstIndex, int selectedSecondIndex) {
+                    String height = firstData.get(selectedFirstIndex) + secondData.get(selectedSecondIndex);
+                    etHeight.setText(height);
+                }
+            });
+            heightPicker.show();
+        }else{
+            heightPicker.show();
+        }
 
     }
 
@@ -321,84 +385,85 @@ public class EditProActivity extends BaseActivity {
                     }
                     mAdapter.notifyDataSetChanged();
                 }
-            }else if(requestCode ==REQUEST_CHOOSE_COUNTRY){
+            } else if (requestCode == REQUEST_CHOOSE_COUNTRY) {
                 String countryName = data.getStringExtra("countryName");
                 tvCountry.setText(countryName);
             }
         }
-        }
+    }
 
-        private void upQiniu() {
-            QiNiuToken.DataBean.StarchatanchorBean starchatanchorBean = QiniuInfo.getmStarchatanchorBean();
-            if (starchatanchorBean == null) {
-                return;
-            }
-            new UploadPicManger().uploadImageArray(uriList, 0, starchatanchorBean.getToken(), starchatanchorBean.getUrl(), new UploadPicManger.QiNiuUploadCompletionHandler() {
-                @Override
-                public void uploadSuccess(String path, List<String> paths) {
-                    for (int i = 0; i < paths.size(); i++) {
-                        Log.e(TAG, "uploadSuccess:"+ paths.get(i));
-                    }
-                    gotoSave(paths);
-                }
-                @Override
-                public void uploadFailure() {
-                    // TODO: 2019/6/25 0025 上传图片失败
-                    Log.e(TAG, "uploadFailure: 失败");
-                }
-            });
+    private void upQiniu() {
+        QiNiuToken.DataBean.StarchatanchorBean starchatanchorBean = QiniuInfo.getmStarchatanchorBean();
+        if (starchatanchorBean == null) {
+            return;
         }
-
-        private void gotoSave (List < String > paths) {
-            if (paths != null) {
-                covers.clear();
+        new UploadPicManger().uploadImageArray(uriList, 0, starchatanchorBean.getToken(), starchatanchorBean.getUrl(), new UploadPicManger.QiNiuUploadCompletionHandler() {
+            @Override
+            public void uploadSuccess(String path, List<String> paths) {
                 for (int i = 0; i < paths.size(); i++) {
-                    ApplyAnchorBean.CoversBean coversBean = new ApplyAnchorBean.CoversBean();
-                    coversBean.setCoverUrl(paths.get(i));
-                    coversBean.setSortby(i);
-                    covers.add(coversBean);
+                    Log.e(TAG, "uploadSuccess:" + paths.get(i));
                 }
+                gotoSave(paths);
             }
 
-            ApplyAnchorBean applyAnchorBean = new ApplyAnchorBean();
-            applyAnchorBean.setNickname(userName);
-            applyAnchorBean.setMobileNumber(phoneNum);
-            applyAnchorBean.setHeight(TextUtils.isEmpty(height) ? 0 : Integer.parseInt(height));
-            applyAnchorBean.setWeight(TextUtils.isEmpty(weight) ? 0 : Integer.parseInt(weight));
-            applyAnchorBean.setZodiac(zodiac);
-            applyAnchorBean.setCity(city);
-            applyAnchorBean.setIntroduction(intro);
-            applyAnchorBean.setCountry(country);
-            applyAnchorBean.setTagIds(tagsList);
-            applyAnchorBean.setCertifyUrl(certify);
-            applyAnchorBean.setBiography(bio);
-            applyAnchorBean.setCovers(covers);
-            applyAnchorBean.setCpm(20 + "");
-            RetrofitFactory.getInstance()
-                    .applyAnchor(ProxyPostHttpRequest.getJsonInstance()
-                            .applyAnchor(GsonUtil.parseObjectToJson(applyAnchorBean)))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new BaseCosumer<BeAnchorBean>() {
-                        @Override
-                        public void onNext(BeAnchorBean baseBean) {
-                            if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
-                                ToastUtils.showToast(EditProActivity.this, "提交失败");
-                                Log.e("Edit", GsonUtil.parseObjectToJson(baseBean));
-                                return;
-                            }
-                            if(Contact.REPONSE_CODE_APPLYANCHOR_FAIL_ALREADY_NAME_OR_PHONE!= baseBean.getCode()){
-                                ToastUtils.showToast(EditProActivity.this, "主播用户名或手机号存在");
-                                return;
-                            }
-                            int id = baseBean.getData().getMemberId();
-                            AvchatInfo.setAnchorId(id);
-                            ToastUtils.showToast(EditProActivity.this, "提交成功");
-                            finish();
-                        }
-                    });
+            @Override
+            public void uploadFailure() {
+                // TODO: 2019/6/25 0025 上传图片失败
+                Log.e(TAG, "uploadFailure: 失败");
+            }
+        });
+    }
 
+    private void gotoSave(List<String> paths) {
+        if (paths != null) {
+            covers.clear();
+            for (int i = 0; i < paths.size(); i++) {
+                ApplyAnchorBean.CoversBean coversBean = new ApplyAnchorBean.CoversBean();
+                coversBean.setCoverUrl(paths.get(i));
+                coversBean.setSortby(i);
+                covers.add(coversBean);
+            }
         }
 
+        ApplyAnchorBean applyAnchorBean = new ApplyAnchorBean();
+        applyAnchorBean.setNickname(userName);
+        applyAnchorBean.setMobileNumber(phoneNum);
+        applyAnchorBean.setHeight(TextUtils.isEmpty(height) ? 0 : Integer.parseInt(height));
+        applyAnchorBean.setWeight(TextUtils.isEmpty(weight) ? 0 : Integer.parseInt(weight));
+        applyAnchorBean.setZodiac(zodiac);
+        applyAnchorBean.setCity(city);
+        applyAnchorBean.setIntroduction(intro);
+        applyAnchorBean.setCountry(country);
+        applyAnchorBean.setTagIds(tagsList);
+        applyAnchorBean.setCertifyUrl(certify);
+        applyAnchorBean.setBiography(bio);
+        applyAnchorBean.setCovers(covers);
+        applyAnchorBean.setCpm(20 + "");
+        RetrofitFactory.getInstance()
+                .applyAnchor(ProxyPostHttpRequest.getJsonInstance()
+                        .applyAnchor(GsonUtil.parseObjectToJson(applyAnchorBean)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<BeAnchorBean>() {
+                    @Override
+                    public void onNext(BeAnchorBean baseBean) {
+                        if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
+                            ToastUtils.showToast(EditProActivity.this, "提交失败");
+                            Log.e("Edit", GsonUtil.parseObjectToJson(baseBean));
+                            return;
+                        }
+                        if (Contact.REPONSE_CODE_APPLYANCHOR_FAIL_ALREADY_NAME_OR_PHONE != baseBean.getCode()) {
+                            ToastUtils.showToast(EditProActivity.this, "主播用户名或手机号存在");
+                            return;
+                        }
+                        int id = baseBean.getData().getMemberId();
+                        AvchatInfo.setAnchorId(id);
+                        ToastUtils.showToast(EditProActivity.this, "提交成功");
+                        finish();
+                    }
+                });
 
     }
+
+
+}
