@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.SizeUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
@@ -36,7 +37,9 @@ import chat.hala.hala.http.UploadPicManger;
 import chat.hala.hala.manager.ChoosePicManager;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ToastUtils;
+import cn.qqtheme.framework.picker.DatePicker;
 import cn.qqtheme.framework.picker.SinglePicker;
+import cn.qqtheme.framework.util.ConvertUtils;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -51,32 +54,32 @@ public class EditProUserActivity extends BaseActivity {
     private final static String[] constellationEnArr = new String[]{"Capricornus",
             "Aquarius", "Pisces", "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra",
             "Scorpio", "Sagittarius", "Capricornus"};
-    private final static String[] sexArr = new String[]{"male","female","secret"};
+    private final static String[] sexArr             = new String[]{"male", "female", "secret"};
 
     private static final String TAG = "EditProUserActivity";
 
     @BindView(R.id.iv_back)
-    ImageView ivBack;
+    ImageView    ivBack;
     @BindView(R.id.tv_title)
-    TextView tvTitle;
+    TextView     tvTitle;
     @BindView(R.id.iv_head)
-    ImageView ivHead;
+    ImageView    ivHead;
     @BindView(R.id.ll_user_avatar)
     LinearLayout llUserAvatar;
     @BindView(R.id.et_user_name)
-    EditText etUserName;
+    EditText     etUserName;
     @BindView(R.id.ll_user_name)
     LinearLayout llUserName;
     @BindView(R.id.et_gender)
-    TextView etGender;
+    TextView     etGender;
     @BindView(R.id.ll_gender)
     LinearLayout llGender;
     @BindView(R.id.et_birth)
-    EditText etBirth;
+    TextView     etBirth;
     @BindView(R.id.ll_birthdate)
     LinearLayout llBirthdate;
     @BindView(R.id.tv_confirm)
-    TextView tvConfirm;
+    TextView     tvConfirm;
     private String type;
     private String facebookId;
     private String mobileNumber;
@@ -88,8 +91,8 @@ public class EditProUserActivity extends BaseActivity {
     private String birthDate;
 
 
-    public static final String FROM_FACEBOOK = "from_facebook";
-    public static final String FROM_PHONE = "from_phone";
+    public static final String FROM_FACEBOOK    = "from_facebook";
+    public static final String FROM_PHONE       = "from_phone";
     public static final String FROM_MYFRAG_MENT = "from_myfrag_ment";
     private String avatarUrl;
     private List<String> uriList = new ArrayList<>();
@@ -122,6 +125,7 @@ public class EditProUserActivity extends BaseActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s != null && s.length() > 0) {
@@ -130,6 +134,7 @@ public class EditProUserActivity extends BaseActivity {
                     tvConfirm.setBackgroundResource(R.drawable.bg_rec_purple_r1);
                 }
             }
+
             @Override
             public void afterTextChanged(Editable s) {
 
@@ -150,6 +155,9 @@ public class EditProUserActivity extends BaseActivity {
             case R.id.ll_gender:
                 chooseGender();
                 break;
+            case R.id.ll_birthdate:
+                chooseBirthDate();
+                break;
             case R.id.tv_confirm:
                 if (!judgeEmpty()) {
                     return;
@@ -160,14 +168,51 @@ public class EditProUserActivity extends BaseActivity {
         }
     }
 
+    private void chooseBirthDate() {
+        final DatePicker picker = new DatePicker(this);
+        picker.setCanceledOnTouchOutside(true);
+        picker.setUseWeight(true);
+        picker.setLabel("","","");
+
+        picker.setTopPadding(ConvertUtils.toPx(this, 10));
+        picker.setRangeEnd(2020, 1, 11);
+        picker.setRangeStart(1900, 1, 1);
+        picker.setSelectedItem(2000, 10, 14);
+        picker.setResetWhileWheel(false);
+        picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
+            @Override
+            public void onDatePicked(String year, String month, String day) {
+                ToastUtils.showToast(EditProUserActivity.this,year+"-"+month+"-"+day);
+            }
+        });
+        picker.setOnWheelListener(new DatePicker.OnWheelListener() {
+            @Override
+            public void onYearWheeled(int index, String year) {
+                picker.setTitleText(year + "-" + picker.getSelectedMonth() + "-" + picker.getSelectedDay());
+            }
+
+            @Override
+            public void onMonthWheeled(int index, String month) {
+                picker.setTitleText(picker.getSelectedYear() + "-" + month + "-" + picker.getSelectedDay());
+            }
+
+            @Override
+            public void onDayWheeled(int index, String day) {
+                picker.setTitleText(picker.getSelectedYear() + "-" + picker.getSelectedMonth() + "-" + day);
+            }
+        });
+        picker.show();
+
+    }
+
     private void chooseGender() {
         List<String> data = Arrays.asList(sexArr);
         SinglePicker<String> picker = new SinglePicker<String>(this, data);
         picker.setCanceledOnTouchOutside(true);
         picker.setSelectedIndex(1);
         picker.setCycleDisable(true);
-        picker.setTextSize(13);
-        picker.setTextPadding(4);
+        picker.setTextSize(17);
+        picker.setTextPadding(10);
         picker.setOnItemPickListener(new SinglePicker.OnItemPickListener<String>() {
             @Override
             public void onItemPicked(int index, String item) {

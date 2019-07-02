@@ -61,11 +61,11 @@ public class EditProActivity extends BaseActivity {
     @BindView(R.id.ll_phone_num)
     LinearLayout llPhoneNum;
     @BindView(R.id.et_height)
-    EditText etHeight;
+    TextView etHeight;
     @BindView(R.id.ll_height)
     LinearLayout llHeight;
     @BindView(R.id.et_weight)
-    EditText etWeight;
+    TextView etWeight;
     @BindView(R.id.ll_weight)
     LinearLayout llWeight;
     @BindView(R.id.et_zodiac)
@@ -160,7 +160,7 @@ public class EditProActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.ll_zodiac, R.id.ll_country,R.id.ll_city, R.id.ll_introction, R.id.ll_tags, R.id.ll_bio, R.id.ll_certified, R.id.tv_save,R.id.iv_back})
+    @OnClick({R.id.ll_zodiac, R.id.ll_country,R.id.ll_city, R.id.ll_introction, R.id.ll_tags, R.id.ll_bio, R.id.ll_certified, R.id.tv_save,R.id.iv_back,R.id.ll_height,R.id.ll_weight})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_zodiac:
@@ -189,7 +189,20 @@ public class EditProActivity extends BaseActivity {
             case R.id.iv_back:
                 finish();
                 break;
+            case R.id.ll_height:
+                chooseHeight();
+                break;
+            case R.id.ll_weight :
+                chooseWeight();
+                break;
         }
+    }
+
+    private void chooseWeight() {
+
+    }
+    private void chooseHeight() {
+
     }
 
     private boolean judgeEmpty() {
@@ -266,7 +279,7 @@ public class EditProActivity extends BaseActivity {
         SinglePicker<String> picker = new SinglePicker<String>(this, data);
         picker.setCanceledOnTouchOutside(true);
         picker.setSelectedIndex(1);
-        picker.setCycleDisable(false);
+        picker.setCycleDisable(true);
         picker.setOnItemPickListener(new SinglePicker.OnItemPickListener<String>() {
             @Override
             public void onItemPicked(int index, String item) {

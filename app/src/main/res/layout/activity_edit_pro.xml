@@ -128,7 +128,7 @@
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
-            <EditText
+            <TextView
 
                 android:id="@+id/et_height"
                 android:layout_width="0dp"
@@ -175,7 +175,7 @@
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_weight"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
