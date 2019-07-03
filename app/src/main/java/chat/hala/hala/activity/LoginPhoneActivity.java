@@ -15,6 +15,7 @@ import chat.hala.hala.R;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
+import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.bean.LoginBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.ProxyPostHttpRequest;
@@ -157,6 +158,8 @@ public class LoginPhoneActivity extends BaseActivity {
                 break;
 
             case R.id.tv_send_msm:
+
+                sendSms();
                 etSmsNum.setText("151439");
                 break;
         }
@@ -166,6 +169,18 @@ public class LoginPhoneActivity extends BaseActivity {
 
 
 
+
+    }
+
+    private void sendSms() {
+      RetrofitFactory.getInstance().sendSms().subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(new BaseCosumer<BaseBean>() {
+                  @Override
+                  public void onNext(BaseBean baseBean) {
+
+                  }
+              });
 
     }
 

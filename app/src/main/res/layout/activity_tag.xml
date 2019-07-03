@@ -21,6 +21,7 @@
     android:layout_height="wrap_content" />
 
 <android.support.v7.widget.RecyclerView
+    android:minHeight="49dp"
     android:background="@color/white"
     android:id="@+id/rv_choose"
     android:layout_marginTop="18dp"

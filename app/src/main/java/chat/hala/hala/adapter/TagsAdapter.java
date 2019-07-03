@@ -25,9 +25,11 @@ public class TagsAdapter extends BaseQuickAdapter<AnchorTagBean.DataBean, BaseVi
     protected void convert(BaseViewHolder helper, AnchorTagBean.DataBean item) {
             helper.setText(R.id.tv_content,item.getContent());
             if(item.isChoose()){
+                helper.setTextColor(R.id.tv_content,mContext.getResources().getColor(R.color.white));
                 helper.setBackgroundRes(R.id.tv_content,R.drawable.bg_rec_3blue);
             }else{
-
+                helper.setTextColor(R.id.tv_content,mContext.getResources().getColor(R.color.black));
+                helper.setBackgroundRes(R.id.tv_content,R.drawable.bg_rec_3grey);
             }
 
     }

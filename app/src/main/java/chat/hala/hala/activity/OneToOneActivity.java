@@ -537,6 +537,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                Log.e(TAG, "run: "+"onLocalInvitationAccepted");
                 startHeartBeat();
                 showOnshow();
                 changeCallState(Call_CONNECTED);

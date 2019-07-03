@@ -218,7 +218,7 @@ public class EditProActivity extends BaseActivity {
             weightPicker = new DoublePicker(this, firstData, secondData);
             weightPicker.setDividerVisible(true);
             weightPicker.setCycleDisable(true);
-            weightPicker.setSelectedIndex(0, 49);
+            weightPicker.setSelectedIndex(0, 50);
             weightPicker.setSecondLabel("", "KG");
             weightPicker.setTextSize(15);
             weightPicker.setContentPadding(15, 15);
@@ -251,7 +251,7 @@ public class EditProActivity extends BaseActivity {
             heightPicker = new DoublePicker(this, firstData, secondData);
             heightPicker.setDividerVisible(true);
             heightPicker.setCycleDisable(true);
-            heightPicker.setSelectedIndex(0, 59);
+            heightPicker.setSelectedIndex(0, 50);
             heightPicker.setSecondLabel("", "CM");
             heightPicker.setTextSize(15);
             heightPicker.setContentPadding(15, 15);
@@ -428,7 +428,7 @@ public class EditProActivity extends BaseActivity {
         }
 
         ApplyAnchorBean applyAnchorBean = new ApplyAnchorBean();
-        applyAnchorBean.setNickname(userName);
+        applyAnchorBean.setRealName(userName);
         applyAnchorBean.setMobileNumber(phoneNum);
         applyAnchorBean.setHeight(TextUtils.isEmpty(height) ? 0 : Integer.parseInt(height));
         applyAnchorBean.setWeight(TextUtils.isEmpty(weight) ? 0 : Integer.parseInt(weight));

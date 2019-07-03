@@ -57,6 +57,21 @@ public class VideoCallManager {
                                                         .subscribe(new BaseCosumer<CallBean>() {
                                                             @Override
                                                             public void onNext(final CallBean callBean) {
+                                                                if(true){
+                                                                    /*
+                                                                    * test
+                                                                    * */
+                                                                    CallBean callBean1 = new CallBean();
+                                                                    CallBean.DataBean dataBean = new CallBean.DataBean();
+                                                                    dataBean.setChannel(anchorId+"");
+                                                                    dataBean.setCallId(anchorId);
+                                                                    callBean1.setData(dataBean);
+                                                                    getMediaToken(callBean1, activity, anchorId, anchorMemberId);
+                                                                    return;
+                                                                }
+
+
+
                                                                 if (ResultUtils.cheekSuccess(callBean)) {
                                                                     getMediaToken(callBean, activity, anchorId, anchorMemberId);
                                                                 } else if (ResultUtils.isNoMoney(callBean)) {

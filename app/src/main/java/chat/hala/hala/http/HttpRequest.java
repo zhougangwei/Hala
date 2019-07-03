@@ -207,6 +207,6 @@ public interface HttpRequest {
     @GET("/general/ad?locate=banner")
     Observable<AdBean> getAd();
 
-
-
+    @GET("/account/sms/send")
+    Observable<BaseBean> sendSms();
 }
