@@ -87,12 +87,17 @@ public class TagActivity extends BaseActivity {
         allTagsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
-                if (chooseDatas.size() > 5) {
-                    ToastUtils.showToast(TagActivity.this, "最多选五个!");
+                AnchorTagBean.DataBean dataBean = allDatas.get(position);
+                if (dataBean.isChoose()) {
                     return;
                 }
-                chooseDatas.add(allDatas.get(position));
+                if (chooseDatas.size() > 5) {
+                    ToastUtils.showToast(TagActivity.this, "Choose 5 tags at most!");
+                    return;
+                }
+                dataBean.setChoose(true);
+                allTagsAdapter.notifyDataSetChanged();
+                chooseDatas.add(dataBean);
                 chooseAdapter.notifyDataSetChanged();
 
             }
@@ -100,8 +105,11 @@ public class TagActivity extends BaseActivity {
         chooseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                AnchorTagBean.DataBean dataBean = chooseDatas.get(position);
+                dataBean.setChoose(false);
                 chooseDatas.remove(position);
                 chooseAdapter.notifyDataSetChanged();
+                allTagsAdapter.notifyDataSetChanged();
             }
         });
 

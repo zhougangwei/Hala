@@ -11,6 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,7 +28,6 @@ import chat.hala.hala.R;
 import chat.hala.hala.adapter.AnchorDataAdapter;
 import chat.hala.hala.adapter.AnchorTagsAdapter;
 import chat.hala.hala.adapter.SimplePagerAdapter;
-import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.base.VideoCallManager;
 import chat.hala.hala.bean.AnchorBean;
@@ -35,12 +35,13 @@ import chat.hala.hala.bean.AnchorInfoBean;
 import chat.hala.hala.bean.AnchorTagBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.wight.RatingBarView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class AnchorsActivity extends BaseActivity {
+public class AnchorsActivity extends SlideBackActivity {
 
     @BindView(R.id.rl_banner)
     LinearLayout rlBanner;
@@ -124,7 +125,7 @@ public class AnchorsActivity extends BaseActivity {
     private void initPaint() {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
-        mPaint.setTextSize(SizeUtils.sp2px(this, 13));
+        mPaint.setTextSize(SizeUtils.sp2px(this, 14));
         mPaint.setStyle(Paint.Style.FILL);
     }
 
@@ -135,7 +136,7 @@ public class AnchorsActivity extends BaseActivity {
         GridLayoutManager tagGridLayoutManager = new GridLayoutManager(AnchorsActivity.this, 100);
         rvTags.setLayoutManager(tagGridLayoutManager);
         rvTags.setItemAnimator(new DefaultItemAnimator());
-        rvTags.setAdapter(mAnchorDataAdapter);
+        rvTags.setAdapter(tagsAdapter);
         tagGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -143,7 +144,8 @@ public class AnchorsActivity extends BaseActivity {
                         - SizeUtils.dp2px(AnchorsActivity.this, 28);
                 int itemWidth = getTextWidth(mPaint,
                         tagsDatas.get(position).getContent() +
-                        + SizeUtils.dp2px(AnchorsActivity.this, 57));
+                        + SizeUtils.dp2px(AnchorsActivity.this, 30));
+                Log.e("AnchorsActivity", "itemWidth:" + itemWidth);
                 return Math.min(100,itemWidth * 100 / width + 1);
             }
         });
@@ -163,7 +165,7 @@ public class AnchorsActivity extends BaseActivity {
                 int itemWidth = getTextWidth(mPaint,
                         anchorInfoDatas.get(position).getName() +
                                     " " + anchorInfoDatas.get(position).getContent())
-                            + SizeUtils.dp2px(AnchorsActivity.this, 67);
+                            + SizeUtils.dp2px(AnchorsActivity.this, 50);
                 return Math.min(100,itemWidth * 100 / width + 1);
             }
         });
@@ -194,6 +196,10 @@ public class AnchorsActivity extends BaseActivity {
                 .subscribe(new BaseCosumer<AnchorBean>() {
                     @Override
                     public void onNext(AnchorBean baseBean) {
+
+                        Log.i("AnchorsActivity","AnchorBean" +GsonUtil.parseObjectToJson(
+                                                        baseBean
+                                                ));
                         if (Contact.REPONSE_CODE_SUCCESS!=baseBean.getCode()) {
                             return;
                         }

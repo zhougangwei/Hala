@@ -2,12 +2,12 @@ package chat.hala.hala.base;
 
 import android.os.Bundle;
 
-import chat.hala.hala.rxbus.RxBus;
-import chat.hala.hala.utils.ActivityManagerUtil;
-import chat.hala.hala.utils.StatusbarUtils;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import butterknife.ButterKnife;
+import chat.hala.hala.rxbus.RxBus;
+import chat.hala.hala.utils.ActivityManagerUtil;
+import chat.hala.hala.utils.StatusbarUtils;
 
 public abstract class BaseActivity extends RxAppCompatActivity  {
 
@@ -19,7 +19,7 @@ public abstract class BaseActivity extends RxAppCompatActivity  {
         super.onCreate(savedInstanceState);
         //Activity栈
         ActivityManagerUtil.getActivityManager().pushActivity2Stack(this);
-        StatusbarUtils.enableTranslucentStatusbar(this);
+        StatusbarUtils.setBlackTextBar(this);
         beforeInitView();
         setContentView(getContentViewId());
         ButterKnife.bind(this);

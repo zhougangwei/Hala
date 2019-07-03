@@ -4,16 +4,12 @@
     android:layout_width="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="25dp"
-    android:layout_marginEnd="14dp"
     android:layout_marginTop="10dp"
+    android:id="@+id/rl"
+    android:layout_marginEnd="10dp"
     android:background="@drawable/bg_rec_red14"
    >
-    <ImageView
-        android:id="@+id/iv"
-        android:layout_alignEnd="@+id/tv_content"
-        android:layout_alignParentStart="true"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
+
     <TextView
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
@@ -24,6 +20,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginStart="5dp"
         android:textColor="@color/white"/>
 </RelativeLayout>

@@ -4,7 +4,6 @@
     android:layout_width="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="33dp"
-    android:layout_marginEnd="14dp"
     android:layout_marginTop="10dp"
     android:id="@+id/rl"
     android:background="@drawable/bg_rec_greyr17"

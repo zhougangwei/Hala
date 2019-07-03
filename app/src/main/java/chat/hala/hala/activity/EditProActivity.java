@@ -155,7 +155,7 @@ public class EditProActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mList.get(position).isAdd()) {
-                    ChoosePicManager.choosePic(EditProActivity.this, 5);
+                    ChoosePicManager.choosePic(EditProActivity.this, 3);
                 }
             }
         });
@@ -218,7 +218,7 @@ public class EditProActivity extends BaseActivity {
             weightPicker = new DoublePicker(this, firstData, secondData);
             weightPicker.setDividerVisible(true);
             weightPicker.setCycleDisable(true);
-            weightPicker.setSelectedIndex(0, 0);
+            weightPicker.setSelectedIndex(0, 49);
             weightPicker.setSecondLabel("", "KG");
             weightPicker.setTextSize(15);
             weightPicker.setContentPadding(15, 15);
@@ -251,7 +251,7 @@ public class EditProActivity extends BaseActivity {
             heightPicker = new DoublePicker(this, firstData, secondData);
             heightPicker.setDividerVisible(true);
             heightPicker.setCycleDisable(true);
-            heightPicker.setSelectedIndex(0, 0);
+            heightPicker.setSelectedIndex(0, 59);
             heightPicker.setSecondLabel("", "CM");
             heightPicker.setTextSize(15);
             heightPicker.setContentPadding(15, 15);
@@ -365,13 +365,15 @@ public class EditProActivity extends BaseActivity {
                         new TypeToken<List<AnchorTagBean.DataBean>>() {
                         }.getType()
                 );
+                StringBuilder sb = new StringBuilder();
                 if (tagList != null && tagList.size() > 0) {
                     tagsList.clear();
                     for (AnchorTagBean.DataBean dataBean : tagList) {
                         tagsList.add(dataBean.getTagId());
+                        sb.append(dataBean.getContent()+" ");
                     }
                 }
-                etTags.setText(tag);
+                etTags.setText(sb.toString());
             } else if (requestCode == REQUEST_BIO) {
                 bio = data.getStringExtra("bio");
                 etBio.setText(bio);

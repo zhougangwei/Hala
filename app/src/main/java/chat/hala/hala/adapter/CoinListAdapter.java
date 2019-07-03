@@ -20,9 +20,9 @@ public class CoinListAdapter extends BaseQuickAdapter<CoinListBean.DataBean.Tran
 
 
     public static final String RECHARGE = "recharge";
-    public static final String CALLING = "calling";
+    public static final String CALLING = "call";
     public static final String RESERVATION = "reservation";
-    public static final String RESERVE_RETURN = "reserve_return";
+    public static final String RESERVE_RETURN = "reservation_return";
 
 
     public CoinListAdapter(int layoutIds, List<CoinListBean.DataBean.TransactionsBean.ListBean> countryDatas) {
@@ -36,26 +36,23 @@ public class CoinListAdapter extends BaseQuickAdapter<CoinListBean.DataBean.Tran
         String startedAt = item.getDatetime();
 
         helper.setText(R.id.tv_hour, TimeUtils.date2String(TimeUtils.string2Date(startedAt,new SimpleDateFormat("yyyy-MM-dd HH:mm")), new SimpleDateFormat("HH:mm")));
-        helper.setText(R.id.tv_cost,(item.getDigit()>0?"+":"")+item.getDigit()+"");
+        helper.setText(R.id.tv_cost,(item.getFigure()));
         switch (item.getCategory()) {
             case RECHARGE:
-                content="RECHARGE";
                 helper.setTextColor(R.id.tv_cost,mContext.getResources().getColor(R.color.coin_gain));
                 break;
             case CALLING:
-                content="Calling Fee";
                 helper.setTextColor(R.id.tv_cost,mContext.getResources().getColor(R.color.coin_cost));
                 break;
             case RESERVATION:
-                content="Reservation Charge";
+
                 helper.setTextColor(R.id.tv_cost,mContext.getResources().getColor(R.color.coin_cost));
                 break;
             case RESERVE_RETURN:
-                content="Reservation Return";
                 helper.setTextColor(R.id.tv_cost,mContext.getResources().getColor(R.color.coin_gain));
                 break;
         }
-        helper.setText(R.id.tv_content, content);
+        helper.setText(R.id.tv_content, item.getCategoryTrans());
         ImageView imageView = (ImageView) helper.getView(R.id.iv_head);
         Glide.with(mContext).load(item.getInfo().getAvatarUrl())
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(imageView.getDrawable()))

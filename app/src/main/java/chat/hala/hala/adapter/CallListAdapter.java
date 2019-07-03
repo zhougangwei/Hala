@@ -29,6 +29,7 @@ public class CallListAdapter extends BaseQuickAdapter<CallListBean.DataBean.List
     public static final String SUCCESS = "success";
     public static final String MISSED = "missed";
     public static final String NO_ANSWER = "no_answer";
+    public static final String REFUSE = "refused";
 
     /*
      * 这三个是预约的 有一个上面Success 公用 in_process进行中，success已通话，failed未回拨
@@ -47,32 +48,28 @@ public class CallListAdapter extends BaseQuickAdapter<CallListBean.DataBean.List
     @Override
     protected void convert(BaseViewHolder helper, CallListBean.DataBean.ListBean item) {
         helper.setText(R.id.tv_name, item.getTargetInfo().getName());
-        String content = "";
+
         switch (item.getState()) {
             case SUCCESS:
-                if (type==MYCALL){
-                    content = "Call duration 40 " + item.getDurationSeconds() + "seconds" + "(" + item.getWorth() + " coins)";
-                }else{
-                    content="Success";
-                }
                 break;
             case MISSED:
-                content = "Missed call";
+
                 helper.setTextColor(R.id.tv_content, mContext.getResources().getColor(R.color.pink));
                 break;
             case NO_ANSWER:
-                content = "No answered";
                 helper.setTextColor(R.id.tv_content, mContext.getResources().getColor(R.color.pink));
                 break;
+            case REFUSE:
+                helper.setTextColor(R.id.tv_content, mContext.getResources().getColor(R.color.pink));
             case IN_PROCESS:
-                content = "In Process";
+
                 break;
             case FAILED:
-                content = "Failed";
+
                 break;
 
         }
-        helper.setText(R.id.tv_content, content);
+        helper.setText(R.id.tv_content, item.getStateTrans());
         String startedAt = item.getStartedAt();
         if (!TextUtils.isEmpty(startedAt)) {
             String hour = TimeUtil.dealDateFormat(startedAt);

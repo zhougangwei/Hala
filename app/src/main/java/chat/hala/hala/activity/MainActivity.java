@@ -37,6 +37,7 @@ import io.agora.rtc.RtcEngine;
 import io.agora.rtm.ErrorInfo;
 import io.agora.rtm.LocalInvitation;
 import io.agora.rtm.RemoteInvitation;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -250,21 +251,27 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
             invitation.setResponse("{\"status\":1}"); // Busy, already in call invitation.setResponse("{\"status\":1}"); // Busy, already in call
             worker().hangupTheCall(invitation);
         } else {
-            final RxPermissions rxPermissions = new RxPermissions(this);
-            rxPermissions.setLogging(true);
-            rxPermissions.request(Manifest.permission.CAMERA, Manifest
-                    .permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO)
-                    .subscribe(new Consumer<Boolean>() {
+
+            Observable.just(1)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Integer>() {
                         @Override
-                        public void accept(Boolean aBoolean) throws Exception {
-                            if (aBoolean) {
-                                config().mRemoteInvitation = invitation;
-                                OneToOneActivity.doReceivveOneToOneActivity(MainActivity.this, invitation.getContent(), Integer.parseInt(invitation.getCallerId()));
-                            }
+                        public void accept(Integer integer) throws Exception {
+                            final RxPermissions rxPermissions = new RxPermissions(MainActivity.this);
+                            rxPermissions.setLogging(true);
+                            rxPermissions.request(Manifest.permission.CAMERA, Manifest
+                                    .permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO)
+                                    .subscribe(new Consumer<Boolean>() {
+                                        @Override
+                                        public void accept(Boolean aBoolean) throws Exception {
+                                            if (aBoolean) {
+                                                config().mRemoteInvitation = invitation;
+                                                OneToOneActivity.doReceivveOneToOneActivity(MainActivity.this, invitation.getContent(), Integer.parseInt(invitation.getCallerId()));
+                                            }
+                                        }
+                                    });
                         }
                     });
-
-
         }
     }
 

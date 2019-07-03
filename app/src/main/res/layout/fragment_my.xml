@@ -11,6 +11,7 @@
         android:layout_height="62dp" />
 
     <TextView
+        android:textStyle="bold"
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,6 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_head" />
 
     <TextView
+        android:textSize="18sp"
         android:id="@+id/tv_money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

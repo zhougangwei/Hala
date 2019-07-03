@@ -1,6 +1,8 @@
 package chat.hala.hala.adapter;
 
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -19,16 +21,11 @@ public class AnchorTagsAdapter extends BaseQuickAdapter<AnchorTagBean.DataBean, 
 
 
 
-            String args[]={"#EFA45C",
-            "#FDD857",
-           "#F5628C",
-           "#4A90E2",
-           "#4EE84C",
-           "#BC5CEF",
-           "#34DA24",
-           "#24CDDA",
-           "#247ADA",
-           "#DA24B4"};
+            String args[]={
+   "#EA607F", "#82D07A", "#F2A200", "#66C2AD",
+    "#8CCACE", "#00CEF8", "#BD6BEE", "#F4D14D",
+    "#E9B4CD", "#C368A4", "#9DE1F6", "#F8555A",
+    "#C0D500", "#71BCA1", "#F29FB8", "#80B175"};
 
     public AnchorTagsAdapter(int layoutIds, List<AnchorTagBean.DataBean> countryDatas) {
         super(layoutIds, countryDatas);
@@ -37,6 +34,8 @@ public class AnchorTagsAdapter extends BaseQuickAdapter<AnchorTagBean.DataBean, 
     @Override
     protected void convert(BaseViewHolder helper, AnchorTagBean.DataBean item) {
         helper.setText(R.id.tv_content, item.getContent());
-        helper.setBackgroundColor(R.id.iv, Color.parseColor(args[new Random().nextInt(args.length)]));
+        View view = helper.getView(R.id.rl);
+        GradientDrawable  mGrad = (GradientDrawable)view.getBackground();
+        mGrad.setColor(Color.parseColor(args[new Random().nextInt(args.length)]));
     }
 }

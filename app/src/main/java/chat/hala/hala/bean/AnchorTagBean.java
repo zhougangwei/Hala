@@ -26,6 +26,7 @@ public class AnchorTagBean extends BaseBean{
          * content : نشيط
          */
 
+        private boolean isChoose;
         private int tagId;
         private String content;
 
@@ -43,6 +44,14 @@ public class AnchorTagBean extends BaseBean{
 
         public void setContent(String content) {
             this.content = content;
+        }
+
+        public boolean isChoose() {
+            return isChoose;
+        }
+
+        public void setChoose(boolean choose) {
+            isChoose = choose;
         }
     }
 }

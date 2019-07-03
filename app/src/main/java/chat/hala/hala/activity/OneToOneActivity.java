@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -246,6 +248,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                             tvName.setText(anchorBean.getData().getNickname());
                             Glide.with(OneToOneActivity.this)
                                     .load(anchorBean.getData().getAvatarUrl())
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(ivHead.getDrawable()))
                                     .into(ivHead);
                             tvMinuteCost.setText(String.format(getString(R.string.charged_coins_per_min), anchorBean.getData().getCpm() + ""));
                         }

@@ -94,6 +94,8 @@ public class CallListBean extends BaseBean {
              * targetInfo : {"id":14,"avatarUrl":"http://me.avatar.url","name":"old p","form":"anchor"}
              * date : 2019-06-21
              * callId : 6
+             *
+             *
              */
 
             private String channel;
@@ -109,6 +111,7 @@ public class CallListBean extends BaseBean {
             private TargetInfoBean targetInfo;
             private String date;
             private int callId;
+            private String stateTrans;
 
             public String getChannel() {
                 return channel;
@@ -212,6 +215,14 @@ public class CallListBean extends BaseBean {
 
             public void setCallId(int callId) {
                 this.callId = callId;
+            }
+
+            public String getStateTrans() {
+                return stateTrans;
+            }
+
+            public void setStateTrans(String stateTrans) {
+                this.stateTrans = stateTrans;
             }
 
             public static class TargetInfoBean {

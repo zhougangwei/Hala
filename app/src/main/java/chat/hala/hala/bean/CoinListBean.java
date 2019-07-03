@@ -119,10 +119,11 @@ public class CoinListBean extends BaseBean{
                 private int id;
                 private int      memberId;
                 private String   category;
-                private int      digit;
+                private String      figure;
                 private InfoBean info;
                 private String   datetime;
                 private String   date;
+                private String   categoryTrans;
 
                 public int getId() {
                     return id;
@@ -148,12 +149,12 @@ public class CoinListBean extends BaseBean{
                     this.category = category;
                 }
 
-                public int getDigit() {
-                    return digit;
+                public String getFigure() {
+                    return figure;
                 }
 
-                public void setDigit(int digit) {
-                    this.digit = digit;
+                public void setFigure(String figure) {
+                    this.figure = figure;
                 }
 
                 public InfoBean getInfo() {
@@ -178,6 +179,14 @@ public class CoinListBean extends BaseBean{
 
                 public void setDate(String date) {
                     this.date = date;
+                }
+
+                public String getCategoryTrans() {
+                    return categoryTrans;
+                }
+
+                public void setCategoryTrans(String categoryTrans) {
+                    this.categoryTrans = categoryTrans;
                 }
 
                 public static class InfoBean {

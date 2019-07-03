@@ -7,18 +7,15 @@ import android.util.Log;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import chat.hala.hala.R;
 import chat.hala.hala.activity.OneToOneActivity;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.bean.AnchorStateBean;
 import chat.hala.hala.bean.CallBean;
 import chat.hala.hala.bean.MediaToken;
 import chat.hala.hala.dialog.CommonDialog;
-import chat.hala.hala.dialog.ReverseDialog;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.ResultUtils;
-import chat.hala.hala.utils.ToastUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -46,14 +43,14 @@ public class VideoCallManager {
                                             if (Contact.REPONSE_CODE_SUCCESS != anchorStateBean.code) {
                                                 return;
                                             }
-                                            if (!anchorStateBean.getData().isOnline()) {
+                                           /* if (!anchorStateBean.getData().isOnline()) {
                                                 ToastUtils.showToast(activity, activity.getString(R.string.anchor_is_not_aviliable));
                                                 new ReverseDialog(activity, anchorId).show();
                                                 return;
                                             }
                                             if (!anchorStateBean.getData().isAvailable()) {
                                                 new ReverseDialog(activity, anchorId).show();
-                                            } else {
+                                            } else {*/
                                                 RetrofitFactory.getInstance().callAnchor(anchorId)
                                                         .subscribeOn(Schedulers.io())
                                                         .observeOn(AndroidSchedulers.mainThread())
@@ -84,7 +81,7 @@ public class VideoCallManager {
                                                                 }
                                                             }
                                                         });
-                                            }
+                                           // }
                                         }
                                     });
                         }
