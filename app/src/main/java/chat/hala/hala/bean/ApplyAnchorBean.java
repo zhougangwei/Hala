@@ -29,7 +29,7 @@ public class ApplyAnchorBean extends BaseBean {
     private String city;
     private String country;
     private int height;
-    private String nickname;
+    private String realName;
     private String zodiac;
     private String cpm;
     private List<Integer> tagIds;
@@ -99,12 +99,12 @@ public class ApplyAnchorBean extends BaseBean {
         this.height = height;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getRealName() {
+        return realName;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
     public String getZodiac() {

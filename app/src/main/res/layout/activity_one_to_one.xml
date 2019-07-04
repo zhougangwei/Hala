@@ -130,7 +130,7 @@
                 android:id="@+id/tv_charge"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@drawable/bg_rec_red14"
+                android:background="@drawable/bg_charge"
                 android:gravity="center"
                 android:paddingEnd="11dp"
                 android:paddingStart="11dp"

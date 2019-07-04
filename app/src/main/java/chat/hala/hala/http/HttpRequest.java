@@ -213,4 +213,6 @@ public interface HttpRequest {
     @POST("member/offline")
     Observable<BaseBean>  offline();
 
+    @GET("/account/sms/send")
+    Observable<BaseBean> sendSms();
 }

@@ -27,6 +27,11 @@ public class AnchorTagsAdapter extends BaseQuickAdapter<AnchorTagBean.DataBean, 
     "#E9B4CD", "#C368A4", "#9DE1F6", "#F8555A",
     "#C0D500", "#71BCA1", "#F29FB8", "#80B175"};
 
+
+
+
+
+
     public AnchorTagsAdapter(int layoutIds, List<AnchorTagBean.DataBean> countryDatas) {
         super(layoutIds, countryDatas);
     }
@@ -34,7 +39,7 @@ public class AnchorTagsAdapter extends BaseQuickAdapter<AnchorTagBean.DataBean, 
     @Override
     protected void convert(BaseViewHolder helper, AnchorTagBean.DataBean item) {
         helper.setText(R.id.tv_content, item.getContent());
-        View view = helper.getView(R.id.rl);
+        View view = helper.getView(R.id.tv_content);
         GradientDrawable  mGrad = (GradientDrawable)view.getBackground();
         mGrad.setColor(Color.parseColor(args[new Random().nextInt(args.length)]));
     }

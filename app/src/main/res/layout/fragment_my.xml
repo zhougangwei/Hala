@@ -206,7 +206,7 @@
         app:layout_constraintTop_toTopOf="@id/iv_loginout"
         app:layout_constraintBottom_toBottomOf="@id/iv_loginout"
         app:layout_constraintStart_toEndOf="@id/iv_loginout"
-        android:text="Login Out"
+        android:text="Log Out"
         android:id="@+id/tv_loginout"
         android:layout_width="0dp"
         android:layout_height="wrap_content" />
