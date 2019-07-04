@@ -11,15 +11,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.SurfaceView;
 
-import chat.hala.hala.R;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Map;
 
-
+import chat.hala.hala.R;
 import chat.hala.hala.bean.MessageBean;
 import io.agora.rtc.Constants;
 import io.agora.rtc.RtcEngine;
@@ -60,6 +58,8 @@ public class WorkerThread extends Thread {
 
     private static final int ACTION_WORKER_HANG_UP_THE_CALL = 0X2020;
     private static final int ACTION_SEND_MESSAGE = 0X2021;
+    private String TAG="WorkerThread";
+
 
     private static final class WorkerThreadHandler extends Handler {
 
@@ -100,7 +100,7 @@ public class WorkerThread extends Thread {
                     break;
                 case ACTION_WORKER_MAKE_A_CALL:
                     data = (String[]) msg.obj;
-                    mWorkerThread.makeACall(data[0], data[1]);
+                    mWorkerThread.makeACall(data[0], data[1],data[2]);
                     break;
                 case ACTION_WORKER_MAKE_THE_CALL:
                     mWorkerThread.answerTheCall((RemoteInvitation) msg.obj);
@@ -125,8 +125,10 @@ public class WorkerThread extends Thread {
                     mWorkerThread.preview((boolean) previewData[0], (SurfaceView) previewData[1], (int) previewData[2]);
                     break;
                 case ACTION_SEND_MESSAGE:
-                    MessageBean messaeData = (MessageBean) msg.obj;
-                    mWorkerThread.sendMessage(messaeData);
+                    Object[] messaeData = (Object[]) msg.obj;
+
+
+                    mWorkerThread.sendMessage((MessageBean)messaeData[0],(ResultCallback)messaeData[1]);
                     break;
             }
         }
@@ -272,12 +274,12 @@ public class WorkerThread extends Thread {
         log.debug("queryPeersOnlineStatus " + peerUid);
     }
 
-    public final void makeACall(final String peerUid, final String channel) {
+    public final void makeACall(final String peerUid, final String channel,final String content) {
         if (Thread.currentThread() != this) {
             log.warn("makeACall() - worker thread asynchronously " + peerUid + " " + channel);
             Message envelop = new Message();
             envelop.what = ACTION_WORKER_MAKE_A_CALL;
-            envelop.obj = new String[]{peerUid, channel};
+            envelop.obj = new String[]{peerUid, channel,content};
             mWorkerHandler.sendMessage(envelop);
             return;
         }
@@ -286,17 +288,17 @@ public class WorkerThread extends Thread {
 
         mEngineConfig.mInvitation = callMgr.createLocalInvitation(peerUid);
         mEngineConfig.mInvitation.setChannelId(channel);
-        mEngineConfig.mInvitation.setContent(channel);
+        mEngineConfig.mInvitation.setContent(content);
 
         callMgr.sendLocalInvitation(mEngineConfig.mInvitation, new ResultCallback<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-
+                Log.e(TAG, "onSuccess: " );
             }
 
             @Override
             public void onFailure(ErrorInfo errorInfo) {
-
+                Log.e(TAG, "onFailure: " +errorInfo.getErrorDescription()+"--"+errorInfo.getErrorCode());
             }
         });
 
@@ -372,31 +374,21 @@ public class WorkerThread extends Thread {
         log.debug("hangupTheCall " + invitation + " " + invitation.getCallerId() + " " + invitation.getChannelId() + " " + callMgr);
     }
 
-    public final void sendMessage(MessageBean message){
+    public final void sendMessage(MessageBean message,ResultCallback callback){
+
         if (Thread.currentThread() != this) {
             Message envelop = new Message();
             envelop.what = ACTION_SEND_MESSAGE;
-            envelop.obj = message;
+            envelop.obj = new Object[]{message,callback};
             mWorkerHandler.sendMessage(envelop);
             return;
         }
         ensureRtmClientReadyLock();
         RtmMessage rtmMessage = mRtmClient.createMessage();
         rtmMessage.setText(message.getMessage());
-        mRtmClient.sendMessageToPeer(message.getId() + "", rtmMessage, new ResultCallback<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.e("sendMessageToPeer", "onSuccess: " );
-            }
-
-            @Override
-            public void onFailure(ErrorInfo errorInfo) {
-                Log.e("sendMessageToPeer", "onFailure: " +errorInfo.getErrorCode());
-            }
-        });
-
-
+        mRtmClient.sendMessageToPeer(message.getId() + "", rtmMessage,callback);
     }
+
 
 
 

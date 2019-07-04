@@ -24,7 +24,9 @@ import chat.hala.hala.avchat.WorkerThread;
 import chat.hala.hala.base.App;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
+import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.bean.LoginBean;
+import chat.hala.hala.bean.RtmCallBean;
 import chat.hala.hala.bean.RtmTokenBean;
 import chat.hala.hala.dialog.CommonDialog;
 import chat.hala.hala.http.BaseCosumer;
@@ -266,7 +268,9 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                                         public void accept(Boolean aBoolean) throws Exception {
                                             if (aBoolean) {
                                                 config().mRemoteInvitation = invitation;
-                                                OneToOneActivity.doReceivveOneToOneActivity(MainActivity.this, invitation.getContent(), Integer.parseInt(invitation.getCallerId()));
+                                                String content = invitation.getContent();
+                                                RtmCallBean rtmCallBean = GsonUtil.parseJsonToBean(content, RtmCallBean.class);
+                                                OneToOneActivity.doReceivveOneToOneActivity(MainActivity.this, rtmCallBean.getChannelId(), Integer.parseInt(invitation.getCallerId()));
                                             }
                                         }
                                     });
@@ -320,6 +324,20 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     public void onRemoteInvitationCanceled(RemoteInvitation remoteInvitation) {
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        RetrofitFactory.getInstance().online().subscribeOn(Schedulers.io())
+                .subscribe(new Consumer<BaseBean>() {
+                    @Override
+                    public void accept(BaseBean baseBean) throws Exception {
+                    }
+                });
+
+    }
+
+
 }
 
 

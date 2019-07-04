@@ -31,7 +31,7 @@ public class TimeUtil {
             Date date = df.parse(oldDate);
             SimpleDateFormat df1 = new SimpleDateFormat ("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
             date1 = df1.parse(date.toString());
-            df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            df2 = new SimpleDateFormat("MM dd");
         } catch (ParseException e) {
 
             e.printStackTrace();

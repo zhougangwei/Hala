@@ -207,6 +207,10 @@ public interface HttpRequest {
     @GET("/general/ad?locate=banner")
     Observable<AdBean> getAd();
 
+    @POST("member/online")
+    Observable<BaseBean>  online();
 
+    @POST("member/offline")
+    Observable<BaseBean>  offline();
 
 }

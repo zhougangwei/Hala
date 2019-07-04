@@ -3,7 +3,6 @@ package chat.hala.hala.adapter;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
-import com.blankj.utilcode.utils.TimeUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
@@ -75,8 +74,7 @@ public class CallListAdapter extends BaseQuickAdapter<CallListBean.DataBean.List
             String hour = TimeUtil.dealDateFormat(startedAt);
             String time = TimeUtil.dealDateFormat2(startedAt);
             helper.setText(R.id.tv_hour, hour);
-            String week = TimeUtils.getWeek(time);
-            helper.setText(R.id.tv_week,week);
+            helper.setText(R.id.tv_week,time);
         }
 
         ImageView imageView = (ImageView) helper.getView(R.id.iv_head);

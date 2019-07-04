@@ -163,10 +163,6 @@ public class LoginPhoneActivity extends BaseActivity {
 
 
 
-
-
-
-
     }
 
     @Override

@@ -143,8 +143,8 @@ public class AnchorsActivity extends SlideBackActivity {
                 int width = ScreenUtils.getScreenWidth(AnchorsActivity.this)
                         - SizeUtils.dp2px(AnchorsActivity.this, 28);
                 int itemWidth = getTextWidth(mPaint,
-                        tagsDatas.get(position).getContent() +
-                        + SizeUtils.dp2px(AnchorsActivity.this, 30));
+                        tagsDatas.get(position).getContent()) +
+                        + SizeUtils.dp2px(AnchorsActivity.this, 42);
                 Log.e("AnchorsActivity", "itemWidth:" + itemWidth);
                 return Math.min(100,itemWidth * 100 / width + 1);
             }

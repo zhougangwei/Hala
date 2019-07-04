@@ -27,7 +27,7 @@ public class TagsAdapter extends BaseQuickAdapter<AnchorTagBean.DataBean, BaseVi
             if(item.isChoose()){
                 helper.setBackgroundRes(R.id.tv_content,R.drawable.bg_rec_3blue);
             }else{
-
+                helper.setBackgroundRes(R.id.tv_content,R.drawable.bg_rec_3grey);
             }
 
     }

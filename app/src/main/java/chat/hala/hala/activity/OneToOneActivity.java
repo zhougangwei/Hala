@@ -40,6 +40,7 @@ import chat.hala.hala.bean.CallStateBean;
 import chat.hala.hala.bean.HeartBean;
 import chat.hala.hala.bean.MediaToken;
 import chat.hala.hala.bean.MessageBean;
+import chat.hala.hala.bean.RtmCallBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
@@ -52,6 +53,7 @@ import io.agora.rtc.video.VideoCanvas;
 import io.agora.rtm.ErrorInfo;
 import io.agora.rtm.LocalInvitation;
 import io.agora.rtm.RemoteInvitation;
+import io.agora.rtm.ResultCallback;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -503,15 +505,28 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         Log.e(TAG, "onPeerOnlineStatusQueried: ");
         if (online) {
             joinChannel();
-            worker().makeACall(otherId + "", channelId);
-            Observable.timer(2000, TimeUnit.MILLISECONDS)
+            worker().sendMessage(new MessageBean(otherId + "", Contact.RTM_DO_CALL_STRING + mAnchorId), new ResultCallback() {
+                @Override
+                public void onSuccess(Object o) {
+                    Log.e(TAG, "onSuccess:0 "+ channelId);
+                    final RtmCallBean rtmCallBean = new RtmCallBean();
+                    rtmCallBean.setMessage("你好");
+                    rtmCallBean.setName(AvchatInfo.getName());
+                    rtmCallBean.setImageUrl(AvchatInfo.getAvatarUrl());
+                    rtmCallBean.setChannelId(channelId);
+                    worker().makeACall(otherId + "", channelId, GsonUtil.parseObjectToJson(rtmCallBean));
+                }
+                @Override
+                public void onFailure(ErrorInfo errorInfo) {
+                }
+            });
+           /* Observable.timer(2000, TimeUnit.MILLISECONDS)
                     .observeOn(Schedulers.io())
                     .subscribe(new Consumer<Long>() {
                         @Override
                         public void accept(Long aLong) throws Exception {
-                            worker().sendMessage(new MessageBean(otherId + "", Contact.RTM_DO_CALL_STRING + mAnchorId));
                         }
-                    });
+                    });*/
         } else {
             // TODO: 2019/6/23 0023 对方不在线 把他下线
         }
@@ -532,7 +547,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
      * */
     @Override
     public void onLocalInvitationAccepted(LocalInvitation invitation, String response) {
-
+        Log.e(TAG, "onLocalInvitationAccepted: " );
         AVChatSoundPlayer.instance().stop();
         runOnUiThread(new Runnable() {
             @Override
