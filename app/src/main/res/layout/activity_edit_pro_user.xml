@@ -165,7 +165,7 @@
             android:gravity="end"
             android:hint="fill in username"
             android:paddingEnd="10dp"
-            android:text="31"
+            android:text="2000-10-14"
             android:textAlignment="textEnd"
             android:textColorHint="#C7C7CE"
             android:textSize="15sp" />

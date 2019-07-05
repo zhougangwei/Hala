@@ -4,6 +4,7 @@ package chat.hala.hala.activity;
  * Created by wangqiang on 16/7/11.
  */
  
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 
@@ -19,11 +20,12 @@ public abstract class SlideBackActivity extends BaseActivity {
     private static final int YSPEED_MIN = 1000;
  
     //手指向右滑动时的最小距离
-    private static final int XDISTANCE_MIN = 50;
+    private static final int XDISTANCE_MIN = 100;
  
     //手指向上滑或下滑时的最小距离
-    private static final int YDISTANCE_MIN = 100;
- 
+    private static final int YDISTANCE_MIN = 200;
+    private static final String TAG           ="SlideBackActivity" ;
+
     //记录手指按下时的横坐标。
     private float xDown;
  
@@ -38,9 +40,11 @@ public abstract class SlideBackActivity extends BaseActivity {
  
     //用于计算手指滑动的速度。
     private VelocityTracker mVelocityTracker;
- 
+
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
+        Log.e(TAG, "onTouchEvent:" + "--" + event.getAction());
         createVelocityTracker(event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -49,29 +53,29 @@ public abstract class SlideBackActivity extends BaseActivity {
                 break;
             case MotionEvent.ACTION_MOVE:
                 xMove = event.getRawX();
-                yMove= event.getRawY();
+                yMove = event.getRawY();
                 //滑动的距离
                 int distanceX = (int) (xMove - xDown);
-                int distanceY= (int) (yMove - yDown);
+                int distanceY = (int) (yMove - yDown);
                 //获取顺时速度
                 int ySpeed = getScrollVelocity();
                 //关闭Activity需满足以下条件：
                 //zhao.x轴滑动的距离>XDISTANCE_MIN
                 //zhao1.y轴滑动的距离在YDISTANCE_MIN范围内
                 //zhao3.y轴上（即上下滑动的速度）<XSPEED_MIN，如果大于，则认为用户意图是在上下滑动而非左滑结束Activity
-                if(distanceX > XDISTANCE_MIN &&(distanceY<YDISTANCE_MIN&&distanceY>-YDISTANCE_MIN)&& ySpeed < YSPEED_MIN) {
+                if (distanceX > XDISTANCE_MIN && (distanceY < YDISTANCE_MIN && distanceY > -YDISTANCE_MIN) && ySpeed < YSPEED_MIN) {
+                    recycleVelocityTracker();
                     finish();
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                recycleVelocityTracker();
                 break;
             default:
                 break;
         }
         return super.dispatchTouchEvent(event);
     }
- 
+
     /**
      * 创建VelocityTracker对象，并将触摸界面的滑动事件加入到VelocityTracker当中。
      *

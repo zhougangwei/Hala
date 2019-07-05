@@ -116,6 +116,9 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     private static final int RTM_ANSWER = 3;
     private boolean mIsCallInRefuse;
     private String channelId;       //渠道Id
+    private String imageUrl;       //渠道Id
+    private String message;       //渠道Id
+    private String name;       //渠道Id
     private int callId;       //服务端通话Id
     private Disposable mSubscribe;
     private int mAnchorId;
@@ -131,6 +134,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     public static final String Call_SELF_HUNG_UP = "self_hung_up"; //即拨打后没到对方无应答的状态自己给挂了，类似打电话响了两声就挂了。
     private int callTime = 0;            //通话时间 单位是秒
     private String anchorName = "";         //主播名字
+    private String anchorUrl = "";         //主播名字
 
 
     /**
@@ -151,11 +155,15 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         context.startActivity(intent);
     }
 
-    public static void doReceivveOneToOneActivity(Context context, String channelId, int callId) {
+    public static void doReceivveOneToOneActivity(Context context, String channelId, int callId, String imageUrl, String message, String name) {
         Intent intent = new Intent(context, OneToOneActivity.class);
         intent.putExtra("callerId", callId);
         intent.putExtra("outCall", false);
         intent.putExtra("channelId", channelId);
+        intent.putExtra("imageUrl", imageUrl);
+        intent.putExtra("message", message);
+        intent.putExtra("name", name);
+
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
     }
@@ -171,6 +179,10 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         int callerId = intent.getIntExtra("callerId", -1);
         doOutCall = intent.getBooleanExtra("outCall", false);
         channelId = intent.getStringExtra("channelId");
+         imageUrl = intent.getStringExtra("imageUrl");
+         message = intent.getStringExtra("message");
+         name = intent.getStringExtra("name");
+
         callId = intent.getIntExtra("callId", -1);
         myId = AvchatInfo.getAccount();
         if (doOutCall) {      //打出去
@@ -230,12 +242,24 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
             ivAnchorAnswer.setVisibility(View.GONE);
             ivHangupPrepareAnchor.setVisibility(View.GONE);
             ivHangupPrepareAudience.setVisibility(View.VISIBLE);
+            getAnchorData();
         } else {
             ivAnchorAnswer.setVisibility(View.VISIBLE);
             ivHangupPrepareAnchor.setVisibility(View.VISIBLE);
             ivHangupPrepareAudience.setVisibility(View.GONE);
+            tvName.setText(name);
+            Glide.with(OneToOneActivity.this)
+                    .load(imageUrl)
+                    .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(ivHead.getDrawable()))
+                    .into(ivHead);
+            tvMinuteCost.setText(message);
         }
-        getAnchorData();
+
+
+
+
+
+
 
     }
 
@@ -247,7 +271,9 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                     @Override
                     public void onNext(AnchorBean anchorBean) {
                         if (ResultUtils.cheekSuccess(anchorBean)) {
-                            tvName.setText(anchorBean.getData().getNickname());
+                            anchorName=anchorBean.getData().getNickname();
+                            anchorUrl=anchorBean.getData().getAvatarUrl();
+                            tvName.setText(anchorName);
                             Glide.with(OneToOneActivity.this)
                                     .load(anchorBean.getData().getAvatarUrl())
                                     .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(ivHead.getDrawable()))
@@ -376,12 +402,13 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 });
     }
 
-    public void gotoVideoFinsh(String name, String time, String cost) {
+    public void gotoVideoFinsh( String name, String time, String cost,String anchorUrl) {
         Intent intent = new Intent(OneToOneActivity.this, VideoFinishActivity.class);
         intent.putExtra("name", name);
         intent.putExtra("time", time);
         intent.putExtra("cost", cost);
-        intent.putExtra("starLevel", 0);
+        intent.putExtra("anchorUrl", anchorUrl);
+        intent.putExtra("starLevel", 4);
         startActivity(intent);
     }
 
@@ -431,7 +458,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                         if (ResultUtils.cheekSuccess(callStateBean)) {
                             if (Call_SUCCEED_HUNG_UP.equals(mcallstate)) {
                                 if (!AvchatInfo.isAnchor()) {
-                                    gotoVideoFinsh(anchorName, callStateBean.getData().getDurationSeconds() + "", callStateBean.getData().getWorth() + "");
+                                    gotoVideoFinsh(anchorName, callStateBean.getData().getDurationSeconds() + "", callStateBean.getData().getWorth() + "",anchorUrl);
                                     finish();
                                 }
                             }
@@ -718,8 +745,8 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     public void onReceiveMessage(String text) {
         Log.e(TAG, "onReceiveMessage: " + text);
         try {
-            mAnchorId = Integer.parseInt(text.split("\\?")[1]);
-            getAnchorData();
+            /*mAnchorId = Integer.parseInt(text.split("\\?")[1]);
+            getAnchorData();*/
         } catch (Exception e) {
             e.printStackTrace();
         }

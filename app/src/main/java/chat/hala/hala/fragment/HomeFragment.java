@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.SizeUtils;
+
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.HomeAdapter;
 import chat.hala.hala.base.BaseFragment;
@@ -27,7 +29,9 @@ public class HomeFragment extends BaseFragment {
     TextView tvNew;
     @BindView(R.id.iv_new)
     ImageView ivNew;
-    Unbinder unbinder1;
+
+
+
 
     @Override
     protected void initView() {
@@ -38,6 +42,12 @@ public class HomeFragment extends BaseFragment {
         vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                tvHot.setTextSize(26f);
+                tvNew.setTextSize(17f);
+
+
+
 
             }
             @Override

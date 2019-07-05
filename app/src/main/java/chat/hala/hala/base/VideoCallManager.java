@@ -3,11 +3,13 @@ package chat.hala.hala.base;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import chat.hala.hala.R;
+import chat.hala.hala.activity.ChargeActivity;
 import chat.hala.hala.activity.OneToOneActivity;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.bean.AnchorStateBean;
@@ -60,31 +62,6 @@ public class VideoCallManager {
                                                         .subscribe(new BaseCosumer<CallBean>() {
                                                             @Override
                                                             public void onNext(final CallBean callBean) {
-                                                                if(true){
-                                                                    /*
-                                                                    * test
-                                                                    * */
-                                                                    CallBean callBean1 = new CallBean();
-                                                                    CallBean.DataBean dataBean = new CallBean.DataBean();
-                                                                    dataBean.setChannel(anchorId+"");
-                                                                    dataBean.setCallId(anchorId);
-                                                                    callBean1.setData(dataBean);
-                                                                    getMediaToken(callBean1, activity, anchorId, anchorMemberId);
-                                                                    return;
-                                                                }
-
-
-
-
-                                                               /* if(true){
-                                                                    CallBean callBean1 = new CallBean();
-                                                                    CallBean.DataBean dataBean = new CallBean.DataBean();
-                                                                    dataBean.setChannel(anchorId+"");
-                                                                    dataBean.setCallId(anchorId);
-                                                                    callBean1.setData(dataBean);
-                                                                    getMediaToken(callBean1, activity, anchorId, anchorMemberId);
-                                                                    return;
-                                                                }*/
 
                                                                 if (ResultUtils.cheekSuccess(callBean)) {
                                                                     getMediaToken(callBean, activity, anchorId, anchorMemberId);
@@ -94,12 +71,7 @@ public class VideoCallManager {
                                                                             .setListener(new CommonDialog.OnClickListener() {
                                                                                 @Override
                                                                                 public void onClickConfirm() {
-                                                                                    CallBean callBean1 = new CallBean();
-                                                                                    CallBean.DataBean dataBean = new CallBean.DataBean();
-                                                                                    dataBean.setChannel(callBean.getData().getChannel());
-                                                                                    dataBean.setCallId(callBean.getData().getCallId());
-                                                                                    callBean1.setData(dataBean);
-                                                                                    getMediaToken(callBean1, activity, anchorId, anchorMemberId);
+                                                                                   activity.startActivity(new Intent(activity,ChargeActivity.class));
                                                                                 }
 
                                                                                 @Override

@@ -231,22 +231,33 @@
         </android.support.v4.widget.NestedScrollView>
     </android.support.design.widget.CoordinatorLayout>
 
-    <TextView
-        android:id="@+id/tv_call"
-        android:layout_width="wrap_content"
-        android:layout_height="44dp"
+
+    
+    <RelativeLayout
+        android:background="@drawable/bg_videocall_bg"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="35dp"
-        android:background="@drawable/bg_rec_pureple_r25"
-        android:drawablePadding="5dp"
-        android:drawableStart="@drawable/ic_videocall"
-        android:gravity="center"
-        android:paddingEnd="19dp"
-        android:paddingStart="19dp"
-        android:text="Video Call"
-        android:textColor="@color/white" />
+        android:layout_width="match_parent"
+        android:layout_height="95dp">
+
+        <TextView
+            android:id="@+id/tv_call"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="35dp"
+            android:background="@drawable/bg_rec_pureple_r25"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_videocall"
+            android:gravity="center"
+            android:paddingEnd="19dp"
+            android:paddingStart="19dp"
+            android:text="Video Call"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
 
 
 

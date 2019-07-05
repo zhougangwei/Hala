@@ -129,7 +129,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:text="150"
+
                 android:id="@+id/et_height"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -174,7 +174,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:text="50"
+
                 android:id="@+id/et_weight"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

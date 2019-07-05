@@ -179,6 +179,7 @@ public class EditProUserActivity extends BaseActivity {
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {
+                etBirth.setText(year+"-"+month+"-"+day);
                 ToastUtils.showToast(EditProUserActivity.this,year+"-"+month+"-"+day);
             }
         });

@@ -270,7 +270,10 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                                                 config().mRemoteInvitation = invitation;
                                                 String content = invitation.getContent();
                                                 RtmCallBean rtmCallBean = GsonUtil.parseJsonToBean(content, RtmCallBean.class);
-                                                OneToOneActivity.doReceivveOneToOneActivity(MainActivity.this, rtmCallBean.getChannelId(), Integer.parseInt(invitation.getCallerId()));
+                                                OneToOneActivity.doReceivveOneToOneActivity(MainActivity.this, rtmCallBean.getChannelId(), Integer.parseInt(invitation.getCallerId())
+                                                        ,rtmCallBean.getImageUrl(),rtmCallBean.getMessage(),rtmCallBean.getName()
+
+                                                );
                                             }
                                         }
                                     });

@@ -89,6 +89,10 @@ public class TagActivity extends BaseActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 AnchorTagBean.DataBean dataBean = allDatas.get(position);
                 if (dataBean.isChoose()) {
+                    dataBean.setChoose(false);
+                    allTagsAdapter.notifyDataSetChanged();
+                    chooseDatas.remove(dataBean);
+                    chooseAdapter.notifyDataSetChanged();
                     return;
                 }
                 if (chooseDatas.size() > 5) {
