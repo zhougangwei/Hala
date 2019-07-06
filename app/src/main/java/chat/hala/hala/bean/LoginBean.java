@@ -59,7 +59,7 @@ public class LoginBean extends BaseBean {
             private String mobileNumber;
             private String  username;
             private String  gender;
-            private int     birthDate;
+            private String     birthDate;
             private String  avatarUrl;
             private int     anchorId;
             private int     coin;
@@ -91,11 +91,11 @@ public class LoginBean extends BaseBean {
                 this.gender = gender;
             }
 
-            public int getBirthDate() {
+            public String getBirthDate() {
                 return birthDate;
             }
 
-            public void setBirthDate(int birthDate) {
+            public void setBirthDate(String birthDate) {
                 this.birthDate = birthDate;
             }
 

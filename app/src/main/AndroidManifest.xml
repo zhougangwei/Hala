@@ -62,7 +62,7 @@
         <activity android:name="chat.hala.hala.activity.BestarActivity"/>
         <activity android:name="chat.hala.hala.activity.AnchorsActivity"/>
         <activity android:name="chat.hala.hala.activity.MyCallListActivity"/>
-        <activity android:name="chat.hala.hala.activity.EditProActivity"/>
+        <activity android:name="chat.hala.hala.activity.EditProAnchorActivity"/>
         <activity android:name="chat.hala.hala.activity.EditProUserActivity"/>
         <activity android:name="chat.hala.hala.activity.ChargeActivity"/>
         <activity android:name="chat.hala.hala.activity.OneToOneActivity"/>

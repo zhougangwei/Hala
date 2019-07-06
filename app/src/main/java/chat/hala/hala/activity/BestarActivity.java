@@ -45,7 +45,7 @@ public class BestarActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_start:
-                startActivity(new Intent(this,EditProActivity.class));
+                startActivity(new Intent(this,EditProAnchorActivity.class));
                 break;
         }
     }

@@ -45,10 +45,10 @@ import cn.qqtheme.framework.picker.SinglePicker;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class EditProActivity extends BaseActivity {
+public class EditProAnchorActivity extends BaseActivity {
 
 
-    private static final String TAG = "EditProActivity";
+    private static final String TAG = "EditProAnchorActivity";
     @BindView(R.id.iv_back)
     ImageView ivBack;
     @BindView(R.id.tv_title)
@@ -155,7 +155,7 @@ public class EditProActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mList.get(position).isAdd()) {
-                    ChoosePicManager.choosePic(EditProActivity.this, 3);
+                    ChoosePicManager.choosePic(EditProAnchorActivity.this, 3);
                 }
             }
         });
@@ -450,17 +450,17 @@ public class EditProActivity extends BaseActivity {
                     @Override
                     public void onNext(BeAnchorBean baseBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
-                            ToastUtils.showToast(EditProActivity.this, "提交失败");
+                            ToastUtils.showToast(EditProAnchorActivity.this, "提交失败");
                             Log.e("Edit", GsonUtil.parseObjectToJson(baseBean));
                             return;
                         }
                         if (Contact.REPONSE_CODE_APPLYANCHOR_FAIL_ALREADY_NAME_OR_PHONE != baseBean.getCode()) {
-                            ToastUtils.showToast(EditProActivity.this, "主播用户名或手机号存在");
+                            ToastUtils.showToast(EditProAnchorActivity.this, "主播用户名或手机号存在");
                             return;
                         }
                         int id = baseBean.getData().getMemberId();
                         AvchatInfo.setAnchorId(id);
-                        ToastUtils.showToast(EditProActivity.this, "提交成功");
+                        ToastUtils.showToast(EditProAnchorActivity.this, "提交成功");
                         finish();
                     }
                 });

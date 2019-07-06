@@ -26,7 +26,7 @@
     <string name="online">Online</string>
     <string name="offlIine">OffLine</string>
     <string name="charged_coins_per_min">Charged %1$s coins per Min</string>
-    <string name="call_duration_10_mins">Call duration: %1$s</string>
+    <string name="call_duration_10_mins">Call duration: %1$s seconds</string>
     <string name="fee_100_coins">Fee: %1$s coins</string>
     <string name="facebook_app_id">306102296576531</string>
     <string name="fb_login_protocol_scheme">fb306102296576531</string>

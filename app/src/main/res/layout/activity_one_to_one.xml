@@ -59,19 +59,18 @@
             android:id="@+id/iv_hangup_prepare_audience"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_above="@+id/tv5"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="6dp"
             android:src="@drawable/ic_calling"/>
 
         <ImageView
-
             android:id="@+id/iv_anchor_answer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_above="@+id/tv7"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="6dp"
             android:layout_marginEnd="50dp"
             android:src="@drawable/ic_answering"/>
 
@@ -79,11 +78,46 @@
             android:id="@+id/iv_hangup_prepare_anchor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_above="@+id/tv6"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="6dp"
             android:layout_marginStart="50dp"
             android:src="@drawable/ic_calling"/>
+
+        <TextView
+            android:id="@+id/tv5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="25dp"
+            android:text="Hang up"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:layout_marginEnd="5dp"
+            android:id="@+id/tv7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/iv_anchor_answer"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="25dp"
+            android:text="Answer"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:layout_marginStart="5dp"
+            android:id="@+id/tv6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/iv_hangup_prepare_anchor"
+            android:layout_marginBottom="25dp"
+            android:text="Hang up"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
 
 
     </RelativeLayout>
@@ -94,7 +128,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="visible"
+        tools:visibility="gone"
         >
 
         <FrameLayout
@@ -119,13 +153,15 @@
             android:layout_height="28dp"
             android:layout_marginStart="14dp"
             android:layout_marginTop="40dp">
-            <ImageView
-                android:layout_alignStart="@id/tv_charge"
-                android:background="@drawable/bg_rec_grey14"
-                android:layout_alignEnd="@+id/tv_call_duration"
-                android:layout_width="0dp"
 
-                android:layout_height="match_parent"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_alignEnd="@+id/tv_call_duration"
+                android:layout_alignStart="@id/tv_charge"
+
+                android:background="@drawable/bg_rec_grey14"/>
+
             <TextView
                 android:id="@+id/tv_charge"
                 android:layout_width="wrap_content"
@@ -139,15 +175,15 @@
                 android:textSize="14sp"/>
 
             <TextView
-               android:paddingEnd="9dp"
-                android:layout_marginStart="9dp"
-                android:layout_toEndOf="@+id/tv_charge"
-                android:gravity="center"
-                android:textColor="@color/white"
                 android:id="@+id/tv_call_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="shijian "/>
+                android:layout_marginStart="9dp"
+                android:layout_toEndOf="@+id/tv_charge"
+                android:gravity="center"
+                android:paddingEnd="9dp"
+                android:text="shijian "
+                android:textColor="@color/white"/>
         </RelativeLayout>
 
 

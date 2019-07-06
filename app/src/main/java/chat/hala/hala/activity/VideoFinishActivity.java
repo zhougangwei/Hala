@@ -7,9 +7,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
 
+import com.bumptech.glide.request.RequestOptions;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.R;
 import chat.hala.hala.wight.RatingBarView;
@@ -70,7 +70,7 @@ public class VideoFinishActivity extends BaseActivity {
         mTvTime.setText(String.format(getString(R.string.call_duration_10_mins), mTime + ""));
         Glide.with(VideoFinishActivity.this)
                 .load(anchorUrl)
-                .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(mIvHead.getDrawable()))
+                .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,3)).placeholder(mIvHead.getDrawable()))
                 .into(mIvHead);
 
     }

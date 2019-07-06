@@ -1,5 +1,6 @@
 package chat.hala.hala.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,7 +20,13 @@ import chat.hala.hala.activity.FeedBackActivity;
 import chat.hala.hala.activity.WalletActivity;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseFragment;
+import chat.hala.hala.bean.CoinBriefBean;
 import chat.hala.hala.dialog.CommonDialog;
+import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.utils.ResultUtils;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class MyFragment extends BaseFragment {
     @BindView(R.id.tv_name)
@@ -51,9 +58,32 @@ public class MyFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
+        refreshData();
     }
 
+   @SuppressLint("CheckResult")
+   public void refreshData(){
+       RetrofitFactory.getInstance().getCoinBrief()
+               .subscribeOn(Schedulers.io())
+               .compose(this.<CoinBriefBean>bindToLifecycle())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new Consumer<CoinBriefBean>() {
+                   @Override
+                   public void accept(CoinBriefBean coinBriefBean) throws Exception {
+                       if (ResultUtils.cheekSuccess(coinBriefBean)) {
+                           tvMoney.setText(coinBriefBean.getData().getTotal()+"");
+                       }
+                   }
+               });
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            refreshData();
+        }
+    }
 
     @OnClick({R.id.iv_more, R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_loginout})
     public void onClick(View view) {

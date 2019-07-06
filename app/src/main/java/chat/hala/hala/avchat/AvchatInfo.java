@@ -17,6 +17,8 @@ public class AvchatInfo {
     private static int coin;
     private static String sAvatarUrl;
     private static String sCallText;
+    private static String sGender;
+    private static String sBirthDate;
 
 
     public static int getAccount() {
@@ -104,9 +106,11 @@ public class AvchatInfo {
         AvchatInfo.setName(member.getUsername());
         AvchatInfo.setCoin(member.getCoin());
         AvchatInfo.setAvatarUrl(member.getAvatarUrl());
+        AvchatInfo.setGender(member.getGender());
+        AvchatInfo.setBirthDate(member.getBirthDate());
         String accessToken = member.getAccessToken();
         SPUtil.getInstance(context).setString(Contact.TOKEN, accessToken);
-        SPUtil.getInstance(context).setMemberJson( memeberJson);
+        SPUtil.getInstance(context).setMemberJson(memeberJson);
         SPUtil.getInstance(context).setUserId(member.getMemberId());
         SPUtil.getInstance(context).setAnchorId(member.getAnchorId());
     }
@@ -118,10 +122,29 @@ public class AvchatInfo {
         AvchatInfo.setName("");
         AvchatInfo.setCoin(0);
         AvchatInfo.setAvatarUrl("");
+        AvchatInfo.setGender("secret");
+        AvchatInfo.setBirthDate("1991-10-10");
+
 
         SPUtil.getInstance(context).setString(Contact.TOKEN, "");
         SPUtil.getInstance(context).setUserId(0);
         SPUtil.getInstance(context).setAnchorId(0);
         SPUtil.getInstance(context).setMemberJson("");
+    }
+
+    public static void setGender(String gender) {
+        sGender = gender;
+    }
+
+    public static String getGender() {
+        return sGender;
+    }
+
+    public static void setBirthDate(String birthDate) {
+        sBirthDate = birthDate;
+    }
+
+    public static String getBirthDate() {
+        return sBirthDate;
     }
 }

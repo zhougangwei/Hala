@@ -272,7 +272,11 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                     public void onNext(AnchorBean anchorBean) {
                         if (ResultUtils.cheekSuccess(anchorBean)) {
                             anchorName=anchorBean.getData().getNickname();
-                            anchorUrl=anchorBean.getData().getAvatarUrl();
+                            try{
+                                anchorUrl=anchorBean.getData().getCovers().get(0).getCoverUrl();
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                             tvName.setText(anchorName);
                             Glide.with(OneToOneActivity.this)
                                     .load(anchorBean.getData().getAvatarUrl())

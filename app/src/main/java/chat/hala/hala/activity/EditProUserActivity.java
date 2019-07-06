@@ -113,11 +113,19 @@ public class EditProUserActivity extends BaseActivity {
                 mobileNumber = intent.getStringExtra("mobileNumber");
                 code = intent.getStringExtra("code");
                 break;
+
         }
     }
 
     @Override
     protected void initView() {
+        if(FROM_MYFRAG_MENT.equals(type)){
+            etUserName.setText(AvchatInfo.getName());
+            etGender.setText(AvchatInfo.getGender());
+            etBirth.setText(AvchatInfo.getBirthDate());
+        }
+
+
         etUserName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
