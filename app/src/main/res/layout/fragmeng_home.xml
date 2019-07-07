@@ -6,6 +6,9 @@
                                              android:layout_height="match_parent">
 
     <android.support.constraint.ConstraintLayout
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
         android:id="@+id/cl"
         android:layout_width="match_parent"
         android:layout_height="63dp"
@@ -65,13 +68,18 @@
 
     </android.support.constraint.ConstraintLayout>
 
-
+    <net.lucode.hackware.magicindicator.MagicIndicator
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/magic_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="63dp" />
     <android.support.v4.view.ViewPager
         android:id="@+id/vp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cl"/>
+        app:layout_constraintTop_toBottomOf="@+id/magic_indicator"/>
 
 
 </android.support.constraint.ConstraintLayout>
