@@ -19,6 +19,7 @@ import chat.hala.hala.dialog.CommonDialog;
 import chat.hala.hala.dialog.ReverseDialog;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.manager.ChatSuccessHelper;
 import chat.hala.hala.utils.ResultUtils;
 import chat.hala.hala.utils.ToastUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -62,7 +63,6 @@ public class VideoCallManager {
                                                         .subscribe(new BaseCosumer<CallBean>() {
                                                             @Override
                                                             public void onNext(final CallBean callBean) {
-
                                                                 if (ResultUtils.cheekSuccess(callBean)) {
                                                                     getMediaToken(callBean, activity, anchorId, anchorMemberId);
                                                                 } else if (ResultUtils.isNoMoney(callBean)) {
@@ -71,9 +71,8 @@ public class VideoCallManager {
                                                                             .setListener(new CommonDialog.OnClickListener() {
                                                                                 @Override
                                                                                 public void onClickConfirm() {
-                                                                                   activity.startActivity(new Intent(activity,ChargeActivity.class));
+                                                                                    activity.startActivity(new Intent(activity, ChargeActivity.class));
                                                                                 }
-
                                                                                 @Override
                                                                                 public void onClickCancel() {
                                                                                 }
@@ -82,7 +81,7 @@ public class VideoCallManager {
                                                                 }
                                                             }
                                                         });
-                                        }
+                                            }
                                         }
                                     });
                         }
@@ -102,6 +101,7 @@ public class VideoCallManager {
                         if (ResultUtils.cheekSuccess(mediaToken)) {
                             Log.e(TAG, "mediaToken" + mediaToken);
                             AvchatInfo.setMediaToken(mediaToken.getData().getAgora_media_token());
+                            ChatSuccessHelper.receiveChatSuccess(activity);
                             OneToOneActivity.docallOneToOneActivity(activity, anchorId, anchorMemberId, callBean.getData().getChannel(),
                                     callBean.getData().getCallId());
                         }

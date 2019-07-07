@@ -44,13 +44,14 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.iv_new)
     ImageView ivNew;
 
-    String[] titles=new String[]{"Hot","New"};
+    String[] titles=new String[]{"HOT","NEW"};
 
 
     @Override
     protected void initView() {
 
         CommonNavigator commonNavigator7 = new CommonNavigator(getActivity());
+
         commonNavigator7.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
@@ -69,6 +70,7 @@ public class HomeFragment extends BaseFragment {
                         vp.setCurrentItem(index);
                     }
                 });
+
                 return simplePagerTitleView;
             }
 
@@ -76,12 +78,13 @@ public class HomeFragment extends BaseFragment {
             public IPagerIndicator getIndicator(Context context) {
                 LinePagerIndicator indicator = new LinePagerIndicator(context);
                 indicator.setMode(LinePagerIndicator.MODE_EXACTLY);
-                indicator.setLineHeight(UIUtil.dip2px(context, 6));
-                indicator.setLineWidth(UIUtil.dip2px(context, 10));
-                indicator.setRoundRadius(UIUtil.dip2px(context, 3));
+                indicator.setLineHeight(UIUtil.dip2px(context, 4));
+                indicator.setLineWidth(UIUtil.dip2px(context, 12));
+                indicator.setRoundRadius(UIUtil.dip2px(context, 2));
                 indicator.setStartInterpolator(new AccelerateInterpolator());
                 indicator.setEndInterpolator(new DecelerateInterpolator(2.0f));
-                indicator.setColors(Color.BLACK);
+                indicator.setColors(getResources().getColor(R.color.linepager_indicator_color1),getResources().getColor(R.color.linepager_indicator_color2));
+
                 return indicator;
             }
         });

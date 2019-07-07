@@ -2,6 +2,9 @@ package chat.hala.hala.wight;
 
 
 import android.content.Context;
+import android.graphics.Typeface;
+
+import com.blankj.utilcode.utils.SizeUtils;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
@@ -16,9 +19,11 @@ public class ScaleTransitionPagerTitleView extends ColorTransitionPagerTitleView
 
     public ScaleTransitionPagerTitleView(Context context) {
         super(context);
-        int padding = UIUtil.dip2px(context, 10.0D);
-        this.setPadding(padding, 0, padding / 2, 0);
-        setTextSize(23);
+        int padding = UIUtil.dip2px(context, 8);
+        int paddingBottom = UIUtil.dip2px(context, 5);
+        this.setPadding(padding, 0, padding / 2, paddingBottom);
+        setTextSize(26);
+
     }
 
     @Override

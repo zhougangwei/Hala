@@ -1,7 +1,6 @@
 package chat.hala.hala.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +8,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import com.bumptech.glide.request.RequestOptions;
+
+import chat.hala.hala.rxbus.RxBus;
+import chat.hala.hala.rxbus.event.ReverseSuccessEvent;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.R;
@@ -77,6 +79,7 @@ public class VideoFinishActivity extends BaseActivity {
 
     @OnClick(R.id.tv_ok)
     public void onClick() {
+        RxBus.getIntanceBus().post(new ReverseSuccessEvent());
         finish();
     }
 }

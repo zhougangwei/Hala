@@ -10,9 +10,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.blankj.utilcode.utils.ScreenUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -39,15 +41,25 @@ public class ReverseSuccessDialog extends Dialog {
     @BindView(R.id.rv)
     RecyclerView rv;
 
+    @BindView(R.id.tv_message)
+    TextView tv_message;
+
 
     Context mContext;
     private RandomAnchorAdapter randomAnchorAdapter;
     private List<OneToOneListBean.DataBean.ListBean> mRanodmList = new ArrayList<>();
+    private String notifyMessage;
 
 
     public ReverseSuccessDialog(@NonNull Context context) {
         super(context);
         this.mContext = context;
+    }
+
+    public ReverseSuccessDialog(@NonNull Context context,String message) {
+        super(context);
+        this.mContext = context;
+        this.notifyMessage=message;
     }
 
     @Override
@@ -71,7 +83,9 @@ public class ReverseSuccessDialog extends Dialog {
                 }
             }
         });
-
+        if (!TextUtils.isEmpty(notifyMessage)) {
+            tv_message.setText(notifyMessage);
+        }
         initData();
     }
 
