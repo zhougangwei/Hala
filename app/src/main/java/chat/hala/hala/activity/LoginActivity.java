@@ -51,7 +51,7 @@ public class LoginActivity extends BaseActivity implements IdViewListener {
     @Override
     protected void initView() {
         TextUtils.makeTextViewCLick(tvPolicy, "EULA", Color.parseColor("#472EB4"), false, this, this);
-        TextUtils.makeTextViewCLick(tvPolicy, "Privacy Policy", Color.parseColor("#472EB4"), false, this, this);
+        TextUtils.makeTextViewCLick(tvPolicy, "Pri-vacy Policy", Color.parseColor("#472EB4"), false, this, this);
         initQiniuData();
     }
     private void initQiniuData() {

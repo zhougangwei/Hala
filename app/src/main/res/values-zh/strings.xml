@@ -7,10 +7,9 @@
     <string name="region">Region</string>
     <string name="mobile_phone_numbe">Mobile Phone Numbe</string>
     <string name="sms_verification_code">SMS verification code</string>
-    <string name="login">دخول</string>
-    <string name="trouble_logging_in">دخول خطأ؟</string>
-    <string name="try_other_ways">تحاول في الطرق الأخرى</string>
-    <string name="quick_login_with">دخول بسرعة</string>
+    <string name="login">登录</string>
+    <string name="trouble_logging_in">遇到登录问题？</string>
+    <string name="try_other_ways">尝试其他方式</string>
     <string name="make_your_time_valueable_helpful"><![CDATA[Make your time valueable&helpful]]></string>
     <string name="to_be_a_star">To Be a Star</string>
     <string name="start_certified">Start Certified</string>
@@ -29,5 +28,7 @@
     <string name="fee_100_coins">Fee: %1$s coins</string>
     <string name="continue_user_rules">By continuing to use our app and services, you are agreeing to be bound by below terms and conditions</string>
     <string name="terms_of_use_and_eula_amp_privacy_policy"><![CDATA[Terms of Use and EULA & Privacy Policy]]></string>
-    <string name="policy">تنقر فوق تسجيل ، فإنك تشير إلى أنك قد قرأت ووافقت على</string>
+    <string name="quick_login_with">快速登录</string>
+    <string name="quick_login_with">快速登录</string>
+    <string name="policy">点击注册即为同意</string>
 </resources>
