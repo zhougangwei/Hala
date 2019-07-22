@@ -12,4 +12,6 @@
 *.log
 *.class
 app/build/
+IMKit/build/
+IMLib/build/
 /.idea
