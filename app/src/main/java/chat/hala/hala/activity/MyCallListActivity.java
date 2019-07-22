@@ -96,7 +96,7 @@ public class MyCallListActivity extends BaseActivity {
                 .subscribe(new BaseCosumer<CallListBean>() {
                     @Override
                     public void onNext(CallListBean callListBean) {
-                        Log.e(TAG, "onNext: "+GsonUtil.parseObjectToJson(callListBean.getData()) );
+                        LogUtils.e(TAG, "onNext: "+GsonUtil.parseObjectToJson(callListBean.getData()) );
                         if (Contact.REPONSE_CODE_SUCCESS!=callListBean.getCode()) {
                             return;
                         }

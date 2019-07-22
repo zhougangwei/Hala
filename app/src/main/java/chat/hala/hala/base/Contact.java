@@ -5,6 +5,7 @@ public class Contact {
     public static final String HOST        = "http://47.244.164.243";
 
     public static final String TOKEN   = "token";
+    public static final String RONG_TOKEN   = "rong_token";
     public static final String MEMBER_DATA   = "member_dta";
     public static final String USER_ID   = "userid";
     public static final String ANCHOR_ID   = "anchorid";

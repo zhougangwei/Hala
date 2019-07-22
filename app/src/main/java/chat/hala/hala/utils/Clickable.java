@@ -28,7 +28,7 @@ public class Clickable extends ClickableSpan {
      */
     @Override
     public void onClick(View v) {
-        Log.e("MsgForVideoChatAdapter", "点击了4");
+
         if (mListener!=null) {
             mListener.onClick(v);
             mListener.clickId(id);

@@ -57,7 +57,7 @@ public class ReverseDialog extends Dialog {
                 .subscribe(new BaseCosumer<ReverseBean>() {
                     @Override
                     public void onNext(ReverseBean reverseBean) {
-                        Log.e(TAG, "onNext: "+ GsonUtil.parseObjectToJson(reverseBean));
+                        LogUtils.e(TAG, "onNext: "+ GsonUtil.parseObjectToJson(reverseBean));
 
                         if (Contact.REPONSE_CODE_REVERSE_SAME==reverseBean.getCode()){
                             ToastUtils.showToast(getContext(),"你已预约过该主播");

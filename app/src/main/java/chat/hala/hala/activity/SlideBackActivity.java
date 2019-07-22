@@ -44,7 +44,7 @@ public abstract class SlideBackActivity extends BaseActivity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        Log.e(TAG, "onTouchEvent:" + "--" + event.getAction());
+
         createVelocityTracker(event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:

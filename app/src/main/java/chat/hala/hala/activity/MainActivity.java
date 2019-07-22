@@ -3,10 +3,10 @@ package chat.hala.hala.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.blankj.utilcode.utils.LogUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
@@ -24,7 +24,6 @@ import chat.hala.hala.avchat.WorkerThread;
 import chat.hala.hala.base.App;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
-import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.bean.LoginBean;
 import chat.hala.hala.bean.RtmCallBean;
 import chat.hala.hala.bean.RtmTokenBean;
@@ -43,8 +42,11 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 public class MainActivity extends BaseActivity implements AGEventHandler {
+
 
     private static final String TAG = "MainActivity";
     @BindView(R.id.vp)
@@ -59,6 +61,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     private TabAdapter mTabAdapter;
 
     List<View> viewList = new ArrayList<>();
+    private LoginBean.DataBean.MemberBean memberBean;
 
     @Override
     protected int getContentViewId() {
@@ -82,12 +85,31 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
             if (TextUtils.isEmpty(memberJson)) {
                 startActivity(new Intent(this,LoginActivity.class));
                 finish();
+                return;
             }else{
-                LoginBean.DataBean.MemberBean memberBean = GsonUtil.parseJsonToBean(memberJson, LoginBean.DataBean.MemberBean.class);
+                memberBean = GsonUtil.parseJsonToBean(memberJson, LoginBean.DataBean.MemberBean.class);
                 AvchatInfo.saveBaseData(memberBean,this);
             }
         }
         ((App) getApplication()).initWorkerThread();
+        RongIM.connect(memberBean.getRongToken(), new RongIMClient.ConnectCallback() {
+            @Override
+            public void onSuccess(String s) {
+                LogUtils.e(TAG, "onSuccess: "+s);
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                LogUtils.e(TAG, "onError: "+errorCode);
+            }
+
+            @Override
+            public void onTokenIncorrect() {
+                LogUtils.e(TAG, "onTokenIncorrect: ");
+            }
+        });
+
+
         mTabAdapter = new TabAdapter(getSupportFragmentManager());
         vp.setAdapter(mTabAdapter);
         vp.setOffscreenPageLimit(5);
@@ -214,12 +236,12 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
 
     @Override
     public void onLoginSuccess(String uid) {
-        Log.e(TAG, "onLoginSuccess: ");
+        LogUtils.e(TAG, "onLoginSuccess: ");
     }
 
     @Override
     public void onLoginFailed(String uid, ErrorInfo error) {
-        Log.e(TAG, "onLoginFailed: ");
+        LogUtils.e(TAG, "onLoginFailed: ");
     }
 
     @Override
@@ -320,7 +342,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     @Override
     public void onReceiveMessage(String text) {
         AvchatInfo.setCallText(text);
-        Log.e(TAG, "onReceiveMessage: " + text);
+        LogUtils.e(TAG, "onReceiveMessage: " + text);
     }
 
     @Override
@@ -331,12 +353,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     @Override
     protected void onResume() {
         super.onResume();
-        RetrofitFactory.getInstance().online().subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<BaseBean>() {
-                    @Override
-                    public void accept(BaseBean baseBean) throws Exception {
-                    }
-                });
+
 
     }
 

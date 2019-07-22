@@ -74,7 +74,6 @@ public class HotFragment extends BaseFragment {
                 swrl.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e(TAG, "wo222");
                         getData(true);
                         swrl.setRefreshing(false);
                     }
@@ -84,7 +83,7 @@ public class HotFragment extends BaseFragment {
         hotCallAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                Log.e(TAG, "wo ");
+                LogUtils.e(TAG, "wo ");
                 getData(false);
             }
         }, rv);
@@ -155,7 +154,7 @@ public class HotFragment extends BaseFragment {
         } else {
             page++;
         }
-        Log.e(TAG, "aaa" + page);
+        LogUtils.e(TAG, "aaa" + page);
 
         RetrofitFactory.getInstance().getHotOneToOneList(0, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -172,7 +171,7 @@ public class HotFragment extends BaseFragment {
                             hotCallAdapter.loadMoreFail();
                             return;
                         }
-                        Log.e(TAG, "onNext: " + GsonUtil.parseObjectToJson(oneToOneListBean));
+                        LogUtils.e(TAG, "onNext: " + GsonUtil.parseObjectToJson(oneToOneListBean));
 
                         if (oneToOneListBean.getData().getPageable().isNextPage()) {
                             hotCallAdapter.loadMoreEnd();
@@ -183,7 +182,7 @@ public class HotFragment extends BaseFragment {
                         if (isRefresh) {
                             mHotOnetoOneList.clear();
                         }
-                        Log.e(TAG, "aaaListBean");
+                        LogUtils.e(TAG, "aaaListBean");
 
                         List<OneToOneListBean.DataBean.ListBean> content = oneToOneListBean.getData().getList();
                         if (content != null && content.size() > 0) {

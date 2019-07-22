@@ -52,7 +52,7 @@ public class ChatManager {
                 mRtmClient.setParameters("{\"rtm.log_filter\": 65535}");
             }
         } catch (Exception e) {
-            Log.e(TAG, Log.getStackTraceString(e));
+            LogUtils.e(TAG, Log.getStackTraceString(e));
             throw new RuntimeException("NEED TO check rtm sdk init fatal error\n" + Log.getStackTraceString(e));
         }
     }

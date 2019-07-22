@@ -38,7 +38,7 @@ public class AppLoginManager {
                         App.getChatManager().getRtmClient().login(token,AvchatInfo.getAccount()+"",new ResultCallback<Void>() {
                             @Override
                             public void onSuccess(Void responseInfo) {
-                                Log.e("Applogin","登录成功");
+                                LogUtils.e("Applogin","登录成功");
                                 if (calllistener==null) {
                                     synchronized (this){
                                         calllistener = new MyRtmClientListener();
@@ -48,7 +48,7 @@ public class AppLoginManager {
                             }
                             @Override
                             public void onFailure(ErrorInfo errorInfo) {
-                                Log.e("Applogin",errorInfo.getErrorDescription()+"--"+errorInfo.getErrorCode());
+                                LogUtils.e("Applogin",errorInfo.getErrorDescription()+"--"+errorInfo.getErrorCode());
                             }
                         });
                     }
@@ -66,7 +66,7 @@ public class AppLoginManager {
         @Override
         public void onMessageReceived(final RtmMessage message, final String peerId) {
             String text = message.getText();
-            Log.e(TAG, "message" + message + "peerId" + peerId);
+            LogUtils.e(TAG, "message" + message + "peerId" + peerId);
             if (text.contains(Contact.RTM_DO_CALL_STRING)) {
                 OneToOneActivity.doReceivveOneToOneActivity(App.sContext, Integer.parseInt(peerId));
             }

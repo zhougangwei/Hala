@@ -57,7 +57,7 @@ public class FacebookLoginManager {
         getLoginManager().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(final LoginResult loginResult) {
-                Log.e(TAG, "onSuccess = " + "token: " + loginResult.getAccessToken().getToken() +
+                LogUtils.e(TAG, "onSuccess = " + "token: " + loginResult.getAccessToken().getToken() +
                         ", id = " + loginResult.getAccessToken().getUserId());
 
                 accessToken = loginResult.getAccessToken();
@@ -81,7 +81,7 @@ public class FacebookLoginManager {
                             //获取地域信息
                             String locale = object.optString("locale");   //zh_CN 代表中文简体
 
-                            Log.e(TAG, "onCompleted: " + object.toString() + "---" + photo + "---" + locale + "---" +
+                            LogUtils.e(TAG, "onCompleted: " + object.toString() + "---" + photo + "---" + locale + "---" +
                                     name);
                             String token = loginResult.getAccessToken().getToken();
                             RetrofitFactory.getInstance()
@@ -106,7 +106,6 @@ public class FacebookLoginManager {
 
                                                 AvchatInfo.saveBaseData(member,activity);
 
-                                                SPUtil.getInstance(activity).setString(Contact.TOKEN, member.getAccessToken());
 
                                             }
                                         }
@@ -130,7 +129,7 @@ public class FacebookLoginManager {
             @Override
             public void onError(FacebookException e) {
                 mOnResult.fail();
-                Log.e(TAG, "e: " + e);
+                LogUtils.e(TAG, "e: " + e);
                 e.printStackTrace();
             }
         });

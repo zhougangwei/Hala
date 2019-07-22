@@ -9,6 +9,7 @@
     tools:context=".activity.VideoFinishActivity">
 
     <ImageView
+        android:scaleType="centerCrop"
         android:src="@drawable/bg_rec_2blue"
         android:id="@+id/iv_bg"
         android:layout_width="match_parent"

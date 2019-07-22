@@ -403,7 +403,7 @@ public class EditProAnchorActivity extends BaseActivity {
             @Override
             public void uploadSuccess(String path, List<String> paths) {
                 for (int i = 0; i < paths.size(); i++) {
-                    Log.e(TAG, "uploadSuccess:" + paths.get(i));
+                    LogUtils.e(TAG, "uploadSuccess:" + paths.get(i));
                 }
                 gotoSave(paths);
             }
@@ -411,7 +411,7 @@ public class EditProAnchorActivity extends BaseActivity {
             @Override
             public void uploadFailure() {
                 // TODO: 2019/6/25 0025 上传图片失败
-                Log.e(TAG, "uploadFailure: 失败");
+                LogUtils.e(TAG, "uploadFailure: 失败");
             }
         });
     }
@@ -451,7 +451,7 @@ public class EditProAnchorActivity extends BaseActivity {
                     public void onNext(BeAnchorBean baseBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
                             ToastUtils.showToast(EditProAnchorActivity.this, "提交失败");
-                            Log.e("Edit", GsonUtil.parseObjectToJson(baseBean));
+                            LogUtils.e("Edit", GsonUtil.parseObjectToJson(baseBean));
                             return;
                         }
                         if (Contact.REPONSE_CODE_APPLYANCHOR_FAIL_ALREADY_NAME_OR_PHONE != baseBean.getCode()) {

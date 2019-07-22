@@ -70,7 +70,7 @@ public class RatingBarView extends LinearLayout {
 
     private ImageView getStarImageView(Context context, AttributeSet attrs) {
         ImageView imageView = new ImageView(context);
-        Log.e("RatingBarView", "starImageSize:" + starImageSize);
+        LogUtils.e("RatingBarView", "starImageSize:" + starImageSize);
         MarginLayoutParams para = new MarginLayoutParams(Math.round(starImageSize), Math.round(starImageSize));
         imageView.setLayoutParams(para);
         // TODO:you can change gap between two stars use the padding

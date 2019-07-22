@@ -54,6 +54,7 @@ public class LoginBean extends BaseBean {
              * online : false
              * accessToken : eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiNTE1MjIxYTgtNTNlZC00OWNhLWJiODYtMzQ4MWVjOTJmNzU3In0.3uhD_ezq4aR9jsDn9JyF614_TI2tmXloQ_eQ87Uqofw
              * memberId : 1
+             *"rongToken": "mbfG8gwF1xKir2NxjMW9v+AQiwIl9WsibDpV4NdH0+/FUAAj0DhlpW43Qm7CV1xX9iCdm2e6UU0="
              */
 
             private String mobileNumber;
@@ -65,8 +66,9 @@ public class LoginBean extends BaseBean {
             private int     coin;
             private boolean online;
             private String  accessToken;
-            private int     memberId;
 
+            private int     memberId;
+            private String  rongToken;
             public String getMobileNumber() {
                 return mobileNumber;
             }
@@ -145,6 +147,14 @@ public class LoginBean extends BaseBean {
 
             public void setMemberId(int memberId) {
                 this.memberId = memberId;
+            }
+
+            public String getRongToken() {
+                return rongToken;
+            }
+
+            public void setRongToken(String rongToken) {
+                this.rongToken = rongToken;
             }
         }
     }

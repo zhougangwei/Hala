@@ -32,6 +32,9 @@ public class VideoCallManager {
 
     @SuppressLint("CheckResult")
     public static void gotoCallOrReverse(final Activity activity, final int anchorId, final int anchorMemberId) {
+
+
+
         final RxPermissions rxPermissions = new RxPermissions(activity);
         rxPermissions.setLogging(true);
         rxPermissions.request(Manifest.permission.CAMERA, Manifest
@@ -67,7 +70,7 @@ public class VideoCallManager {
                                                                     getMediaToken(callBean, activity, anchorId, anchorMemberId);
                                                                 } else if (ResultUtils.isNoMoney(callBean)) {
                                                                     new CommonDialog(activity)
-                                                                            .setMsg("你没钱了")
+                                                                            .setMsg("you have no money")
                                                                             .setListener(new CommonDialog.OnClickListener() {
                                                                                 @Override
                                                                                 public void onClickConfirm() {
@@ -99,7 +102,7 @@ public class VideoCallManager {
                     @Override
                     public void onNext(MediaToken mediaToken) {
                         if (ResultUtils.cheekSuccess(mediaToken)) {
-                            Log.e(TAG, "mediaToken" + mediaToken);
+                            LogUtils.e(TAG, "mediaToken" + mediaToken);
                             AvchatInfo.setMediaToken(mediaToken.getData().getAgora_media_token());
                             ChatSuccessHelper.receiveChatSuccess(activity);
                             OneToOneActivity.docallOneToOneActivity(activity, anchorId, anchorMemberId, callBean.getData().getChannel(),

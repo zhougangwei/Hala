@@ -123,8 +123,8 @@ public class EditProUserActivity extends BaseActivity {
             etUserName.setText(AvchatInfo.getName());
             etGender.setText(AvchatInfo.getGender());
             etBirth.setText(AvchatInfo.getBirthDate());
+            Glide.with(this).load(AvchatInfo.getAvatarUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(ivHead);
         }
-
 
         etUserName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -249,7 +249,7 @@ public class EditProUserActivity extends BaseActivity {
             @Override
             public void uploadSuccess(String path, List<String> paths) {
                 avatarUrl = path;
-                Log.e(TAG, "uploadSuccess: " + avatarUrl);
+                LogUtils.e(TAG, "uploadSuccess: " + avatarUrl);
                 startConfirm();
             }
 
@@ -257,7 +257,7 @@ public class EditProUserActivity extends BaseActivity {
             public void uploadFailure() {
                 // TODO: 2019/6/25 0025 上传图片失败
                 startConfirm();
-                Log.e(TAG, "uploadFailure: 失败");
+                LogUtils.e(TAG, "uploadFailure: 失败");
             }
         });
     }
@@ -283,7 +283,7 @@ public class EditProUserActivity extends BaseActivity {
                 .subscribe(new BaseCosumer<RegistBean>() {
                     @Override
                     public void onNext(RegistBean baseBean) {
-                        Log.e(TAG, "onNext: " + GsonUtil.parseObjectToJson(baseBean));
+                        LogUtils.e(TAG, "onNext: " + GsonUtil.parseObjectToJson(baseBean));
                         if (Contact.REPONSE_CODE_REGIST_FAIL_ALREADY_NAME == baseBean.getCode()) {
                             ToastUtils.showToast(EditProUserActivity.this, "名字已存在");
                             return;

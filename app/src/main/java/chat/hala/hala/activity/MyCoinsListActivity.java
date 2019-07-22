@@ -95,7 +95,7 @@ public class MyCoinsListActivity extends BaseActivity {
                         if (Contact.REPONSE_CODE_SUCCESS != callListBean.getCode()) {
                             return;
                         }
-                        Log.e(TAG, "onNext: "+GsonUtil.parseObjectToJson(callListBean));
+                        LogUtils.e(TAG, "onNext: "+GsonUtil.parseObjectToJson(callListBean));
                         List<CoinListBean.DataBean.TransactionsBean.ListBean> list = callListBean.getData().getTransactions().getList();
                         if (list != null && list.size() > 0) {
                             callList.addAll(list);

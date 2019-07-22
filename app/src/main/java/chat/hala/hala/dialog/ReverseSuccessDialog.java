@@ -8,7 +8,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -68,8 +67,7 @@ public class ReverseSuccessDialog extends Dialog {
         setContentView(R.layout.dialog_reserve_success);
         ButterKnife.bind(this);
         randomAnchorAdapter = new RandomAnchorAdapter(R.layout.item_random_anchor, mRanodmList);
-        LinearLayoutManager layoutManager = new GridLayoutManager(mContext,3);
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        GridLayoutManager layoutManager = new GridLayoutManager(mContext,3);
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(randomAnchorAdapter);
         randomAnchorAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {

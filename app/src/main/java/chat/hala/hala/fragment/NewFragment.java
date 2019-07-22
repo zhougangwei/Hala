@@ -62,7 +62,7 @@ public class NewFragment extends BaseFragment {
                 swrl.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e(TAG,"wo222");
+                        LogUtils.e(TAG,"wo222");
                         getData(true);
                         swrl.setRefreshing(false);
                     }
@@ -72,7 +72,7 @@ public class NewFragment extends BaseFragment {
         hotCallAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                Log.e(TAG,"wo ");
+                LogUtils.e(TAG,"wo ");
                 getData(false);
             }},rv);
         hotCallAdapter.setPreLoadNumber(5);
@@ -99,7 +99,7 @@ public class NewFragment extends BaseFragment {
         }else{
             page++;
         }
-        Log.e(TAG,"aaa"+page);
+        LogUtils.e(TAG,"aaa"+page);
 
         RetrofitFactory.getInstance().getHotOneToOneList(0, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -127,7 +127,7 @@ public class NewFragment extends BaseFragment {
                         if (isRefresh) {
                             mHotOnetoOneList.clear();
                         }
-                        Log.e(TAG,"aaaListBean");
+                        LogUtils.e(TAG,"aaaListBean");
 
                         List<OneToOneListBean.DataBean.ListBean> content = oneToOneListBean.getData().getList();
                         if (content != null && content.size() > 0) {

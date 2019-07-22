@@ -293,12 +293,12 @@ public class WorkerThread extends Thread {
         callMgr.sendLocalInvitation(mEngineConfig.mInvitation, new ResultCallback<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.e(TAG, "onSuccess: " );
+                LogUtils.e(TAG, "onSuccess: " );
             }
 
             @Override
             public void onFailure(ErrorInfo errorInfo) {
-                Log.e(TAG, "onFailure: " +errorInfo.getErrorDescription()+"--"+errorInfo.getErrorCode());
+                LogUtils.e(TAG, "onFailure: " +errorInfo.getErrorDescription()+"--"+errorInfo.getErrorCode());
             }
         });
 
@@ -548,7 +548,7 @@ public class WorkerThread extends Thread {
             try {
                 mRtmClient = RtmClient.createInstance(mContext, appId, mEngineEventHandler.mRtmEventHandler);
             } catch (Exception e) {
-                log.error(Log.getStackTraceString(e));
+                LogUtils.error(Log.getStackTraceString(e));
                 throw new RuntimeException("NEED TO check rtc sdk init fatal error\n" + Log.getStackTraceString(e));
             }
         }
@@ -564,7 +564,7 @@ public class WorkerThread extends Thread {
             try {
                 mRtcEngine = RtcEngine.create(mContext, appId, mEngineEventHandler.mRtcEventHandler);
             } catch (Exception e) {
-                log.error(Log.getStackTraceString(e));
+                LogUtils.error(Log.getStackTraceString(e));
                 throw new RuntimeException("NEED TO check rtc sdk init fatal error\n" + Log.getStackTraceString(e));
             }
             mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_COMMUNICATION);

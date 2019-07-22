@@ -109,7 +109,9 @@ public class AvchatInfo {
         AvchatInfo.setGender(member.getGender());
         AvchatInfo.setBirthDate(member.getBirthDate());
         String accessToken = member.getAccessToken();
+        String rongToken = member.getRongToken();
         SPUtil.getInstance(context).setString(Contact.TOKEN, accessToken);
+        SPUtil.getInstance(context).setString(Contact.RONG_TOKEN, rongToken);
         SPUtil.getInstance(context).setMemberJson(memeberJson);
         SPUtil.getInstance(context).setUserId(member.getMemberId());
         SPUtil.getInstance(context).setAnchorId(member.getAnchorId());
@@ -127,6 +129,7 @@ public class AvchatInfo {
 
 
         SPUtil.getInstance(context).setString(Contact.TOKEN, "");
+        SPUtil.getInstance(context).setString(Contact.RONG_TOKEN, "");
         SPUtil.getInstance(context).setUserId(0);
         SPUtil.getInstance(context).setAnchorId(0);
         SPUtil.getInstance(context).setMemberJson("");

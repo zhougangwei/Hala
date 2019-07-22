@@ -106,7 +106,7 @@ public class LoginPhoneActivity extends BaseActivity {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                Log.e(TAG, "afterTextChanged: "+s.toString() );
+                LogUtils.e(TAG, "afterTextChanged: "+s.toString() );
             }
         });
         etSmsNum.addTextChangedListener(new TextWatcher() {

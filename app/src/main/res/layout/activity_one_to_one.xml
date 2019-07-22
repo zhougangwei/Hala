@@ -33,7 +33,7 @@
             android:textSize="15sp"/>
 
         <TextView
-            android:id="@+id/tv1"
+            android:id="@+id/tv_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_name"
@@ -44,10 +44,11 @@
             android:textColor="@color/white"/>
 
         <TextView
+
             android:id="@+id/tv_minute_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv1"
+            android:layout_below="@+id/tv_message"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_rec_10white"

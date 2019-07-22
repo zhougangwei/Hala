@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 
 import chat.hala.hala.rxbus.RxBus;
@@ -43,7 +44,7 @@ public class VideoFinishActivity extends BaseActivity {
 
 
     private String mName;
-    private String mTime;
+    private int mTime;
     private String mCost;
     private int    starLevel;
     private String anchorUrl;
@@ -57,7 +58,7 @@ public class VideoFinishActivity extends BaseActivity {
     protected void beforeInitView() {
         Intent intent = getIntent();
         mName = intent.getStringExtra("name");
-        mTime = intent.getStringExtra("time");
+        mTime = intent.getIntExtra("time",0);
         mCost = intent.getStringExtra("cost");
         anchorUrl = intent.getStringExtra("anchorUrl");
         starLevel = intent.getIntExtra("starLevel", 0);
@@ -69,12 +70,15 @@ public class VideoFinishActivity extends BaseActivity {
         mTvName.setText(mName);
         mRbv.setStar(starLevel, false);
         mTvCost.setText(String.format(getString(R.string.fee_100_coins), mCost + ""));
-        mTvTime.setText(String.format(getString(R.string.call_duration_10_mins), mTime + ""));
+        mTvTime.setText(String.format(getString(R.string.call_duration_10_mins), (mTime/60) + "",(mTime%60)+""));
         Glide.with(VideoFinishActivity.this)
                 .load(anchorUrl)
-                .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,3)).placeholder(mIvHead.getDrawable()))
+                .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(mIvHead.getDrawable()))
                 .into(mIvHead);
-
+        Glide.with(VideoFinishActivity.this)
+                .load(anchorUrl)
+                .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,3)).placeholder(mIvBg.getDrawable()))
+                .into(mIvBg);
     }
 
     @OnClick(R.id.tv_ok)

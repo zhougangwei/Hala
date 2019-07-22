@@ -148,7 +148,7 @@ public class MyEngineEventHandler {
 
         @Override
         public void onError(int error) {
-            Log.e(TAG, "onError " + error + " " + RtcEngine.getErrorDescription(error) );
+            LogUtils.e(TAG, "onError " + error + " " + RtcEngine.getErrorDescription(error) );
             log.debug("onError " + error + " " + RtcEngine.getErrorDescription(error));
 
             Iterator<AGEventHandler> it = mEventHandlerList.keySet().iterator();
@@ -227,7 +227,7 @@ public class MyEngineEventHandler {
         public void onMessageReceived(RtmMessage rtmMessage, String s) {
 
             String text = rtmMessage.getText();
-            Log.e(TAG, "onReceiveMessage: "+text );
+            LogUtils.e(TAG, "onReceiveMessage: "+text );
             if (text.contains(Contact.RTM_DO_CALL_STRING)) {
                 Iterator<AGEventHandler> it = mEventHandlerList.keySet().iterator();
                 while (it.hasNext()) {

@@ -1,20 +1,30 @@
 package chat.hala.hala.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
+import com.blankj.utilcode.utils.LogUtils;
 import com.facebook.FacebookSdk;
 
 import java.util.Locale;
 
 import chat.hala.hala.activity.LoginActivity;
 import chat.hala.hala.avchat.WorkerThread;
+import chat.hala.hala.bean.BaseBean;
+import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.SPUtil;
+import chat.hala.hala.utils.ToolUtils;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import io.rong.imkit.RongIM;
 
 /**
  * Created by oneki on 2017/8/24.
@@ -44,17 +54,81 @@ public class App extends MultiDexApplication {
 
     private static App application;
     public static Context sContext;
-
+    private int count;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        application = this;
-        sContext=this;
-        FacebookSdk.setApplicationId("306102296576531");
-        FacebookSdk.setAutoLogAppEventsEnabled(true);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        SPUtil.setContext(this);
+
+        if (ToolUtils.isMainProcess(this)) {
+            application = this;
+            sContext=this;
+            RongIM.init(this);
+            LogUtils.init(this,true,false,'i',"Hala");
+            FacebookSdk.setApplicationId("306102296576531");
+            FacebookSdk.setAutoLogAppEventsEnabled(true);
+            FacebookSdk.sdkInitialize(getApplicationContext());
+            SPUtil.setContext(this);
+            addOnline();
+        }
+
+    }
+
+    private void addOnline() {
+            ActivityLifecycleCallbacks lifecycleCallbacks = new ActivityLifecycleCallbacks() {
+                @Override
+                public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                }
+
+                @Override
+                public void onActivityStarted(Activity activity) {
+                    count++;
+                    if (0 == count - 1){
+                        RetrofitFactory.getInstance().online().subscribeOn(Schedulers.io())
+                                .subscribe(new Consumer<BaseBean>() {
+                                    @Override
+                                    public void accept(BaseBean baseBean) throws Exception {
+                                    }
+                                });
+                    }
+
+                }
+                @Override
+                public void onActivityResumed(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivityPaused(Activity activity) {
+                }
+
+                @Override
+                public void onActivityStopped(Activity activity) {
+                    count--;
+                    if (0 == count) {
+                        RetrofitFactory.getInstance().offline().subscribeOn(Schedulers.io())
+                                .subscribe(new Consumer<BaseBean>() {
+                                    @Override
+                                    public void accept(BaseBean baseBean) throws Exception {
+                                    }
+                                });
+                    }
+                }
+
+                @Override
+                public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+                }
+                @Override
+                public void onActivityDestroyed(Activity activity) {
+                    if (0 == count) {
+                        Log.d(TAG, "onActivityDestroyed: ");
+                    }
+                }
+            };
+            // 注册监听
+            registerActivityLifecycleCallbacks(lifecycleCallbacks);
+
     }
 
     //用来阿拉伯语 本地使用

@@ -45,7 +45,7 @@ public class RxBus {
     public Consumer<Throwable> error=new Consumer<Throwable>() {
         @Override
         public void accept(Throwable throwable) throws Exception {
-            Log.e("RxBus", throwable.getMessage()+"11");
+            LogUtils.e("RxBus", throwable.getMessage()+"11");
         }
     };
 
