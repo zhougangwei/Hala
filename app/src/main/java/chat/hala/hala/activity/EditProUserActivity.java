@@ -53,7 +53,7 @@ public class EditProUserActivity extends BaseActivity {
     private final static String[] constellationEnArr = new String[]{"Capricornus",
             "Aquarius", "Pisces", "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra",
             "Scorpio", "Sagittarius", "Capricornus"};
-    private final static String[] sexArr             = new String[]{"male", "female", "secret"};
+
 
     private static final String TAG = "EditProUserActivity";
 
@@ -212,6 +212,8 @@ public class EditProUserActivity extends BaseActivity {
     }
 
     private void chooseGender() {
+
+        String[] sexArr             = new String[]{getString(R.string.male), getString(R.string.female), getString(R.string.secret)};
         List<String> data = Arrays.asList(sexArr);
         SinglePicker<String> picker = new SinglePicker<String>(this, data);
         picker.setCanceledOnTouchOutside(true);

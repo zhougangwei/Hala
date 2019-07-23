@@ -23,7 +23,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="9dp"
             android:layout_weight="1"
-            android:text="User Avtar"
+            android:text="@string/user_avtar"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="9dp"
-            android:text="User Name"
+            android:text="@string/user_name"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
@@ -106,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="9dp"
-            android:text="Gender"
+            android:text="@string/gender"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
@@ -150,7 +150,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="9dp"
-            android:text="Birthdate"
+            android:text="@string/birthdate"
             android:textColor="@color/black"
             android:textSize="15sp" />
 

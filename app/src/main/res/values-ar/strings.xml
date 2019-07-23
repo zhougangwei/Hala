@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Hala</string>
-    <string name="sign_in_with_facebook">Sign_in_with_facebook</string>
-    <string name="sign_up_in_with_phone"><![CDATA[Sign Up&In with Phone]]></string>
+    <string name="sign_in_with_facebook">تسجيل مع فيسبوك</string>
+    <string name="sign_up_in_with_phone">تسجيل مع هاتفك</string>
     <string name="cancel">cancel</string>
     <string name="select_region">Select Region</string>
     <string name="region">Region</string>
@@ -15,7 +15,7 @@
     <string name="to_be_a_star">To Be a Star</string>
     <string name="start_certified">Start Certified</string>
     <string name="cancle">cancel</string>
-    <string name="confirm">confirm</string>
+    <string name="confirm">تأكيد</string>
     <string name="want_to_log_out">Want to log out ？</string>
     <string name="reserve_done_wait_star_call_back">Reserve Done,Wait Star Call Back</string>
     <string name="hot_online_stars">Hot Online Stars</string>
@@ -30,4 +30,19 @@
     <string name="continue_user_rules">By continuing to use our app and services, you are agreeing to be bound by below terms and conditions</string>
     <string name="terms_of_use_and_eula_amp_privacy_policy"><![CDATA[Terms of Use and EULA & Privacy Policy]]></string>
     <string name="policy">تنقر فوق تسجيل ، فإنك تشير إلى أنك قد قرأت ووافقت على</string>
+    <string name="save">حفظ</string>
+    <string name="fill_in_bio">إكمال توقيعك الشخصي</string>
+    <string name="selected_tags">علامات محترة</string>
+    <string name="character">شخصيات</string>
+    <string name="report">Report</string>
+    <string name="ok">تمام</string>
+    <string name="term_of_use">مدة الإستخدام</string>
+    <string name="agree">الموافقة</string>
+    <string name="male">ذكر</string>
+    <string name="female">أنثي</string>
+    <string name="secret">سر</string>
+    <string name="user_avtar">أفاتار المستخدم</string>
+    <string name="user_name">اسم المستخدم</string>
+    <string name="gender">الجنس</string>
+    <string name="birthdate">عيد الميلاد</string>
 </resources>

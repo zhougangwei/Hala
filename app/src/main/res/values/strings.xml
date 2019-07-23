@@ -33,4 +33,19 @@
     <string name="policy">By clicking Sign up, you are indicating that you have read and agreed to the EULA and Privacy Policy</string>
     <string name="continue_user_rules">By continuing to use our app and services, you are agreeing to be bound by below terms and conditions</string>
     <string name="terms_of_use_and_eula_amp_privacy_policy"><u>Terms of Use and EULA</u> &amp; <u>Privacy Policy</u></string>
+    <string name="save">save</string>
+    <string name="fill_in_bio">Fill in your personal signature.Fill in your personal signature.Fill in your personal signature.</string>
+    <string name="selected_tags">Selected tags</string>
+    <string name="character">Character</string>
+    <string name="report">Report</string>
+    <string name="ok">OK</string>
+    <string name="term_of_use">Term of Use</string>
+    <string name="agree">AGREE</string>
+    <string name="male">male</string>
+    <string name="female">female</string>
+    <string name="secret">secret</string>
+    <string name="user_avtar">User Avtar</string>
+    <string name="user_name">User Name</string>
+    <string name="gender">Gender</string>
+    <string name="birthdate">Birthdate</string>
 </resources>

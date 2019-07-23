@@ -446,7 +446,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in Bio"
+                android:hint="@string/fill_in_bio"
                 android:maxLines="1"
                 android:paddingEnd="10dp"
                 android:textAlignment="textEnd"

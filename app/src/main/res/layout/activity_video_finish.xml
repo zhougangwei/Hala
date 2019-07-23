@@ -33,7 +33,7 @@
             android:drawablePadding="2dp"
             android:drawableStart="@drawable/ic_report"
             android:gravity="center_vertical"
-            android:text="Report"
+            android:text="@string/report"
             android:textColor="@color/white"/>
 
         <RelativeLayout
@@ -121,7 +121,7 @@
             android:layout_width="match_parent"
             android:layout_height="47dp"
             android:gravity="center"
-            android:text="OK"
+            android:text="@string/ok"
             android:textColor="@color/white"
             android:textSize="16sp"/>
     </LinearLayout>

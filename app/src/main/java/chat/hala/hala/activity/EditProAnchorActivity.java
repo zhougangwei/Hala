@@ -119,6 +119,12 @@ public class EditProAnchorActivity extends BaseActivity {
     private final static String[] constellationEnArr = new String[]{"Capricornus",
             "Aquarius", "Pisces", "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra",
             "Scorpio", "Sagittarius", "Capricornus"};
+
+
+    private final static String[] constellationARArr = new String[] { "برج الجدي",
+            "برج الدلو", "برج الحوت", "برج الحمل", "برج الثور", "برج الجوزاء", "برج السرطان", "برج الاسد", "برج العذراء", "برج الميزان",
+            "برج العقرب", "برج القوس", "برج الجدي" };
+
     private String userName;
     private String phoneNum;
     private String height;

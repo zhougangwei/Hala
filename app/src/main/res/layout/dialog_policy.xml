@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="Term of Use"
+        android:text="@string/term_of_use"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -53,7 +53,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/tv_agree"
-        android:text="AGREE"
+        android:text="@string/agree"
         android:layout_width="252dp"
         android:layout_height="38dp" />
 

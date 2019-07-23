@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Hala</string>
-    <string name="sign_in_with_facebook">Sign_in_with_facebook</string>
-    <string name="sign_up_in_with_phone"><![CDATA[Sign Up&In with Phone]]></string>
+    <string name="sign_in_with_facebook">用Facebook登录</string>
+    <string name="sign_up_in_with_phone">用手机号登录用手机号登录</string>
     <string name="cancel">cancel</string>
     <string name="select_region">Select Region</string>
     <string name="region">Region</string>
@@ -14,7 +14,7 @@
     <string name="to_be_a_star">To Be a Star</string>
     <string name="start_certified">Start Certified</string>
     <string name="cancle">cancel</string>
-    <string name="confirm">confirm</string>
+    <string name="confirm">确定</string>
     <string name="want_to_log_out">Want to log out ？</string>
     <string name="reserve_done_wait_star_call_back">Reserve Done,Wait Star Call Back</string>
     <string name="hot_online_stars">Hot Online Stars</string>
@@ -30,4 +30,19 @@
     <string name="terms_of_use_and_eula_amp_privacy_policy"><![CDATA[Terms of Use and EULA & Privacy Policy]]></string>
     <string name="quick_login_with">快速登录</string>
     <string name="policy">点击注册即为同意</string>
+    <string name="save">save</string>
+    <string name="fill_in_bio">填写您的个性签名</string>
+    <string name="selected_tags">选择标签</string>
+    <string name="character">性格</string>
+    <string name="report">Report</string>
+    <string name="ok">完成</string>
+    <string name="term_of_use">使用条款</string>
+    <string name="agree">同意</string>
+    <string name="male">male</string>
+    <string name="female">女</string>
+    <string name="secret">保密</string>
+    <string name="user_avtar">头像</string>
+    <string name="user_name">昵称</string>
+    <string name="gender">性别</string>
+    <string name="birthdate">出生日期</string>
 </resources>
