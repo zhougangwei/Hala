@@ -21,15 +21,15 @@
     <string name="hot_online_stars">Hot Online Stars</string>
     <string name="coin">Coin</string>
     <string name="login_failed">登陆失败</string>
-    <string name="agora_app_id">3ca9a2cd0d144c209c5ca85e3a7440e4</string>
+    <string name="agora_app_id" translatable="false">3ca9a2cd0d144c209c5ca85e3a7440e4</string>
     <string name="anchor_is_not_aviliable">主播不在线!</string>
     <string name="online">Online</string>
     <string name="offlIine">OffLine</string>
     <string name="charged_coins_per_min">Charged %1$s coins per Min</string>
     <string name="call_duration_10_mins">Call duration: %1$s m %2$s s</string>
     <string name="fee_100_coins">Fee: %1$s coins</string>
-    <string name="facebook_app_id">306102296576531</string>
-    <string name="fb_login_protocol_scheme">fb306102296576531</string>
+    <string name="facebook_app_id" translatable="false">306102296576531</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb306102296576531</string>
     <string name="policy">By clicking Sign up, you are indicating that you have read and agreed to the EULA and Privacy Policy</string>
     <string name="continue_user_rules">By continuing to use our app and services, you are agreeing to be bound by below terms and conditions</string>
     <string name="terms_of_use_and_eula_amp_privacy_policy"><u>Terms of Use and EULA</u> &amp; <u>Privacy Policy</u></string>
@@ -43,9 +43,32 @@
     <string name="agree">AGREE</string>
     <string name="male">male</string>
     <string name="female">female</string>
-    <string name="secret">secret</string>
+    <string name="Secret">secret</string>
     <string name="user_avtar">User Avtar</string>
     <string name="user_name">User Name</string>
     <string name="gender">Gender</string>
     <string name="birthdate">Birthdate</string>
+
+    <!--星座-->
+    <string name="Aries">Aries</string>
+    <string name="Taurus">Taurus</string>
+    <string name="Gemini">Gemini</string>
+    <string name="Cancer">Cancer</string>
+    <string name="Leo">Leo</string>
+    <string name="Virgo">Virgo</string>
+    <string name="Libra">Libra</string>
+    <string name="Scorpio">Scorpio</string>
+    <string name="Sagittarius">Sagittarius</string>
+    <string name="Capricorn">Capricorn</string>
+    <string name="Aquarius">Aquarius</string>
+    <string name="Pisces">Pisces</string>
+
+    <!--反馈-->
+    <string name="screenshot_optional">" Submit"</string>
+    <string name="please_describe_your_feedback">Please describe your feedback...</string>
+    <string name="Submit">Screenshot(optional)</string>
+    <string name="please_describe_your_feedback">请阐述您的意见……</string>
+    <string name="select_tags">Select Tags</string>
+
+
 </resources>

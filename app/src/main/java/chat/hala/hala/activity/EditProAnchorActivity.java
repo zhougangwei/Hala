@@ -5,13 +5,13 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.zhihu.matisse.Matisse;
@@ -112,18 +112,20 @@ public class EditProAnchorActivity extends BaseActivity {
 
     EditHeadAdapter mAdapter;
 
-    private final static String[] constellationThArr = new String[]{"ราศีมังกร",
-            "ราศีกุมภ์", "ราศีมีน", "ราศีเมษ", "ราศีพฤษภ", "ราศีเมถุน", "ราศีกรกฎ", "ราศีสิงห์", "ราศีกันย์", "ราศีตุล",
-            "ราศีพิจิก", "ราศีธนู", "ราศีมังกร"};
-
-    private final static String[] constellationEnArr = new String[]{"Capricornus",
-            "Aquarius", "Pisces", "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra",
-            "Scorpio", "Sagittarius", "Capricornus"};
-
-
-    private final static String[] constellationARArr = new String[] { "برج الجدي",
-            "برج الدلو", "برج الحوت", "برج الحمل", "برج الثور", "برج الجوزاء", "برج السرطان", "برج الاسد", "برج العذراء", "برج الميزان",
-            "برج العقرب", "برج القوس", "برج الجدي" };
+    private final  String[] constellationEnArr = new String[]{
+            getString(R.string.Secret),
+            getString(R.string.Aries),
+            getString(R.string.Taurus),
+            getString(R.string.Gemini),
+            getString(R.string.Cancer),
+            getString(R.string.Leo),
+            getString(R.string.Virgo),
+            getString(R.string.Libra),
+            getString(R.string.Scorpio),
+            getString(R.string.Sagittarius),
+            getString(R.string.Capricorn),
+            getString(R.string.Aquarius),
+            getString(R.string.Pisces)};
 
     private String userName;
     private String phoneNum;
@@ -136,6 +138,7 @@ public class EditProAnchorActivity extends BaseActivity {
     private String certify;
     private DoublePicker weightPicker;
     private DoublePicker heightPicker;
+    private int zodiacIndex;
 
 
     @Override
@@ -353,6 +356,7 @@ public class EditProAnchorActivity extends BaseActivity {
         picker.setOnItemPickListener(new SinglePicker.OnItemPickListener<String>() {
             @Override
             public void onItemPicked(int index, String item) {
+                zodiacIndex =index;
                 etZodiac.setText(item);
             }
         });
@@ -438,7 +442,7 @@ public class EditProAnchorActivity extends BaseActivity {
         applyAnchorBean.setMobileNumber(phoneNum);
         applyAnchorBean.setHeight(TextUtils.isEmpty(height) ? 0 : Integer.parseInt(height));
         applyAnchorBean.setWeight(TextUtils.isEmpty(weight) ? 0 : Integer.parseInt(weight));
-        applyAnchorBean.setZodiac(zodiac);
+        applyAnchorBean.setZodiac(zodiacIndex+"");
         applyAnchorBean.setCity(city);
         applyAnchorBean.setIntroduction(intro);
         applyAnchorBean.setCountry(country);

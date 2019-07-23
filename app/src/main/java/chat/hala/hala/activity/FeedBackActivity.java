@@ -71,7 +71,7 @@ public class FeedBackActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        tvSave.setText("Submit");
+        tvSave.setText(R.string.Submit);
         tvTitle.setText("Feedback");
         mList = new ArrayList<>();
         mList.add(new EditHeadAdapter.UserHead("", true));

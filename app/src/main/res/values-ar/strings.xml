@@ -40,9 +40,24 @@
     <string name="agree">الموافقة</string>
     <string name="male">ذكر</string>
     <string name="female">أنثي</string>
-    <string name="secret">سر</string>
+    <string name="Secret">سر</string>
     <string name="user_avtar">أفاتار المستخدم</string>
     <string name="user_name">اسم المستخدم</string>
     <string name="gender">الجنس</string>
     <string name="birthdate">عيد الميلاد</string>
+    <string name="Aries">حمل</string>
+    <string name="Taurus">ثور</string>
+    <string name="Gemini">جوزاء</string>
+    <string name="Cancer">سرطان</string>
+    <string name="Leo">أسد</string>
+    <string name="Virgo">عذراء</string>
+    <string name="Libra">ميزان</string>
+    <string name="Scorpio">عقرب</string>
+    <string name="Sagittarius">قوس</string>
+    <string name="Capricorn">جدي</string>
+    <string name="Aquarius">دلو</string>
+    <string name="Pisces">حوت</string>
+    <string name="please_describe_your_feedback">تصف انطباعاتك</string>
+    <string name="Submit">لقطة لشاشتك (مختار)</string>
+    <string name="screenshot_optional">تقديم</string>
 </resources>

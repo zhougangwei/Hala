@@ -55,7 +55,7 @@ public class Security {
     public static boolean verifyPurchase(String base64PublicKey, String signedData, String signature) {
         if (TextUtils.isEmpty(signedData) || TextUtils.isEmpty(base64PublicKey) ||
                 TextUtils.isEmpty(signature)) {
-            LogUtils.e(TAG, "Purchase verification failed: missing data.");
+            Log.e(TAG, "Purchase verification failed: missing data.");
             return false;
         }
 
@@ -78,7 +78,7 @@ public class Security {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         } catch (InvalidKeySpecException e) {
-            LogUtils.e(TAG, "Invalid key specification.");
+            Log.e(TAG, "Invalid key specification.");
             throw new IllegalArgumentException(e);
         }
     }
@@ -97,7 +97,7 @@ public class Security {
         try {
             signatureBytes = Base64.decode(signature, Base64.DEFAULT);
         } catch (IllegalArgumentException e) {
-            LogUtils.e(TAG, "Base64 decoding failed.");
+            Log.e(TAG, "Base64 decoding failed.");
             return false;
         }
         try {
@@ -105,16 +105,16 @@ public class Security {
             sig.initVerify(publicKey);
             sig.update(signedData.getBytes());
             if (!sig.verify(signatureBytes)) {
-                LogUtils.e(TAG, "Signature verification failed.");
+                Log.e(TAG, "Signature verification failed.");
                 return false;
             }
             return true;
         } catch (NoSuchAlgorithmException e) {
-            LogUtils.e(TAG, "NoSuchAlgorithmException.");
+            Log.e(TAG, "NoSuchAlgorithmException.");
         } catch (InvalidKeyException e) {
-            LogUtils.e(TAG, "Invalid key specification.");
+            Log.e(TAG, "Invalid key specification.");
         } catch (SignatureException e) {
-            LogUtils.e(TAG, "Signature exception.");
+            Log.e(TAG, "Signature exception.");
         }
         return false;
     }

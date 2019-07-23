@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.LogUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
@@ -46,13 +46,23 @@ import io.reactivex.schedulers.Schedulers;
 public class EditProUserActivity extends BaseActivity {
 
 
-    private final static String[] constellationThArr = new String[]{"ราศีมังกร",
-            "ราศีกุมภ์", "ราศีมีน", "ราศีเมษ", "ราศีพฤษภ", "ราศีเมถุน", "ราศีกรกฎ", "ราศีสิงห์", "ราศีกันย์", "ราศีตุล",
-            "ราศีพิจิก", "ราศีธนู", "ราศีมังกร"};
 
-    private final static String[] constellationEnArr = new String[]{"Capricornus",
-            "Aquarius", "Pisces", "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra",
-            "Scorpio", "Sagittarius", "Capricornus"};
+    private final  String[] constellationEnArr = new String[]{
+            getString(R.string.Secret),
+            getString(R.string.Aries),
+            getString(R.string.Taurus),
+            getString(R.string.Gemini),
+            getString(R.string.Cancer),
+            getString(R.string.Leo),
+            getString(R.string.Virgo),
+            getString(R.string.Libra),
+            getString(R.string.Scorpio),
+            getString(R.string.Sagittarius),
+            getString(R.string.Capricorn),
+            getString(R.string.Aquarius),
+            getString(R.string.Pisces)};
+
+
 
 
     private static final String TAG = "EditProUserActivity";
@@ -86,7 +96,7 @@ public class EditProUserActivity extends BaseActivity {
 
 
     private String username;
-    private String gender;
+
     private String birthDate;
 
 
@@ -95,6 +105,7 @@ public class EditProUserActivity extends BaseActivity {
     public static final String FROM_MYFRAG_MENT = "from_myfrag_ment";
     private String avatarUrl;
     private List<String> uriList = new ArrayList<>();
+    private int genderIndex;
 
     @Override
     protected int getContentViewId() {
@@ -213,7 +224,7 @@ public class EditProUserActivity extends BaseActivity {
 
     private void chooseGender() {
 
-        String[] sexArr             = new String[]{getString(R.string.male), getString(R.string.female), getString(R.string.secret)};
+        String[] sexArr    = new String[]{getString(R.string.Secret),getString(R.string.male), getString(R.string.female)};
         List<String> data = Arrays.asList(sexArr);
         SinglePicker<String> picker = new SinglePicker<String>(this, data);
         picker.setCanceledOnTouchOutside(true);
@@ -224,6 +235,7 @@ public class EditProUserActivity extends BaseActivity {
         picker.setOnItemPickListener(new SinglePicker.OnItemPickListener<String>() {
             @Override
             public void onItemPicked(int index, String item) {
+                genderIndex =index;
                 etGender.setText(item);
             }
         });
@@ -232,10 +244,10 @@ public class EditProUserActivity extends BaseActivity {
 
     private boolean judgeEmpty() {
         username = etUserName.getText().toString();
-        gender = etGender.getText().toString();
+
         birthDate = etBirth.getText().toString();
         if (TextUtils.isEmpty(username)) {
-            ToastUtils.showToast(this, "userName" + "不可以为空");
+            ToastUtils.showToast(this, "userName" + "is Empty");
             return false;
         }
 
@@ -273,11 +285,11 @@ public class EditProUserActivity extends BaseActivity {
 
         Observable<RegistBean> regist = null;
         if (type.equals(FROM_PHONE)) {
-            regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(code, avatarUrl, username, gender, birthDate, mobileNumber));
+            regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(code, avatarUrl, username, genderIndex+"", birthDate, mobileNumber));
         } else if (type.equals(FROM_FACEBOOK)) {
-            regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(avatarUrl, username, gender, birthDate, facebookId));
+            regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(avatarUrl, username, genderIndex+"", birthDate, facebookId));
         } else if (type.equals(FROM_MYFRAG_MENT)) {
-            regist = RetrofitFactory.getInstance().changeUserInfo(ProxyPostHttpRequest.getInstance().changeUserInfo(avatarUrl, username, gender, birthDate, mobileNumber));
+            regist = RetrofitFactory.getInstance().changeUserInfo(ProxyPostHttpRequest.getInstance().changeUserInfo(avatarUrl, username, genderIndex+"", birthDate, mobileNumber));
         }
         regist.subscribeOn(Schedulers.io())
                 .compose(this.<RegistBean>bindToLifecycle())

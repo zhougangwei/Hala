@@ -120,7 +120,7 @@
             android:background="@null"
             android:gravity="end"
             android:paddingEnd="10dp"
-            android:text="male"
+            android:text="@string/Secret"
             android:textAlignment="textEnd"
             android:textColorHint="#C7C7CE"
             android:textSize="15sp" />

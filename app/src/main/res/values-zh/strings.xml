@@ -40,9 +40,24 @@
     <string name="agree">同意</string>
     <string name="male">male</string>
     <string name="female">女</string>
-    <string name="secret">保密</string>
+    <string name="Secret">保密</string>
     <string name="user_avtar">头像</string>
     <string name="user_name">昵称</string>
     <string name="gender">性别</string>
     <string name="birthdate">出生日期</string>
+    <string name="Aries">白羊座</string>
+    <string name="Taurus">金牛座</string>
+    <string name="Gemini">双子座</string>
+    <string name="Cancer">巨蟹座</string>
+    <string name="Leo">狮子座</string>
+    <string name="Virgo">处女座</string>
+    <string name="Libra">天秤座</string>
+    <string name="Scorpio">天蝎座</string>
+    <string name="Sagittarius">射手座</string>
+    <string name="Capricorn">摩羯座</string>
+    <string name="Aquarius">水瓶座</string>
+    <string name="Pisces">双鱼座</string>
+    <string name="screenshot_optional">تقديم</string>
+    <string name="please_describe_your_feedback">请阐述您的意见……</string>
+    <string name="Submit">屏幕截图（可选）</string>
 </resources>
