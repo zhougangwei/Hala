@@ -92,7 +92,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="25dp"
-            android:text="Hang up"
+            android:text="@string/hang_up"
             android:textColor="@color/white"
             android:textSize="15sp"/>
 
@@ -104,7 +104,7 @@
             android:layout_alignEnd="@+id/iv_anchor_answer"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="25dp"
-            android:text="Answer"
+            android:text="@string/answer"
             android:textColor="@color/white"
             android:textSize="15sp"/>
 
@@ -116,7 +116,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/iv_hangup_prepare_anchor"
             android:layout_marginBottom="25dp"
-            android:text="Hang up"
+            android:text="@string/hang_up"
             android:textColor="@color/white"
             android:textSize="15sp"/>
 

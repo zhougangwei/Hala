@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:textColor="#A2A2A2"
         android:textSize="17sp"
-        android:text="Total Coins"
+        android:text="@string/total_coins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

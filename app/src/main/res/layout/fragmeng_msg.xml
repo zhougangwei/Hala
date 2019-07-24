@@ -13,7 +13,7 @@
         android:layout_marginStart="14dp"
         android:layout_marginTop="23dp"
         android:paddingTop="19dp"
-        android:text="Message"
+        android:text="@string/message"
         android:textColor="@color/black"
         android:textSize="26sp"/>
 

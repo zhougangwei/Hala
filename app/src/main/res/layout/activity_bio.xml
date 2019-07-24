@@ -13,7 +13,7 @@
         android:id="@+id/et_bio"
         android:paddingTop="14dp"
         android:paddingStart="29dp"
-        android:hint="Fill in your personal signature."
+        android:hint="@string/fill_in_your_personal_signature"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="74dp"
         android:background="@color/white"

@@ -2,6 +2,7 @@ package chat.hala.hala.manager;
 
 import android.app.Activity;
 
+import chat.hala.hala.R;
 import chat.hala.hala.dialog.ReverseSuccessDialog;
 import chat.hala.hala.rxbus.RxBus;
 import chat.hala.hala.rxbus.event.ReverseSuccessEvent;
@@ -22,7 +23,7 @@ public class ChatSuccessHelper {
         Disposable disposable = rxBus.doSubscribe(ReverseSuccessEvent.class, new Consumer<ReverseSuccessEvent>() {
             @Override
             public void accept(ReverseSuccessEvent uiEvent) throws Exception {
-                new ReverseSuccessDialog(activity,"Congratulations！Just finish a call").show();
+                new ReverseSuccessDialog(activity,activity.getString(R.string.just_finish_a_call)).show();
                 rxBus.unSubscribe(this);
             }
         });

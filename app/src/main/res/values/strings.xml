@@ -12,11 +12,11 @@
     <string name="try_other_ways">Try other ways</string>
     <string name="quick_login_with">Quick login with</string>
     <string name="make_your_time_valueable_helpful"><![CDATA[Make your time valueable&helpful]]></string>
-    <string name="to_be_a_star">To Be a Star</string>
+
     <string name="start_certified">Start Certified</string>
     <string name="cancle">cancel</string>
     <string name="confirm">confirm</string>
-    <string name="want_to_log_out">Want to log out ？</string>
+    <string name="want_to_log_out">Want to log out？</string>
     <string name="reserve_done_wait_star_call_back">Reserve Done,Wait Star Call Back</string>
     <string name="hot_online_stars">Hot Online Stars</string>
     <string name="coin">Coin</string>
@@ -24,7 +24,7 @@
     <string name="agora_app_id" translatable="false">3ca9a2cd0d144c209c5ca85e3a7440e4</string>
     <string name="anchor_is_not_aviliable">主播不在线!</string>
     <string name="online">Online</string>
-    <string name="offlIine">OffLine</string>
+    <string name="offlIine">Offline</string>
     <string name="charged_coins_per_min">Charged %1$s coins per Min</string>
     <string name="call_duration_10_mins">Call duration: %1$s m %2$s s</string>
     <string name="fee_100_coins">Fee: %1$s coins</string>
@@ -33,8 +33,8 @@
     <string name="policy">By clicking Sign up, you are indicating that you have read and agreed to the EULA and Privacy Policy</string>
     <string name="continue_user_rules">By continuing to use our app and services, you are agreeing to be bound by below terms and conditions</string>
     <string name="terms_of_use_and_eula_amp_privacy_policy"><u>Terms of Use and EULA</u> &amp; <u>Privacy Policy</u></string>
-    <string name="save">save</string>
-    <string name="fill_in_bio">Fill in your personal signature.Fill in your personal signature.Fill in your personal signature.</string>
+    <string name="save">Save</string>
+
     <string name="selected_tags">Selected tags</string>
     <string name="character">Character</string>
     <string name="report">Report</string>
@@ -68,7 +68,52 @@
     <string name="please_describe_your_feedback">Please describe your feedback...</string>
     <string name="Submit">Screenshot(optional)</string>
     <string name="please_describe_your_feedback">请阐述您的意见……</string>
-    <string name="select_tags">Select Tags</string>
+    <string name="select_tags">Select tags</string>
+    <string name="to_be_star">To Be A Star</string>
+    <string name="feedback">Feedback</string>
+    <string name="log_out">Log Out</string>
+    <string name="star_is_not_available_now_call_again_later_or_reserve_now">Star is not available now Call again later or Reserve Now</string>
+    <string name="reservation_will_be_charged_1_min_coins_it_will_return_if_stars_don_t_call_back_within_24_hours">Reservation will be charged 1 min coins it will return if Stars don’t call back within 24 hours.</string>
+
+    <string name="fill_in_username">fill in username</string>
+    <string name="fill_in_phonenumber">fill in phone number</string>
+    <string name="fill_in_height">fill in height</string>
+    <string name="fill_in_weight">fill in weight</string>
+    <string name="fill_in_zodiac">fill in zodiac</string>
+    <string name="fill_in_country">fill in country</string>
+    <string name="fill_in_city">fill in city</string>
+    <string name="fill_in_instroction">fill in introduction</string>
+    <string name="fill_in_tags">fill in tags</string>
+    <string name="fill_in_bio">fill in Bio</string>
+    <string name="instagram_link">instagram link</string>
+    <string name="hang_up">Hang up</string>
+    <string name="answer">Answer</string>
+    <string name="just_finish_a_call">Congratulations！Just finish a call</string>
+    <string name="video_call">Video Call</string>
+    <string name="call_her">Call Her</string>
+    <string name="fill_in_your_personal_signature">Fill in your personal signature.</string>
+    <string name="coins_min">Coins/min</string>
+    <string name="bio">Bio</string>
+    <string name="last_login">Last login</string>
+    <string name="answer_rate">Answer rate</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="city">City</string>
+    <string name="zodiac">Zodiac</string>
+    <string name="basic_profile">Basic Profile</string>
+    <string name="star_tags">Star Tags</string>
+    <string name="total_coins">Total coins</string>
+    <string name="phone_number">Phone number</string>
+    <string name="introduction">Introduction</string>
+    <string name="tags">Tags</string>
+    <string name="certified">Certified</string>
+    <string name="coins">Coins</string>
+    <string name="select_amount">Select amount</string>
+    <string name="contact_us">Contact us ></string>
+    <string name="wallet">Wallet</string>
+    <string name="message">Message</string>
+    <string name="hot">HOT</string>
+    <string name="newnew">NEW</string>
 
 
 </resources>

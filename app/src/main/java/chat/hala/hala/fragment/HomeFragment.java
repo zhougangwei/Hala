@@ -1,7 +1,6 @@
 package chat.hala.hala.fragment;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -44,7 +43,7 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.iv_new)
     ImageView ivNew;
 
-    String[] titles=new String[]{"HOT","NEW"};
+    String[] titles=new String[]{getString(R.string.hot),getString(R.string.newnew)};
 
 
     @Override

@@ -49,7 +49,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in username"
+                android:hint="@string/fill_in_username"
                 android:paddingEnd="10dp"
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="9dp"
-                android:text="Phone number"
+                android:text="@string/phone_number"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -92,7 +92,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in phonenumber"
+                android:hint="@string/fill_in_phonenumber"
                 android:inputType="number"
                 android:maxLength="15"
                 android:paddingEnd="10dp"
@@ -138,7 +138,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in height"
+                android:hint="@string/fill_in_height"
                 android:paddingEnd="10dp"
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
@@ -183,7 +183,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in weight"
+                android:hint="@string/fill_in_weight"
                 android:paddingEnd="10dp"
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
@@ -227,7 +227,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in zodiac"
+                android:hint="@string/fill_in_zodiac"
                 android:paddingEnd="10dp"
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
@@ -270,7 +270,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in city"
+                android:hint="@string/fill_in_city"
                 android:paddingEnd="10dp"
 
                 android:textAlignment="textEnd"
@@ -312,7 +312,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in country"
+                android:hint="@string/fill_in_country"
                 android:paddingEnd="10dp"
 
                 android:textAlignment="textEnd"
@@ -343,7 +343,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="9dp"
-                android:text="Introduction"
+                android:text="@string/introduction"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -357,7 +357,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in instroction"
+                android:hint="@string/fill_in_instroction"
                 android:paddingEnd="10dp"
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
@@ -388,7 +388,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="9dp"
-                android:text="Tags"
+                android:text="@string/tags"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -402,7 +402,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
-                android:hint="fill in tags"
+                android:hint="@string/fill_in_tags"
                 android:paddingEnd="10dp"
                 android:textAlignment="textEnd"
                 android:textColorHint="#C7C7CE"
@@ -478,12 +478,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="9dp"
-                android:text="Certified"
+                android:text="@string/certified"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
             <EditText
-                android:hint="instagram link"
+                android:hint="@string/instagram_link"
 
                 android:id="@+id/et_certified"
                 android:layout_width="0dp"

@@ -27,28 +27,22 @@
         android:background="@drawable/ic_head_place" />
 
     <TextView
+
+        android:gravity="center"
         android:id="@+id/tv1"
+        android:lineSpacingExtra="7dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="29dp"
-        android:text="Star is not available now"
+        android:maxWidth="200dp"
+        android:text="@string/star_is_not_available_now_call_again_later_or_reserve_now"
         android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_head" />
 
-    <TextView
-        android:id="@+id/tv2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
-        android:text="Call again later or Reserve Now"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv1" />
+
 
     <TextView
 
@@ -63,7 +57,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv2" />
+        app:layout_constraintTop_toBottomOf="@+id/tv1" />
 
     <ImageView
         android:id="@+id/iv_close"
@@ -81,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="18dp"
         android:layout_marginTop="10dp"
-        android:text="Reservation will be charged 1 min coins it will return if Stars don’t call back within 24 hours."
+        android:text="@string/reservation_will_be_charged_1_min_coins_it_will_return_if_stars_don_t_call_back_within_24_hours"
         android:textColor="#808080"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/tv_reverse"

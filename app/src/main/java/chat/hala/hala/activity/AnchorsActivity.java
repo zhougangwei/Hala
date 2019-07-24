@@ -12,11 +12,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.LogUtils;
 import com.blankj.utilcode.utils.ScreenUtils;
 import com.blankj.utilcode.utils.SizeUtils;
 
@@ -220,12 +220,12 @@ public class AnchorsActivity extends SlideBackActivity {
                         tagsAdapter.notifyDataSetChanged();
 
 
-                        AnchorInfoBean anchorInfoBean = new AnchorInfoBean("Last login:", data.isOnline() ? getString(R.string.online) : getString(R.string.offlIine));
-                        AnchorInfoBean anchorInfoBean1 = new AnchorInfoBean("Answer rate:", "60%");
-                        AnchorInfoBean anchorInfoBean2 = new AnchorInfoBean("Height:", data.getHeight() + "cm");
-                        AnchorInfoBean anchorInfoBean3 = new AnchorInfoBean("Weight:", data.getWeight() + "kg");
-                        AnchorInfoBean anchorInfoBean4 = new AnchorInfoBean("City:", data.getCity() + "");
-                        AnchorInfoBean anchorInfoBean5 = new AnchorInfoBean("Zodiac:", data.getZodiac() + "");
+                        AnchorInfoBean anchorInfoBean = new AnchorInfoBean(getString(R.string.last_login), data.isOnline() ? getString(R.string.online) : getString(R.string.offlIine));
+                        AnchorInfoBean anchorInfoBean1 = new AnchorInfoBean(getString(R.string.answer_rate), "60%");
+                        AnchorInfoBean anchorInfoBean2 = new AnchorInfoBean(getString(R.string.height), data.getHeight() + "cm");
+                        AnchorInfoBean anchorInfoBean3 = new AnchorInfoBean(getString(R.string.weight), data.getWeight() + "kg");
+                        AnchorInfoBean anchorInfoBean4 = new AnchorInfoBean(getString(R.string.city), data.getCity() + "");
+                        AnchorInfoBean anchorInfoBean5 = new AnchorInfoBean(getString(R.string.zodiac), data.getZodiac() + "");
                         anchorInfoDatas.add(anchorInfoBean);
                         anchorInfoDatas.add(anchorInfoBean1);
                         anchorInfoDatas.add(anchorInfoBean2);
