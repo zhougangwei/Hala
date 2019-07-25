@@ -9,12 +9,12 @@
     <string name="quick_login_with">دخول بسرعة</string>
     <string name="confirm">تأكيد</string>
 
-    <string name="policy">تنقر فوق تسجيل ، فإنك تشير إلى أنك قد قرأت ووافقت على</string>
+    <string name="policy">تنقر فوق تسجيل ، فإنك تشير إلى أنك قد قرأت ووافقت على الترخيص والسياسة الخاصة</string>
 
 
     <string name="selected_tags">علامات محترة</string>
     <string name="character">شخصيات</string>
-    <string name="report">Report</string>
+    <string name="report">الانطباعات</string>
     <string name="ok">تمام</string>
     <string name="term_of_use">مدة الإستخدام</string>
     <string name="agree">الموافقة</string>
@@ -38,8 +38,8 @@
     <string name="Aquarius">دلو</string>
     <string name="Pisces">حوت</string>
     <string name="please_describe_your_feedback">تصف انطباعاتك</string>
-    <string name="Submit">لقطة لشاشتك (مختار)</string>
-    <string name="screenshot_optional">تقديم</string>
+    <string name="Submit">تقديم</string>
+    <string name="screenshot_optional">لقطة لشاشتك (مختار)</string>
     <string name="select_tags">أختر عمالات</string>
     <string name="to_be_star">تكون نجمة</string>
     <string name="feedback">الانطباعات</string>
@@ -94,4 +94,24 @@
     <string name="hot">شائعة</string>
 
     <string name="newnew">جديد</string>
+    <string name="reserve_now">حجز الآن</string>
+    <string name="mobile_phone_numbe">رقم هاتفك</string>
+    <string name="sms_verification_code">رمز التحقق</string>
+    <string name="cancel">إلغاء</string>
+    <string name="region">منطقة</string>
+
+    <string name="call_duration_10_mins">وقت الاتصال: %1$s m %2$s s</string>
+    <string name="anchor_is_not_aviliable">نجمة ليست أونلاين</string>
+    <string name="login_failed">دخول فاشل</string>
+    <string name="my_calls">اتصالاتي</string>
+    <string name="edit_profile">تحرير الملف الشخصي</string>
+    <string name="make_your_time_helpful_and_have_fun">تجعل وقتك قيما وتتمتع نفسك!</string>
+    <string name="continue_user_rules">استخدام تطبيقنا يعني موافقة على الاتفاقيات والظروف التالية.</string>
+    <string name="fee_100_coins">رسوم: ١%1$s ذهب</string>
+    <string name="charged_coins_per_min">يكلف ١%1$s ذهب كل دقيقة</string>
+    <string name="submit_success">تقديم ناجح!</string>
+    <string name="submit_fail">تقديم فاشل!</string>
+    <string name="select_region">إختار البلدة</string>
+    <string name="eula">الترخيص</string>
+    <string name="private_policy">سياسة خاصة</string>
 </resources>

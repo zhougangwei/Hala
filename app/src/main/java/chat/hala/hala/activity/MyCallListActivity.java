@@ -2,11 +2,11 @@ package chat.hala.hala.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class MyCallListActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        tvTitle.setText("My Calls");
+        tvTitle.setText(R.string.my_calls);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(layoutManager);

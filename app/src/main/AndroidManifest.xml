@@ -34,7 +34,7 @@
 
     <application
         android:name=".base.App"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:alwaysRetainTaskState="true"
         android:clearTaskOnLaunch="false"
         android:icon="@mipmap/ic_launcher"
@@ -44,7 +44,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="android:allowBackup">
+        >
         <activity android:name=".activity.ConversationListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -97,7 +97,7 @@
                 android:resource="@xml/file_paths_public" />
         </provider>
 
-        <provider
+       <!-- <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="chat.hala.hala.FileProvider"
             android:grantUriPermissions="true"
@@ -105,7 +105,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/rc_file_path"/>
-        </provider>
+        </provider>-->
 
 
         <meta-data

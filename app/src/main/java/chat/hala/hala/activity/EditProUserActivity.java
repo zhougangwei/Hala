@@ -130,6 +130,7 @@ public class EditProUserActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        tvTitle.setText(R.string.edit_profile);
         if(FROM_MYFRAG_MENT.equals(type)){
             etUserName.setText(AvchatInfo.getName());
             etGender.setText(AvchatInfo.getGender());

@@ -36,7 +36,7 @@ dependencies {
     api fileTree(dir: 'src/main/libs', include: ['*.jar'])
     implementation rootProject.ext.dependencies["support-v4"]
     implementation rootProject.ext.dependencies["exifinterface"]
-    api project (':IMLib')
+    implementation project (':IMLib')
 }
 
 

@@ -1,8 +1,8 @@
 package chat.hala.hala.adapter;
 
-import android.util.Log;
 import android.widget.ImageView;
 
+import com.blankj.utilcode.utils.LogUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;

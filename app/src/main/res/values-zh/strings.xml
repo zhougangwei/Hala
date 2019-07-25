@@ -2,8 +2,8 @@
     <string name="app_name">Hala</string>
     <string name="sign_in_with_facebook">用Facebook登录</string>
     <string name="sign_up_in_with_phone">用手机号登录用手机号登录</string>
-    <string name="cancel">cancel</string>
-    <string name="region">Region</string>
+    <string name="cancel">取消</string>
+    <string name="region">地区</string>
 
 
     <string name="login">登录</string>
@@ -14,7 +14,7 @@
     <string name="login_failed">登陆失败</string>
     <string name="anchor_is_not_aviliable">主播不在线!</string>
     <string name="quick_login_with">快速登录</string>
-    <string name="policy">点击注册即为同意</string>
+    <string name="policy">点击注册即为同意《用户注册协议》和《隐私权政策》</string>
 
     <string name="selected_tags">选择标签</string>
     <string name="character">性格</string>
@@ -40,9 +40,9 @@
     <string name="Capricorn">摩羯座</string>
     <string name="Aquarius">水瓶座</string>
     <string name="Pisces">双鱼座</string>
-    <string name="screenshot_optional">تقديم</string>
+
     <string name="please_describe_your_feedback">请阐述您的意见……</string>
-    <string name="Submit">屏幕截图（可选）</string>
+    <string name="Submit">提交</string>
     <string name="select_tags">选择标签</string>
     <string name="to_be_star">成为主播</string>
     <string name="feedback">意见反馈</string>
@@ -96,4 +96,22 @@
     <string name="offlIine">离线</string>
     <string name="hot">热门</string>
     <string name="newnew">新人</string>
+    <string name="reserve_now">马上预约</string>
+    <string name="mobile_phone_numbe">手机号码</string>
+    <string name="sms_verification_code">短信验证码</string>
+    <string name="report">举报</string>
+
+    <string name="call_duration_10_mins">通话时长: %1$s m %2$s s</string>
+    <string name="my_calls">我的通话</string>
+    <string name="edit_profile">编辑个人资料</string>
+    <string name="make_your_time_helpful_and_have_fun">时间就是金钱！</string>
+    <string name="fee_100_coins">费用: %1$s 金币</string>
+    <string name="charged_coins_per_min">每分钟收费 %1$s 金币</string>
+    <string name="continue_user_rules">继续使用我们的应用程序和服务，您将同意遵守以下条款和条件</string>
+    <string name="submit_success">提交失败</string>
+    <string name="submit_fail">提交成功</string>
+    <string name="select_region">选择地区</string>
+    <string name="screenshot_optional">屏幕截图（可选）</string>
+    <string name="eula">《用户注册协议》</string>
+    <string name="private_policy">《隐私权政策》</string>
 </resources>

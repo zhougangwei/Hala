@@ -4,8 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 
+import com.blankj.utilcode.utils.LogUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import chat.hala.hala.R;

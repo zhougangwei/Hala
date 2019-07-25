@@ -1,6 +1,6 @@
 package chat.hala.hala.rxbus;
 
-import android.util.Log;
+import com.blankj.utilcode.utils.LogUtils;
 
 import java.util.HashMap;
 import java.util.Map;

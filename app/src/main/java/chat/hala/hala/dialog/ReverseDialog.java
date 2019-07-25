@@ -6,12 +6,12 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.LogUtils;
 import com.blankj.utilcode.utils.ScreenUtils;
 
 import butterknife.BindView;

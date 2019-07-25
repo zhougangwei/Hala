@@ -3,11 +3,12 @@ package chat.hala.hala.activity;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.blankj.utilcode.utils.LogUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -188,7 +189,6 @@ public class LoginPhoneActivity extends BaseActivity {
                 String countryName = data.getStringExtra("countryName");
                 mCountryCode = data.getStringExtra("countryCode");
                 tvCountryName.setText(countryName);
-                ToastUtils.showToast(LoginPhoneActivity.this,mCountryCode+"");
                 tvCountryCode.setText(mCountryCode);
             }else if(requestCode==REQUEST_FACEBOOK){
                 loginfacebook();

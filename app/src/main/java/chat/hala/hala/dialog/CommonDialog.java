@@ -43,7 +43,7 @@ public class CommonDialog extends Dialog {
     public CommonDialog(@NonNull Context context) {
         super(context);
         mContext = context;
-        mCancel = mContext.getString(R.string.cancle);
+        mCancel = mContext.getString(R.string.cancel);
         mConfirm = mContext.getString(R.string.confirm);
     }
 

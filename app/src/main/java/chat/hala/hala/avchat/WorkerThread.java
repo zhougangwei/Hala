@@ -11,6 +11,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.SurfaceView;
 
+import com.blankj.utilcode.utils.LogUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -548,7 +550,7 @@ public class WorkerThread extends Thread {
             try {
                 mRtmClient = RtmClient.createInstance(mContext, appId, mEngineEventHandler.mRtmEventHandler);
             } catch (Exception e) {
-                LogUtils.error(Log.getStackTraceString(e));
+                LogUtils.e(Log.getStackTraceString(e));
                 throw new RuntimeException("NEED TO check rtc sdk init fatal error\n" + Log.getStackTraceString(e));
             }
         }
@@ -564,7 +566,7 @@ public class WorkerThread extends Thread {
             try {
                 mRtcEngine = RtcEngine.create(mContext, appId, mEngineEventHandler.mRtcEventHandler);
             } catch (Exception e) {
-                LogUtils.error(Log.getStackTraceString(e));
+                LogUtils.e(Log.getStackTraceString(e));
                 throw new RuntimeException("NEED TO check rtc sdk init fatal error\n" + Log.getStackTraceString(e));
             }
             mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_COMMUNICATION);

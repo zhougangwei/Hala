@@ -9,4 +9,11 @@
     <external-path
         name="img"
         path="Android" />
+
+    <external-path
+        name="rc_external_path"
+        path="." />
+    <root-path
+        name="rc_root_path"
+        path="" />
 </paths>

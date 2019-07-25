@@ -40,7 +40,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="Make your time helpful and have fun！"
+            android:text="@string/make_your_time_helpful_and_have_fun"
             android:textColor="@color/white"/>
 
         <TextView
@@ -54,7 +54,7 @@
             android:background="@drawable/bg_rec_10white"
             android:gravity="center"
             android:text="@string/charged_coins_per_min"
-            android:textColor="@color/white"/>v
+            android:textColor="@color/white"/>
 
         <ImageView
             android:id="@+id/iv_hangup_prepare_audience"

@@ -63,19 +63,17 @@
         android:src="@color/e8_grey"
         android:layout_width="1dp"
         android:layout_height="14dp" />
-    
+
     <EditText
-        android:inputType="number"
         android:id="@+id/et_phone_num"
-        android:layout_marginStart="40dp"
-        android:background="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@null"
         android:hint="@string/mobile_phone_numbe"
+        android:inputType="number"
         android:textColorHint="@color/b_grey"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_country_code"
-        app:layout_constraintStart_toEndOf="@+id/tv_country_code"
-        app:layout_constraintTop_toTopOf="@+id/tv_country_code" />
+        tools:layout_editor_absoluteX="104dp"
+        tools:layout_editor_absoluteY="146dp" />
 
     <include
         layout="@layout/include_line"
@@ -87,13 +85,13 @@
         app:layout_constraintTop_toBottomOf="@id/tv_country_code" />
 
     <EditText
-        android:layout_marginTop="36dp"
-        android:inputType="number"
         android:id="@+id/et_sms_num"
-        android:background="@null"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="18dp"
+        android:layout_marginTop="36dp"
+        android:background="@null"
         android:hint="@string/sms_verification_code"
+        android:inputType="number"
         android:textColorHint="@color/b_grey"
         app:layout_constraintStart_toStartOf="@id/tv_country_code"
         app:layout_constraintTop_toBottomOf="@id/et_phone_num" />

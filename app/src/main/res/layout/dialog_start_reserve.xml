@@ -52,7 +52,7 @@
         android:layout_marginTop="23dp"
         android:background="@drawable/bg_rec_pureple_r25"
         android:gravity="center"
-        android:text="Reserve Now"
+        android:text="@string/reserve_now"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"

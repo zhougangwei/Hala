@@ -460,7 +460,7 @@ public class EditProAnchorActivity extends BaseActivity {
                     @Override
                     public void onNext(BeAnchorBean baseBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
-                            ToastUtils.showToast(EditProAnchorActivity.this, "提交失败");
+                            ToastUtils.showToast(EditProAnchorActivity.this, getString(R.string.submit_fail));
                             LogUtils.e("Edit", GsonUtil.parseObjectToJson(baseBean));
                             return;
                         }
@@ -470,7 +470,7 @@ public class EditProAnchorActivity extends BaseActivity {
                         }
                         int id = baseBean.getData().getMemberId();
                         AvchatInfo.setAnchorId(id);
-                        ToastUtils.showToast(EditProAnchorActivity.this, "提交成功");
+                        ToastUtils.showToast(EditProAnchorActivity.this, getString(R.string.submit_success));
                         finish();
                     }
                 });

@@ -3,10 +3,15 @@ package chat.hala.hala.fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
+import com.blankj.utilcode.utils.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 import chat.hala.hala.R;
 import chat.hala.hala.activity.AnchorsActivity;
 import chat.hala.hala.adapter.HotCallAdapter;
@@ -15,11 +20,6 @@ import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.OneToOneListBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 

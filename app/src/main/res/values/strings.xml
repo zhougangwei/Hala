@@ -2,10 +2,10 @@
     <string name="app_name">Hala</string>
     <string name="sign_in_with_facebook">Sign_in_with_facebook</string>
     <string name="sign_up_in_with_phone"><![CDATA[Sign Up&In with Phone]]></string>
-    <string name="cancel">cancel</string>
+    <string name="cancel">Cancel</string>
     <string name="select_region">Select Region</string>
     <string name="region">Region</string>
-    <string name="mobile_phone_numbe">Mobile Phone Numbe</string>
+    <string name="mobile_phone_numbe">Mobile Phone Number</string>
     <string name="sms_verification_code">SMS verification code</string>
     <string name="login">LOGIN</string>
     <string name="trouble_logging_in">Trouble logging in?</string>
@@ -14,15 +14,14 @@
     <string name="make_your_time_valueable_helpful"><![CDATA[Make your time valueable&helpful]]></string>
 
     <string name="start_certified">Start Certified</string>
-    <string name="cancle">cancel</string>
     <string name="confirm">confirm</string>
     <string name="want_to_log_out">Want to log out？</string>
     <string name="reserve_done_wait_star_call_back">Reserve Done,Wait Star Call Back</string>
     <string name="hot_online_stars">Hot Online Stars</string>
-    <string name="coin">Coin</string>
-    <string name="login_failed">登陆失败</string>
+
+    <string name="login_failed">login failed</string>
     <string name="agora_app_id" translatable="false">3ca9a2cd0d144c209c5ca85e3a7440e4</string>
-    <string name="anchor_is_not_aviliable">主播不在线!</string>
+    <string name="anchor_is_not_aviliable">the star is not online</string>
     <string name="online">Online</string>
     <string name="offlIine">Offline</string>
     <string name="charged_coins_per_min">Charged %1$s coins per Min</string>
@@ -64,10 +63,10 @@
     <string name="Pisces">Pisces</string>
 
     <!--反馈-->
-    <string name="screenshot_optional">" Submit"</string>
+    <string name="screenshot_optional">Screenshot(optional)</string>
     <string name="please_describe_your_feedback">Please describe your feedback...</string>
-    <string name="Submit">Screenshot(optional)</string>
-    <string name="please_describe_your_feedback">请阐述您的意见……</string>
+    <string name="Submit">Submit</string>
+
     <string name="select_tags">Select tags</string>
     <string name="to_be_star">To Be A Star</string>
     <string name="feedback">Feedback</string>
@@ -114,6 +113,15 @@
     <string name="message">Message</string>
     <string name="hot">HOT</string>
     <string name="newnew">NEW</string>
+    <string name="reserve_now">Reserve Now</string>
+    <string name="my_calls">My Calls</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="make_your_time_helpful_and_have_fun">Make your time helpful and have fun！</string>
+
+    <string name="submit_success">submit succeed！</string>
+    <string name="submit_fail">submit failed！</string>
+    <string name="eula">EULA</string>
+    <string name="private_policy">Privacy Policy</string>
 
 
 </resources>

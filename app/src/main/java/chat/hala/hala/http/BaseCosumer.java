@@ -1,9 +1,8 @@
 package chat.hala.hala.http;
 
-import android.util.Log;
+import com.blankj.utilcode.utils.LogUtils;
 
 import chat.hala.hala.bean.BaseBean;
-
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 

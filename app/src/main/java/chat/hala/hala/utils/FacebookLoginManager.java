@@ -1,8 +1,8 @@
 package chat.hala.hala.utils;
 
 import android.os.Bundle;
-import android.util.Log;
 
+import com.blankj.utilcode.utils.LogUtils;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;

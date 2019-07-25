@@ -24,5 +24,5 @@ public class SealNotificationReceiver extends PushMessageReceiver {
                                       long resultCode) {         //第三方push状态回调,可以带回错误码
         super.onThirdPartyPushState(pushType, action, resultCode);
     }
-}
+
 }

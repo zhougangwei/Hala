@@ -50,8 +50,8 @@ public class LoginActivity extends BaseActivity implements IdViewListener {
 
     @Override
     protected void initView() {
-        TextUtils.makeTextViewCLick(tvPolicy, "EULA", Color.parseColor("#472EB4"), false, this, this);
-        TextUtils.makeTextViewCLick(tvPolicy, "Pri-vacy Policy", Color.parseColor("#472EB4"), false, this, this);
+        TextUtils.makeTextViewCLick(tvPolicy, getString(R.string.eula), Color.parseColor("#472EB4"), false, this, this);
+        TextUtils.makeTextViewCLick(tvPolicy, getString(R.string.private_policy), Color.parseColor("#472EB4"), false, this, this);
         initQiniuData();
     }
     private void initQiniuData() {
@@ -157,6 +157,5 @@ public class LoginActivity extends BaseActivity implements IdViewListener {
     @Override
     public void clickId(String id) {
         alertPloicu();
-        ToastUtils.showToast(this, "点击了");
     }
 }

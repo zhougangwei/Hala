@@ -1113,7 +1113,7 @@ public class IabHelper {
     }
 
     void logError(String msg) {
-        LogUtils.e(mDebugTag, "In-app billing error: " + msg);
+        Log.e(mDebugTag, "In-app billing error: " + msg);
     }
 
     void logWarn(String msg) {

@@ -2,7 +2,8 @@ package chat.hala.hala.avchat;
 
 
 import android.content.Context;
-import android.util.Log;
+
+import com.blankj.utilcode.utils.LogUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

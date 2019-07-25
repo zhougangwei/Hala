@@ -3,6 +3,8 @@ package chat.hala.hala.base;
 import android.content.Context;
 import android.util.Log;
 
+import com.blankj.utilcode.utils.LogUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
