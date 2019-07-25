@@ -43,12 +43,12 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.iv_new)
     ImageView ivNew;
 
-    String[] titles=new String[]{getString(R.string.hot),getString(R.string.newnew)};
+    String[] titles;
 
 
     @Override
     protected void initView() {
-
+        titles=new String[]{getString(R.string.hot),getString(R.string.newnew)};
         CommonNavigator commonNavigator7 = new CommonNavigator(getActivity());
 
         commonNavigator7.setAdapter(new CommonNavigatorAdapter() {

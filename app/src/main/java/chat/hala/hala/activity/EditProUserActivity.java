@@ -47,20 +47,7 @@ public class EditProUserActivity extends BaseActivity {
 
 
 
-    private final  String[] constellationEnArr = new String[]{
-            getString(R.string.Secret),
-            getString(R.string.Aries),
-            getString(R.string.Taurus),
-            getString(R.string.Gemini),
-            getString(R.string.Cancer),
-            getString(R.string.Leo),
-            getString(R.string.Virgo),
-            getString(R.string.Libra),
-            getString(R.string.Scorpio),
-            getString(R.string.Sagittarius),
-            getString(R.string.Capricorn),
-            getString(R.string.Aquarius),
-            getString(R.string.Pisces)};
+
 
 
 

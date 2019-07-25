@@ -65,15 +65,18 @@
         android:layout_height="14dp" />
 
     <EditText
-        android:id="@+id/et_phone_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:hint="@string/mobile_phone_numbe"
         android:inputType="number"
+        android:id="@+id/et_phone_num"
+        android:layout_marginStart="40dp"
+        android:background="@null"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/mobile_phone_numbe"
         android:textColorHint="@color/b_grey"
-        tools:layout_editor_absoluteX="104dp"
-        tools:layout_editor_absoluteY="146dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_country_code"
+        app:layout_constraintStart_toEndOf="@+id/tv_country_code"
+        app:layout_constraintTop_toTopOf="@+id/tv_country_code" />
 
     <include
         layout="@layout/include_line"

@@ -114,4 +114,5 @@
     <string name="screenshot_optional">屏幕截图（可选）</string>
     <string name="eula">《用户注册协议》</string>
     <string name="private_policy">《隐私权政策》</string>
+    <string name="terms_of_use_and_eula_amp_privacy_policy"><u>使用条款和《用户注册协议》</u> &amp; <u>《隐私权政策》</u></string>
 </resources>
