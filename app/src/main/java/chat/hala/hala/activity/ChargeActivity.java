@@ -7,23 +7,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.utils.SizeUtils;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.ChargeAdapter;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.bean.RuleBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
-import chat.hala.hala.itemdecoration.SpaceItemDecoration;
 import chat.hala.hala.utils.ResultUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class ChargeActivity extends BaseActivity {
@@ -57,7 +53,7 @@ public class ChargeActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mTvTitle.setText("Recharge");
+        mTvTitle.setText(R.string.recharge);
         mChargeAdapter = new ChargeAdapter(R.layout.item_charge, mdataList);
         mRv.setAdapter(mChargeAdapter);
         mRv.setLayoutManager(new GridLayoutManager(this,3));
@@ -72,9 +68,12 @@ public class ChargeActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<RuleBean>() {
                     @Override
-                    public void onNext(RuleBean ruleBean) {
+                    public void onGetData(RuleBean ruleBean) {
                         if (ResultUtils.cheekSuccess(ruleBean)) {
                             List<RuleBean.DataBean.RechargeSettingBean> recharge_setting = ruleBean.getData().getRecharge_setting();
+                            /*if(recharge_setting==null){
+                                return;
+                            }*/
                             mdataList.clear();
                             mdataList.addAll(recharge_setting);
                             mChargeAdapter.notifyDataSetChanged();

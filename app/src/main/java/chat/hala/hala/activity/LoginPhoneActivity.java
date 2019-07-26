@@ -174,7 +174,7 @@ public class LoginPhoneActivity extends BaseActivity {
               .observeOn(AndroidSchedulers.mainThread())
               .subscribe(new BaseCosumer<BaseBean>() {
                   @Override
-                  public void onNext(BaseBean baseBean) {
+                  public void onGetData(BaseBean baseBean) {
 
                   }
               });
@@ -241,7 +241,7 @@ public class LoginPhoneActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<LoginBean>() {
                     @Override
-                    public void onNext(LoginBean baseBean) {
+                    public void onGetData(LoginBean baseBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
                             return;
                         }

@@ -122,6 +122,10 @@
     <string name="submit_fail">submit failed！</string>
     <string name="eula">EULA</string>
     <string name="private_policy">Privacy Policy</string>
+    <string name="recharge">Recharge</string>
+    <string name="my_income">My Income</string>
+    <string name="cost">My Cost</string>
+    <string name="country">Country</string>
 
 
 </resources>

@@ -21,7 +21,7 @@
     <string name="ok">完成</string>
     <string name="term_of_use">使用条款</string>
     <string name="agree">同意</string>
-    <string name="male">male</string>
+    <string name="male">男</string>
     <string name="female">女</string>
     <string name="Secret">保密</string>
     <string name="user_avtar">头像</string>
@@ -115,4 +115,8 @@
     <string name="eula">《用户注册协议》</string>
     <string name="private_policy">《隐私权政策》</string>
     <string name="terms_of_use_and_eula_amp_privacy_policy"><u>使用条款和《用户注册协议》</u> &amp; <u>《隐私权政策》</u></string>
+    <string name="recharge">充值</string>
+    <string name="my_income">我的收入</string>
+    <string name="cost">我的支出</string>
+    <string name="country">国家</string>
 </resources>

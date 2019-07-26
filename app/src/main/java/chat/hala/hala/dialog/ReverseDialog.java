@@ -56,8 +56,8 @@ public class ReverseDialog extends Dialog {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<ReverseBean>() {
                     @Override
-                    public void onNext(ReverseBean reverseBean) {
-                        LogUtils.e(TAG, "onNext: "+ GsonUtil.parseObjectToJson(reverseBean));
+                    public void onGetData(ReverseBean reverseBean) {
+                        LogUtils.e(TAG, "onGetData: "+ GsonUtil.parseObjectToJson(reverseBean));
 
                         if (Contact.REPONSE_CODE_REVERSE_SAME==reverseBean.getCode()){
                             ToastUtils.showToast(getContext(),"你已预约过该主播");

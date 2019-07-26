@@ -96,7 +96,7 @@ public class TagActivity extends BaseActivity {
                     return;
                 }
                 if (chooseDatas.size() > 5) {
-                    ToastUtils.showToast(TagActivity.this, "Choose 5 tags at most!");
+                    ToastUtils.showToast(TagActivity.this, "Choose 10 tags at most!");
                     return;
                 }
                 dataBean.setChoose(true);

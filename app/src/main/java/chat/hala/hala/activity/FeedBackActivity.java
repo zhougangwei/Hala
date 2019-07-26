@@ -72,7 +72,7 @@ public class FeedBackActivity extends BaseActivity {
     @Override
     protected void initView() {
         tvSave.setText(R.string.Submit);
-        tvTitle.setText("Feedback");
+        tvTitle.setText(R.string.feedback);
         mList = new ArrayList<>();
         mList.add(new EditHeadAdapter.UserHead("", true));
         mAdapter = new EditHeadAdapter(mList);
@@ -142,7 +142,7 @@ public class FeedBackActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<FeedBackBean>() {
                     @Override
-                    public void onNext(FeedBackBean feedBackBean) {
+                    public void onGetData(FeedBackBean feedBackBean) {
                         if (ResultUtils.cheekSuccess(feedBackBean)) {
                             ToastUtils.showToast(FeedBackActivity.this,"FeedBack Success!!");
                             finish();

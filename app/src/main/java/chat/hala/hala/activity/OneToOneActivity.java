@@ -280,7 +280,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<AnchorBean>() {
                     @Override
-                    public void onNext(AnchorBean anchorBean) {
+                    public void onGetData(AnchorBean anchorBean) {
                         if (ResultUtils.cheekSuccess(anchorBean)) {
                             anchorName=anchorBean.getData().getNickname();
                             try{
@@ -302,12 +302,10 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<MediaToken>() {
                     @Override
-                    public void onNext(MediaToken mediaToken) {
+                    public void onGetData(MediaToken mediaToken) {
                         if (ResultUtils.cheekSuccess(mediaToken)) {
-
                             AvchatInfo.setMediaToken(mediaToken.getData().getAgora_media_token());
                             if (doOutCall) {
-
                                 worker().queryPeersOnlineStatus(otherId + "");
                                 // if you do not specify the uid, we will generate the uid for you
                             }
@@ -465,8 +463,8 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<CallStateBean>() {
                     @Override
-                    public void onNext(CallStateBean callStateBean) {
-                        LogUtils.e(TAG, "onNext: " + GsonUtil.parseObjectToJson(callStateBean));
+                    public void onGetData(CallStateBean callStateBean) {
+                        LogUtils.e(TAG, "onGetData: " + GsonUtil.parseObjectToJson(callStateBean));
                         if (ResultUtils.cheekSuccess(callStateBean)) {
                             if (Call_SUCCEED_HUNG_UP.equals(mcallstate)) {
                                 if (!AvchatInfo.isAnchor()) {

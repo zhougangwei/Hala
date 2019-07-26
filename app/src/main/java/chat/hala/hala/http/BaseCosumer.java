@@ -13,7 +13,16 @@ public  abstract class BaseCosumer< T extends BaseBean> implements Observer<T> {
 
     }
 
+    @Override
+    public void onNext(T t) {
+        try {
+            onGetData(t);
+        }catch (Exception e){
+            onError(e);
+        }
+    }
 
+    public abstract void onGetData(T t);
 
 
     @Override

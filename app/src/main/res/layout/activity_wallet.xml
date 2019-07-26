@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="34dp"
-                android:text="Recharge"
+                android:text="@string/recharge"
                 android:textColor="#4a4a4a"/>
         </LinearLayout>
 
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="34dp"
-                android:text="My Income"
+                android:text="@string/my_income"
                 android:textColor="#4a4a4a"/>
 
 
@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="34dp"
-                android:text="Cost"
+                android:text="@string/cost"
                 android:textColor="#4a4a4a"/>
         </LinearLayout>
     </LinearLayout>

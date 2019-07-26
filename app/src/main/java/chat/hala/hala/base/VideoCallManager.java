@@ -65,7 +65,7 @@ public class VideoCallManager {
                                                         .observeOn(AndroidSchedulers.mainThread())
                                                         .subscribe(new BaseCosumer<CallBean>() {
                                                             @Override
-                                                            public void onNext(final CallBean callBean) {
+                                                            public void onGetData(final CallBean callBean) {
                                                                 if (ResultUtils.cheekSuccess(callBean)) {
                                                                     getMediaToken(callBean, activity, anchorId, anchorMemberId);
                                                                 } else if (ResultUtils.isNoMoney(callBean)) {
@@ -100,7 +100,7 @@ public class VideoCallManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<MediaToken>() {
                     @Override
-                    public void onNext(MediaToken mediaToken) {
+                    public void onGetData(MediaToken mediaToken) {
                         if (ResultUtils.cheekSuccess(mediaToken)) {
                             LogUtils.e(TAG, "mediaToken" + mediaToken);
                             AvchatInfo.setMediaToken(mediaToken.getData().getAgora_media_token());

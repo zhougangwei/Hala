@@ -93,7 +93,7 @@ public class ReverseSuccessDialog extends Dialog {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<OneToOneListBean>() {
                     @Override
-                    public void onNext(OneToOneListBean oneToOneListBean) {
+                    public void onGetData(OneToOneListBean oneToOneListBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != oneToOneListBean.getCode()) {
                             return;
                         }

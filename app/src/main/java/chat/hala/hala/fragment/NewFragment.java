@@ -112,7 +112,7 @@ public class NewFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onNext(OneToOneListBean oneToOneListBean) {
+                    public void onGetData(OneToOneListBean oneToOneListBean) {
 
                         if (Contact.REPONSE_CODE_SUCCESS != oneToOneListBean.getCode()) {
                             hotCallAdapter.loadMoreFail();

@@ -25,7 +25,7 @@
         android:drawablePadding="3dp"
         android:paddingStart="7dp"
         android:paddingEnd="7dp"
-        android:text="Online"
+        android:text="@string/online"
         android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"

@@ -3,11 +3,11 @@ package chat.hala.hala.http;
 import android.content.Context;
 import android.text.TextUtils;
 
-import chat.hala.hala.base.Contact;
-import chat.hala.hala.utils.SPUtil;
-
 import java.io.IOException;
 
+import chat.hala.hala.base.Contact;
+import chat.hala.hala.utils.SPUtil;
+import chat.hala.hala.utils.ToolUtils;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -32,6 +32,7 @@ public class AddInfoInterceptor implements Interceptor {
         if (!TextUtils.isEmpty(token)) {
             builder.addHeader("Authorization","Bearer "+ token);
         }
+        builder.addHeader("Accept-Language", ToolUtils.getLanguage());
         return chain.proceed(builder.build());
     }
 }

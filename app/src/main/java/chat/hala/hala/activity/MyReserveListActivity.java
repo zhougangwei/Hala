@@ -103,7 +103,7 @@ public class MyReserveListActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<CallListBean>() {
                     @Override
-                    public void onNext(CallListBean callListBean) {
+                    public void onGetData(CallListBean callListBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != callListBean.getCode()) {
                             return;
                         }

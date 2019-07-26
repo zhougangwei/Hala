@@ -90,7 +90,7 @@ public class MessageListFragment extends BaseFragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<MessageUnreadBean>() {
                     @Override
-                    public void onNext(MessageUnreadBean messageUnreadBean) {
+                    public void onGetData(MessageUnreadBean messageUnreadBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != messageUnreadBean.code) {
                             return;
                         }

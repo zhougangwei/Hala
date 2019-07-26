@@ -91,11 +91,11 @@ public class MyCoinsListActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<CoinListBean>() {
                     @Override
-                    public void onNext(CoinListBean callListBean) {
+                    public void onGetData(CoinListBean callListBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != callListBean.getCode()) {
                             return;
                         }
-                        LogUtils.e(TAG, "onNext: "+GsonUtil.parseObjectToJson(callListBean));
+                        LogUtils.e(TAG, "onGetData: "+GsonUtil.parseObjectToJson(callListBean));
                         List<CoinListBean.DataBean.TransactionsBean.ListBean> list = callListBean.getData().getTransactions().getList();
                         if (list != null && list.size() > 0) {
                             callList.addAll(list);

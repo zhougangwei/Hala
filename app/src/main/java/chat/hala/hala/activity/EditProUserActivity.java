@@ -121,7 +121,7 @@ public class EditProUserActivity extends BaseActivity {
         if(FROM_MYFRAG_MENT.equals(type)){
             etUserName.setText(AvchatInfo.getName());
             etGender.setText(AvchatInfo.getGender());
-            etBirth.setText(AvchatInfo.getBirthDate());
+           // etBirth.setText(AvchatInfo.getBirthDate());
             Glide.with(this).load(AvchatInfo.getAvatarUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(ivHead);
         }
 
@@ -284,8 +284,8 @@ public class EditProUserActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<RegistBean>() {
                     @Override
-                    public void onNext(RegistBean baseBean) {
-                        LogUtils.e(TAG, "onNext: " + GsonUtil.parseObjectToJson(baseBean));
+                    public void onGetData(RegistBean baseBean) {
+                        LogUtils.e(TAG, "onGetData: " + GsonUtil.parseObjectToJson(baseBean));
                         if (Contact.REPONSE_CODE_REGIST_FAIL_ALREADY_NAME == baseBean.getCode()) {
                             ToastUtils.showToast(EditProUserActivity.this, "名字已存在");
                             return;

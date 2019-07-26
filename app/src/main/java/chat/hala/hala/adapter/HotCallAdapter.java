@@ -28,7 +28,7 @@ public class HotCallAdapter extends BaseQuickAdapter<OneToOneListBean.DataBean.L
 
     @Override
     protected void convert(BaseViewHolder helper, OneToOneListBean.DataBean.ListBean item) {
-        helper.setText(R.id.tv_online_state,item.isOnline()?"Online":"Offline");
+        helper.setText(R.id.tv_online_state,item.isOnline()?R.string.online:R.string.offlIine);
         helper.setText(R.id.tv_name,item.getNickname());
         helper.setText(R.id.tv_content,item.getBiography());
         helper.setText(R.id.tv_cost,item.getCpm()+" /min");

@@ -99,7 +99,7 @@ public class HotFragment extends BaseFragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<AdBean>() {
                     @Override
-                    public void onNext(AdBean adBean) {
+                    public void onGetData(AdBean adBean) {
                         if (ResultUtils.cheekSuccess(adBean)) {
                             List<AdBean.DataBean> data = adBean.getData();
                             if (data!=null&&data.size()>0) {
@@ -166,12 +166,12 @@ public class HotFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onNext(OneToOneListBean oneToOneListBean) {
+                    public void onGetData(OneToOneListBean oneToOneListBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != oneToOneListBean.getCode()) {
                             hotCallAdapter.loadMoreFail();
                             return;
                         }
-                        LogUtils.e(TAG, "onNext: " + GsonUtil.parseObjectToJson(oneToOneListBean));
+                        LogUtils.e(TAG, "onGetData: " + GsonUtil.parseObjectToJson(oneToOneListBean));
 
                         if (oneToOneListBean.getData().getPageable().isNextPage()) {
                             hotCallAdapter.loadMoreEnd();

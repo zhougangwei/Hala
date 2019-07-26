@@ -29,7 +29,7 @@ public class AppLoginManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<RtmTokenBean>() {
                     @Override
-                    public void onNext(RtmTokenBean rtmTokenBean) {
+                    public void onGetData(RtmTokenBean rtmTokenBean) {
                         if (rtmTokenBean.getCode()!= Contact.REPONSE_CODE_SUCCESS) {
                             return;
                         }

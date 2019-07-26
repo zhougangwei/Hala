@@ -54,7 +54,7 @@ public class MyCostActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mTvTitle.setText("My Cost");
+        mTvTitle.setText(R.string.cost);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRv.setLayoutManager(layoutManager);
@@ -80,7 +80,7 @@ public class MyCostActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<CoinListBean>() {
                     @Override
-                    public void onNext(CoinListBean callListBean) {
+                    public void onGetData(CoinListBean callListBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != callListBean.getCode()) {
                             return;
                         }

@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+
+import chat.hala.hala.base.Contact;
 
 public class ToolUtils {
     public static boolean isMainProcess(Context var0) {
@@ -115,6 +118,19 @@ public class ToolUtils {
                     var4.printStackTrace();
                 }
             }
+        }
+    }
+
+    public static String getLanguage() {
+        String language = Locale.getDefault().getLanguage();
+        if (language.equals("zh") || language.equals("CN") || language.equals("zh-CN")) {
+            return "zh";
+        }else if(language.equals("th")){
+            return "th";
+        }else if(language.equals("ar")){
+            return "ar";
+        }else {
+            return "en";
         }
     }
 }

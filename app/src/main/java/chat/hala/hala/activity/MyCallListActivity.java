@@ -95,8 +95,8 @@ public class MyCallListActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<CallListBean>() {
                     @Override
-                    public void onNext(CallListBean callListBean) {
-                        LogUtils.e(TAG, "onNext: "+GsonUtil.parseObjectToJson(callListBean.getData()) );
+                    public void onGetData(CallListBean callListBean) {
+                        LogUtils.e(TAG, "onGetData: "+GsonUtil.parseObjectToJson(callListBean.getData()) );
                         if (Contact.REPONSE_CODE_SUCCESS!=callListBean.getCode()) {
                             return;
                         }

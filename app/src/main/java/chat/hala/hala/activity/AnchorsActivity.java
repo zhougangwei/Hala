@@ -196,7 +196,7 @@ public class AnchorsActivity extends SlideBackActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<AnchorBean>() {
                     @Override
-                    public void onNext(AnchorBean baseBean) {
+                    public void onGetData(AnchorBean baseBean) {
 
                         Log.i("AnchorsActivity","AnchorBean" +GsonUtil.parseObjectToJson(
                                                         baseBean

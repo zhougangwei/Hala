@@ -91,7 +91,7 @@ public class FacebookLoginManager {
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new BaseCosumer<LoginBean>() {
                                         @Override
-                                        public void onNext(LoginBean baseBean) {
+                                        public void onGetData(LoginBean baseBean) {
                                             if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
                                                 mOnResult.fail();
                                                 return;

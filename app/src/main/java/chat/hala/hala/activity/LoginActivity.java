@@ -62,7 +62,7 @@ public class LoginActivity extends BaseActivity implements IdViewListener {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<QiNiuToken>() {
                     @Override
-                    public void onNext(QiNiuToken baseBean) {
+                    public void onGetData(QiNiuToken baseBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
                             return;
                         }

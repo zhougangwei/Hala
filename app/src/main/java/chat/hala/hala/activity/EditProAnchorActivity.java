@@ -460,7 +460,7 @@ public class EditProAnchorActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<BeAnchorBean>() {
                     @Override
-                    public void onNext(BeAnchorBean baseBean) {
+                    public void onGetData(BeAnchorBean baseBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
                             ToastUtils.showToast(EditProAnchorActivity.this, getString(R.string.submit_fail));
                             LogUtils.e("Edit", GsonUtil.parseObjectToJson(baseBean));

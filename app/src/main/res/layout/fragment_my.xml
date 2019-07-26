@@ -52,7 +52,7 @@
         android:layout_marginTop="21dp"
         android:background="@drawable/bg_rec_pureple_r25"
         android:gravity="center"
-        android:text="Recharge"
+        android:text="@string/recharge"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@id/iv_head"
         app:layout_constraintStart_toStartOf="@id/iv_head"

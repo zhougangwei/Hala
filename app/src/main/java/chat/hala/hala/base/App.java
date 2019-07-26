@@ -28,23 +28,23 @@ import io.rong.imkit.RongIM;
 
 /**
  * Created by oneki on 2017/8/24.
- *  ┏┓　　　┏┓
- *┏┛┻━━━┛┻┓
- *┃　　　　　　　┃
- *┃　　　━　　　┃
- *┃　┳┛　┗┳　┃
- *┃　　　　　　　┃
- *┃　　　┻　　　┃
- *┃　　　　　　　┃
- *┗━┓　　　┏━┛
- *    ┃　　　┃   神兽保佑
- *    ┃　　　┃   代码无BUG！
- *    ┃　　　┗━━━┓
- *    ┃　　　　　　　┣┓
- *    ┃　　　　　　　┏┛
- *    ┗┓┓┏━┳┓┏┛
- *      ┃┫┫　┃┫┫
- *      ┗┻┛　┗┻┛
+ * ┏┓　　　┏┓
+ * ┏┛┻━━━┛┻┓
+ * ┃　　　　　　　┃
+ * ┃　　　━　　　┃
+ * ┃　┳┛　┗┳　┃
+ * ┃　　　　　　　┃
+ * ┃　　　┻　　　┃
+ * ┃　　　　　　　┃
+ * ┗━┓　　　┏━┛
+ * ┃　　　┃   神兽保佑
+ * ┃　　　┃   代码无BUG！
+ * ┃　　　┗━━━┓
+ * ┃　　　　　　　┣┓
+ * ┃　　　　　　　┏┛
+ * ┗┓┓┏━┳┓┏┛
+ * ┃┫┫　┃┫┫
+ * ┗┻┛　┗┻┛
  */
 
 
@@ -62,9 +62,10 @@ public class App extends MultiDexApplication {
 
         if (ToolUtils.isMainProcess(this)) {
             application = this;
-            sContext=this;
+            sContext = this;
             RongIM.init(this);
-            LogUtils.init(this,true,false,'i',"Hala");
+            initRxjava();
+            LogUtils.init(this, true, false, 'v', "Hala");
             FacebookSdk.setApplicationId("306102296576531");
             FacebookSdk.setAutoLogAppEventsEnabled(true);
             FacebookSdk.sdkInitialize(getApplicationContext());
@@ -74,60 +75,73 @@ public class App extends MultiDexApplication {
 
     }
 
+    private void initRxjava() {
+    /*    RxJavaPlugins.setErrorHandler(
+                new Consumer<Throwable>() {
+                                          @Override
+                                          public void accept(Throwable throwable) throws Exception {
+
+                                          }
+                                      }
+        );*/
+    }
+
     private void addOnline() {
-            ActivityLifecycleCallbacks lifecycleCallbacks = new ActivityLifecycleCallbacks() {
-                @Override
-                public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        ActivityLifecycleCallbacks lifecycleCallbacks = new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+                count++;
+                if (0 == count - 1) {
+                    RetrofitFactory.getInstance().online().subscribeOn(Schedulers.io())
+                            .subscribe(new Consumer<BaseBean>() {
+                                @Override
+                                public void accept(BaseBean baseBean) throws Exception {
+                                }
+                            });
                 }
 
-                @Override
-                public void onActivityStarted(Activity activity) {
-                    count++;
-                    if (0 == count - 1){
-                        RetrofitFactory.getInstance().online().subscribeOn(Schedulers.io())
-                                .subscribe(new Consumer<BaseBean>() {
-                                    @Override
-                                    public void accept(BaseBean baseBean) throws Exception {
-                                    }
-                                });
-                    }
+            }
 
-                }
-                @Override
-                public void onActivityResumed(Activity activity) {
+            @Override
+            public void onActivityResumed(Activity activity) {
 
-                }
+            }
 
-                @Override
-                public void onActivityPaused(Activity activity) {
-                }
+            @Override
+            public void onActivityPaused(Activity activity) {
+            }
 
-                @Override
-                public void onActivityStopped(Activity activity) {
-                    count--;
-                    if (0 == count) {
-                        RetrofitFactory.getInstance().offline().subscribeOn(Schedulers.io())
-                                .subscribe(new Consumer<BaseBean>() {
-                                    @Override
-                                    public void accept(BaseBean baseBean) throws Exception {
-                                    }
-                                });
-                    }
+            @Override
+            public void onActivityStopped(Activity activity) {
+                count--;
+                if (0 == count) {
+                    RetrofitFactory.getInstance().offline().subscribeOn(Schedulers.io())
+                            .subscribe(new Consumer<BaseBean>() {
+                                @Override
+                                public void accept(BaseBean baseBean) throws Exception {
+                                }
+                            });
                 }
+            }
 
-                @Override
-                public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
 
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+                if (0 == count) {
+                    Log.d(TAG, "onActivityDestroyed: ");
                 }
-                @Override
-                public void onActivityDestroyed(Activity activity) {
-                    if (0 == count) {
-                        Log.d(TAG, "onActivityDestroyed: ");
-                    }
-                }
-            };
-            // 注册监听
-            registerActivityLifecycleCallbacks(lifecycleCallbacks);
+            }
+        };
+        // 注册监听
+        registerActivityLifecycleCallbacks(lifecycleCallbacks);
 
     }
 
@@ -173,7 +187,6 @@ public class App extends MultiDexApplication {
     public void onTerminate() {
         super.onTerminate();
     }
-
 
 
     private WorkerThread mWorkerThread;

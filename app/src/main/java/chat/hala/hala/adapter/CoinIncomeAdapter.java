@@ -25,8 +25,8 @@ public class CoinIncomeAdapter extends BaseQuickAdapter<CoinListBean.DataBean.Tr
 
     @Override
     protected void convert(BaseViewHolder helper, CoinListBean.DataBean.TransactionsBean.ListBean item) {
-        helper.setText(R.id.tv_cost, item.getFigure()+ " coins");
-        helper.setText(R.id.tv_time, item.getDate() + "");
+        helper.setText(R.id.tv_cost, item.getFigure());
+        helper.setText(R.id.tv_time, item.getDate() );
         ImageView view = (ImageView) helper.getView(R.id.iv_head);
         Glide.with(mContext).load(item.getInfo().getAvatarUrl())
                 .apply(RequestOptions.placeholderOf(view.getDrawable()))

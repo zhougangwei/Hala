@@ -81,7 +81,7 @@ public class MyIncomeActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<CoinListBean>() {
                     @Override
-                    public void onNext(CoinListBean callListBean) {
+                    public void onGetData(CoinListBean callListBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != callListBean.getCode()) {
                             return;
                         }

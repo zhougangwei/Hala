@@ -55,7 +55,7 @@ public class WalletActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mTvTitle.setText("Wallet");
+        mTvTitle.setText(R.string.wallet);
         initData();
     }
 

@@ -115,4 +115,8 @@
     <string name="eula">الترخيص</string>
     <string name="private_policy">سياسة خاصة</string>
     <string name="terms_of_use_and_eula_amp_privacy_policy"><u>مدة الإستخدام</u> &amp;<u>الترخيص</u>&amp;<u>سياسة خاصة</u></string>
+    <string name="recharge">الشحن</string>
+    <string name="my_income">دخلي</string>
+    <string name="cost">حسابي</string>
+    <string name="country">المنطقة</string>
 </resources>
