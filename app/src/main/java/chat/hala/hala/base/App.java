@@ -19,6 +19,7 @@ import java.util.Locale;
 import chat.hala.hala.activity.LoginActivity;
 import chat.hala.hala.avchat.WorkerThread;
 import chat.hala.hala.bean.BaseBean;
+import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.SPUtil;
 import chat.hala.hala.utils.ToolUtils;
@@ -97,9 +98,9 @@ public class App extends MultiDexApplication {
                 count++;
                 if (0 == count - 1) {
                     RetrofitFactory.getInstance().online().subscribeOn(Schedulers.io())
-                            .subscribe(new Consumer<BaseBean>() {
+                            .subscribe(new BaseCosumer<BaseBean>() {
                                 @Override
-                                public void accept(BaseBean baseBean) throws Exception {
+                                public void onGetData(BaseBean baseBean) {
                                 }
                             });
                 }
@@ -120,9 +121,9 @@ public class App extends MultiDexApplication {
                 count--;
                 if (0 == count) {
                     RetrofitFactory.getInstance().offline().subscribeOn(Schedulers.io())
-                            .subscribe(new Consumer<BaseBean>() {
+                            .subscribe(new BaseCosumer<BaseBean>() {
                                 @Override
-                                public void accept(BaseBean baseBean) throws Exception {
+                                public void onGetData(BaseBean baseBean) {
                                 }
                             });
                 }

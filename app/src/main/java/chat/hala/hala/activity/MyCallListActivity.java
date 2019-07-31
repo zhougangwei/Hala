@@ -70,16 +70,12 @@ public class MyCallListActivity extends BaseActivity {
             VideoCallManager.gotoCallOrReverse(MyCallListActivity.this,callList.get(position).getAnchorId(),callList.get(position).getTargetInfo().getId());
             RetrofitFactory.getInstance().readMessage("call")
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Consumer<BaseBean>() {
+                    .subscribe(new BaseCosumer<BaseBean>() {
                         @Override
-                        public void accept(BaseBean baseBean) throws Exception {
+                        public void onGetData(BaseBean baseBean) {
                             if (ResultUtils.cheekSuccess(baseBean)) {
                                 RxBus.getIntanceBus().post(new RefreshMsgEvent(RefreshMsgEvent.MSG_COIN));
                             }
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
                         }
                     });
 

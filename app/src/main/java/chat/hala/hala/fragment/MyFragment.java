@@ -22,6 +22,7 @@ import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.bean.CoinBriefBean;
 import chat.hala.hala.dialog.CommonDialog;
+import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.ResultUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -67,9 +68,9 @@ public class MyFragment extends BaseFragment {
                .subscribeOn(Schedulers.io())
                .compose(this.<CoinBriefBean>bindToLifecycle())
                .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Consumer<CoinBriefBean>() {
+               .subscribe(new BaseCosumer<CoinBriefBean>() {
                    @Override
-                   public void accept(CoinBriefBean coinBriefBean) throws Exception {
+                   public void onGetData(CoinBriefBean coinBriefBean) {
                        if (ResultUtils.cheekSuccess(coinBriefBean)) {
                            tvMoney.setText(coinBriefBean.getData().getTotal()+"");
                        }

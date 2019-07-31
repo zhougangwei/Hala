@@ -3,6 +3,7 @@ package chat.hala.hala.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -13,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.AnchorDataAdapter;
@@ -40,65 +43,73 @@ import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.wight.RatingBarView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Conversation;
 
 
 public class AnchorsActivity extends SlideBackActivity {
 
     @BindView(R.id.rl_banner)
-    LinearLayout rlBanner;
+    LinearLayout            rlBanner;
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar                 toolbar;
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
     @BindView(R.id.appbar)
-    AppBarLayout appbar;
+    AppBarLayout            appbar;
     @BindView(R.id.vp_cover)
-    ViewPager vp_cover;
+    ViewPager               vp_cover;
     @BindView(R.id.view)
-    View view;
+    View                    view;
     @BindView(R.id.tv_name)
-    TextView tvName;
+    TextView                tvName;
     @BindView(R.id.rbv)
-    RatingBarView rbv;
+    RatingBarView           rbv;
     @BindView(R.id.tv_introduction)
-    TextView tvIntroduction;
+    TextView                tvIntroduction;
     @BindView(R.id.tv1)
-    TextView tv1;
+    TextView                tv1;
     @BindView(R.id.tv_biography)
-    TextView tvBiography;
+    TextView                tvBiography;
     @BindView(R.id.tv2)
-    TextView tv2;
+    TextView                tv2;
     @BindView(R.id.rv_tags)
-    RecyclerView rvTags;
+    RecyclerView            rvTags;
 
     @BindView(R.id.rv_info)
-    RecyclerView rvInfo;
+    RecyclerView      rvInfo;
     @BindView(R.id.main_content)
     CoordinatorLayout mainContent;
     @BindView(R.id.tv_call)
-    TextView tvCall;
+    TextView          tvCall;
     @BindView(R.id.tv_cost)
-    TextView tvCost;
+    TextView          tvCost;
+    @BindView(R.id.tv4)
+    TextView          mTv4;
+    @BindView(R.id.iv_message)
+    ImageView         mIvMessage;
+    @BindView(R.id.iv_like)
+    ImageView         mIvLike;
 
 
-    private List<AnchorBean.DataBean.CoversBean> coverDatas      =new ArrayList<>();
-    private List<AnchorTagBean.DataBean>   tagsDatas       =new ArrayList<>();
-    private List<AnchorInfoBean>                 anchorInfoDatas =new ArrayList<>();
-
+    private List<AnchorBean.DataBean.CoversBean> coverDatas      = new ArrayList<>();
+    private List<AnchorTagBean.DataBean>         tagsDatas       = new ArrayList<>();
+    private List<AnchorInfoBean>                 anchorInfoDatas = new ArrayList<>();
 
 
     private SimplePagerAdapter simplePagerAdapter;
-    private AnchorTagsAdapter tagsAdapter;
-    private int anchorId;
-    private int anchorIdMemberId;
-    private AnchorDataAdapter mAnchorDataAdapter;
-    private Paint mPaint;
+    private AnchorTagsAdapter  tagsAdapter;
+    private int                anchorId;
+    private int                anchorIdMemberId;
+    private AnchorDataAdapter  mAnchorDataAdapter;
+    private Paint              mPaint;
+    private int mAnchormemberId;
 
 
-    public  static void startAnchorAc(Context context,int anchorId,int anchorIdMemberId){
+    public static void startAnchorAc(Context context, int anchorId, int anchorIdMemberId) {
         Intent intent = new Intent(context, AnchorsActivity.class);
-        intent.putExtra("anchorId",anchorId);
-        intent.putExtra("anchorIdMemberId",anchorIdMemberId);
+        intent.putExtra("anchorId", anchorId);
+        intent.putExtra("anchorIdMemberId", anchorIdMemberId);
         context.startActivity(intent);
     }
 
@@ -145,12 +156,11 @@ public class AnchorsActivity extends SlideBackActivity {
                         - SizeUtils.dp2px(AnchorsActivity.this, 28);
                 int itemWidth = getTextWidth(mPaint,
                         tagsDatas.get(position).getContent()) +
-                        + SizeUtils.dp2px(AnchorsActivity.this, 42);
-                LogUtils.e("AnchorsActivity", "itemWidth:" + itemWidth +"--"+position);
-                return Math.min(100,itemWidth * 100 / width + 1);
+                        +SizeUtils.dp2px(AnchorsActivity.this, 42);
+                LogUtils.e("AnchorsActivity", "itemWidth:" + itemWidth + "--" + position);
+                return Math.min(100, itemWidth * 100 / width + 1);
             }
         });
-
 
 
         mAnchorDataAdapter = new AnchorDataAdapter(R.layout.item_anchor_infp, anchorInfoDatas);
@@ -165,9 +175,9 @@ public class AnchorsActivity extends SlideBackActivity {
                         - SizeUtils.dp2px(AnchorsActivity.this, 28);
                 int itemWidth = getTextWidth(mPaint,
                         anchorInfoDatas.get(position).getName() +
-                                    " " + anchorInfoDatas.get(position).getContent())
-                            + SizeUtils.dp2px(AnchorsActivity.this, 50);
-                return Math.min(100,itemWidth * 100 / width + 1);
+                                " " + anchorInfoDatas.get(position).getContent())
+                        + SizeUtils.dp2px(AnchorsActivity.this, 50);
+                return Math.min(100, itemWidth * 100 / width + 1);
             }
         });
 
@@ -189,6 +199,7 @@ public class AnchorsActivity extends SlideBackActivity {
     private void initData() {
         getAuchor();
     }
+
     private void getAuchor() {
         RetrofitFactory.getInstance()
                 .getAnchorData(anchorId)
@@ -198,17 +209,19 @@ public class AnchorsActivity extends SlideBackActivity {
                     @Override
                     public void onGetData(AnchorBean baseBean) {
 
-                        Log.i("AnchorsActivity","AnchorBean" +GsonUtil.parseObjectToJson(
-                                                        baseBean
-                                                ));
-                        if (Contact.REPONSE_CODE_SUCCESS!=baseBean.getCode()) {
+                        Log.i("AnchorsActivity", "AnchorBean" + GsonUtil.parseObjectToJson(
+                                baseBean
+                        ));
+                        if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
                             return;
                         }
                         AnchorBean.DataBean data = baseBean.getData();
+
+                        mAnchormemberId = data.getMemberId();
                         tvName.setText(data.getNickname());
-                        rbv.setStar(data.getStarLevel(),false);
+                        rbv.setStar(data.getStarLevel(), false);
                         tvBiography.setText(data.getBiography());
-                        tvCost.setText(data.getCpm()+"");
+                        tvCost.setText(data.getCpm() + "");
                         tvIntroduction.setText(data.getIntroduction());
                         List<AnchorBean.DataBean.CoversBean> covers = data.getCovers();
                         coverDatas.addAll(covers);
@@ -245,17 +258,25 @@ public class AnchorsActivity extends SlideBackActivity {
     }
 
 
-    @OnClick({R.id.toolbar, R.id.tv_call,R.id.iv_back})
+    @OnClick({R.id.toolbar, R.id.tv_call, R.id.iv_back,R.id.iv_message, R.id.iv_like})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.toolbar:
                 break;
             case R.id.tv_call:
-                VideoCallManager.gotoCallOrReverse(AnchorsActivity.this,anchorId,anchorIdMemberId);
+                VideoCallManager.gotoCallOrReverse(AnchorsActivity.this, anchorId, anchorIdMemberId);
                 break;
             case R.id.iv_back:
                 finish();
                 break;
+            case R.id.iv_message:
+                RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE,mAnchormemberId+"","你好");
+                break;
+            case R.id.iv_like:
+                break;
         }
     }
+
+
+
 }

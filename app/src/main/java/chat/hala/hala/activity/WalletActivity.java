@@ -15,6 +15,7 @@ import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.bean.CoinBriefBean;
+import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.ResultUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -65,9 +66,9 @@ public class WalletActivity extends BaseActivity {
                 .subscribeOn(Schedulers.io())
                 .compose(this.<CoinBriefBean>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<CoinBriefBean>() {
+                .subscribe(new BaseCosumer<CoinBriefBean>() {
                     @Override
-                    public void accept(CoinBriefBean coinBriefBean) throws Exception {
+                    public void onGetData(CoinBriefBean coinBriefBean) {
                         if (ResultUtils.cheekSuccess(coinBriefBean)) {
                             mTvCoinNum.setText(coinBriefBean.getData().getTotal()+"");
                         }
