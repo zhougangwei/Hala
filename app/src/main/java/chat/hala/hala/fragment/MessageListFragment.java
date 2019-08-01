@@ -1,6 +1,8 @@
 package chat.hala.hala.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -27,6 +29,8 @@ import chat.hala.hala.rxbus.event.RefreshMsgEvent;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import io.rong.imkit.fragment.ConversationListFragment;
+import io.rong.imlib.model.Conversation;
 
 public class MessageListFragment extends BaseFragment {
 
@@ -66,6 +70,23 @@ public class MessageListFragment extends BaseFragment {
             }
         });
         initRxbus();
+
+
+        initConversation();
+    }
+
+    private void initConversation() {
+        FragmentManager fragmentManage = getChildFragmentManager();
+        ConversationListFragment fragement = (ConversationListFragment) fragmentManage.findFragmentById(R.id.conversationlist);
+        Uri uri = Uri.parse("rong://" + getActivity().getApplicationInfo().packageName).buildUpon()
+                .appendPath("conversationlist")
+                .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false")
+                .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "false")
+                .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "false")
+                .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "false")
+                .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "true")
+                .build();
+        fragement.setUri(uri);
     }
 
     private void initRxbus() {
@@ -77,6 +98,14 @@ public class MessageListFragment extends BaseFragment {
         });
     };
 
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            //initConversation();
+        }
+    }
 
     @Override
     protected int getLayoutId() {

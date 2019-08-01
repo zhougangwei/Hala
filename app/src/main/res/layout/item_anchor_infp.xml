@@ -6,7 +6,6 @@
     android:layout_height="33dp"
     android:layout_marginTop="10dp"
     android:id="@+id/rl"
-    android:background="@drawable/bg_rec_greyr17"
     android:paddingEnd="19dp"
     android:paddingStart="19dp">
 
@@ -17,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:text="Last login:"
-        android:textColor="#919191"/>
+        android:textColor="#FF666666"/>
 
     <TextView
         tools:text="111111111"
@@ -28,5 +27,5 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/tv_name"
-        android:textColor="#454545"/>
+        android:textColor="#FF666666"/>
 </RelativeLayout>

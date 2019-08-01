@@ -119,5 +119,11 @@
     <string name="my_income">我的收入</string>
     <string name="cost">我的支出</string>
     <string name="country">国家</string>
-
+    <string name="distance_km">距离%1$skm</string>
+    <string name="many_mins_active">.%1$s前活跃</string>
+    <string name="voice_cost">语音/%1$s</string>
+    <string name="video_cost">视频/%1$s</string>
+    <string name="follow">关注</string>
+    <string name="score">评分</string>
+    <string name="add_black">加入黑名单</string>
 </resources>

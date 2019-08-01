@@ -10,6 +10,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
@@ -19,6 +22,7 @@ import chat.hala.hala.activity.EditProUserActivity;
 import chat.hala.hala.activity.FeedBackActivity;
 import chat.hala.hala.activity.WalletActivity;
 import chat.hala.hala.avchat.AvchatInfo;
+import chat.hala.hala.base.App;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.bean.CoinBriefBean;
 import chat.hala.hala.dialog.CommonDialog;
@@ -28,6 +32,8 @@ import chat.hala.hala.utils.ResultUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Conversation;
 
 public class MyFragment extends BaseFragment {
     @BindView(R.id.tv_name)

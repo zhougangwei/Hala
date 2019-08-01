@@ -42,8 +42,9 @@
 
     <io.rong.imkit.widget.AsyncImageView
         android:id="@id/rc_left"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        app:RCShape="circle"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_below="@id/rc_time"
         android:layout_marginRight="4dp"
         android:layout_toRightOf="@id/ll_message_check"
@@ -52,9 +53,10 @@
         app:RCDefDrawable="@drawable/rc_ic_def_msg_portrait" />
 
     <io.rong.imkit.widget.AsyncImageView
+        app:RCShape="circle"
         android:id="@id/rc_right"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_alignParentRight="true"
         android:layout_below="@id/rc_time"
         android:layout_marginLeft="4dp"

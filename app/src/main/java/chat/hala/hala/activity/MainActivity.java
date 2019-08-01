@@ -2,6 +2,7 @@ package chat.hala.hala.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -44,6 +45,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.UserInfo;
 
 public class MainActivity extends BaseActivity implements AGEventHandler {
 
@@ -71,6 +73,27 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     @Override
     protected void beforeInitView() {
 
+
+    }
+
+    private void initRongIm() {
+        RongIM.connect(memberBean.getRongToken(), new RongIMClient.ConnectCallback() {
+            @Override
+            public void onSuccess(String s) {
+                UserInfo userInfo = new UserInfo(AvchatInfo.getMemberId()+"",AvchatInfo.getName(), Uri.parse(AvchatInfo.getAvatarUrl()));
+                RongIM.getInstance().setCurrentUserInfo(userInfo);
+                LogUtils.e(TAG, "onSuccess: "+s);
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                LogUtils.e(TAG, "onError: "+errorCode);
+            }
+            @Override
+            public void onTokenIncorrect() {
+                LogUtils.e(TAG, "onTokenIncorrect: ");
+            }
+        });
     }
 
     @Override
@@ -92,22 +115,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
             }
         }
         ((App) getApplication()).initWorkerThread();
-        RongIM.connect(memberBean.getRongToken(), new RongIMClient.ConnectCallback() {
-            @Override
-            public void onSuccess(String s) {
-                LogUtils.e(TAG, "onSuccess: "+s);
-            }
-
-            @Override
-            public void onError(RongIMClient.ErrorCode errorCode) {
-                LogUtils.e(TAG, "onError: "+errorCode);
-            }
-
-            @Override
-            public void onTokenIncorrect() {
-                LogUtils.e(TAG, "onTokenIncorrect: ");
-            }
-        });
+        initRongIm();
 
 
         mTabAdapter = new TabAdapter(getSupportFragmentManager());

@@ -19,6 +19,7 @@ public class AvchatInfo {
     private static String sCallText;
     private static String sGender;
     private static String sBirthDate;
+    private static int sMemberId;
 
 
     public static int getAccount() {
@@ -102,6 +103,7 @@ public class AvchatInfo {
 
         String memeberJson = GsonUtil.parseObjectToJson(member);
         AvchatInfo.setAnchorId(member.getAnchorId());
+        AvchatInfo.setMemberId(member.getMemberId());
         AvchatInfo.setAccount(member.getMemberId());
         AvchatInfo.setName(member.getUsername());
         AvchatInfo.setCoin(member.getCoin());
@@ -120,6 +122,7 @@ public class AvchatInfo {
 
     public static void clearBaseData(Context context) {
         AvchatInfo.setAnchorId(0);
+        AvchatInfo.setMemberId(0);
         AvchatInfo.setAccount(0);
         AvchatInfo.setName("");
         AvchatInfo.setCoin(0);
@@ -149,5 +152,13 @@ public class AvchatInfo {
 
     public static String getBirthDate() {
         return sBirthDate;
+    }
+
+    public static void setMemberId(int memberId) {
+        sMemberId = memberId;
+    }
+
+    public static int getMemberId() {
+        return sMemberId;
     }
 }

@@ -26,7 +26,7 @@ public class AnchorDataAdapter extends BaseQuickAdapter<AnchorInfoBean, BaseView
         /*helper.setText(R.id.text, item.getTitle());*/
         /*helper.setImageResource(R.id.icon, item.getImageResource());*/
         // 加载网络图片
-        helper.setText(R.id.tv_name,item.getName());
+        helper.setText(R.id.tv_name,item.getName()+":");
         helper.setText(R.id.tv_content,item.getContent());
 
 
