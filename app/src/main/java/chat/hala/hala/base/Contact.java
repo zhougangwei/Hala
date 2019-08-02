@@ -41,4 +41,8 @@ public class Contact {
     public static final String RTM_HANG_UP_STRING = "tel://hangup?";
     public static final String RTM_DO_CALL_STRING = "tel://call?";
     public static final String RTM_ANSWER_STRING  = "tel://answer?";
+
+
+
+    public static final int REQUEST_CHOOSE_COUNTRY = 666;
 }

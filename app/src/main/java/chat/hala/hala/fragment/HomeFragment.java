@@ -34,35 +34,26 @@ public class HomeFragment extends BaseFragment {
 
     @BindView(R.id.vp)
     ViewPager vp;
-    @BindView(R.id.tv_hot)
-    TextView tvHot;
-    @BindView(R.id.iv_hot)
-    ImageView ivHot;
-    @BindView(R.id.tv_new)
-    TextView tvNew;
-    @BindView(R.id.iv_new)
-    ImageView ivNew;
-
     String[] titles;
 
 
     @Override
     protected void initView() {
-        titles=new String[]{getString(R.string.hot),getString(R.string.newnew)};
+        titles=new String[]{getString(R.string.suggest),getString(R.string.hot),getString(R.string.newnew)};
         CommonNavigator commonNavigator7 = new CommonNavigator(getActivity());
 
         commonNavigator7.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
-                return 2;
+                return titles.length;
             }
 
             @Override
             public IPagerTitleView getTitleView(Context context, final int index) {
                 SimplePagerTitleView simplePagerTitleView = new ScaleTransitionPagerTitleView(context);
                 simplePagerTitleView.setText(titles[index]);
-                simplePagerTitleView.setNormalColor(getActivity().getResources().getColor(R.color.black));
-                simplePagerTitleView.setSelectedColor(getActivity().getResources().getColor(R.color.black));
+                simplePagerTitleView.setNormalColor(getActivity().getResources().getColor(R.color.white));
+                simplePagerTitleView.setSelectedColor(getActivity().getResources().getColor(R.color.white));
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -82,7 +73,9 @@ public class HomeFragment extends BaseFragment {
                 indicator.setRoundRadius(UIUtil.dip2px(context, 2));
                 indicator.setStartInterpolator(new AccelerateInterpolator());
                 indicator.setEndInterpolator(new DecelerateInterpolator(2.0f));
-                indicator.setColors(getResources().getColor(R.color.linepager_indicator_color1),getResources().getColor(R.color.linepager_indicator_color2));
+
+             //   indicator.setColors(getResources().getColor(R.color.linepager_indicator_color1),getResources().getColor(R.color.linepager_indicator_color2));
+                indicator.setColors(getResources().getColor(R.color.white));
 
                 return indicator;
             }
@@ -123,35 +116,5 @@ public class HomeFragment extends BaseFragment {
 
 
 
-    @OnClick({R.id.tv_hot, R.id.tv_new})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_hot:
-                vp.setCurrentItem(0, false);
-                setChecked(HOT);
-                break;
-            case R.id.tv_new:
-                vp.setCurrentItem(1, false);
-                setChecked(NEW);
-                break;
-        }
-    }
 
-    private void setChecked(int type) {
-        switch (type) {
-            case HOT:
-                tvHot.setTextSize(26f);
-                tvNew.setTextSize(17f);
-                ivHot.setVisibility(View.VISIBLE);
-                ivNew.setVisibility(View.INVISIBLE);
-                break;
-            case NEW:
-                tvNew.setTextSize(26f);
-                tvHot.setTextSize(17f);
-                ivNew.setVisibility(View.VISIBLE);
-                ivHot.setVisibility(View.INVISIBLE);
-                break;
-        }
-
-    }
 }

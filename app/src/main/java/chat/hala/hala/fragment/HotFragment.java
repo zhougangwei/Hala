@@ -1,6 +1,7 @@
 package chat.hala.hala.fragment;
 
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -51,8 +52,7 @@ public class HotFragment extends BaseFragment {
     @Override
     protected void initView() {
         hotCallAdapter = new HotCallAdapter(R.layout.item_hot_list, mHotOnetoOneList);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(hotCallAdapter);
 

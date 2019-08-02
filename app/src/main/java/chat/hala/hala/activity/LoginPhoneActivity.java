@@ -30,7 +30,7 @@ import io.reactivex.schedulers.Schedulers;
 public class LoginPhoneActivity extends BaseActivity {
 
 
-    private static final int REQUEST_CHOOSE_COUNTRY = 666;
+
     private static final String TAG ="LoginPhoneActivity" ;
     private static final int REQUEST_FACEBOOK = 667;
     private static final int REQUEST_PHONE = 668;
@@ -155,7 +155,7 @@ public class LoginPhoneActivity extends BaseActivity {
             case R.id.tv_country_name:
                 Intent intent = new Intent(this, CountryActivity.class);
                 intent.putExtra("type",CountryActivity.FROM_LOGIN_PHONE);
-                startActivityForResult(intent,REQUEST_CHOOSE_COUNTRY);
+                startActivityForResult(intent,Contact.REQUEST_CHOOSE_COUNTRY);
                 break;
 
             case R.id.tv_send_msm:
@@ -185,7 +185,7 @@ public class LoginPhoneActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
         if (resultCode==RESULT_OK){
-            if (requestCode==REQUEST_CHOOSE_COUNTRY) {
+            if (requestCode==Contact.REQUEST_CHOOSE_COUNTRY) {
                 String countryName = data.getStringExtra("countryName");
                 mCountryCode = data.getStringExtra("countryCode");
                 tvCountryName.setText(countryName);

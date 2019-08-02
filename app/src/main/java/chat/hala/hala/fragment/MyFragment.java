@@ -37,15 +37,15 @@ import io.rong.imlib.model.Conversation;
 
 public class MyFragment extends BaseFragment {
     @BindView(R.id.tv_name)
-    TextView tvName;
+    TextView  tvName;
     @BindView(R.id.iv_head)
     ImageView ivHead;
     @BindView(R.id.iv_more)
     ImageView ivMore;
     @BindView(R.id.tv_charge)
-    TextView tvCharge;
+    TextView  tvCharge;
     @BindView(R.id.tv_money)
-    TextView tvMoney;
+    TextView  tvMoney;
 
 
     @Override
@@ -68,36 +68,36 @@ public class MyFragment extends BaseFragment {
         refreshData();
     }
 
-   @SuppressLint("CheckResult")
-   public void refreshData(){
-       RetrofitFactory.getInstance().getCoinBrief()
-               .subscribeOn(Schedulers.io())
-               .compose(this.<CoinBriefBean>bindToLifecycle())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new BaseCosumer<CoinBriefBean>() {
-                   @Override
-                   public void onGetData(CoinBriefBean coinBriefBean) {
-                       if (ResultUtils.cheekSuccess(coinBriefBean)) {
-                           tvMoney.setText(coinBriefBean.getData().getTotal()+"");
-                       }
-                   }
-               });
+    @SuppressLint("CheckResult")
+    public void refreshData() {
+        RetrofitFactory.getInstance().getCoinBrief()
+                .subscribeOn(Schedulers.io())
+                .compose(this.<CoinBriefBean>bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<CoinBriefBean>() {
+                    @Override
+                    public void onGetData(CoinBriefBean coinBriefBean) {
+                        if (ResultUtils.cheekSuccess(coinBriefBean)) {
+                            tvMoney.setText(coinBriefBean.getData().getTotal() + "");
+                        }
+                    }
+                });
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser){
+        if (isVisibleToUser) {
             refreshData();
         }
     }
 
-    @OnClick({R.id.iv_more, R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_loginout})
+    @OnClick({R.id.iv_more, R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_more:
                 Intent intent = new Intent(getActivity(), EditProUserActivity.class);
-                intent.putExtra("type",EditProUserActivity.FROM_MYFRAG_MENT);
+                intent.putExtra("type", EditProUserActivity.FROM_MYFRAG_MENT);
                 startActivity(intent);
                 break;
             case R.id.tv_charge:
@@ -114,6 +114,16 @@ public class MyFragment extends BaseFragment {
             case R.id.tv_feedback:
                 gotoFeedback();
                 break;
+            case R.id.tv_invite:
+                gotoInvite();
+                break;
+            case R.id.tv_chat_setting:
+                gotoChatSetting();
+                break;
+            case R.id.tv_beauty_setting:
+                gotoBeautySetting();
+                break;
+
             case R.id.tv_loginout:
                 new CommonDialog(getActivity())
                         .setMsg(getString(R.string.want_to_log_out))
@@ -131,6 +141,18 @@ public class MyFragment extends BaseFragment {
                         .show();
                 break;
         }
+    }
+
+    private void gotoBeautySetting() {
+
+    }
+
+    private void gotoChatSetting() {
+
+    }
+
+    private void gotoInvite() {
+
     }
 
     private void gotoFeedback() {

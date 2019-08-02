@@ -108,7 +108,7 @@ public class EditProAnchorActivity extends BaseActivity {
     private String bio;     //个人经历
     private static final int REQUEST_BIO = 222;
     private static final int REQUEST_TAG = 223;
-    private static final int REQUEST_CHOOSE_COUNTRY = 666;
+
 
     EditHeadAdapter mAdapter;
 
@@ -183,7 +183,7 @@ public class EditProAnchorActivity extends BaseActivity {
             case R.id.ll_country:
                 Intent intent1 = new Intent(this, CountryActivity.class);
                 intent1.putExtra("type", CountryActivity.FROM_EDIT_PRO);
-                startActivityForResult(intent1, REQUEST_CHOOSE_COUNTRY);
+                startActivityForResult(intent1, Contact.REQUEST_CHOOSE_COUNTRY);
                 break;
             case R.id.ll_tags:
                 Intent tagIntent = new Intent(this, TagActivity.class);
@@ -399,7 +399,7 @@ public class EditProAnchorActivity extends BaseActivity {
                     }
                     mAdapter.notifyDataSetChanged();
                 }
-            } else if (requestCode == REQUEST_CHOOSE_COUNTRY) {
+            } else if (requestCode == Contact.REQUEST_CHOOSE_COUNTRY) {
                 String countryName = data.getStringExtra("countryName");
                 tvCountry.setText(countryName);
             }

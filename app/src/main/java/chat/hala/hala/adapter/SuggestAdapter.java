@@ -4,6 +4,7 @@ import android.widget.ImageView;
 
 import com.blankj.utilcode.utils.LogUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -17,25 +18,24 @@ import chat.hala.hala.bean.OneToOneListBean;
  * Created by kiddo on 2018/1/9.
  */
 
-public class HotCallAdapter extends BaseQuickAdapter<OneToOneListBean.DataBean.ListBean, BaseViewHolder> {
+public class SuggestAdapter extends BaseQuickAdapter<OneToOneListBean.DataBean.ListBean, BaseViewHolder> {
 
 
 
 
-    public HotCallAdapter(int layoutIds, List<OneToOneListBean.DataBean.ListBean> countryDatas) {
+    public SuggestAdapter(int layoutIds, List<OneToOneListBean.DataBean.ListBean> countryDatas) {
         super(layoutIds, countryDatas);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, OneToOneListBean.DataBean.ListBean item) {
-        helper.setText(R.id.tv_online_state,item.isOnline()?R.string.online:R.string.offlIine);
+
         helper.setText(R.id.tv_name,item.getNickname());
-        helper.setText(R.id.tv_content,item.getBiography());
-        helper.setText(R.id.tv_cost,item.getCpm()+"");
-        ImageView imageView = (ImageView) helper.getView(R.id.iv_bg);
-        LogUtils.e(TAG, "convert: "+item.getAvatarUrl());
+        helper.setText(R.id.tv_bio,item.getBiography());
+
+        ImageView imageView = (ImageView) helper.getView(R.id.iv_head);
         Glide.with(mContext).load(item.getCovers()==null?null:item.getCovers().get(0).getCoverUrl())
-                .apply(RequestOptions.placeholderOf(imageView.getDrawable()))
+                .apply((RequestOptions.bitmapTransform(new CircleCrop()).placeholder(imageView.getDrawable())))
                 .into(imageView);
     }
 }

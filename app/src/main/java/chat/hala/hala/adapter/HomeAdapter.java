@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import chat.hala.hala.fragment.HotFragment;
 import chat.hala.hala.fragment.NewFragment;
+import chat.hala.hala.fragment.SuggestFragment;
 
 import java.util.ArrayList;
 
@@ -23,8 +24,10 @@ public class HomeAdapter extends FragmentPagerAdapter{
     public HomeAdapter(FragmentManager fm) {
         super(fm);
         fragments.clear();
+        fragments.add(new SuggestFragment());
         fragments.add(new HotFragment());
         fragments.add(new NewFragment());
+
     }
 
     @Override

@@ -21,11 +21,13 @@ import chat.hala.hala.avchat.AGEventHandler;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.avchat.EngineConfig;
 import chat.hala.hala.avchat.MyEngineEventHandler;
+import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.avchat.WorkerThread;
 import chat.hala.hala.base.App;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.LoginBean;
+import chat.hala.hala.bean.QiNiuToken;
 import chat.hala.hala.bean.RtmCallBean;
 import chat.hala.hala.bean.RtmTokenBean;
 import chat.hala.hala.dialog.CommonDialog;
@@ -116,8 +118,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
         }
         ((App) getApplication()).initWorkerThread();
         initRongIm();
-
-
+        initQiniu();
         mTabAdapter = new TabAdapter(getSupportFragmentManager());
         vp.setAdapter(mTabAdapter);
         vp.setOffscreenPageLimit(5);
@@ -132,6 +133,31 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
 
     }
 
+    /*
+    * 七牛初始化
+    * */
+    private void initQiniu() {
+        RetrofitFactory
+                .getInstance()
+                .getQiNiuToken()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<QiNiuToken>() {
+                    @Override
+                    public void onGetData(QiNiuToken baseBean) {
+                        if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
+                            return;
+                        }
+                        QiNiuToken.DataBean.StarchatanchorBean starchatanchor = baseBean.getData().getStarchatanchor();
+                        QiNiuToken.DataBean.StarchatfeedbackBean starchatfeedback = baseBean.getData().getStarchatfeedback();
+                        QiNiuToken.DataBean.StarchatmemberBean starchatmember = baseBean.getData().getStarchatmember();
+
+                        QiniuInfo.setmStarchatanchorBean(starchatanchor);
+                        QiniuInfo.setmStarchatfeedbackBean(starchatfeedback);
+                        QiniuInfo.setmStarchatmemberBean(starchatmember);
+                    }
+                });
+    }
     private void initVideoCall() {
         this.event().addEventHandler(this);
     }

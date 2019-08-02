@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:text="24"
+    android:id="@+id/tv_gender"
+    style="@style/text_year_gender"
+    tools:showIn="@layout/item_suggest_list"/>
