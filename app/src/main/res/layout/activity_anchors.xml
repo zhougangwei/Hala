@@ -364,7 +364,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="46dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/bg_rec_pureple_r25"
+            android:background="@drawable/bg_rec_pp_a"
             android:drawablePadding="2dp"
             android:drawableStart="@drawable/ic_anchor_video"
             android:gravity="center"

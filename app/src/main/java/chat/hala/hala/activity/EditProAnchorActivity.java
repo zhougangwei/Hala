@@ -39,7 +39,7 @@ import chat.hala.hala.http.UploadPicManger;
 import chat.hala.hala.manager.ChoosePicManager;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ToastUtils;
-import chat.hala.hala.wight.country.CountryActivity;
+
 import cn.qqtheme.framework.picker.DoublePicker;
 import cn.qqtheme.framework.picker.SinglePicker;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -89,17 +89,13 @@ public class EditProAnchorActivity extends BaseActivity {
     TextView etBio;
     @BindView(R.id.ll_bio)
     LinearLayout llBio;
-    @BindView(R.id.et_certified)
-    EditText etCertified;
-    @BindView(R.id.ll_certified)
-    LinearLayout llCertified;
+
     @BindView(R.id.tv_save)
     TextView tvSave;
     @BindView(R.id.rv_pic)
     RecyclerView recyclerView;
 
-    @BindView(R.id.tv_country)
-    TextView tvCountry;
+
 
     private List<EditHeadAdapter.UserHead> mList;
     private List<String> uriList = new ArrayList<>();
@@ -174,17 +170,13 @@ public class EditProAnchorActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.ll_zodiac, R.id.ll_country, R.id.ll_city, R.id.ll_introction, R.id.ll_tags, R.id.ll_bio, R.id.ll_certified, R.id.tv_save, R.id.iv_back, R.id.ll_height, R.id.ll_weight})
+    @OnClick({R.id.ll_zodiac, R.id.ll_city, R.id.ll_introction, R.id.ll_tags, R.id.ll_bio, R.id.tv_save, R.id.iv_back, R.id.ll_height, R.id.ll_weight})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_zodiac:
                 setZodiac();
                 break;
-            case R.id.ll_country:
-                Intent intent1 = new Intent(this, CountryActivity.class);
-                intent1.putExtra("type", CountryActivity.FROM_EDIT_PRO);
-                startActivityForResult(intent1, Contact.REQUEST_CHOOSE_COUNTRY);
-                break;
+
             case R.id.ll_tags:
                 Intent tagIntent = new Intent(this, TagActivity.class);
                 startActivityForResult(tagIntent, REQUEST_TAG);
@@ -287,9 +279,9 @@ public class EditProAnchorActivity extends BaseActivity {
         weight = etWeight.getText().toString();
         zodiac = etZodiac.getText().toString();  //星座
         city = etCity.getText().toString();
-        country = tvCountry.getText().toString();
+
         intro = etIntroction.getText().toString();
-        certify = etCertified.getText().toString();
+
 
         if (TextUtils.isEmpty(userName)) {
             ToastUtils.showToast(this, "userName" + "不可以为空");
@@ -399,9 +391,6 @@ public class EditProAnchorActivity extends BaseActivity {
                     }
                     mAdapter.notifyDataSetChanged();
                 }
-            } else if (requestCode == Contact.REQUEST_CHOOSE_COUNTRY) {
-                String countryName = data.getStringExtra("countryName");
-                tvCountry.setText(countryName);
             }
         }
     }

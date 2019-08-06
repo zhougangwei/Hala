@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,72 +9,72 @@
 
     <ImageView
         android:id="@+id/iv_head"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginStart="15dp"
+        android:src="@drawable/ic_head_place"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_head_place" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:src="#EAEAEA"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
+
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="13dp"
+        android:layout_marginTop="2dp"
         android:text="唐诗"
-        android:textColor="#676767"
-        android:textSize="14sp"
+        android:textColor="#FF000000"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@id/iv_head"
-        app:layout_constraintTop_toTopOf="@id/iv_head" />
+        app:layout_constraintTop_toTopOf="@id/iv_head"/>
 
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="3dp"
         android:text="call duur"
         android:textColor="#A2A2A2"
+        android:textSize="13sp"
         app:layout_constraintStart_toStartOf="@id/tv_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"/>
 
     <TextView
         android:id="@+id/tv_week"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="13dp"
+        android:layout_marginEnd="18dp"
         android:text="Feb4"
         android:textColor="@color/grey_8f"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_name" />
+        app:layout_constraintTop_toTopOf="@+id/tv_name"/>
 
     <TextView
         android:id="@+id/tv_hour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="13dp"
+        android:layout_marginEnd="18dp"
         android:layout_marginTop="5dp"
         android:text="20:58"
         android:textColor="@color/grey_8f"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_week" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_week"/>
 
     <TextView
         android:id="@+id/tv_cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="72dp"
         android:text="+8"
         android:textColor="@color/coin_gain"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tv_hour"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

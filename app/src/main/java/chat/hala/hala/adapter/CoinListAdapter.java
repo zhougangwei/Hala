@@ -14,6 +14,7 @@ import java.util.List;
 
 import chat.hala.hala.R;
 import chat.hala.hala.bean.CoinListBean;
+import chat.hala.hala.utils.TimeUtil;
 
 
 public class CoinListAdapter extends BaseQuickAdapter<CoinListBean.DataBean.TransactionsBean.ListBean, BaseViewHolder> {
@@ -34,8 +35,8 @@ public class CoinListAdapter extends BaseQuickAdapter<CoinListBean.DataBean.Tran
         helper.setText(R.id.tv_name, item.getInfo().getName());
         String content = "";
         String startedAt = item.getDatetime();
-
         helper.setText(R.id.tv_hour, TimeUtils.date2String(TimeUtils.string2Date(startedAt,new SimpleDateFormat("yyyy-MM-dd HH:mm")), new SimpleDateFormat("HH:mm")));
+        helper.setText(R.id.tv_week,  TimeUtil.getTextTime(startedAt));
         helper.setText(R.id.tv_cost,(item.getFigure()));
         switch (item.getCategory()) {
             case RECHARGE:
@@ -45,8 +46,8 @@ public class CoinListAdapter extends BaseQuickAdapter<CoinListBean.DataBean.Tran
                 helper.setTextColor(R.id.tv_cost,mContext.getResources().getColor(R.color.coin_cost));
                 break;
             case RESERVATION:
-
                 helper.setTextColor(R.id.tv_cost,mContext.getResources().getColor(R.color.coin_cost));
+
                 break;
             case RESERVE_RETURN:
                 helper.setTextColor(R.id.tv_cost,mContext.getResources().getColor(R.color.coin_gain));

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             android:background="@color/white"
+                                             tools:context="chat.hala.hala.activity.LoginSmsActivity">
+
+    <include layout="@layout/include_top_toolbar_iv"/>
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="109dp"
+        android:text="@string/please_enter_sms_code"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginTop="109dp"/>
+
+    <TextView
+        android:id="@id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="验证码已通过短信发送至"
+        android:textColor="#FF646464"
+        app:layout_constraintStart_toStartOf="@id/tv1"
+        app:layout_constraintTop_toBottomOf="@id/tv1"/>
+
+    <TextView
+        android:id="@+id/tv_phone_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="+86"
+        android:textColor="#FF646464"
+        app:layout_constraintStart_toEndOf="@id/tv2"
+        app:layout_constraintTop_toTopOf="@id/tv2"/>
+
+
+    <EditText
+        android:id="@+id/et_sms_num"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="68dp"
+        android:background="@color/white"
+        android:hint="@string/input_sms_code"
+        android:maxLines="1"
+        android:textColor="#FF333333"
+        android:textColorHint="#FFBDBDBD"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/tv_count_down"
+        app:layout_constraintStart_toStartOf="@id/tv2"
+        app:layout_constraintTop_toBottomOf="@id/tv2"/>
+
+    <TextView
+
+        android:id="@+id/tv_count_down"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:background="@color/white"
+        android:hint="@string/count_down_sms"
+        android:maxLines="1"
+        android:textColor="#FF939393"
+        android:textColorHint="#FFBDBDBD"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/et_sms_num"
+        app:layout_constraintEnd_toEndOf="@id/iv_line"
+        app:layout_constraintStart_toEndOf="@id/et_sms_num"
+        tools:visibility="visible"/>
+
+
+    <ImageView
+        android:id="@+id/iv_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="14dp"
+        android:src="#FFE0E1E0"
+        app:layout_constraintTop_toBottomOf="@id/et_sms_num"/>
+
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="41dp"
+        android:background="@drawable/selector_get_sms"
+        android:gravity="center"
+        android:text="@string/next_step"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/iv_line"
+        app:layout_constraintStart_toStartOf="@id/iv_line"
+        app:layout_constraintTop_toBottomOf="@+id/iv_line"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:src="#FFDEDFDE"
+        app:layout_constraintBottom_toBottomOf="@id/tv5"
+        app:layout_constraintEnd_toStartOf="@id/tv5"
+        app:layout_constraintStart_toStartOf="@id/iv_line"
+        app:layout_constraintTop_toTopOf="@id/tv5"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:src="#FFDEDFDE"
+        app:layout_constraintBottom_toBottomOf="@id/tv5"
+        app:layout_constraintEnd_toEndOf="@id/iv_line"
+        app:layout_constraintStart_toEndOf="@id/tv5"
+        app:layout_constraintTop_toTopOf="@id/tv5"/>
+
+    <TextView
+        android:id="@+id/tv5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="17dp"
+        android:text="@string/other_login_way"
+        app:layout_constraintBottom_toTopOf="@id/tv_wechat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_wechat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="59dp"
+        android:layout_marginStart="128dp"
+        android:drawablePadding="5dp"
+        android:drawableTop="@drawable/ic_wechat"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/wechat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_qq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="128dp"
+        android:drawablePadding="5dp"
+        android:drawableTop="@drawable/ic_qq"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/qq"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_wechat"/>
+
+
+</android.support.constraint.ConstraintLayout>

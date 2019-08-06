@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.CoinIncomeAdapter;
-import chat.hala.hala.adapter.CoinListAdapter;
+
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.CoinListBean;

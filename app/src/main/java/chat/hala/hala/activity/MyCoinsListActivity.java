@@ -56,7 +56,7 @@ public class MyCoinsListActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        tvTitle.setText("My Coins");
+        tvTitle.setText(R.string.mycoins);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(layoutManager);

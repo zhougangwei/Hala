@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#f5f5f5"
-    android:orientation="vertical"
-    tools:context="chat.hala.hala.activity.EditProUserActivity">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#f5f5f5"
+              android:orientation="vertical"
+              tools:context="chat.hala.hala.activity.EditProUserActivity">
 
-    <include layout="@layout/include_top_toolbar_iv" />
+    <include layout="@layout/include_top_toolbar_iv"/>
 
     <LinearLayout
         android:id="@+id/ll_user_avatar"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="68dp"
         android:layout_marginTop="8dp"
         android:background="@color/white">
 
@@ -25,36 +25,36 @@
             android:layout_weight="1"
             android:text="@string/user_avtar"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <ImageView
             android:id="@+id/iv_head"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
 
             android:layout_gravity="center_vertical"
-            android:src="@drawable/circle_place" />
+            android:src="@drawable/circle_place"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="14dp"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_next_10" />
+            android:layout_marginStart="14dp"
+            android:src="@drawable/ic_next_10"/>
     </LinearLayout>
 
     <include
         layout="@layout/include_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="15dp" />
+        android:layout_marginStart="15dp"/>
 
     <LinearLayout
 
         android:id="@+id/ll_user_name"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="68dp"
         android:background="@color/white">
 
         <TextView
@@ -64,7 +64,7 @@
             android:layout_marginStart="9dp"
             android:text="@string/user_name"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <EditText
             android:id="@+id/et_user_name"
@@ -79,26 +79,26 @@
             android:paddingEnd="10dp"
             android:textAlignment="textEnd"
             android:textColorHint="#C7C7CE"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_next_10" />
+            android:src="@drawable/ic_next_10"/>
     </LinearLayout>
 
     <include
         layout="@layout/include_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="15dp" />
+        android:layout_marginStart="15dp"/>
 
     <LinearLayout
         android:id="@+id/ll_gender"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="68dp"
         android:background="@color/white">
 
         <TextView
@@ -108,7 +108,7 @@
             android:layout_marginStart="9dp"
             android:text="@string/gender"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/et_gender"
@@ -123,26 +123,26 @@
             android:text="@string/Secret"
             android:textAlignment="textEnd"
             android:textColorHint="#C7C7CE"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_next_10" />
+            android:src="@drawable/ic_next_10"/>
     </LinearLayout>
 
     <include
         layout="@layout/include_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="15dp" />
+        android:layout_marginStart="15dp"/>
 
     <LinearLayout
         android:id="@+id/ll_birthdate"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="68dp"
         android:background="@color/white">
 
         <TextView
@@ -152,7 +152,7 @@
             android:layout_marginStart="9dp"
             android:text="@string/birthdate"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/et_birth"
@@ -168,14 +168,91 @@
             android:text="2000-10-14"
             android:textAlignment="textEnd"
             android:textColorHint="#C7C7CE"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_next_10" />
+            android:src="@drawable/ic_next_10"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_location"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="9dp"
+            android:text="@string/now_location"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/et_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="end"
+            android:hint="选择城市(选填)"
+            android:paddingEnd="10dp"
+            android:textAlignment="textEnd"
+            android:textColorHint="#C7C7CE"
+            android:textSize="15sp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_next_10"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bio"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="9dp"
+            android:text="@string/personal_signature"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/et_bio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="end"
+            android:hint="填写个性签名(选填)"
+            android:paddingEnd="10dp"
+            android:textAlignment="textEnd"
+            android:textColorHint="#C7C7CE"
+            android:textSize="15sp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_next_10"/>
     </LinearLayout>
 
     <TextView
@@ -184,11 +261,11 @@
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="32dp"
-        android:background="@drawable/bg_rec_purple_r1"
+        android:background="@drawable/selector_get_sms"
         android:gravity="center"
-        android:text="@string/confirm"
+        android:text="@string/enter"
         android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 
 
 </LinearLayout>

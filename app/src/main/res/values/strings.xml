@@ -143,5 +143,18 @@
     <string name="other_login_way">其他登录方式</string>
     <string name="wechat">微信</string>
     <string name="qq">QQ</string>
+    <string name="please_enter_sms_code">请输入验证码</string>
+    <string name="input_sms_code">输入验证码</string>
+    <string name="count_down_sms">%1$s秒后可重新获取</string>
+    <string name="next_step">下一步</string>
+    <string name="enter">进入</string>
+    <string name="mycoins">My Coins</string>
+    <string name="self_info">个人信息</string>
+    <string name="now_location">现居地</string>
+    <string name="personal_signature">个性签名</string>
+    <string name="ta_say">Ta说</string>
 
+    <string name="coin_min">%1$s 金币/分钟</string>
+    <string name="date">号</string>
+    <string name="choose_pay_way">选择支付方式</string>
 </resources>

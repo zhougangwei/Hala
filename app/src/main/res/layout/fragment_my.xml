@@ -27,10 +27,11 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
         android:text="查看或编辑个人资料"
         android:textColor="#FFACACAC"
-        app:layout_constraintStart_toStartOf="@id/tv_name"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_name"/>
 
 
@@ -74,21 +75,24 @@
         android:id="@+id/tv_follow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="3dp"
+        android:text="0"
         android:textColor="@color/black"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@id/tv_name"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_charge"
-        tools:text="100"/>
+        />
 
     <TextView
         android:id="@+id/tv_follow_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
         android:text="@string/follow"
         android:textColor="#FFACACAC"
-        app:layout_constraintStart_toStartOf="@id/tv_name"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_follow"/>
 
 
@@ -126,284 +130,302 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_coin_name"
         />
 
-    <ImageView
-        android:id="@+id/iv_wallet"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
-        android:src="@drawable/ic_wallet"
-        app:layout_constraintStart_toStartOf="@id/tv_name"
-        app:layout_constraintTop_toBottomOf="@id/tv_coin_name"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_coin_name">
 
-    <TextView
-        android:id="@+id/tv_wallet"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:padding="5dp"
-        android:text="@string/wallet"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_wallet"
-        app:layout_constraintEnd_toStartOf="@id/iv1"
-        app:layout_constraintStart_toEndOf="@id/iv_wallet"
-        app:layout_constraintTop_toTopOf="@id/iv_wallet"/>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
 
-    <ImageView
-        android:id="@+id/iv1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:src="@drawable/ic_next_8"
-        app:layout_constraintBottom_toBottomOf="@id/iv_wallet"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/iv_wallet"/>
+            <ImageView
+                android:id="@+id/iv_wallet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/ic_wallet"
+                app:layout_constraintStart_toStartOf="parent"
+                />
 
+            <TextView
+                android:id="@+id/tv_wallet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:padding="5dp"
+                android:text="@string/wallet"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_wallet"
+                app:layout_constraintEnd_toStartOf="@id/iv1"
+                app:layout_constraintStart_toEndOf="@id/iv_wallet"
+                app:layout_constraintTop_toTopOf="@id/iv_wallet"/>
 
-    <ImageView
-        android:id="@+id/iv_certify"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
-        android:src="@drawable/ic_certified"
-        app:layout_constraintStart_toStartOf="@id/tv_name"
-        app:layout_constraintTop_toBottomOf="@id/iv_wallet"/>
-
-    <TextView
-        android:id="@+id/tv_certify"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:padding="5dp"
-        android:text="@string/to_be_star"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_certify"
-        app:layout_constraintEnd_toStartOf="@id/iv2"
-        app:layout_constraintStart_toEndOf="@id/iv_certify"
-        app:layout_constraintTop_toTopOf="@id/iv_certify"/>
-
-    <ImageView
-        android:id="@+id/iv2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:src="@drawable/ic_next_8"
-        app:layout_constraintBottom_toBottomOf="@id/iv_certify"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/iv_certify"/>
-
-    <ImageView
-        android:id="@+id/iv_feedback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
-        android:src="@drawable/ic_feedback"
-        app:layout_constraintStart_toStartOf="@id/tv_name"
-        app:layout_constraintTop_toBottomOf="@id/iv_certify"/>
-
-    <TextView
-        android:id="@+id/tv_feedback"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:padding="5dp"
-        android:text="@string/feedback"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_feedback"
-        app:layout_constraintEnd_toStartOf="@id/iv3"
-        app:layout_constraintStart_toEndOf="@id/iv_feedback"
-        app:layout_constraintTop_toTopOf="@id/iv_feedback"/>
-
-    <ImageView
-        android:id="@+id/iv3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:src="@drawable/ic_next_8"
-        app:layout_constraintBottom_toBottomOf="@id/iv_feedback"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/iv_feedback"/>
+            <ImageView
+                android:id="@+id/iv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_next_8"
+                app:layout_constraintBottom_toBottomOf="@id/iv_wallet"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_wallet"/>
 
 
-    <ImageView
-        android:id="@+id/iv_invite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
-        android:src="@drawable/ic_invite"
-        app:layout_constraintStart_toStartOf="@id/tv_name"
-        app:layout_constraintTop_toBottomOf="@id/iv_feedback"/>
+            <ImageView
+                android:id="@+id/iv_certify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="31dp"
+                android:src="@drawable/ic_certified"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_wallet"/>
 
-    <TextView
-        android:id="@+id/tv_invite"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:padding="5dp"
-        android:text="@string/invite_friends"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_invite"
-        app:layout_constraintEnd_toStartOf="@id/iv2"
-        app:layout_constraintStart_toEndOf="@id/iv_invite"
-        app:layout_constraintTop_toTopOf="@id/iv_invite"/>
+            <TextView
+                android:id="@+id/tv_certify"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:padding="5dp"
+                android:text="@string/to_be_star"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_certify"
+                app:layout_constraintEnd_toStartOf="@id/iv2"
+                app:layout_constraintStart_toEndOf="@id/iv_certify"
+                app:layout_constraintTop_toTopOf="@id/iv_certify"/>
 
-    <ImageView
-        android:id="@+id/iv7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:src="@drawable/ic_next_8"
-        app:layout_constraintBottom_toBottomOf="@id/iv_invite"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/iv_invite"/>
+            <ImageView
+                android:id="@+id/iv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_next_8"
+                app:layout_constraintBottom_toBottomOf="@id/iv_certify"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_certify"/>
 
+            <ImageView
+                android:id="@+id/iv_feedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="31dp"
+                android:src="@drawable/ic_feedback"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_certify"/>
 
-    <ImageView
-        android:id="@+id/iv_chat_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
-        android:src="@drawable/ic_chat_setting"
-        app:layout_constraintStart_toStartOf="@id/tv_name"
-        app:layout_constraintTop_toBottomOf="@id/iv_invite"/>
+            <TextView
+                android:id="@+id/tv_feedback"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:padding="5dp"
+                android:text="@string/feedback"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_feedback"
+                app:layout_constraintEnd_toStartOf="@id/iv3"
+                app:layout_constraintStart_toEndOf="@id/iv_feedback"
+                app:layout_constraintTop_toTopOf="@id/iv_feedback"/>
 
-    <TextView
-        android:id="@+id/tv_chat_setting"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:padding="5dp"
-        android:text="@string/chat_setting"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_chat_setting"
-        app:layout_constraintEnd_toStartOf="@id/iv2"
-        app:layout_constraintStart_toEndOf="@id/iv_chat_setting"
-        app:layout_constraintTop_toTopOf="@id/iv_chat_setting"/>
-
-    <ImageView
-        android:id="@+id/iv8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:src="@drawable/ic_next_8"
-        app:layout_constraintBottom_toBottomOf="@id/iv_chat_setting"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/iv_chat_setting"/>
-
-    <ImageView
-        android:id="@+id/iv_beauty_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
-        android:src="@drawable/ic_beauty_setting"
-        app:layout_constraintStart_toStartOf="@id/tv_name"
-        app:layout_constraintTop_toBottomOf="@id/iv_chat_setting"/>
-
-    <TextView
-        android:id="@+id/tv_beauty_setting"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:padding="5dp"
-        android:text="@string/beauty_setting"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_beauty_setting"
-        app:layout_constraintEnd_toStartOf="@id/iv2"
-        app:layout_constraintStart_toEndOf="@id/iv_beauty_setting"
-        app:layout_constraintTop_toTopOf="@id/iv_beauty_setting"/>
-
-    <ImageView
-        android:id="@+id/iv9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:src="@drawable/ic_next_8"
-        app:layout_constraintBottom_toBottomOf="@id/iv_beauty_setting"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/iv_beauty_setting"/>
+            <ImageView
+                android:id="@+id/iv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_next_8"
+                app:layout_constraintBottom_toBottomOf="@id/iv_feedback"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_feedback"/>
 
 
-    <ImageView
-        android:id="@+id/iv_loginout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
-        android:src="@drawable/ic_logout"
-        app:layout_constraintStart_toStartOf="@id/tv_name"
-        app:layout_constraintTop_toBottomOf="@id/iv_beauty_setting"/>
+            <ImageView
+                android:id="@+id/iv_invite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="31dp"
+                android:src="@drawable/ic_invite"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_feedback"/>
 
-    <TextView
-        android:id="@+id/tv_loginout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:padding="5dp"
-        android:text="@string/log_out"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_loginout"
-        app:layout_constraintEnd_toStartOf="@id/iv4"
-        app:layout_constraintStart_toEndOf="@id/iv_loginout"
-        app:layout_constraintTop_toTopOf="@id/iv_loginout"/>
+            <TextView
+                android:id="@+id/tv_invite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:padding="5dp"
+                android:text="@string/invite_friends"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_invite"
+                app:layout_constraintEnd_toStartOf="@id/iv2"
+                app:layout_constraintStart_toEndOf="@id/iv_invite"
+                app:layout_constraintTop_toTopOf="@id/iv_invite"/>
 
-    <ImageView
-        android:id="@+id/iv4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:src="@drawable/ic_next_8"
-        app:layout_constraintBottom_toBottomOf="@id/iv_loginout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/iv_loginout"/>
-
-    <android.support.constraint.Group
-        android:id="@+id/gp_walllet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="iv_wallet,tv_wallet,iv1"/>
-
-    <android.support.constraint.Group
-
-        android:id="@+id/gp_certify"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="iv_certify,tv_certify,iv2"/>
-
-    <android.support.constraint.Group
-        android:id="@+id/gp_feedback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="iv_feedback,tv_feedback,iv3"/>
-
-    <android.support.constraint.Group
-        android:id="@+id/gp_invite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="iv_invite,tv_invite,iv7"/>
-
-    <android.support.constraint.Group
-        android:id="@+id/gp_chat_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="iv_chat_setting,tv_chat_setting,iv8"/>
+            <ImageView
+                android:id="@+id/iv7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_next_8"
+                app:layout_constraintBottom_toBottomOf="@id/iv_invite"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_invite"/>
 
 
-    <android.support.constraint.Group
-        android:id="@+id/gp_beauty_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="iv_beauty_setting,tv_beauty_setting,iv9"/>
+            <ImageView
+                android:id="@+id/iv_chat_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="31dp"
+                android:src="@drawable/ic_chat_setting"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_invite"/>
 
-    <android.support.constraint.Group
-        android:id="@+id/gp_loginout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="iv_loginout,tv_loginout,iv4"/>
+            <TextView
+                android:id="@+id/tv_chat_setting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:padding="5dp"
+                android:text="@string/chat_setting"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_chat_setting"
+                app:layout_constraintEnd_toStartOf="@id/iv2"
+                app:layout_constraintStart_toEndOf="@id/iv_chat_setting"
+                app:layout_constraintTop_toTopOf="@id/iv_chat_setting"/>
+
+            <ImageView
+                android:id="@+id/iv8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_next_8"
+                app:layout_constraintBottom_toBottomOf="@id/iv_chat_setting"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_chat_setting"/>
+
+            <ImageView
+                android:id="@+id/iv_beauty_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="31dp"
+                android:src="@drawable/ic_beauty_setting"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_chat_setting"/>
+
+            <TextView
+                android:id="@+id/tv_beauty_setting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:padding="5dp"
+                android:text="@string/beauty_setting"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_beauty_setting"
+                app:layout_constraintEnd_toStartOf="@id/iv2"
+                app:layout_constraintStart_toEndOf="@id/iv_beauty_setting"
+                app:layout_constraintTop_toTopOf="@id/iv_beauty_setting"/>
+
+            <ImageView
+                android:id="@+id/iv9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_next_8"
+                app:layout_constraintBottom_toBottomOf="@id/iv_beauty_setting"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_beauty_setting"/>
 
 
+            <ImageView
+                android:id="@+id/iv_loginout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="31dp"
+                android:src="@drawable/ic_logout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_beauty_setting"/>
+
+            <TextView
+                android:id="@+id/tv_loginout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:padding="5dp"
+                android:text="@string/log_out"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_loginout"
+                app:layout_constraintEnd_toStartOf="@id/iv4"
+                app:layout_constraintStart_toEndOf="@id/iv_loginout"
+                app:layout_constraintTop_toTopOf="@id/iv_loginout"/>
+
+            <ImageView
+                android:id="@+id/iv4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_next_8"
+                app:layout_constraintBottom_toBottomOf="@id/iv_loginout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_loginout"/>
+
+
+            <android.support.constraint.Group
+                android:id="@+id/gp_walllet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="iv_wallet,tv_wallet,iv1"/>
+
+            <android.support.constraint.Group
+
+                android:id="@+id/gp_certify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="iv_certify,tv_certify,iv2"/>
+
+            <android.support.constraint.Group
+                android:id="@+id/gp_feedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="iv_feedback,tv_feedback,iv3"/>
+
+            <android.support.constraint.Group
+                android:id="@+id/gp_invite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="iv_invite,tv_invite,iv7"/>
+
+            <android.support.constraint.Group
+                android:id="@+id/gp_chat_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="iv_chat_setting,tv_chat_setting,iv8"/>
+
+
+            <android.support.constraint.Group
+                android:id="@+id/gp_beauty_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="iv_beauty_setting,tv_beauty_setting,iv9"/>
+
+            <android.support.constraint.Group
+                android:id="@+id/gp_loginout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="iv_loginout,tv_loginout,iv4"/>
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

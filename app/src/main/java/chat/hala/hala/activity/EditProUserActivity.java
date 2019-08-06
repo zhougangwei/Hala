@@ -1,6 +1,7 @@
 package chat.hala.hala.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -21,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.avchat.AvchatInfo;
@@ -44,12 +46,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class EditProUserActivity extends BaseActivity {
-
-
-
-
-
-
 
 
     private static final String TAG = "EditProUserActivity";
@@ -76,6 +72,14 @@ public class EditProUserActivity extends BaseActivity {
     LinearLayout llBirthdate;
     @BindView(R.id.tv_confirm)
     TextView     tvConfirm;
+    @BindView(R.id.et_location)
+    TextView     mEtLocation;
+    @BindView(R.id.ll_location)
+    LinearLayout mLlLocation;
+    @BindView(R.id.et_bio)
+    TextView     mEtBio;
+    @BindView(R.id.ll_bio)
+    LinearLayout mLlBio;
     private String type;
     private String facebookId;
     private String mobileNumber;
@@ -118,10 +122,10 @@ public class EditProUserActivity extends BaseActivity {
     @Override
     protected void initView() {
         tvTitle.setText(R.string.edit_profile);
-        if(FROM_MYFRAG_MENT.equals(type)){
+        if (FROM_MYFRAG_MENT.equals(type)) {
             etUserName.setText(AvchatInfo.getName());
             etGender.setText(AvchatInfo.getGender());
-           // etBirth.setText(AvchatInfo.getBirthDate());
+            // etBirth.setText(AvchatInfo.getBirthDate());
             Glide.with(this).load(AvchatInfo.getAvatarUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(ivHead);
         }
 
@@ -130,12 +134,15 @@ public class EditProUserActivity extends BaseActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s != null && s.length() > 0) {
-                    tvConfirm.setBackgroundResource(R.drawable.bg_rec_purple_r2);
+                    tvConfirm.setSelected(true);
+                    tvConfirm.setEnabled(true);
                 } else {
-                    tvConfirm.setBackgroundResource(R.drawable.bg_rec_purple_r1);
+                    tvConfirm.setSelected(false);
+                    tvConfirm.setEnabled(false);
                 }
             }
 
@@ -176,7 +183,7 @@ public class EditProUserActivity extends BaseActivity {
         final DatePicker picker = new DatePicker(this);
         picker.setCanceledOnTouchOutside(true);
         picker.setUseWeight(true);
-        picker.setLabel("","","");
+        picker.setLabel("", "", "");
 
         picker.setTopPadding(ConvertUtils.toPx(this, 10));
         picker.setRangeEnd(2020, 1, 11);
@@ -186,24 +193,24 @@ public class EditProUserActivity extends BaseActivity {
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {
-                etBirth.setText(year+"-"+month+"-"+day);
-                ToastUtils.showToast(EditProUserActivity.this,year+"-"+month+"-"+day);
+                etBirth.setText(String.format("%s-%s-%s", year, month, day));
+                ToastUtils.showToast(EditProUserActivity.this, year + "-" + month + "-" + day);
             }
         });
         picker.setOnWheelListener(new DatePicker.OnWheelListener() {
             @Override
             public void onYearWheeled(int index, String year) {
-                picker.setTitleText(year + "-" + picker.getSelectedMonth() + "-" + picker.getSelectedDay());
+                picker.setTitleText(String.format("%s-%s-%s", year, picker.getSelectedMonth(), picker.getSelectedDay()));
             }
 
             @Override
             public void onMonthWheeled(int index, String month) {
-                picker.setTitleText(picker.getSelectedYear() + "-" + month + "-" + picker.getSelectedDay());
+                picker.setTitleText(String.format("%s-%s-%s", picker.getSelectedYear(), month, picker.getSelectedDay()));
             }
 
             @Override
             public void onDayWheeled(int index, String day) {
-                picker.setTitleText(picker.getSelectedYear() + "-" + picker.getSelectedMonth() + "-" + day);
+                picker.setTitleText(String.format("%s-%s-%s", picker.getSelectedYear(), picker.getSelectedMonth(), day));
             }
         });
         picker.show();
@@ -212,7 +219,7 @@ public class EditProUserActivity extends BaseActivity {
 
     private void chooseGender() {
 
-        String[] sexArr    = new String[]{getString(R.string.Secret),getString(R.string.male), getString(R.string.female)};
+        String[] sexArr = new String[]{getString(R.string.Secret), getString(R.string.male), getString(R.string.female)};
         List<String> data = Arrays.asList(sexArr);
         SinglePicker<String> picker = new SinglePicker<String>(this, data);
         picker.setCanceledOnTouchOutside(true);
@@ -223,7 +230,7 @@ public class EditProUserActivity extends BaseActivity {
         picker.setOnItemPickListener(new SinglePicker.OnItemPickListener<String>() {
             @Override
             public void onItemPicked(int index, String item) {
-                genderIndex =index;
+                genderIndex = index;
                 etGender.setText(item);
             }
         });
@@ -273,11 +280,11 @@ public class EditProUserActivity extends BaseActivity {
 
         Observable<RegistBean> regist = null;
         if (type.equals(FROM_PHONE)) {
-            regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(code, avatarUrl, username, genderIndex+"", birthDate, mobileNumber));
+            regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(code, avatarUrl, username, genderIndex + "", birthDate, mobileNumber));
         } else if (type.equals(FROM_FACEBOOK)) {
-            regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(avatarUrl, username, genderIndex+"", birthDate, facebookId));
+            regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(avatarUrl, username, genderIndex + "", birthDate, facebookId));
         } else if (type.equals(FROM_MYFRAG_MENT)) {
-            regist = RetrofitFactory.getInstance().changeUserInfo(ProxyPostHttpRequest.getInstance().changeUserInfo(avatarUrl, username, genderIndex+"", birthDate, mobileNumber));
+            regist = RetrofitFactory.getInstance().changeUserInfo(ProxyPostHttpRequest.getInstance().changeUserInfo(avatarUrl, username, genderIndex + "", birthDate, mobileNumber));
         }
         regist.subscribeOn(Schedulers.io())
                 .compose(this.<RegistBean>bindToLifecycle())
@@ -319,5 +326,12 @@ public class EditProUserActivity extends BaseActivity {
                 Glide.with(this).load(uriList.get(0)).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(ivHead);
             }
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

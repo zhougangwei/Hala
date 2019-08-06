@@ -18,6 +18,7 @@ import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.activity.BestarActivity;
 import chat.hala.hala.activity.ChargeActivity;
+import chat.hala.hala.activity.ChatSettingActivity;
 import chat.hala.hala.activity.EditProUserActivity;
 import chat.hala.hala.activity.FeedBackActivity;
 import chat.hala.hala.activity.WalletActivity;
@@ -40,12 +41,17 @@ public class MyFragment extends BaseFragment {
     TextView  tvName;
     @BindView(R.id.iv_head)
     ImageView ivHead;
-    @BindView(R.id.iv_more)
-    ImageView ivMore;
+
     @BindView(R.id.tv_charge)
     TextView  tvCharge;
     @BindView(R.id.tv_money)
     TextView  tvMoney;
+
+    @BindView(R.id.tv_follow)
+    TextView  tvFollow;
+
+
+
 
 
     @Override
@@ -92,14 +98,10 @@ public class MyFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.iv_more, R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
+    @OnClick({ R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_more:
-                Intent intent = new Intent(getActivity(), EditProUserActivity.class);
-                intent.putExtra("type", EditProUserActivity.FROM_MYFRAG_MENT);
-                startActivity(intent);
-                break;
+
             case R.id.tv_charge:
                 gotoCharge();
                 break;
@@ -148,7 +150,7 @@ public class MyFragment extends BaseFragment {
     }
 
     private void gotoChatSetting() {
-
+        startActivity(new Intent(getActivity(), ChatSettingActivity.class));
     }
 
     private void gotoInvite() {

@@ -1,70 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="chat.hala.hala.activity.MainActivity">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="chat.hala.hala.activity.MainActivity">
 
     <chat.hala.hala.wight.NoScrollViewPager
-    android:id="@+id/vp"
-    android:layout_above="@id/rl1"
+        android:id="@+id/vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-         />
+        android:layout_above="@id/rl1"
+        />
 
 
     <RelativeLayout
-        android:background="@color/white"
         android:id="@+id/rl1"
         android:layout_width="match_parent"
         android:layout_height="49dp"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@color/white">
 
         <ImageView
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-
             android:id="@+id/iv_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+
             android:layout_centerVertical="true"
             android:layout_marginStart="44dp"
-            android:src="@drawable/btn_tab_home" />
+            android:paddingBottom="5dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:src="@drawable/btn_tab_home"/>
 
         <ImageView
+            android:layout_width="8dp"
+            android:layout_height="8dp"
             android:layout_alignEnd="@+id/iv_msg"
             android:layout_alignTop="@+id/iv_msg"
-            android:src="@drawable/ic_count_msg"
-            android:layout_width="8dp"
-            android:layout_height="8dp" />
+            android:src="@drawable/ic_count_msg"/>
+
         <ImageView
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
             android:id="@+id/iv_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/btn_tab_msg" />
+            android:paddingBottom="5dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:src="@drawable/btn_tab_msg"/>
 
         <ImageView
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
             android:id="@+id/iv_my"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="44dp"
-            android:src="@drawable/btn_tab_mine" />
+            android:paddingBottom="5dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:src="@drawable/btn_tab_mine"/>
 
     </RelativeLayout>
 

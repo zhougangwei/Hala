@@ -132,4 +132,14 @@
     <string name="beauty_setting">美颜设置</string>
     <string name="login_regist_more_fun">登录注册更精彩</string>
     <string name="input_phone_num">输入手机号</string>
+    <string name="please_enter_sms_code">请输入验证码</string>
+    <string name="enter">进入</string>
+    <string name="mycoins">My Coins</string>
+    <string name="self_info">个人信息</string>
+    <string name="now_location">现居地</string>
+    <string name="personal_signature">个性签名</string>
+    <string name="ta_say">Ta说</string>
+    <string name="coin_min">%1$s 金币/分钟</string>
+    <string name="date">号</string>
+
 </resources>

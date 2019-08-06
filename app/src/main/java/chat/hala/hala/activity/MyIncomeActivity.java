@@ -1,6 +1,5 @@
 package chat.hala.hala.activity;
 
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
@@ -12,11 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.CoinIncomeAdapter;
-import chat.hala.hala.adapter.CoinListAdapter;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.CoinListBean;

@@ -2,10 +2,18 @@ package chat.hala.hala.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.blankj.utilcode.utils.LogUtils;
+import com.blankj.utilcode.utils.PhoneUtils;
+import com.blankj.utilcode.utils.RegexUtils;
+import com.blankj.utilcode.utils.TimeUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -13,6 +21,7 @@ import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
+import chat.hala.hala.dialog.PolicyDialog;
 import chat.hala.hala.wight.country.CountryActivity;
 
 public class LoginActivity extends BaseActivity {
@@ -49,7 +58,27 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        mTvGetSms.setSelected(false);
+        mTvGetSms.setEnabled(false);
+        mEtPhoneNum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s!=null& RegexUtils.isMobileSimple(s)){
+                    mTvGetSms.setSelected(true);
+                    mTvGetSms.setEnabled(true);
+                }else{
+                    mTvGetSms.setSelected(false);
+                    mTvGetSms.setEnabled(false);
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
     }
 
@@ -65,6 +94,11 @@ public class LoginActivity extends BaseActivity {
                 startActivityForResult(intent, Contact.REQUEST_CHOOSE_COUNTRY);
                 break;
             case R.id.tv_get_sms:
+                CharSequence text = mEtPhoneNum.getText();
+                Intent intent2 = new Intent(LoginActivity.this,LoginSmsActivity.class);
+                intent2.putExtra("phoneNum",mCountryCode+text);
+                startActivity(intent2);
+                finish();
                 break;
             case R.id.tv_wechat:
                 break;
@@ -78,11 +112,12 @@ public class LoginActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode==RESULT_OK){
             if (requestCode==Contact.REQUEST_CHOOSE_COUNTRY) {
-                String countryName = data.getStringExtra("countryName");
                 mCountryCode = data.getStringExtra("countryCode");
                 mTvChooseCountry.setText(mCountryCode);
             }
         }
 
     }
+
+
 }

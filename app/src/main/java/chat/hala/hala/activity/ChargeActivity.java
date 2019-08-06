@@ -34,8 +34,7 @@ public class ChargeActivity extends BaseActivity {
     TextView     mTv1;
     @BindView(R.id.rv)
     RecyclerView mRv;
-    @BindView(R.id.tv_contact)
-    TextView     mTvContact;
+
     private ChargeAdapter mChargeAdapter;
 
     List<RuleBean.DataBean.RechargeSettingBean> mdataList = new ArrayList<>();
@@ -81,14 +80,13 @@ public class ChargeActivity extends BaseActivity {
                     }
                 });
     }
-    @OnClick({R.id.iv_back, R.id.tv_contact})
+    @OnClick({R.id.iv_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
-            case R.id.tv_contact:
-                break;
+
         }
     }
 }
