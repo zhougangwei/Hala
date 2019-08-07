@@ -9,8 +9,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.utils.RegexUtils;
-
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -164,10 +162,10 @@ public class LoginSmsActivity extends BaseActivity {
                         }
                         String action = baseBean.getData().getAction();
                         if (Contact.SIGN_UP.equals(action)) {
-                            Intent intent = new Intent(LoginSmsActivity.this,EditProUserActivity.class);
+                            Intent intent = new Intent(LoginSmsActivity.this, FillUserActivity.class);
                             intent.putExtra("mobileNumber", mobileNumber);
                             intent.putExtra("code", code);
-                            intent.putExtra("type", EditProUserActivity.FROM_PHONE);
+                            intent.putExtra("type", FillUserActivity.FROM_PHONE);
                             startActivityForResult(intent,Contact.REQUEST_PHONE);
                         } else if (Contact.SIGN_IN.equals(action)) {
                             AvchatInfo.saveBaseData(baseBean.getData().getMember(),LoginSmsActivity.this);

@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context="chat.hala.hala.activity.PrepareBeAnchorActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <include layout="@layout/include_top_toolbar_save"/>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_pic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingStart="4dp"
+            android:paddingTop="12dp"
+            tools:layout_height="106dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#FFF7F7F7"
+            android:gravity="center_vertical"
+            android:paddingStart="15dp"
+            android:text="@string/self_info"
+            android:textColor="#FF333333"/>
+
+        <LinearLayout
+            android:id="@+id/ll_username"
+            android:layout_width="match_parent"
+            android:layout_height="68dp">
+
+            <TextView
+                style="@style/edit_userinfo_text_item"
+                android:text="@string/user_name"/>
+
+            <EditText
+                android:id="@+id/et_username"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="end"
+                android:hint="请输入您的真实姓名(必填)"
+                android:paddingEnd="10dp"
+                android:textAlignment="textEnd"
+                android:textColorHint="#C7C7CE"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_next_10"/>
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/ll_gender"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:background="@color/white">
+
+            <TextView
+                style="@style/edit_userinfo_text_item"
+                android:text="@string/gender"/>
+            <TextView
+                android:id="@+id/et_gender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="end"
+                android:paddingEnd="10dp"
+                android:text="@string/Secret"
+                android:textAlignment="textEnd"
+                android:textColorHint="#C7C7CE"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_next_10"/>
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/ll_birth"
+            android:layout_width="match_parent"
+            android:layout_height="68dp">
+
+
+            <TextView
+                style="@style/edit_userinfo_text_item"
+                android:text="生日"
+                />
+
+            <TextView
+                android:id="@+id/tv_birth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="end"
+                android:hint="选择日期(必填)"
+                android:paddingEnd="10dp"
+                android:textAlignment="textEnd"
+                android:textColorHint="#C7C7CE"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_next_10"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_height_weight"
+            android:layout_width="match_parent"
+            android:layout_height="68dp">
+
+            <TextView
+                style="@style/edit_userinfo_text_item"
+                android:text="身高/体重"
+                />
+
+            <TextView
+                android:id="@+id/tv_height_weight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="end"
+                android:hint="选择数据(必填)"
+                android:paddingEnd="10dp"
+                android:textAlignment="textEnd"
+                android:textColorHint="#C7C7CE"
+                android:textSize="15sp"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_next_10"/>
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:id="@+id/ll_city"
+            android:layout_width="match_parent"
+            android:layout_height="68dp">
+
+
+            <TextView
+                style="@style/edit_userinfo_text_item"
+                android:text="现居地"
+                />
+
+            <EditText
+                android:id="@+id/et_city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="end"
+                android:hint="选择城市(必填)"
+                android:paddingEnd="10dp"
+
+                android:textAlignment="textEnd"
+                android:textColorHint="#C7C7CE"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_next_10"/>
+        </LinearLayout>
+
+
+
+
+
+
+
+        <LinearLayout
+            android:id="@+id/ll_introction"
+            android:layout_width="match_parent"
+            android:layout_height="68dp">
+
+            <TextView
+                style="@style/edit_userinfo_text_item"
+                android:text="@string/personal_signature"
+                />
+
+            <EditText
+
+                android:id="@+id/et_introction"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="end"
+                android:hint="填写个性签名(选填)"
+                android:paddingEnd="10dp"
+                android:textAlignment="textEnd"
+                android:textColorHint="#C7C7CE"
+                android:textSize="15sp"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_next_10"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_bio"
+            android:layout_width="match_parent"
+            android:layout_height="68dp">
+
+            <TextView
+                style="@style/edit_userinfo_text_item"
+                android:text="@string/ta_say"
+                />
+
+
+            <TextView
+                android:id="@+id/et_bio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="70dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="end"
+                android:hint="请完成视频认证(必填)"
+                android:maxLines="1"
+                android:paddingEnd="10dp"
+                android:textAlignment="textEnd"
+                android:textColorHint="#C7C7CE"
+                android:textSize="15sp"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_next_10"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_tags"
+            android:layout_width="match_parent"
+            android:layout_height="68dp">
+
+            <TextView
+                style="@style/edit_userinfo_text_item"
+                android:text="@string/self_tag"
+                />
+            <TextView
+                android:lines="1"
+                android:id="@+id/et_tags"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="end"
+                android:hint="填写个性标签(选填)"
+                android:paddingEnd="10dp"
+                android:textAlignment="textEnd"
+                android:textColorHint="#C7C7CE"
+                android:textSize="15sp"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_next_10" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

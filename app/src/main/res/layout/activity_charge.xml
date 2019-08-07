@@ -24,11 +24,12 @@
             android:paddingBottom="100dp">
 
             <ImageView
+
                 android:id="@+id/iv_bg"
                 android:layout_width="match_parent"
                 android:layout_height="186dp"
                 android:layout_marginTop="8dp"
-                android:background="#FFFF8C00"
+                android:background="@drawable/bg_charge_bg"
 
                 />
 
@@ -192,6 +193,7 @@
         app:layout_constraintTop_toTopOf="@id/tv7"/>
 
     <TextView
+        android:id="@+id/tv_charge"
         android:gravity="center"
         android:background="@drawable/bg_charge_click"
         android:layout_width="185dp"

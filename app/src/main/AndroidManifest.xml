@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="chat.hala.hala">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="chat.hala.hala">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/> <!-- 读取SD卡文件的权限 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_LOGS"/>
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 读取SD卡文件的权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
 
-    <uses-feature android:name="android.hardware.camera"/> <!-- 使用照相机权限 -->
-    <uses-feature android:name="android.hardware.camera.autofocus"/> <!-- 自动聚焦权限 -->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="com.android.vending.BILLING"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/> <!-- 控制呼吸灯，振动器等，用于新消息提醒 -->
-    <uses-permission android:name="android.permission.FLASHLIGHT"/>
-    <uses-permission android:name="android.permission.VIBRATE"/> <!-- 如果需要实时音视频通话模块，下面的权限也是必须的。否则，可以不加 -->
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-feature android:name="android.hardware.camera" /> <!-- 使用照相机权限 -->
+    <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- 自动聚焦权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 控制呼吸灯，振动器等，用于新消息提醒 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- 如果需要实时音视频通话模块，下面的权限也是必须的。否则，可以不加 -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:name=".base.App"
@@ -44,63 +44,66 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activity.BeStarResultActivity"></activity>
+        <activity android:name=".activity.CashActivity" />
         <activity android:name=".activity.ConversationListActivity">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
 
                 <data
                     android:host="chat.hala.hala"
                     android:pathPrefix="/conversationlist"
-                    android:scheme="rong"/>
+                    android:scheme="rong" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.TagActivity"/>
-        <activity android:name=".activity.BioActivity"/>
-        <activity android:name=".activity.WalletActivity"/>
+        <activity android:name=".activity.TagActivity" />
+        <activity android:name=".activity.BioActivity" />
+        <activity android:name=".activity.WalletActivity" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LoginActivity"/>
-        <activity android:name=".activity.LoginSmsActivity"/>
-        <activity android:name=".activity.ChooseCountryActivity"/>
-        <activity android:name=".activity.LoginPhoneActivity"/>
-        <activity android:name=".activity.BestarActivity"/>
-        <activity android:name=".activity.AnchorsActivity"/>
-        <activity android:name=".activity.MyCallListActivity"/>
-        <activity android:name=".activity.EditProAnchorActivity"/>
-        <activity android:name=".activity.EditProUserActivity"/>
-        <activity android:name=".activity.ChargeActivity"/>
-        <activity android:name=".activity.OneToOneActivity"/>
-        <activity android:name=".activity.FeedBackActivity"/>
-        <activity android:name=".activity.MyIncomeActivity"/>
-        <activity android:name=".activity.MyCostActivity"/>
-        <activity android:name=".activity.MyReserveListActivity"/>
-        <activity android:name=".activity.MyCoinsListActivity"/>
-        <activity android:name=".activity.VideoFinishActivity"/>
-        <activity android:name=".wight.country.CountryActivity"/>
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.LoginSmsActivity" />
+        <activity android:name=".activity.ChooseCountryActivity" />
+        <activity android:name=".activity.LoginPhoneActivity" />
+        <activity android:name=".activity.BestarActivity" />
+        <activity android:name=".activity.AnchorsActivity" />
+        <activity android:name=".activity.MyCallListActivity" />
+        <activity android:name=".activity.PrepareBeAnchorActivity" />
+        <activity android:name=".activity.EditUserActivity" />
+        <activity android:name=".activity.FillUserActivity" />
+        <activity android:name=".activity.ChargeActivity" />
+        <activity android:name=".activity.OneToOneActivity" />
+        <activity android:name=".activity.FeedBackActivity" />
+        <activity android:name=".activity.MyIncomeActivity" />
+        <activity android:name=".activity.MyCostActivity" />
+        <activity android:name=".activity.MyReserveListActivity" />
+        <activity android:name=".activity.MyCoinsListActivity" />
+        <activity android:name=".activity.VideoFinishActivity" />
+        <activity android:name=".wight.country.CountryActivity" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"/>
+            android:label="@string/app_name" />
         <activity
             android:name=".activity.SubConversationListActivtiy"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
 
                 <data
                     android:host="chat.hala.hala"
                     android:pathPrefix="/subconversationlist"
-                    android:scheme="rong"/>
+                    android:scheme="rong" />
             </intent-filter>
         </activity>
         <activity
@@ -108,14 +111,14 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
 
                 <data
                     android:host="chat.hala.hala"
                     android:pathPrefix="/conversation/"
-                    android:scheme="rong"/>
+                    android:scheme="rong" />
             </intent-filter>
         </activity>
 
@@ -126,9 +129,8 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths_public"/>
+                android:resource="@xml/file_paths_public" />
         </provider>
-
         <!--
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -140,27 +142,25 @@
                 android:resource="@xml/rc_file_path"/>
         </provider>
         -->
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_app_id" />
 
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:scheme="@string/fb_login_protocol_scheme"
-                    tools:ignore="ManifestResource"/>
+                    tools:ignore="ManifestResource" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ChatSettingActivity">
-        </activity>
+        <activity android:name=".activity.ChatSettingActivity" />
     </application>
 
 </manifest>

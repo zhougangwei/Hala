@@ -25,15 +25,21 @@ import io.reactivex.schedulers.Schedulers;
 public class ChargeActivity extends BaseActivity {
 
     @BindView(R.id.iv_back)
-    ImageView    mIvBack;
+    ImageView mIvBack;
     @BindView(R.id.tv_title)
-    TextView     mTvTitle;
+    TextView mTvTitle;
     @BindView(R.id.tv_coin)
-    TextView     mTvCoin;
+    TextView mTvCoin;
     @BindView(R.id.tv1)
-    TextView     mTv1;
+    TextView mTv1;
     @BindView(R.id.rv)
     RecyclerView mRv;
+    @BindView(R.id.tv_charge)
+    TextView mTvCharge;
+    private int chargeType;
+    private final static int CHARGE_WEXIN = 1;
+    private final static int CHARGE_ALI = 2;
+
 
     private ChargeAdapter mChargeAdapter;
 
@@ -55,8 +61,8 @@ public class ChargeActivity extends BaseActivity {
         mTvTitle.setText(R.string.recharge);
         mChargeAdapter = new ChargeAdapter(R.layout.item_charge, mdataList);
         mRv.setAdapter(mChargeAdapter);
-        mRv.setLayoutManager(new GridLayoutManager(this,3));
-       // mRv.addItemDecoration(new SpaceItemDecoration(SizeUtils.dp2px(this,13)));
+        mRv.setLayoutManager(new GridLayoutManager(this, 2));
+        // mRv.addItemDecoration(new SpaceItemDecoration(SizeUtils.dp2px(this,13)));
         initData();
     }
 
@@ -80,13 +86,36 @@ public class ChargeActivity extends BaseActivity {
                     }
                 });
     }
-    @OnClick({R.id.iv_back})
+
+    @OnClick({R.id.iv_back, R.id.tv_charge})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
+            case R.id.tv_charge:
+                startCharge();
 
+                break;
         }
     }
+
+    private void startCharge() {
+        if(chargeType==0){
+            return;
+        }else if(chargeType == CHARGE_WEXIN){
+            gotoChargeWeixin();
+        }else if(chargeType ==CHARGE_ALI){
+            gotoChargeAli();
+        }
+    }
+
+    private void gotoChargeAli() {
+
+    }
+
+    private void gotoChargeWeixin() {
+
+    }
+
 }

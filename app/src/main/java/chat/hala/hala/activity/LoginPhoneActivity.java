@@ -217,8 +217,8 @@ public class LoginPhoneActivity extends BaseActivity {
 
             @Override
             public void regist(String id) {
-                Intent intent = new Intent(LoginPhoneActivity.this,EditProUserActivity.class);
-                intent.putExtra("type", EditProUserActivity.FROM_FACEBOOK);
+                Intent intent = new Intent(LoginPhoneActivity.this, FillUserActivity.class);
+                intent.putExtra("type", FillUserActivity.FROM_FACEBOOK);
                 intent.putExtra("facebookid",id);
                 startActivityForResult(intent,REQUEST_FACEBOOK);
             }
@@ -247,10 +247,10 @@ public class LoginPhoneActivity extends BaseActivity {
                         }
                         String action = baseBean.getData().getAction();
                         if (Contact.SIGN_UP.equals(action)) {
-                            Intent intent = new Intent(LoginPhoneActivity.this,EditProUserActivity.class);
+                            Intent intent = new Intent(LoginPhoneActivity.this, FillUserActivity.class);
                             intent.putExtra("mobileNumber", mobileNumber);
                             intent.putExtra("code", code);
-                            intent.putExtra("type", EditProUserActivity.FROM_PHONE);
+                            intent.putExtra("type", FillUserActivity.FROM_PHONE);
                             startActivityForResult(intent,REQUEST_PHONE);
                         } else if (Contact.SIGN_IN.equals(action)) {
                             AvchatInfo.saveBaseData(baseBean.getData().getMember(),LoginPhoneActivity.this);

@@ -157,4 +157,8 @@
     <string name="coin_min">%1$s 金币/分钟</string>
     <string name="date">号</string>
     <string name="choose_pay_way">选择支付方式</string>
+    <string name="charge_and_gain">充%1$s得%2$s星币</string>
+    <string name="luck_more">赠送%1$s星币</string>
+    <string name="video_verify">视频认证</string>
+    <string name="self_tag">个人标签</string>
 </resources>

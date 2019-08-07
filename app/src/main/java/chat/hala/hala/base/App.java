@@ -26,6 +26,7 @@ import chat.hala.hala.utils.ToolUtils;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.rongyun.MyPrivateConversationProvider;
 
 /**
  * Created by oneki on 2017/8/24.
@@ -64,7 +65,7 @@ public class App extends MultiDexApplication {
         if (ToolUtils.isMainProcess(this)) {
             application = this;
             sContext = this;
-            RongIM.init(this);
+            initRoom();
             initRxjava();
             LogUtils.init(this, true, false, 'v', "Hala");
             FacebookSdk.setApplicationId("306102296576531");
@@ -74,6 +75,11 @@ public class App extends MultiDexApplication {
             addOnline();
         }
 
+    }
+
+    private void initRoom() {
+        RongIM.init(this);
+        RongIM.getInstance().registerConversationTemplate(new MyPrivateConversationProvider());
     }
 
     private void initRxjava() {

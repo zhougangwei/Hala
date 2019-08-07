@@ -33,7 +33,6 @@ public class HotCallAdapter extends BaseQuickAdapter<OneToOneListBean.DataBean.L
         helper.setText(R.id.tv_content,item.getBiography());
         helper.setText(R.id.tv_cost,item.getCpm()+"");
         ImageView imageView = (ImageView) helper.getView(R.id.iv_bg);
-        LogUtils.e(TAG, "convert: "+item.getAvatarUrl());
         Glide.with(mContext).load(item.getCovers()==null?null:item.getCovers().get(0).getCoverUrl())
                 .apply(RequestOptions.placeholderOf(imageView.getDrawable()))
                 .into(imageView);

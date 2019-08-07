@@ -2,39 +2,33 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="56dp"
+    android:layout_height="70dp"
     android:layout_marginTop="26dp"
-    android:background="@drawable/bg_rec_grey_r1"
-    android:paddingStart="17dp"
-    android:paddingTop="8dp"
-    android:paddingEnd="17dp"
-    android:paddingBottom="2dp">
+    android:background="@drawable/bg_item_charge"
+    android:paddingStart="20dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="20dp">
 
-    <ImageView
-
-        android:id="@+id/iv_coin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_coin" />
 
     <TextView
-
         android:id="@+id/tv_coin_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:text="100"
-        android:textColor="#4A4A4A"
-        app:layout_constraintStart_toEndOf="@id/iv_coin" />
+        android:text="@string/charge_and_gain"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/tv_money"
+        android:id="@+id/tv_luck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="$0.99"
-        android:textColor="#4A4A4A"
-        android:textSize="13sp"
+        android:text="@string/luck_more"
+        android:textColor="#FF9005"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_coin_num" />
