@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/rc_read_receipt"
-                android:visibility="gone" />
+                 />
 
             <ImageView
                 android:id="@+id/rc_conversation_msg_block"

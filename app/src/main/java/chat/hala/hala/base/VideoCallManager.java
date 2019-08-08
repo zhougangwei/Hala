@@ -30,11 +30,21 @@ public class VideoCallManager {
 
     public static String TAG = "VideoCallManager";
 
+
+
+
+
+    public static void gotoCallOrReverse(final Activity activity, final int anchorId){
+        gotoCallOrReverse(activity,anchorId,111);
+    }
+
+    /**
+     * @param activity
+     * @param anchorId 主播id
+     * @param anchorMemberId
+     */
     @SuppressLint("CheckResult")
     public static void gotoCallOrReverse(final Activity activity, final int anchorId, final int anchorMemberId) {
-
-
-
         final RxPermissions rxPermissions = new RxPermissions(activity);
         rxPermissions.setLogging(true);
         rxPermissions.request(Manifest.permission.CAMERA, Manifest

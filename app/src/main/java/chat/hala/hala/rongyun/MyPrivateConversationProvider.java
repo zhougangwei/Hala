@@ -1,4 +1,4 @@
-package io.rong.imkit.rongyun;
+package chat.hala.hala.rongyun;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -36,7 +36,7 @@ import io.rong.imlib.model.UserInfo;
 import io.rong.message.RecallNotificationMessage;
 
 
-@ConversationProviderTag(conversationType = "private", portraitPosition = 2)
+@ConversationProviderTag(conversationType = "private", portraitPosition = 1)
 public class MyPrivateConversationProvider extends PrivateConversationProvider {
     private static final String TAG = "MyPrivateConversationProvider ";
 
@@ -56,7 +56,6 @@ public class MyPrivateConversationProvider extends PrivateConversationProvider {
     }
 
     private void handleMentionedContent(final MyPrivateConversationProvider.ViewHolder holder, final View view, final UIConversation data) {
-
         final SpannableStringBuilder builder = new SpannableStringBuilder();
         final String preStr = view.getContext().getString(R.string.rc_message_content_mentioned);
         if (holder.content.getWidth() > 60) {
@@ -171,7 +170,6 @@ public class MyPrivateConversationProvider extends PrivateConversationProvider {
                         holder.readStatus.setImageDrawable(RongContext.getInstance().getResources().getDrawable(R.drawable.ic_item_unread));
                     }
                 }
-
                 this.handleCommonContent(holder, data);
             } else {
                 if (data.getMentionedFlag()) {

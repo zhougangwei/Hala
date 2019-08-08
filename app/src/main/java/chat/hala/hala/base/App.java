@@ -14,6 +14,7 @@ import android.util.Log;
 import com.blankj.utilcode.utils.LogUtils;
 import com.facebook.FacebookSdk;
 
+import java.util.List;
 import java.util.Locale;
 
 import chat.hala.hala.activity.LoginActivity;
@@ -21,12 +22,18 @@ import chat.hala.hala.avchat.WorkerThread;
 import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.rongyun.customizemessage.CustomizeMessageItemProvider;
+import chat.hala.hala.rongyun.customizemessage.CustomizeVideoVoiceMessage;
 import chat.hala.hala.utils.SPUtil;
 import chat.hala.hala.utils.ToolUtils;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import io.rong.imkit.DefaultExtensionModule;
+import io.rong.imkit.IExtensionModule;
+import io.rong.imkit.RongExtensionManager;
 import io.rong.imkit.RongIM;
-import io.rong.imkit.rongyun.MyPrivateConversationProvider;
+import chat.hala.hala.rongyun.MyExtensionModule;
+import chat.hala.hala.rongyun.MyPrivateConversationProvider;
+
 
 /**
  * Created by oneki on 2017/8/24.
@@ -65,7 +72,7 @@ public class App extends MultiDexApplication {
         if (ToolUtils.isMainProcess(this)) {
             application = this;
             sContext = this;
-            initRoom();
+            initRong();
             initRxjava();
             LogUtils.init(this, true, false, 'v', "Hala");
             FacebookSdk.setApplicationId("306102296576531");
@@ -77,9 +84,30 @@ public class App extends MultiDexApplication {
 
     }
 
-    private void initRoom() {
+    private void initRong() {
         RongIM.init(this);
         RongIM.getInstance().registerConversationTemplate(new MyPrivateConversationProvider());
+
+       // RongIM.getInstance().registerMessageTemplate(new MyTextMessageItemProvider());
+        RongIM.getInstance().registerMessageType(CustomizeVideoVoiceMessage.class);
+        RongIM.getInstance().registerMessageTemplate(new CustomizeMessageItemProvider());
+        setMyExtensionModule();
+    }
+    public void setMyExtensionModule() {
+        List<IExtensionModule> moduleList = RongExtensionManager.getInstance().getExtensionModules();
+        IExtensionModule defaultModule = null;
+        if (moduleList != null) {
+            for (IExtensionModule module : moduleList) {
+                if (module instanceof DefaultExtensionModule) {
+                    defaultModule = module;
+                    break;
+                }
+            }
+            if (defaultModule != null) {
+                RongExtensionManager.getInstance().unregisterExtensionModule(defaultModule);
+                RongExtensionManager.getInstance().registerExtensionModule(new MyExtensionModule());
+            }
+        }
     }
 
     private void initRxjava() {
