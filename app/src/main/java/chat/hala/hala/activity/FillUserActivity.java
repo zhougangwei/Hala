@@ -1,6 +1,7 @@
 package chat.hala.hala.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -29,6 +30,7 @@ import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
+import chat.hala.hala.bean.EditUserBean;
 import chat.hala.hala.bean.QiNiuToken;
 import chat.hala.hala.bean.RegistBean;
 import chat.hala.hala.http.BaseCosumer;
@@ -47,8 +49,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class FillUserActivity extends BaseActivity {
 
-
-    private static final String TAG = "FillUserActivity";
+    private static final String TAG = "EditProUserActivity";
 
     @BindView(R.id.iv_back)
     ImageView    ivBack;
@@ -87,8 +88,9 @@ public class FillUserActivity extends BaseActivity {
 
 
     private String username;
-
     private String birthDate;
+    private String location;
+    private String bio;
 
 
     public static final String FROM_FACEBOOK    = "from_facebook";
@@ -154,7 +156,7 @@ public class FillUserActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_back, R.id.ll_user_avatar, R.id.ll_user_name, R.id.ll_gender, R.id.ll_birthdate, R.id.tv_confirm})
+    @OnClick({R.id.iv_back, R.id.ll_user_avatar, R.id.ll_user_name, R.id.ll_gender, R.id.ll_birthdate, R.id.tv_confirm,R.id.ll_bio})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -239,13 +241,17 @@ public class FillUserActivity extends BaseActivity {
 
     private boolean judgeEmpty() {
         username = etUserName.getText().toString();
-
         birthDate = etBirth.getText().toString();
+        location = mEtLocation.getText().toString();
+         bio = mEtBio.getText().toString();
         if (TextUtils.isEmpty(username)) {
-            ToastUtils.showToast(this, "userName" + "is Empty");
+            ToastUtils.showToast(this, "名字不能为空");
             return false;
         }
-
+        if (TextUtils.isEmpty(birthDate)) {
+            ToastUtils.showToast(this, "出生日期不能为空");
+            return false;
+        }
         return true;
     }
 
@@ -280,7 +286,16 @@ public class FillUserActivity extends BaseActivity {
 
         Observable<RegistBean> regist = null;
         if (type.equals(FROM_PHONE)) {
-            regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(code, avatarUrl, username, genderIndex + "", birthDate, mobileNumber));
+            EditUserBean editUserBean = new EditUserBean();
+            editUserBean.setAutograph(bio);
+            editUserBean.setBirthDate(birthDate);
+            editUserBean.setCode(code);
+            editUserBean.setGender(genderIndex+"");
+            editUserBean.setMobileNumber(mobileNumber);
+            editUserBean.setResidentialPlace(location);
+            regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getJsonInstance().regist(
+                    GsonUtil.parseObjectToJson(editUserBean)
+                   ));
         } else if (type.equals(FROM_FACEBOOK)) {
             regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(avatarUrl, username, genderIndex + "", birthDate, facebookId));
         } else if (type.equals(FROM_MYFRAG_MENT)) {
@@ -297,6 +312,7 @@ public class FillUserActivity extends BaseActivity {
                             ToastUtils.showToast(FillUserActivity.this, "名字已存在");
                             return;
                         }
+
                         if (Contact.REPONSE_CODE_REGIST_FAIL_ALREADY_PHONE == baseBean.getCode()) {
                             ToastUtils.showToast(FillUserActivity.this, "手机号已存在无法注册");
                             return;

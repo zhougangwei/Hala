@@ -30,12 +30,10 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LoginSmsActivity extends BaseActivity {
 
-
     @BindView(R.id.tv_phone_num)
     TextView mTvPhoneNum;
     @BindView(R.id.tv_count_down)
     TextView mTvCountDown;
-
     @BindView(R.id.et_sms_num)
     EditText  mEtSmsNum;
     @BindView(R.id.iv_line)

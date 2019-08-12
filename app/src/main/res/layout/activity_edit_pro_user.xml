@@ -246,7 +246,7 @@
         android:layout_width="315dp"
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="61dp"
         android:background="@drawable/selector_get_sms"
         android:gravity="center"
         android:text="@string/enter"

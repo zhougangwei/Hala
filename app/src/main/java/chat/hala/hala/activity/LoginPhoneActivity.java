@@ -30,7 +30,6 @@ import io.reactivex.schedulers.Schedulers;
 public class LoginPhoneActivity extends BaseActivity {
 
 
-
     private static final String TAG ="LoginPhoneActivity" ;
     private static final int REQUEST_FACEBOOK = 667;
     private static final int REQUEST_PHONE = 668;
@@ -54,7 +53,6 @@ public class LoginPhoneActivity extends BaseActivity {
     TextView tvTry;
     @BindView(R.id.iv_facebook)
     ImageView ivFacebook;
-
     @BindView(R.id.tv3)
     TextView tv3;
     @BindView(R.id.tv_send_msm)
@@ -214,7 +212,6 @@ public class LoginPhoneActivity extends BaseActivity {
             public void fail() {
                 ToastUtils.showToast(LoginPhoneActivity.this,getString(R.string.login_failed));
             }
-
             @Override
             public void regist(String id) {
                 Intent intent = new Intent(LoginPhoneActivity.this, FillUserActivity.class);
