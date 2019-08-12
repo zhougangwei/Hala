@@ -2,7 +2,6 @@ package chat.hala.hala.bean;
 
 public class LoginBean extends BaseBean {
 
-
     /**
      * data : {"member":{"mobileNumber":"+8613851668725","username":"test2","gender":"male","birthDate":31,"avatarUrl":"http://me.avatar.url","anchorId":14,"coin":1520,"online":false,"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiNTE1MjIxYTgtNTNlZC00OWNhLWJiODYtMzQ4MWVjOTJmNzU3In0.3uhD_ezq4aR9jsDn9JyF614_TI2tmXloQ_eQ87Uqofw","memberId":1},"action":"sign_in"}
      */

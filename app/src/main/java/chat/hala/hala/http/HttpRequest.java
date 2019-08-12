@@ -37,9 +37,6 @@ import retrofit2.http.Query;
 
 public interface HttpRequest {
 
-
-
-
     @POST("/account/signin_or_signup")
     Observable<LoginBean> login(@Body RequestBody requestBody
     );
@@ -56,12 +53,14 @@ public interface HttpRequest {
     @POST("/account/mobile_signup")
     Observable<RegistBean> regist(@Body RequestBody requestBody
     );
+
+    RequestBody regist(@JsonQuery String dataJson
+    );
+
     RequestBody regist(@Query("avatarUrl")String avatarUrl, @Query("username")String username,
                        @Query("gender")String gender, @Query("birthDate")String birthDate, @Query("facebookId")String facebookId
     );
-    RequestBody regist(@Query("code") String code, @Query("avatarUrl")String avatarUrl, @Query("username")String username,
-                       @Query("gender")String gender, @Query("birthDate")String birthDate, @Query("mobileNumber")String mobileNumber
-    );
+
     RequestBody changeUserInfo(@Query("avatarUrl")String avatarUrl, @Query("username")String username,
                        @Query("gender")String gender, @Query("birthDate")String birthDate, @Query("mobileNumber")String mobileNumber
     );
