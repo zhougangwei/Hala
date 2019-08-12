@@ -102,21 +102,21 @@ public class AvchatInfo {
     public static void saveBaseData(LoginBean.DataBean.MemberBean member, Context context) {
 
         String memeberJson = GsonUtil.parseObjectToJson(member);
-        AvchatInfo.setAnchorId(member.getAnchorId());
+      //  AvchatInfo.setAnchorId(member.getAnchorId());
         AvchatInfo.setMemberId(member.getMemberId());
         AvchatInfo.setAccount(member.getMemberId());
         AvchatInfo.setName(member.getUsername());
         AvchatInfo.setCoin(member.getCoin());
-        AvchatInfo.setAvatarUrl(member.getAvatarUrl());
+        AvchatInfo.setAvatarUrl(member.getAlbum().get(0).getMediaUrl());
         AvchatInfo.setGender(member.getGender());
         AvchatInfo.setBirthDate(member.getBirthDate());
         String accessToken = member.getAccessToken();
         String rongToken = member.getRongToken();
         SPUtil.getInstance(context).setString(Contact.TOKEN, accessToken);
         SPUtil.getInstance(context).setString(Contact.RONG_TOKEN, rongToken);
-        SPUtil.getInstance(context).setMemberJson(memeberJson);
         SPUtil.getInstance(context).setUserId(member.getMemberId());
-        SPUtil.getInstance(context).setAnchorId(member.getAnchorId());
+      //  SPUtil.getInstance(context).setAnchorId(member.getAnchorId());
+        SPUtil.getInstance(context).setMemberJson(memeberJson);
     }
 
 

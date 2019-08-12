@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".activity.BeStarResultActivity">
 
-    <include layout="@layout/include_top_toolbar_iv" />
+    <include
+        android:id="@+id/include2"
+        layout="@layout/include_top_toolbar_iv" />
 
     <ImageView
         android:id="@+id/iv_examine_state"
@@ -46,8 +48,6 @@
 
 
     <TextView
-        tools:visibility="visible"
-        android:visibility="gone"
         android:id="@+id/tv_examine_again"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -58,6 +58,93 @@
         android:gravity="center"
         android:text="重新提交>"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/tv_content" />
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/tv_content"
+        tools:visibility="visible" />
 
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="109dp"
+        android:text="欢迎"
+        android:textColor="@color/black"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="4dp"
+        android:text="进行实名认证，需本人亲自完成"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv1" />
+
+    <ImageView
+        android:id="@+id/iv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="249dp"
+        android:src="@drawable/ic_examine_prepare"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="成为社交明星"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/iv1"
+        app:layout_constraintStart_toStartOf="@id/iv1"
+        app:layout_constraintTop_toBottomOf="@id/iv1" />
+
+    <TextView
+        android:id="@+id/tv4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="让你的时间为你和他人创造更多价值"
+        app:layout_constraintEnd_toEndOf="@+id/tv3"
+        app:layout_constraintStart_toStartOf="@+id/tv3"
+        app:layout_constraintTop_toBottomOf="@+id/tv3" />
+
+
+    <TextView
+        android:id="@+id/tv_start_examine"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="119dp"
+        android:background="@drawable/bg_examine_again"
+        android:gravity="center"
+        android:text="开始实名认证 >"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <android.support.constraint.Group
+        android:id="@+id/group_prepare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="tv1,tv2,iv1,tv3,tv4,tv_start_examine" />
+
+    <android.support.constraint.Group
+        android:id="@+id/group_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="iv_examine_state,tv_state,tv_content" />
 </android.support.constraint.ConstraintLayout>

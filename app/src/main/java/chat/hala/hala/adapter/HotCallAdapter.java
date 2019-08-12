@@ -30,10 +30,10 @@ public class HotCallAdapter extends BaseQuickAdapter<OneToOneListBean.DataBean.L
     protected void convert(BaseViewHolder helper, OneToOneListBean.DataBean.ListBean item) {
         helper.setText(R.id.tv_online_state,item.isOnline()?R.string.online:R.string.offlIine);
         helper.setText(R.id.tv_name,item.getNickname());
-        helper.setText(R.id.tv_content,item.getBiography());
-        helper.setText(R.id.tv_cost,item.getCpm()+"");
+        helper.setText(R.id.tv_content,item.getIntroduction());
+        helper.setText(R.id.tv_cost,item.getSetting().getChatCpm()+"");
         ImageView imageView = (ImageView) helper.getView(R.id.iv_bg);
-        Glide.with(mContext).load(item.getCovers()==null?null:item.getCovers().get(0).getCoverUrl())
+        Glide.with(mContext).load(item.getAlbum().get(0).getMediaUrl())
                 .apply(RequestOptions.placeholderOf(imageView.getDrawable()))
                 .into(imageView);
     }

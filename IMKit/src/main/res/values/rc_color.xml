@@ -25,7 +25,7 @@
     <color name="rc_draft_color">#cb120f</color>
     <color name="rc_mentioned_color">#cc3333</color>
     <color name="rc_voice_color">#0195ff</color>
-    <color name="rc_voice_color_left">#4385bf</color>
+    <color name="rc_voice_color_left">#969696</color>
     <color name="rc_voice_color_right">#a2a2a2</color>
 
     <color name="rc_voice_cancel"> #CC933432</color>

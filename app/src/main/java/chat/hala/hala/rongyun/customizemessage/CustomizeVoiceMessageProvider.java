@@ -14,11 +14,10 @@ import chat.hala.hala.R;
 import io.rong.imkit.model.ProviderTag;
 import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
-import io.rong.imkit.widget.provider.VoiceMessageItemProvider;
 import io.rong.imlib.model.Message;
 
-@ProviderTag(messageContent = CustomizeVideoVoiceMessage.class)
-public class CustomizeMessageItemProvider extends IContainerItemProvider.MessageProvider<CustomizeVideoVoiceMessage> {
+@ProviderTag(messageContent = CustomizeVoiceMessage.class)
+public class CustomizeVoiceMessageProvider extends IContainerItemProvider.MessageProvider<CustomizeVoiceMessage> {
 
 
     Context mContext;
@@ -46,7 +45,7 @@ public class CustomizeMessageItemProvider extends IContainerItemProvider.Message
 
 
     @Override
-    public void bindView(View view, int i, CustomizeVideoVoiceMessage customizeMessage, UIMessage uiMessage) {
+    public void bindView(View view, int i, CustomizeVoiceMessage customizeMessage, UIMessage uiMessage) {
         ViewHolder holder = (ViewHolder) view.getTag();
         String fromOrTo;
         if (uiMessage.getMessageDirection() == Message.MessageDirection.SEND) {//消息方向，自己发送的
@@ -58,10 +57,10 @@ public class CustomizeMessageItemProvider extends IContainerItemProvider.Message
             holder.llTop.setBackground(mContext.getResources().getDrawable(R.drawable.bg_chat_video_send_top_receive));
             holder.topImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_chat_video_right));
         }
-        if (customizeMessage.getType() == CustomizeVideoVoiceMessage.VOICE_CALL) {
+        if (customizeMessage.getType() == CustomizeVoiceMessage.VOICE_CALL) {
             holder.topImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_chat_voice));
             holder.topMessage.setText("发" + fromOrTo + "一个语音邀请");
-        } else if (customizeMessage.getType() == CustomizeVideoVoiceMessage.VIDEO_CALL) {
+        } else if (customizeMessage.getType() == CustomizeVoiceMessage.VIDEO_CALL) {
             holder.topMessage.setText("发" + fromOrTo + "一个视频邀请");
         }
 
@@ -69,11 +68,11 @@ public class CustomizeMessageItemProvider extends IContainerItemProvider.Message
     }
 
     @Override
-    public Spannable getContentSummary(CustomizeVideoVoiceMessage customizeMessage) {
+    public Spannable getContentSummary(CustomizeVoiceMessage customizeMessage) {
 
-        if (customizeMessage.getType() == CustomizeVideoVoiceMessage.VOICE_CALL) {
+        if (customizeMessage.getType() == CustomizeVoiceMessage.VOICE_CALL) {
             return new SpannableString("发来一个语音邀请");
-        } else if (customizeMessage.getType() == CustomizeVideoVoiceMessage.VIDEO_CALL) {
+        } else if (customizeMessage.getType() == CustomizeVoiceMessage.VIDEO_CALL) {
             return new SpannableString("发来一个视频邀请");
         }
         return new SpannableString("发来一个语音邀请");
@@ -81,7 +80,7 @@ public class CustomizeMessageItemProvider extends IContainerItemProvider.Message
     }
 
     @Override
-    public void onItemClick(View view, int i, CustomizeVideoVoiceMessage customizeMessage, UIMessage uiMessage) {
+    public void onItemClick(View view, int i, CustomizeVoiceMessage customizeMessage, UIMessage uiMessage) {
 
     }
 

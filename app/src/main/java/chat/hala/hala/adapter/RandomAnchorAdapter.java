@@ -30,7 +30,7 @@ public class RandomAnchorAdapter extends BaseQuickAdapter<OneToOneListBean.DataB
     protected void convert(BaseViewHolder helper, final OneToOneListBean.DataBean.ListBean item) {
         helper.setText(R.id.tv_name,item.getNickname());
         ImageView imageView = (ImageView) helper.getView(R.id.iv_head);
-        Glide.with(mContext).load(item.getAvatarUrl())
+        Glide.with(mContext).load(item.getAlbum().get(0).getMediaUrl())
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(imageView.getDrawable()))
                 .into(imageView);
         helper.addOnClickListener(R.id.tv_call);

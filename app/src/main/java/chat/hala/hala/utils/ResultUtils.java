@@ -1,5 +1,7 @@
 package chat.hala.hala.utils;
 
+import android.text.TextUtils;
+
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.BaseBean;
 
@@ -25,5 +27,14 @@ public class ResultUtils {
             return true;
         }
         return false;
+    }
+
+    private boolean judgeEmpty(String... strings) {
+        for (int i = 0; i < strings.length; i++) {
+            if (TextUtils.isEmpty(strings[i])) {
+                return false;
+            }
+        }
+        return true;
     }
 }

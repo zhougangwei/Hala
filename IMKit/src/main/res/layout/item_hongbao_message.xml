@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/ll_top"
+        android:layout_width="wrap_content"
+        android:layout_height="62dp"
+        android:background="@drawable/bg_chat_red_pocket_top">
+
+        <ImageView
+            android:id="@+id/iv_red_pocket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/ic_small_red_pocket_closed" />
+
+        <TextView
+            android:id="@+id/tv_top_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_red_pocket"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="15dp"
+            android:layout_toEndOf="@+id/iv_red_pocket"
+            android:text="恭喜发财，万事如意!"
+            android:textColor="#fff"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_top_text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/tv_top_text1"
+            android:layout_alignBottom="@id/iv_red_pocket"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/iv_red_pocket"
+            android:gravity="end"
+            android:text="领取红包"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:background="@drawable/bg_chat_video_send_bottom">
+
+        <TextView
+            android:id="@+id/tv_bottom_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:gravity="start"
+            android:text="红包"
+            android:textColor="#BABABA"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</LinearLayout>

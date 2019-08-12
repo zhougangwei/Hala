@@ -1,167 +1,207 @@
 package chat.hala.hala.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class ApplyAnchorBean extends BaseBean {
 
 
     /**
-     * mobileNumber : +8613851668725
-     * introduction : this is introduction
-     * tagIds : [16,19]
-     * weight : 82
-     * certifyUrl : http://certify.url
-     * biography : this is biography
-     * city : NJ
-     * country : CHINA
-     * height : 182
-     * covers : [{"coverUrl":"http://test.anchor.url2","sortby":2},{"coverUrl":"http://test.anchor.url1","sortby":3}]
-     * nickname : old p
-     * zodiac : Taurus
-     * cpm : 20
+     * anchor : {"residentialPlace":"南京","introduction":"this is an introduction","weight":"70","height":"182","album":[{"sortby":"1","mediaUrl":"http://media.1.url"},{"sortby":"2","mediaUrl":"http://media.2.url"}],"birthDate":"2009-01-01"}
+     * application : {"certifyVideo":"http://certify.video","idCardHandled":"http://id.card.and.self.img","idCardFront":"http://id.card.front.img","idCardBack":"http://id.card.back.img","realName":"pete","mobileNumber":"+8613851668723"}
      */
 
-    private String mobileNumber;
-    private String introduction;
-    private int weight;
-    private String certifyUrl;
-    private String biography;
-    private String city;
-    private String country;
-    private int height;
-    private String realName;
-    private String zodiac;
-    private String cpm;
-    private List<Integer> tagIds;
-    private List<CoversBean> covers;
+    @SerializedName("anchor")
+    private AnchorBean anchor;
+    @SerializedName("application")
+    private ApplicationBean application;
 
-    public String getMobileNumber() {
-        return mobileNumber;
+    public AnchorBean getAnchor() {
+        return anchor;
     }
 
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
+    public void setAnchor(AnchorBean anchor) {
+        this.anchor = anchor;
     }
 
-    public String getIntroduction() {
-        return introduction;
+    public ApplicationBean getApplication() {
+        return application;
     }
 
-    public void setIntroduction(String introduction) {
-        this.introduction = introduction;
+    public void setApplication(ApplicationBean application) {
+        this.application = application;
     }
 
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public String getCertifyUrl() {
-        return certifyUrl;
-    }
-
-    public void setCertifyUrl(String certifyUrl) {
-        this.certifyUrl = certifyUrl;
-    }
-
-    public String getBiography() {
-        return biography;
-    }
-
-    public void setBiography(String biography) {
-        this.biography = biography;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-
-    public String getZodiac() {
-        return zodiac;
-    }
-
-    public void setZodiac(String zodiac) {
-        this.zodiac = zodiac;
-    }
-
-    public String getCpm() {
-        return cpm;
-    }
-
-    public void setCpm(String cpm) {
-        this.cpm = cpm;
-    }
-
-    public List<Integer> getTagIds() {
-        return tagIds;
-    }
-
-    public void setTagIds(List<Integer> tagIds) {
-        this.tagIds = tagIds;
-    }
-
-    public List<CoversBean> getCovers() {
-        return covers;
-    }
-
-    public void setCovers(List<CoversBean> covers) {
-        this.covers = covers;
-    }
-
-    public static class CoversBean {
+    public static class AnchorBean {
         /**
-         * coverUrl : http://test.anchor.url2
-         * sortby : 2
+         * residentialPlace : 南京
+         * introduction : this is an introduction
+         * weight : 70
+         * height : 182
+         * album : [{"sortby":"1","mediaUrl":"http://media.1.url"},{"sortby":"2","mediaUrl":"http://media.2.url"}]
+         * birthDate : 2009-01-01
          */
 
-        private String coverUrl;
-        private int sortby;
+        @SerializedName("residentialPlace")
+        private String residentialPlace;
+        @SerializedName("introduction")
+        private String introduction;
+        @SerializedName("weight")
+        private String weight;
+        @SerializedName("height")
+        private String height;
+        @SerializedName("birthDate")
+        private String birthDate;
+        @SerializedName("album")
+        private List<AlbumBean> album;
 
-        public String getCoverUrl() {
-            return coverUrl;
+        public String getResidentialPlace() {
+            return residentialPlace;
         }
 
-        public void setCoverUrl(String coverUrl) {
-            this.coverUrl = coverUrl;
+        public void setResidentialPlace(String residentialPlace) {
+            this.residentialPlace = residentialPlace;
         }
 
-        public int getSortby() {
-            return sortby;
+        public String getIntroduction() {
+            return introduction;
         }
 
-        public void setSortby(int sortby) {
-            this.sortby = sortby;
+        public void setIntroduction(String introduction) {
+            this.introduction = introduction;
+        }
+
+        public String getWeight() {
+            return weight;
+        }
+
+        public void setWeight(String weight) {
+            this.weight = weight;
+        }
+
+        public String getHeight() {
+            return height;
+        }
+
+        public void setHeight(String height) {
+            this.height = height;
+        }
+
+        public String getBirthDate() {
+            return birthDate;
+        }
+
+        public void setBirthDate(String birthDate) {
+            this.birthDate = birthDate;
+        }
+
+        public List<AlbumBean> getAlbum() {
+            return album;
+        }
+
+        public void setAlbum(List<AlbumBean> album) {
+            this.album = album;
+        }
+
+        public static class AlbumBean {
+            /**
+             * sortby : 1
+             * mediaUrl : http://media.1.url
+             */
+
+            @SerializedName("sortby")
+            private String sortby;
+            @SerializedName("mediaUrl")
+            private String mediaUrl;
+
+            public String getSortby() {
+                return sortby;
+            }
+
+            public void setSortby(String sortby) {
+                this.sortby = sortby;
+            }
+
+            public String getMediaUrl() {
+                return mediaUrl;
+            }
+
+            public void setMediaUrl(String mediaUrl) {
+                this.mediaUrl = mediaUrl;
+            }
+        }
+    }
+
+    public static class ApplicationBean {
+        /**
+         * certifyVideo : http://certify.video
+         * idCardHandled : http://id.card.and.self.img
+         * idCardFront : http://id.card.front.img
+         * idCardBack : http://id.card.back.img
+         * realName : pete
+         * mobileNumber : +8613851668723
+         */
+
+        @SerializedName("certifyVideo")
+        private String certifyVideo;
+        @SerializedName("idCardHandled")
+        private String idCardHandled;
+        @SerializedName("idCardFront")
+        private String idCardFront;
+        @SerializedName("idCardBack")
+        private String idCardBack;
+        @SerializedName("realName")
+        private String realName;
+        @SerializedName("mobileNumber")
+        private String mobileNumber;
+
+        public String getCertifyVideo() {
+            return certifyVideo;
+        }
+
+        public void setCertifyVideo(String certifyVideo) {
+            this.certifyVideo = certifyVideo;
+        }
+
+        public String getIdCardHandled() {
+            return idCardHandled;
+        }
+
+        public void setIdCardHandled(String idCardHandled) {
+            this.idCardHandled = idCardHandled;
+        }
+
+        public String getIdCardFront() {
+            return idCardFront;
+        }
+
+        public void setIdCardFront(String idCardFront) {
+            this.idCardFront = idCardFront;
+        }
+
+        public String getIdCardBack() {
+            return idCardBack;
+        }
+
+        public void setIdCardBack(String idCardBack) {
+            this.idCardBack = idCardBack;
+        }
+
+        public String getRealName() {
+            return realName;
+        }
+
+        public void setRealName(String realName) {
+            this.realName = realName;
+        }
+
+        public String getMobileNumber() {
+            return mobileNumber;
+        }
+
+        public void setMobileNumber(String mobileNumber) {
+            this.mobileNumber = mobileNumber;
         }
     }
 }

@@ -14,23 +14,22 @@ import io.rong.imlib.MessageTag;
 import io.rong.imlib.model.MessageContent;
 
 
-@MessageTag(value = "app:custom", flag = MessageTag.ISCOUNTED | MessageTag.ISPERSISTED)
-public class CustomizeVideoVoiceMessage extends MessageContent {
-    private int type;//消息属性，可随意定义
-    public final static int VOICE_CALL = 1;
-    public final static int VIDEO_CALL = 2;
+@MessageTag(value = "SC:HongbaoMessage", flag = MessageTag.ISCOUNTED | MessageTag.ISPERSISTED)
+public class CustomizeHongbaoMessage extends MessageContent {
+    private String extra;//消息属性，可随意定义
 
-    public static CustomizeVideoVoiceMessage obtain(Integer type) {
-        CustomizeVideoVoiceMessage model = new CustomizeVideoVoiceMessage();
-        model.setType(type);
+
+    public static CustomizeHongbaoMessage obtain(String extra) {
+        CustomizeHongbaoMessage model = new CustomizeHongbaoMessage();
+        model.setExtra(extra);
         return model;
     }
 
-    public CustomizeVideoVoiceMessage() {
+    public CustomizeHongbaoMessage() {
     }
 
-    public CustomizeVideoVoiceMessage(Integer type) {
-        this.setType(type);
+    public CustomizeHongbaoMessage(String extra) {
+        this.setExtra(extra);
     }
 
 
@@ -38,7 +37,7 @@ public class CustomizeVideoVoiceMessage extends MessageContent {
     public byte[] encode() {
         JSONObject jsonObj = new JSONObject();
         try {
-            jsonObj.put("type", this.getType());
+            jsonObj.put("extra", this.getExtra());
         } catch (JSONException e) {
             Log.e("JSONException", e.getMessage());
         }
@@ -57,7 +56,7 @@ public class CustomizeVideoVoiceMessage extends MessageContent {
     }
 
 
-    public CustomizeVideoVoiceMessage(byte[] data) {
+    public CustomizeHongbaoMessage(byte[] data) {
         String jsonStr = null;
 
         try {
@@ -67,8 +66,8 @@ public class CustomizeVideoVoiceMessage extends MessageContent {
         }
         try {
             JSONObject jsonObj = new JSONObject(jsonStr);
-            if (jsonObj.has("type"))
-                type = jsonObj.optInt("type");
+            if (jsonObj.has("extra"))
+                extra = jsonObj.optString("extra");
 
         } catch (JSONException e) {
         }
@@ -77,8 +76,8 @@ public class CustomizeVideoVoiceMessage extends MessageContent {
 
 
     //给消息赋值。
-    public CustomizeVideoVoiceMessage(Parcel in) {
-        type = ParcelUtils.readIntFromParcel(in);//该类为工具类，消息属性
+    public CustomizeHongbaoMessage(Parcel in) {
+        extra = ParcelUtils.readFromParcel(in);//该类为工具类，消息属性
 
         //这里可继续增加你消息的属性
     }
@@ -86,16 +85,16 @@ public class CustomizeVideoVoiceMessage extends MessageContent {
     /**
      * 读取接口，目的是要从Parcel中构造一个实现了Parcelable的类的实例处理。
      */
-    public static final Creator<CustomizeVideoVoiceMessage> CREATOR = new Creator<CustomizeVideoVoiceMessage>() {
+    public static final Creator<CustomizeHongbaoMessage> CREATOR = new Creator<CustomizeHongbaoMessage>() {
 
         @Override
-        public CustomizeVideoVoiceMessage createFromParcel(Parcel source) {
-            return new CustomizeVideoVoiceMessage(source);
+        public CustomizeHongbaoMessage createFromParcel(Parcel source) {
+            return new CustomizeHongbaoMessage(source);
         }
 
         @Override
-        public CustomizeVideoVoiceMessage[] newArray(int size) {
-            return new CustomizeVideoVoiceMessage[size];
+        public CustomizeHongbaoMessage[] newArray(int size) {
+            return new CustomizeHongbaoMessage[size];
         }
     };
 
@@ -116,15 +115,18 @@ public class CustomizeVideoVoiceMessage extends MessageContent {
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        ParcelUtils.writeToParcel(dest, type);//该类为工具类，对消息中属性进行序列化
-        //这里可继续增加你消息的属性
+        ParcelUtils.writeToParcel(dest, extra);//该类为工具类，对消息中属性进行序列化
+
     }
 
-    public int getType() {
-        return type;
+
+
+
+    public String getExtra() {
+        return extra;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setExtra(String type) {
+        this.extra = type;
     }
 }

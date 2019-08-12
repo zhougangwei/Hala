@@ -74,7 +74,7 @@ public class FillUserActivity extends BaseActivity {
     @BindView(R.id.tv_confirm)
     TextView     tvConfirm;
     @BindView(R.id.et_location)
-    TextView     mEtLocation;
+    EditText     mEtLocation;
     @BindView(R.id.ll_location)
     LinearLayout mLlLocation;
     @BindView(R.id.et_bio)
@@ -178,6 +178,11 @@ public class FillUserActivity extends BaseActivity {
                     upQiniu();
                 }
                 break;
+            case R.id.ll_bio:
+                Intent intent = new Intent(this, BioActivity.class);
+                startActivityForResult(intent, Contact.REQUEST_BIO);
+                break;
+
         }
     }
 
@@ -252,6 +257,12 @@ public class FillUserActivity extends BaseActivity {
             ToastUtils.showToast(this, "出生日期不能为空");
             return false;
         }
+
+        if (uriList==null||uriList.size()==0) {
+            ToastUtils.showToast(this, "uriList出生日期不能为空");
+            return false;
+        }
+
         return true;
     }
 
@@ -260,10 +271,11 @@ public class FillUserActivity extends BaseActivity {
         if (starchatmemberBean == null) {
             return;
         }
+
         new UploadPicManger().uploadImageArray(uriList, 0, starchatmemberBean.getToken(), starchatmemberBean.getUrl(), new UploadPicManger.QiNiuUploadCompletionHandler() {
             @Override
             public void uploadSuccess(String path, List<String> paths) {
-                avatarUrl = path;
+                avatarUrl = paths.get(0);
                 LogUtils.e(TAG, "uploadSuccess: " + avatarUrl);
                 startConfirm();
             }
@@ -287,10 +299,17 @@ public class FillUserActivity extends BaseActivity {
         Observable<RegistBean> regist = null;
         if (type.equals(FROM_PHONE)) {
             EditUserBean editUserBean = new EditUserBean();
+            editUserBean.setUsername(username);
             editUserBean.setAutograph(bio);
             editUserBean.setBirthDate(birthDate);
             editUserBean.setCode(code);
             editUserBean.setGender(genderIndex+"");
+            List<EditUserBean.AlbumBean> album = new ArrayList<>();
+            EditUserBean.AlbumBean albumBean = new EditUserBean.AlbumBean();
+            albumBean.setSortby("0");
+            albumBean.setMediaUrl(avatarUrl);
+            album.add(albumBean);
+            editUserBean.setAlbum(album);
             editUserBean.setMobileNumber(mobileNumber);
             editUserBean.setResidentialPlace(location);
             regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getJsonInstance().regist(
@@ -312,7 +331,6 @@ public class FillUserActivity extends BaseActivity {
                             ToastUtils.showToast(FillUserActivity.this, "名字已存在");
                             return;
                         }
-
                         if (Contact.REPONSE_CODE_REGIST_FAIL_ALREADY_PHONE == baseBean.getCode()) {
                             ToastUtils.showToast(FillUserActivity.this, "手机号已存在无法注册");
                             return;
@@ -321,9 +339,6 @@ public class FillUserActivity extends BaseActivity {
                             ToastUtils.showToast(FillUserActivity.this, "保存失败");
                             return;
                         }
-                        AvchatInfo.setName(baseBean.getData().getUsername());
-                        AvchatInfo.setCoin(baseBean.getData().getCoin());
-                        AvchatInfo.setAvatarUrl(baseBean.getData().getAvatarUrl());
                         ToastUtils.showToast(FillUserActivity.this, "保存成功");
                         setResult(RESULT_OK);
                         finish();
@@ -334,13 +349,18 @@ public class FillUserActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == ChoosePicManager.REQUEST_CODE_CHOOSE) {
+        if (resultCode == RESULT_OK )
+
+        if (requestCode == ChoosePicManager.REQUEST_CODE_CHOOSE) {
             List<String> strings = Matisse.obtainPathResult(data);
             if (strings != null) {
                 uriList.clear();
                 uriList.addAll(strings);
                 Glide.with(this).load(uriList.get(0)).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(ivHead);
             }
+        }else if(requestCode == Contact.REQUEST_BIO){
+            bio = data.getStringExtra("bio");
+            mEtBio.setText(bio);
         }
     }
 

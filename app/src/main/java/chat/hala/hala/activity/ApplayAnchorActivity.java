@@ -1,7 +1,6 @@
 package chat.hala.hala.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,11 +16,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhihu.matisse.Matisse;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.EditHeadAdapter;
@@ -45,10 +42,10 @@ import cn.qqtheme.framework.util.ConvertUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class PrepareBeAnchorActivity extends BaseActivity {
+public class ApplayAnchorActivity extends BaseActivity {
 
 
-    private static final String TAG = "PrepareBeAnchorActivity";
+    private static final String TAG = "ApplayAnchorActivity";
     @BindView(R.id.iv_back)
     ImageView ivBack;
     @BindView(R.id.tv_title)
@@ -98,16 +95,16 @@ public class PrepareBeAnchorActivity extends BaseActivity {
 
     private List<EditHeadAdapter.UserHead> mList;
     private List<String> uriList = new ArrayList<>();
-    List<Integer> tagsList = new ArrayList<>();
-    List<ApplyAnchorBean.CoversBean> covers = new ArrayList<>();
+
+    List<ApplyAnchorBean.AnchorBean.AlbumBean> covers = new ArrayList<>();
     private String bio;     //个人经历
-    private static final int REQUEST_BIO = 222;
+
     private static final int REQUEST_TAG = 223;
 
 
     EditHeadAdapter mAdapter;
 
-    private String[] constellationEnArr;
+
 
     private String userName;
     private String phoneNum;
@@ -115,13 +112,12 @@ public class PrepareBeAnchorActivity extends BaseActivity {
     private String weight;
     private String birth;
     private String city;
-    private String country;
-    private String intro;
-    private String certify;
-    private DoublePicker weightPicker;
-    private DoublePicker heightPicker;
-    private int zodiacIndex;
 
+    private DoublePicker heightPicker;
+
+    private String idCardFrontUrl;
+    private String idCardBackUrl;
+    private String idCardHandledUrl;
 
     @Override
     protected int getContentViewId() {
@@ -135,21 +131,6 @@ public class PrepareBeAnchorActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
-        constellationEnArr = new String[]{
-                getString(R.string.Secret),
-                getString(R.string.Aries),
-                getString(R.string.Taurus),
-                getString(R.string.Gemini),
-                getString(R.string.Cancer),
-                getString(R.string.Leo),
-                getString(R.string.Virgo),
-                getString(R.string.Libra),
-                getString(R.string.Scorpio),
-                getString(R.string.Sagittarius),
-                getString(R.string.Capricorn),
-                getString(R.string.Aquarius),
-                getString(R.string.Pisces)};
         mList = new ArrayList<>();
         mList.add(new EditHeadAdapter.UserHead("", true));
         mAdapter = new EditHeadAdapter(mList);
@@ -161,7 +142,7 @@ public class PrepareBeAnchorActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mList.get(position).isAdd()) {
-                    ChoosePicManager.choosePic(PrepareBeAnchorActivity.this, 3);
+                    ChoosePicManager.choosePic(ApplayAnchorActivity.this, 3);
                 }
             }
         });
@@ -169,7 +150,7 @@ public class PrepareBeAnchorActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.ll_birth, R.id.ll_city,  R.id.ll_bio,  R.id.iv_back, R.id.ll_height_weight,R.id.ll_video_verity, R.id.ll_name_verity, R.id.tv_submit})
+    @OnClick({R.id.ll_birth, R.id.ll_city, R.id.ll_bio, R.id.iv_back, R.id.ll_height_weight, R.id.ll_video_verity, R.id.ll_name_verity, R.id.tv_submit})
     public void onClickView(View view) {
         switch (view.getId()) {
             case R.id.ll_birth:
@@ -177,7 +158,7 @@ public class PrepareBeAnchorActivity extends BaseActivity {
                 break;
             case R.id.ll_bio:
                 Intent intent = new Intent(this, BioActivity.class);
-                startActivityForResult(intent, REQUEST_BIO);
+                startActivityForResult(intent, Contact.REQUEST_BIO);
                 break;
             case R.id.iv_back:
                 finish();
@@ -202,11 +183,12 @@ public class PrepareBeAnchorActivity extends BaseActivity {
     }
 
     /*
-    * 实名认证
-    * */
+     * 实名认证
+     * */
     private void gotoNameVerity() {
-
+        startActivityForResult(new Intent(this, AuthenticationActivity.class), Contact.REQUEST_CHOOSE_CARD);
     }
+
     /*
     视频认证
     * */
@@ -279,10 +261,7 @@ public class PrepareBeAnchorActivity extends BaseActivity {
             ToastUtils.showToast(this, "birth" + "不可以为空");
             return false;
         }
-        if (TextUtils.isEmpty(country)) {
-            ToastUtils.showToast(this, "country" + "不可以为空");
-            return false;
-        }
+
 
         if (TextUtils.isEmpty(city)) {
             ToastUtils.showToast(this, "city" + "不可以为空");
@@ -293,23 +272,21 @@ public class PrepareBeAnchorActivity extends BaseActivity {
             ToastUtils.showToast(this, "uriList" + "不可以为空");
             return false;
         }
-        if (TextUtils.isEmpty(intro)) {
-            ToastUtils.showToast(this, "intro" + "不可以为空");
-            return false;
-        }
-        if (TextUtils.isEmpty(certify)) {
-            ToastUtils.showToast(this, "certify" + "不可以为空");
+        if (TextUtils.isEmpty(bio)) {
+            ToastUtils.showToast(this, "bio)) {\n" +
+                    "            ToastUtils.showToast(this" + "不可以为空");
             return false;
         }
 
-        if (tagsList == null || tagsList.size() == 0) {
-            ToastUtils.showToast(this, "tagsList" + "不可以为空");
-            return false;
-        }
-        if (uriList == null || uriList.size() == 0) {
-            ToastUtils.showToast(this, "uriList" + "不可以为空");
-            return false;
-        }
+
+
+
+
+
+
+
+
+
 
         return true;
 
@@ -328,7 +305,7 @@ public class PrepareBeAnchorActivity extends BaseActivity {
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {
-                tvBirth.setText(year + "-" + month + "day");
+                tvBirth.setText(year + "-" + month + "-"+day);
             }
         });
         picker.show();
@@ -340,7 +317,7 @@ public class PrepareBeAnchorActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_BIO) {
+            if (requestCode == Contact.REQUEST_BIO) {
                 bio = data.getStringExtra("bio");
                 etBio.setText(bio);
             } else if (requestCode == ChoosePicManager.REQUEST_CODE_CHOOSE) {
@@ -353,7 +330,13 @@ public class PrepareBeAnchorActivity extends BaseActivity {
                     }
                     mAdapter.notifyDataSetChanged();
                 }
+            } else if (requestCode == Contact.REQUEST_CHOOSE_CARD) {
+                idCardFrontUrl = data.getStringExtra("frontCard");
+                idCardBackUrl = data.getStringExtra("backCard");
+                idCardHandledUrl = data.getStringExtra("handCard");
+                tvNameVerity.setText("已填充");
             }
+
         }
     }
 
@@ -383,27 +366,33 @@ public class PrepareBeAnchorActivity extends BaseActivity {
         if (paths != null) {
             covers.clear();
             for (int i = 0; i < paths.size(); i++) {
-                ApplyAnchorBean.CoversBean coversBean = new ApplyAnchorBean.CoversBean();
-                coversBean.setCoverUrl(paths.get(i));
-                coversBean.setSortby(i);
+                ApplyAnchorBean.AnchorBean.AlbumBean coversBean = new ApplyAnchorBean.AnchorBean.AlbumBean();
+                coversBean.setMediaUrl(paths.get(i));
+                coversBean.setSortby(i+"");
                 covers.add(coversBean);
             }
         }
-
         ApplyAnchorBean applyAnchorBean = new ApplyAnchorBean();
-        applyAnchorBean.setRealName(userName);
-        applyAnchorBean.setMobileNumber(phoneNum);
-        applyAnchorBean.setHeight(TextUtils.isEmpty(height) ? 0 : Integer.parseInt(height));
-        applyAnchorBean.setWeight(TextUtils.isEmpty(weight) ? 0 : Integer.parseInt(weight));
-        applyAnchorBean.setZodiac(zodiacIndex + "");
-        applyAnchorBean.setCity(city);
-        applyAnchorBean.setIntroduction(intro);
-        applyAnchorBean.setCountry(country);
-        applyAnchorBean.setTagIds(tagsList);
-        applyAnchorBean.setCertifyUrl(certify);
-        applyAnchorBean.setBiography(bio);
-        applyAnchorBean.setCovers(covers);
-        applyAnchorBean.setCpm(20 + "");
+        ApplyAnchorBean.AnchorBean anchorBean=new ApplyAnchorBean.AnchorBean();
+        anchorBean.setHeight(TextUtils.isEmpty(height) ? 0+"" : height);
+        anchorBean.setWeight(TextUtils.isEmpty(weight) ? 0+"" : weight);
+        anchorBean.setResidentialPlace(city);
+        anchorBean.setIntroduction(bio);
+        anchorBean.setAlbum(covers);
+        anchorBean.setBirthDate(birth);
+
+        ApplyAnchorBean.ApplicationBean applicationBean =new ApplyAnchorBean.ApplicationBean();
+        applicationBean.setRealName(userName);
+        applicationBean.setMobileNumber(phoneNum);
+        applicationBean.setIdCardBack(idCardBackUrl);
+        applicationBean.setIdCardFront(idCardFrontUrl);
+        applicationBean.setIdCardHandled(idCardHandledUrl);
+        applicationBean.setCertifyVideo("www.baidu.com");
+
+
+        applyAnchorBean.setAnchor(anchorBean);
+        applyAnchorBean.setApplication(applicationBean);
+
         RetrofitFactory.getInstance()
                 .applyAnchor(ProxyPostHttpRequest.getJsonInstance()
                         .applyAnchor(GsonUtil.parseObjectToJson(applyAnchorBean)))
@@ -413,25 +402,20 @@ public class PrepareBeAnchorActivity extends BaseActivity {
                     @Override
                     public void onGetData(BeAnchorBean baseBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
-                            ToastUtils.showToast(PrepareBeAnchorActivity.this, getString(R.string.submit_fail));
+                            ToastUtils.showToast(ApplayAnchorActivity.this, getString(R.string.submit_fail));
                             LogUtils.e("Edit", GsonUtil.parseObjectToJson(baseBean));
                             return;
                         }
-                        if (Contact.REPONSE_CODE_APPLYANCHOR_FAIL_ALREADY_NAME_OR_PHONE != baseBean.getCode()) {
-                            ToastUtils.showToast(PrepareBeAnchorActivity.this, "主播用户名或手机号存在");
+                        if (Contact.REPONSE_CODE_APPLYANCHOR_FAIL_ALREADY_NAME_OR_PHONE == baseBean.getCode()) {
+                            ToastUtils.showToast(ApplayAnchorActivity.this, "主播用户名或手机号存在");
                             return;
                         }
-                        int id = baseBean.getData().getMemberId();
-                        AvchatInfo.setAnchorId(id);
-                        ToastUtils.showToast(PrepareBeAnchorActivity.this, getString(R.string.submit_success));
+                        ToastUtils.showToast(ApplayAnchorActivity.this, getString(R.string.submit_success));
                         finish();
                     }
                 });
 
     }
-
-
-
 
 
 }

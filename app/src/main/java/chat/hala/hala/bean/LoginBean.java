@@ -1,11 +1,16 @@
 package chat.hala.hala.bean;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 public class LoginBean extends BaseBean {
 
     /**
-     * data : {"member":{"mobileNumber":"+8613851668725","username":"test2","gender":"male","birthDate":31,"avatarUrl":"http://me.avatar.url","anchorId":14,"coin":1520,"online":false,"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiNTE1MjIxYTgtNTNlZC00OWNhLWJiODYtMzQ4MWVjOTJmNzU3In0.3uhD_ezq4aR9jsDn9JyF614_TI2tmXloQ_eQ87Uqofw","memberId":1},"action":"sign_in"}
+     * data : {"member":{"characterId":"02544174","mobileNumber":"+8613811114444","username":"周","gender":"secret","birthDate":"2000-10-14","autograph":"你号","residentialPlace":"杭州","rongToken":"I34rC+bQTeEMQcO7kwL3K16AsbGff9KvUT62Noch30mb6n+CHOf4VSjk5+knDcNk6ysOovR6+BFc1gC7seANjA==","coin":0,"spent":0,"followingCount":0,"online":true,"album":[{"id":5,"mediaUrl":"http://starchat.member.7halachat.com/magazine-unlock-01-2.3.1552-BE1C1D482E72759249831391682C2D38.jpg","sortby":1}],"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwianRpIjoiOTk4ZWYwOWEtNWIwMS00OTlhLWI5ZWMtZDZmMzA0NTNhYzFhIn0.uJ7_2V-ZSoby_9rEPkZVcXXxWW7PlTnusbDgdDbDbQM","memberId":5,"lastActiveMinuteGap":0},"action":"sign_in"}
      */
 
+    @SerializedName("data")
     private DataBean data;
 
     public DataBean getData() {
@@ -18,11 +23,13 @@ public class LoginBean extends BaseBean {
 
     public static class DataBean {
         /**
-         * member : {"mobileNumber":"+8613851668725","username":"test2","gender":"male","birthDate":31,"avatarUrl":"http://me.avatar.url","anchorId":14,"coin":1520,"online":false,"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiNTE1MjIxYTgtNTNlZC00OWNhLWJiODYtMzQ4MWVjOTJmNzU3In0.3uhD_ezq4aR9jsDn9JyF614_TI2tmXloQ_eQ87Uqofw","memberId":1}
+         * member : {"characterId":"02544174","mobileNumber":"+8613811114444","username":"周","gender":"secret","birthDate":"2000-10-14","autograph":"你号","residentialPlace":"杭州","rongToken":"I34rC+bQTeEMQcO7kwL3K16AsbGff9KvUT62Noch30mb6n+CHOf4VSjk5+knDcNk6ysOovR6+BFc1gC7seANjA==","coin":0,"spent":0,"followingCount":0,"online":true,"album":[{"id":5,"mediaUrl":"http://starchat.member.7halachat.com/magazine-unlock-01-2.3.1552-BE1C1D482E72759249831391682C2D38.jpg","sortby":1}],"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwianRpIjoiOTk4ZWYwOWEtNWIwMS00OTlhLWI5ZWMtZDZmMzA0NTNhYzFhIn0.uJ7_2V-ZSoby_9rEPkZVcXXxWW7PlTnusbDgdDbDbQM","memberId":5,"lastActiveMinuteGap":0}
          * action : sign_in
          */
 
+        @SerializedName("member")
         private MemberBean member;
+        @SerializedName("action")
         private String action;
 
         public MemberBean getMember() {
@@ -43,31 +50,65 @@ public class LoginBean extends BaseBean {
 
         public static class MemberBean {
             /**
-             * mobileNumber : +8613851668725
-             * username : test2
-             * gender : male
-             * birthDate : 31
-             * avatarUrl : http://me.avatar.url
-             * anchorId : 14
-             * coin : 1520
-             * online : false
-             * accessToken : eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiNTE1MjIxYTgtNTNlZC00OWNhLWJiODYtMzQ4MWVjOTJmNzU3In0.3uhD_ezq4aR9jsDn9JyF614_TI2tmXloQ_eQ87Uqofw
-             * memberId : 1
-             *"rongToken": "mbfG8gwF1xKir2NxjMW9v+AQiwIl9WsibDpV4NdH0+/FUAAj0DhlpW43Qm7CV1xX9iCdm2e6UU0="
+             * characterId : 02544174
+             * mobileNumber : +8613811114444
+             * username : 周
+             * gender : secret
+             * birthDate : 2000-10-14
+             * autograph : 你号
+             * residentialPlace : 杭州
+             * rongToken : I34rC+bQTeEMQcO7kwL3K16AsbGff9KvUT62Noch30mb6n+CHOf4VSjk5+knDcNk6ysOovR6+BFc1gC7seANjA==
+             * coin : 0
+             * spent : 0
+             * followingCount : 0
+             * online : true
+             * album : [{"id":5,"mediaUrl":"http://starchat.member.7halachat.com/magazine-unlock-01-2.3.1552-BE1C1D482E72759249831391682C2D38.jpg","sortby":1}]
+             * accessToken : eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwianRpIjoiOTk4ZWYwOWEtNWIwMS00OTlhLWI5ZWMtZDZmMzA0NTNhYzFhIn0.uJ7_2V-ZSoby_9rEPkZVcXXxWW7PlTnusbDgdDbDbQM
+             * memberId : 5
+             * lastActiveMinuteGap : 0
              */
 
+            @SerializedName("characterId")
+            private String characterId;
+            @SerializedName("mobileNumber")
             private String mobileNumber;
-            private String  username;
-            private String  gender;
-            private String     birthDate;
-            private String  avatarUrl;
-            private int     anchorId;
-            private int     coin;
+            @SerializedName("username")
+            private String username;
+            @SerializedName("gender")
+            private String gender;
+            @SerializedName("birthDate")
+            private String birthDate;
+            @SerializedName("autograph")
+            private String autograph;
+            @SerializedName("residentialPlace")
+            private String residentialPlace;
+            @SerializedName("rongToken")
+            private String rongToken;
+            @SerializedName("coin")
+            private int coin;
+            @SerializedName("spent")
+            private int spent;
+            @SerializedName("followingCount")
+            private int followingCount;
+            @SerializedName("online")
             private boolean online;
-            private String  accessToken;
+            @SerializedName("accessToken")
+            private String accessToken;
+            @SerializedName("memberId")
+            private int memberId;
+            @SerializedName("lastActiveMinuteGap")
+            private int lastActiveMinuteGap;
+            @SerializedName("album")
+            private List<AlbumBean> album;
 
-            private int     memberId;
-            private String  rongToken;
+            public String getCharacterId() {
+                return characterId;
+            }
+
+            public void setCharacterId(String characterId) {
+                this.characterId = characterId;
+            }
+
             public String getMobileNumber() {
                 return mobileNumber;
             }
@@ -100,20 +141,28 @@ public class LoginBean extends BaseBean {
                 this.birthDate = birthDate;
             }
 
-            public String getAvatarUrl() {
-                return avatarUrl;
+            public String getAutograph() {
+                return autograph;
             }
 
-            public void setAvatarUrl(String avatarUrl) {
-                this.avatarUrl = avatarUrl;
+            public void setAutograph(String autograph) {
+                this.autograph = autograph;
             }
 
-            public int getAnchorId() {
-                return anchorId;
+            public String getResidentialPlace() {
+                return residentialPlace;
             }
 
-            public void setAnchorId(int anchorId) {
-                this.anchorId = anchorId;
+            public void setResidentialPlace(String residentialPlace) {
+                this.residentialPlace = residentialPlace;
+            }
+
+            public String getRongToken() {
+                return rongToken;
+            }
+
+            public void setRongToken(String rongToken) {
+                this.rongToken = rongToken;
             }
 
             public int getCoin() {
@@ -122,6 +171,22 @@ public class LoginBean extends BaseBean {
 
             public void setCoin(int coin) {
                 this.coin = coin;
+            }
+
+            public int getSpent() {
+                return spent;
+            }
+
+            public void setSpent(int spent) {
+                this.spent = spent;
+            }
+
+            public int getFollowingCount() {
+                return followingCount;
+            }
+
+            public void setFollowingCount(int followingCount) {
+                this.followingCount = followingCount;
             }
 
             public boolean isOnline() {
@@ -148,12 +213,59 @@ public class LoginBean extends BaseBean {
                 this.memberId = memberId;
             }
 
-            public String getRongToken() {
-                return rongToken;
+            public int getLastActiveMinuteGap() {
+                return lastActiveMinuteGap;
             }
 
-            public void setRongToken(String rongToken) {
-                this.rongToken = rongToken;
+            public void setLastActiveMinuteGap(int lastActiveMinuteGap) {
+                this.lastActiveMinuteGap = lastActiveMinuteGap;
+            }
+
+            public List<AlbumBean> getAlbum() {
+                return album;
+            }
+
+            public void setAlbum(List<AlbumBean> album) {
+                this.album = album;
+            }
+
+            public static class AlbumBean {
+                /**
+                 * id : 5
+                 * mediaUrl : http://starchat.member.7halachat.com/magazine-unlock-01-2.3.1552-BE1C1D482E72759249831391682C2D38.jpg
+                 * sortby : 1
+                 */
+
+                @SerializedName("id")
+                private int id;
+                @SerializedName("mediaUrl")
+                private String mediaUrl;
+                @SerializedName("sortby")
+                private int sortby;
+
+                public int getId() {
+                    return id;
+                }
+
+                public void setId(int id) {
+                    this.id = id;
+                }
+
+                public String getMediaUrl() {
+                    return mediaUrl;
+                }
+
+                public void setMediaUrl(String mediaUrl) {
+                    this.mediaUrl = mediaUrl;
+                }
+
+                public int getSortby() {
+                    return sortby;
+                }
+
+                public void setSortby(int sortby) {
+                    this.sortby = sortby;
+                }
             }
         }
     }

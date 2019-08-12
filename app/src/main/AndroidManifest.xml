@@ -44,7 +44,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.BeStarResultActivity"></activity>
+        <activity android:name=".activity.AuthenticationActivity"></activity>
+        <activity android:name=".activity.BeStarResultActivity" />
         <activity android:name=".activity.CashActivity" />
         <activity android:name=".activity.ConversationListActivity">
             <intent-filter>
@@ -75,7 +76,7 @@
         <activity android:name=".activity.BestarActivity" />
         <activity android:name=".activity.AnchorsActivity" />
         <activity android:name=".activity.MyCallListActivity" />
-        <activity android:name=".activity.PrepareBeAnchorActivity" />
+        <activity android:name=".activity.ApplayAnchorActivity" />
         <activity android:name=".activity.EditUserActivity" />
         <activity android:name=".activity.FillUserActivity" />
         <activity android:name=".activity.ChargeActivity" />

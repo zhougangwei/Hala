@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import chat.hala.hala.rongyun.customizemessage.CustomizeVideoVoiceMessage;
+import chat.hala.hala.rongyun.customizemessage.CustomizeVideoMessage;
 import io.rong.imkit.R;
 import io.rong.imkit.RongExtension;
 import io.rong.imkit.RongIM;
@@ -35,7 +35,7 @@ public class VideoCallPlugin implements IPluginModule {
   @Override
   public void onClick(Fragment currentFragment, RongExtension extension) {
 
-   CustomizeVideoVoiceMessage myTextMessage = CustomizeVideoVoiceMessage.obtain(CustomizeVideoVoiceMessage.VIDEO_CALL);
+   CustomizeVideoMessage myTextMessage = CustomizeVideoMessage.obtain(CustomizeVideoMessage.VIDEO_CALL);
     //TextMessage myTextMessage = TextMessage.obtain("我是消息内容");
 
     Message myMessage = Message.obtain(((ConversationFragment)currentFragment).getTargetId(), Conversation.ConversationType.PRIVATE, myTextMessage);

@@ -7,6 +7,7 @@ import chat.hala.hala.bean.AnchorStateBean;
 import chat.hala.hala.bean.AnchorTagBean;
 import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.bean.BeAnchorBean;
+import chat.hala.hala.bean.BeStarResultBean;
 import chat.hala.hala.bean.CallBean;
 import chat.hala.hala.bean.CallListBean;
 import chat.hala.hala.bean.CallStateBean;
@@ -68,8 +69,6 @@ public interface HttpRequest {
     @POST("/member")
     Observable<RegistBean> changeUserInfo(@Body RequestBody requestBody
     );
-
-
 
 
     @POST("/anchor/apply")
@@ -214,4 +213,7 @@ public interface HttpRequest {
 
     @GET("/account/sms/send")
     Observable<BaseBean> sendSms();
+
+    @GET("/anchor/application/result")
+    Observable<BeStarResultBean> getBeStarState();
 }

@@ -161,4 +161,6 @@
     <string name="luck_more">赠送%1$s星币</string>
     <string name="video_verify">视频认证</string>
     <string name="self_tag">个人标签</string>
+    <string name="form_user_red_pocket">来自%1$s的红包</string>
+    <string name="pocket_coin">%1$s金币</string>
 </resources>

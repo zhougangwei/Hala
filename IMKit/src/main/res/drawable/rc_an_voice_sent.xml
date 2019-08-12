@@ -4,13 +4,13 @@
     android:oneshot="false" >
 
     <item
-        android:drawable="@drawable/rc_ic_voice_sent_play1"
+        android:drawable="@drawable/ic_voice_sent"
         android:duration="100"/>
     <item
-        android:drawable="@drawable/rc_ic_voice_sent_play2"
+        android:drawable="@drawable/ic_voice_sent"
         android:duration="200"/>
     <item
-        android:drawable="@drawable/rc_ic_voice_sent_play3"
+        android:drawable="@drawable/ic_voice_sent"
         android:duration="300"/>
 
 </animation-list>

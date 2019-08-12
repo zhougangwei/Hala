@@ -22,8 +22,15 @@ import chat.hala.hala.avchat.WorkerThread;
 import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
-import chat.hala.hala.rongyun.customizemessage.CustomizeMessageItemProvider;
-import chat.hala.hala.rongyun.customizemessage.CustomizeVideoVoiceMessage;
+import chat.hala.hala.rongyun.MyTextMessageItemProvider;
+import chat.hala.hala.rongyun.customizemessage.CustomizeHongbaoMessage;
+import chat.hala.hala.rongyun.customizemessage.CustomizeHongbaoMessageProvider;
+import chat.hala.hala.rongyun.customizemessage.CustomizeHongbaoReceiveMessage;
+import chat.hala.hala.rongyun.customizemessage.CustomizeHongbaoReceiveMessageProvider;
+import chat.hala.hala.rongyun.customizemessage.CustomizeVideoMessageProvider;
+import chat.hala.hala.rongyun.customizemessage.CustomizeVideoMessage;
+import chat.hala.hala.rongyun.customizemessage.CustomizeVoiceMessage;
+import chat.hala.hala.rongyun.customizemessage.CustomizeVoiceMessageProvider;
 import chat.hala.hala.utils.SPUtil;
 import chat.hala.hala.utils.ToolUtils;
 import io.reactivex.schedulers.Schedulers;
@@ -88,9 +95,16 @@ public class App extends MultiDexApplication {
         RongIM.init(this);
         RongIM.getInstance().registerConversationTemplate(new MyPrivateConversationProvider());
 
-       // RongIM.getInstance().registerMessageTemplate(new MyTextMessageItemProvider());
-        RongIM.getInstance().registerMessageType(CustomizeVideoVoiceMessage.class);
-        RongIM.getInstance().registerMessageTemplate(new CustomizeMessageItemProvider());
+        RongIM.getInstance().registerMessageTemplate(new MyTextMessageItemProvider());
+        RongIM.getInstance().registerMessageType(CustomizeVideoMessage.class);
+        RongIM.getInstance().registerMessageType(CustomizeVoiceMessage.class);
+        RongIM.getInstance().registerMessageType(CustomizeHongbaoMessage.class);
+        RongIM.getInstance().registerMessageType(CustomizeHongbaoReceiveMessage.class);
+
+        RongIM.getInstance().registerMessageTemplate(new CustomizeVideoMessageProvider());
+        RongIM.getInstance().registerMessageTemplate(new CustomizeHongbaoMessageProvider());
+        RongIM.getInstance().registerMessageTemplate(new CustomizeVoiceMessageProvider());
+        RongIM.getInstance().registerMessageTemplate(new CustomizeHongbaoReceiveMessageProvider());
         setMyExtensionModule();
     }
     public void setMyExtensionModule() {

@@ -1,5 +1,9 @@
 package chat.hala.hala.bean;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 /**
  * @ 创建者   zhou
  * @ 创建时间   2019/6/23 0023 22:16
@@ -9,10 +13,12 @@ package chat.hala.hala.bean;
  * @ 更新描述  ${TODO}
  */
 public class RegistBean extends BaseBean {
+
     /**
-     * data : {"mobileNumber":"+8613851668723","username":"pppp","gender":"male","birthDate":31,"avatarUrl":"http://me.avatar.url","coin":0,"online":true,"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwianRpIjoiMzliZmViODMtZDJjNS00MDMwLThlNzAtMWE1Y2Q4MTBkZmRhIn0.0ELVtvnn7F1X_Fpqw--t8keQsnU6gbmH5RXv5_Q29Is","memberId":6}
+     * data : {"characterId":"10486931","mobileNumber":"+8612345678910","username":"pp","gender":"male","birthDate":"2019-01-01","autograph":"不是","rongToken":"dck/4HVqHEl58hAUWXeZiV6AsbGff9KvUT62Noch30mb6n+CHOf4Vdoco+C/pVxohCVnUyo2V5Rc1gC7seANjA==","coin":0,"spent":0,"followingCount":0,"online":true,"album":[{"id":8,"mediaUrl":"http://starchat.general.7halachat.com/member_avatar_test.png","sortby":0}],"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwianRpIjoiNjljOTRlMzktNzIxMi00Y2JjLWIzODctZjc3ZTY2NDMxY2FlIn0.n6T5M64hKS7MC5djcuXYnNOQuCpoKiqTLJHL8qx9J3c","memberId":8,"lastActiveMinuteGap":0}
      */
 
+    @SerializedName("data")
     private DataBean data;
 
     public DataBean getData() {
@@ -25,26 +31,61 @@ public class RegistBean extends BaseBean {
 
     public static class DataBean {
         /**
-         * mobileNumber : +8613851668723
-         * username : pppp
+         * characterId : 10486931
+         * mobileNumber : +8612345678910
+         * username : pp
          * gender : male
-         * birthDate : 31
-         * avatarUrl : http://me.avatar.url
+         * birthDate : 2019-01-01
+         * autograph : 不是
+         * rongToken : dck/4HVqHEl58hAUWXeZiV6AsbGff9KvUT62Noch30mb6n+CHOf4Vdoco+C/pVxohCVnUyo2V5Rc1gC7seANjA==
          * coin : 0
+         * spent : 0
+         * followingCount : 0
          * online : true
-         * accessToken : eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwianRpIjoiMzliZmViODMtZDJjNS00MDMwLThlNzAtMWE1Y2Q4MTBkZmRhIn0.0ELVtvnn7F1X_Fpqw--t8keQsnU6gbmH5RXv5_Q29Is
-         * memberId : 6
+         * album : [{"id":8,"mediaUrl":"http://starchat.general.7halachat.com/member_avatar_test.png","sortby":0}]
+         * accessToken : eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwianRpIjoiNjljOTRlMzktNzIxMi00Y2JjLWIzODctZjc3ZTY2NDMxY2FlIn0.n6T5M64hKS7MC5djcuXYnNOQuCpoKiqTLJHL8qx9J3c
+         * memberId : 8
+         * lastActiveMinuteGap : 0
          */
 
+        @SerializedName("characterId")
+        private String characterId;
+        @SerializedName("mobileNumber")
         private String mobileNumber;
-        private String  username;
-        private String  gender;
-        private int     birthDate;
-        private String  avatarUrl;
-        private int     coin;
+        @SerializedName("username")
+        private String username;
+        @SerializedName("gender")
+        private String gender;
+        @SerializedName("birthDate")
+        private String birthDate;
+        @SerializedName("autograph")
+        private String autograph;
+        @SerializedName("rongToken")
+        private String rongToken;
+        @SerializedName("coin")
+        private int coin;
+        @SerializedName("spent")
+        private int spent;
+        @SerializedName("followingCount")
+        private int followingCount;
+        @SerializedName("online")
         private boolean online;
-        private String  accessToken;
-        private int     memberId;
+        @SerializedName("accessToken")
+        private String accessToken;
+        @SerializedName("memberId")
+        private int memberId;
+        @SerializedName("lastActiveMinuteGap")
+        private int lastActiveMinuteGap;
+        @SerializedName("album")
+        private List<AlbumBean> album;
+
+        public String getCharacterId() {
+            return characterId;
+        }
+
+        public void setCharacterId(String characterId) {
+            this.characterId = characterId;
+        }
 
         public String getMobileNumber() {
             return mobileNumber;
@@ -70,20 +111,28 @@ public class RegistBean extends BaseBean {
             this.gender = gender;
         }
 
-        public int getBirthDate() {
+        public String getBirthDate() {
             return birthDate;
         }
 
-        public void setBirthDate(int birthDate) {
+        public void setBirthDate(String birthDate) {
             this.birthDate = birthDate;
         }
 
-        public String getAvatarUrl() {
-            return avatarUrl;
+        public String getAutograph() {
+            return autograph;
         }
 
-        public void setAvatarUrl(String avatarUrl) {
-            this.avatarUrl = avatarUrl;
+        public void setAutograph(String autograph) {
+            this.autograph = autograph;
+        }
+
+        public String getRongToken() {
+            return rongToken;
+        }
+
+        public void setRongToken(String rongToken) {
+            this.rongToken = rongToken;
         }
 
         public int getCoin() {
@@ -92,6 +141,22 @@ public class RegistBean extends BaseBean {
 
         public void setCoin(int coin) {
             this.coin = coin;
+        }
+
+        public int getSpent() {
+            return spent;
+        }
+
+        public void setSpent(int spent) {
+            this.spent = spent;
+        }
+
+        public int getFollowingCount() {
+            return followingCount;
+        }
+
+        public void setFollowingCount(int followingCount) {
+            this.followingCount = followingCount;
         }
 
         public boolean isOnline() {
@@ -116,6 +181,61 @@ public class RegistBean extends BaseBean {
 
         public void setMemberId(int memberId) {
             this.memberId = memberId;
+        }
+
+        public int getLastActiveMinuteGap() {
+            return lastActiveMinuteGap;
+        }
+
+        public void setLastActiveMinuteGap(int lastActiveMinuteGap) {
+            this.lastActiveMinuteGap = lastActiveMinuteGap;
+        }
+
+        public List<AlbumBean> getAlbum() {
+            return album;
+        }
+
+        public void setAlbum(List<AlbumBean> album) {
+            this.album = album;
+        }
+
+        public static class AlbumBean {
+            /**
+             * id : 8
+             * mediaUrl : http://starchat.general.7halachat.com/member_avatar_test.png
+             * sortby : 0
+             */
+
+            @SerializedName("id")
+            private int id;
+            @SerializedName("mediaUrl")
+            private String mediaUrl;
+            @SerializedName("sortby")
+            private int sortby;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getMediaUrl() {
+                return mediaUrl;
+            }
+
+            public void setMediaUrl(String mediaUrl) {
+                this.mediaUrl = mediaUrl;
+            }
+
+            public int getSortby() {
+                return sortby;
+            }
+
+            public void setSortby(int sortby) {
+                this.sortby = sortby;
+            }
         }
     }
 }

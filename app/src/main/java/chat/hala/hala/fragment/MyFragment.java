@@ -13,9 +13,11 @@ import com.bumptech.glide.request.RequestOptions;
 import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
+import chat.hala.hala.activity.BeStarResultActivity;
 import chat.hala.hala.activity.BestarActivity;
 import chat.hala.hala.activity.ChargeActivity;
 import chat.hala.hala.activity.ChatSettingActivity;
+import chat.hala.hala.activity.EditUserActivity;
 import chat.hala.hala.activity.FeedBackActivity;
 import chat.hala.hala.activity.WalletActivity;
 import chat.hala.hala.avchat.AvchatInfo;
@@ -90,10 +92,12 @@ public class MyFragment extends BaseFragment {
         }
     }
 
-    @OnClick({ R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
+    @OnClick({ R.id.iv_head,R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
     public void onClick(View view) {
         switch (view.getId()) {
-
+            case R.id.iv_head:
+                gotoEdit();
+                break;
             case R.id.tv_charge:
                 gotoCharge();
                 break;
@@ -117,7 +121,6 @@ public class MyFragment extends BaseFragment {
             case R.id.tv_beauty_setting:
                 gotoBeautySetting();
                 break;
-
             case R.id.tv_loginout:
                 new CommonDialog(getActivity())
                         .setMsg(getString(R.string.want_to_log_out))
@@ -127,7 +130,6 @@ public class MyFragment extends BaseFragment {
                                 AvchatInfo.clearBaseData(getActivity());
                                 getActivity().finish();
                             }
-
                             @Override
                             public void onClickCancel() {
                             }
@@ -135,6 +137,10 @@ public class MyFragment extends BaseFragment {
                         .show();
                 break;
         }
+    }
+
+    private void gotoEdit() {
+        startActivity(new Intent(getActivity(), EditUserActivity.class));
     }
 
     private void gotoBeautySetting() {
@@ -158,7 +164,7 @@ public class MyFragment extends BaseFragment {
     }
 
     private void gotoCertify() {
-        startActivity(new Intent(getActivity(), BestarActivity.class));
+        startActivity(new Intent(getActivity(), BeStarResultActivity.class));
     }
 
     private void gotoWallet() {

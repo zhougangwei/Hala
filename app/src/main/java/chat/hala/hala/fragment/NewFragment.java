@@ -119,10 +119,11 @@ public class NewFragment extends BaseFragment {
                             return;
                         }
                         if (oneToOneListBean.getData().getPageable().isNextPage()) {
+                            hotCallAdapter.loadMoreComplete();
+                        } else {
                             hotCallAdapter.loadMoreEnd();
                             isLoadMore=false;
-                        } else {
-                            hotCallAdapter.loadMoreComplete();
+
                         }
                         if (isRefresh) {
                             mHotOnetoOneList.clear();

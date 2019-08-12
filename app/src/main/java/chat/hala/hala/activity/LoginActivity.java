@@ -19,10 +19,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import chat.hala.hala.R;
+import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
+import chat.hala.hala.bean.QiNiuToken;
 import chat.hala.hala.dialog.PolicyDialog;
+import chat.hala.hala.http.BaseCosumer;
+import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.wight.country.CountryActivity;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class LoginActivity extends BaseActivity {
 
@@ -58,6 +64,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        initQiniu();
         mTvGetSms.setSelected(false);
         mTvGetSms.setEnabled(false);
         mEtPhoneNum.addTextChangedListener(new TextWatcher() {
@@ -98,7 +105,6 @@ public class LoginActivity extends BaseActivity {
                 Intent intent2 = new Intent(LoginActivity.this,LoginSmsActivity.class);
                 intent2.putExtra("phoneNum",mCountryCode+text);
                 startActivity(intent2);
-                finish();
                 break;
             case R.id.tv_wechat:
                 break;
@@ -118,6 +124,27 @@ public class LoginActivity extends BaseActivity {
         }
 
     }
+    private void initQiniu() {
+        RetrofitFactory
+                .getInstance()
+                .getQiNiuToken()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<QiNiuToken>() {
+                    @Override
+                    public void onGetData(QiNiuToken baseBean) {
+                        if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
+                            return;
+                        }
+                        QiNiuToken.DataBean.StarchatanchorBean starchatanchor = baseBean.getData().getStarchatanchor();
+                        QiNiuToken.DataBean.StarchatfeedbackBean starchatfeedback = baseBean.getData().getStarchatfeedback();
+                        QiNiuToken.DataBean.StarchatmemberBean starchatmember = baseBean.getData().getStarchatmember();
 
+                        QiniuInfo.setmStarchatanchorBean(starchatanchor);
+                        QiniuInfo.setmStarchatfeedbackBean(starchatfeedback);
+                        QiniuInfo.setmStarchatmemberBean(starchatmember);
+                    }
+                });
+    }
 
 }

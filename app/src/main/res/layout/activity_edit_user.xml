@@ -5,7 +5,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            tools:context="chat.hala.hala.activity.PrepareBeAnchorActivity">
+            tools:context="chat.hala.hala.activity.ApplayAnchorActivity">
 
 
     <LinearLayout
@@ -228,7 +228,6 @@
                 />
 
             <EditText
-
                 android:id="@+id/et_introction"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -257,13 +256,10 @@
             android:id="@+id/ll_bio"
             android:layout_width="match_parent"
             android:layout_height="68dp">
-
             <TextView
                 style="@style/edit_userinfo_text_item"
                 android:text="@string/ta_say"
                 />
-
-
             <TextView
                 android:id="@+id/et_bio"
                 android:layout_width="0dp"

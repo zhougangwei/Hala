@@ -125,10 +125,10 @@ public class SuggestFragment extends BaseFragment {
                         LogUtils.e(TAG, "onGetData: " + GsonUtil.parseObjectToJson(oneToOneListBean));
 
                         if (oneToOneListBean.getData().getPageable().isNextPage()) {
+                            suggestAdapter.loadMoreComplete();
+                        } else {
                             suggestAdapter.loadMoreEnd();
                             isLoadMore = false;
-                        } else {
-                            suggestAdapter.loadMoreComplete();
                         }
                         if (isRefresh) {
                             mSuggestList.clear();

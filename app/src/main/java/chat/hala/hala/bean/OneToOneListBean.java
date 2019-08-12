@@ -1,14 +1,17 @@
 package chat.hala.hala.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class OneToOneListBean extends BaseBean {
 
 
     /**
-     * data : {"pageable":{"nextPage":false,"totalPages":1,"currentPage":1},"list":[{"memberId":1,"nickname":"old p","avatarUrl":"http://me.avatar.url","mobileNumber":"+8613851668725","height":182,"weight":82,"zodiac":"Aries","city":"NJ","introduction":"this is introduction","biography":"this is biography","certifyUrl":"http://certify.url","starLevel":4,"cpm":20,"online":true,"available":true,"hotweight":0,"sortby":0,"verified":true,"createdAt":"2019-05-26T04:03:50.000+0000","updatedAt":"2019-05-26T04:03:50.000+0000","tags":[{"content":"active","tagId":16},{"content":"aspiring","tagId":19}],"covers":[{"id":2,"coverUrl":"http://test.anchor14.url2","sortby":2},{"id":1,"coverUrl":"http://test.anchor14.url1","sortby":3}],"anchorId":14}]}
+     * data : {"pageable":{"nextPage":false,"totalPages":1,"currentPage":1},"list":[{"memberId":5,"characterId":"02544174","nickname":"周","gender":"secret","height":160,"weight":50,"birthDate":"1990-01-01","residentialPlace":"杭州","marking":80,"fansCount":0,"introduction":"你号","autograph":"你号","online":false,"available":true,"tags":[],"setting":{"videoCpm":20,"audioCpm":10,"chatCpm":1,"videoNotify":true,"audioNotify":true,"chatNotify":true},"album":[{"id":2,"mediaUrl":"http://starchat.anchor.7halachat.com/magazine-unlock-05-2.3.1562-715B87CD042446D7AFF69D07210E0131.jpg","sortby":0}],"anchorId":1,"answerRate":"0.0%","createdAtDate":"2019-08-12","lastActiveMinuteGap":76}]}
      */
 
+    @SerializedName("data")
     private DataBean data;
 
     public DataBean getData() {
@@ -22,10 +25,12 @@ public class OneToOneListBean extends BaseBean {
     public static class DataBean {
         /**
          * pageable : {"nextPage":false,"totalPages":1,"currentPage":1}
-         * list : [{"memberId":1,"nickname":"old p","avatarUrl":"http://me.avatar.url","mobileNumber":"+8613851668725","height":182,"weight":82,"zodiac":"Aries","city":"NJ","introduction":"this is introduction","biography":"this is biography","certifyUrl":"http://certify.url","starLevel":4,"cpm":20,"online":true,"available":true,"hotweight":0,"sortby":0,"verified":true,"createdAt":"2019-05-26T04:03:50.000+0000","updatedAt":"2019-05-26T04:03:50.000+0000","tags":[{"content":"active","tagId":16},{"content":"aspiring","tagId":19}],"covers":[{"id":2,"coverUrl":"http://test.anchor14.url2","sortby":2},{"id":1,"coverUrl":"http://test.anchor14.url1","sortby":3}],"anchorId":14}]
+         * list : [{"memberId":5,"characterId":"02544174","nickname":"周","gender":"secret","height":160,"weight":50,"birthDate":"1990-01-01","residentialPlace":"杭州","marking":80,"fansCount":0,"introduction":"你号","autograph":"你号","online":false,"available":true,"tags":[],"setting":{"videoCpm":20,"audioCpm":10,"chatCpm":1,"videoNotify":true,"audioNotify":true,"chatNotify":true},"album":[{"id":2,"mediaUrl":"http://starchat.anchor.7halachat.com/magazine-unlock-05-2.3.1562-715B87CD042446D7AFF69D07210E0131.jpg","sortby":0}],"anchorId":1,"answerRate":"0.0%","createdAtDate":"2019-08-12","lastActiveMinuteGap":76}]
          */
 
+        @SerializedName("pageable")
         private PageableBean pageable;
+        @SerializedName("list")
         private List<ListBean> list;
 
         public PageableBean getPageable() {
@@ -51,8 +56,11 @@ public class OneToOneListBean extends BaseBean {
              * currentPage : 1
              */
 
+            @SerializedName("nextPage")
             private boolean nextPage;
+            @SerializedName("totalPages")
             private int totalPages;
+            @SerializedName("currentPage")
             private int currentPage;
 
             public boolean isNextPage() {
@@ -82,54 +90,71 @@ public class OneToOneListBean extends BaseBean {
 
         public static class ListBean {
             /**
-             * memberId : 1
-             * nickname : old p
-             * avatarUrl : http://me.avatar.url
-             * mobileNumber : +8613851668725
-             * height : 182
-             * weight : 82
-             * zodiac : Aries
-             * city : NJ
-             * introduction : this is introduction
-             * biography : this is biography
-             * certifyUrl : http://certify.url
-             * starLevel : 4
-             * cpm : 20
-             * online : true
+             * memberId : 5
+             * characterId : 02544174
+             * nickname : 周
+             * gender : secret
+             * height : 160
+             * weight : 50
+             * birthDate : 1990-01-01
+             * residentialPlace : 杭州
+             * marking : 80
+             * fansCount : 0
+             * introduction : 你号
+             * autograph : 你号
+             * online : false
              * available : true
-             * hotweight : 0
-             * sortby : 0
-             * verified : true
-             * createdAt : 2019-05-26T04:03:50.000+0000
-             * updatedAt : 2019-05-26T04:03:50.000+0000
-             * tags : [{"content":"active","tagId":16},{"content":"aspiring","tagId":19}]
-             * covers : [{"id":2,"coverUrl":"http://test.anchor14.url2","sortby":2},{"id":1,"coverUrl":"http://test.anchor14.url1","sortby":3}]
-             * anchorId : 14
+             * tags : []
+             * setting : {"videoCpm":20,"audioCpm":10,"chatCpm":1,"videoNotify":true,"audioNotify":true,"chatNotify":true}
+             * album : [{"id":2,"mediaUrl":"http://starchat.anchor.7halachat.com/magazine-unlock-05-2.3.1562-715B87CD042446D7AFF69D07210E0131.jpg","sortby":0}]
+             * anchorId : 1
+             * answerRate : 0.0%
+             * createdAtDate : 2019-08-12
+             * lastActiveMinuteGap : 76
              */
 
+            @SerializedName("memberId")
             private int memberId;
+            @SerializedName("characterId")
+            private String characterId;
+            @SerializedName("nickname")
             private String nickname;
-            private String avatarUrl;
-            private String mobileNumber;
+            @SerializedName("gender")
+            private String gender;
+            @SerializedName("height")
             private int height;
+            @SerializedName("weight")
             private int weight;
-            private String zodiac;
-            private String city;
+            @SerializedName("birthDate")
+            private String birthDate;
+            @SerializedName("residentialPlace")
+            private String residentialPlace;
+            @SerializedName("marking")
+            private int marking;
+            @SerializedName("fansCount")
+            private int fansCount;
+            @SerializedName("introduction")
             private String introduction;
-            private String biography;
-            private String certifyUrl;
-            private int starLevel;
-            private int cpm;
+            @SerializedName("autograph")
+            private String autograph;
+            @SerializedName("online")
             private boolean online;
+            @SerializedName("available")
             private boolean available;
-            private int hotweight;
-            private int sortby;
-            private boolean verified;
-            private String createdAt;
-            private String updatedAt;
+            @SerializedName("setting")
+            private SettingBean setting;
+            @SerializedName("anchorId")
             private int anchorId;
-            private List<AnchorTagBean.DataBean> tags;
-            private List<CoversBean> covers;
+            @SerializedName("answerRate")
+            private String answerRate;
+            @SerializedName("createdAtDate")
+            private String createdAtDate;
+            @SerializedName("lastActiveMinuteGap")
+            private int lastActiveMinuteGap;
+            @SerializedName("tags")
+            private List<?> tags;
+            @SerializedName("album")
+            private List<AlbumBean> album;
 
             public int getMemberId() {
                 return memberId;
@@ -137,6 +162,14 @@ public class OneToOneListBean extends BaseBean {
 
             public void setMemberId(int memberId) {
                 this.memberId = memberId;
+            }
+
+            public String getCharacterId() {
+                return characterId;
+            }
+
+            public void setCharacterId(String characterId) {
+                this.characterId = characterId;
             }
 
             public String getNickname() {
@@ -147,20 +180,12 @@ public class OneToOneListBean extends BaseBean {
                 this.nickname = nickname;
             }
 
-            public String getAvatarUrl() {
-                return avatarUrl;
+            public String getGender() {
+                return gender;
             }
 
-            public void setAvatarUrl(String avatarUrl) {
-                this.avatarUrl = avatarUrl;
-            }
-
-            public String getMobileNumber() {
-                return mobileNumber;
-            }
-
-            public void setMobileNumber(String mobileNumber) {
-                this.mobileNumber = mobileNumber;
+            public void setGender(String gender) {
+                this.gender = gender;
             }
 
             public int getHeight() {
@@ -179,20 +204,36 @@ public class OneToOneListBean extends BaseBean {
                 this.weight = weight;
             }
 
-            public String getZodiac() {
-                return zodiac;
+            public String getBirthDate() {
+                return birthDate;
             }
 
-            public void setZodiac(String zodiac) {
-                this.zodiac = zodiac;
+            public void setBirthDate(String birthDate) {
+                this.birthDate = birthDate;
             }
 
-            public String getCity() {
-                return city;
+            public String getResidentialPlace() {
+                return residentialPlace;
             }
 
-            public void setCity(String city) {
-                this.city = city;
+            public void setResidentialPlace(String residentialPlace) {
+                this.residentialPlace = residentialPlace;
+            }
+
+            public int getMarking() {
+                return marking;
+            }
+
+            public void setMarking(int marking) {
+                this.marking = marking;
+            }
+
+            public int getFansCount() {
+                return fansCount;
+            }
+
+            public void setFansCount(int fansCount) {
+                this.fansCount = fansCount;
             }
 
             public String getIntroduction() {
@@ -203,36 +244,12 @@ public class OneToOneListBean extends BaseBean {
                 this.introduction = introduction;
             }
 
-            public String getBiography() {
-                return biography;
+            public String getAutograph() {
+                return autograph;
             }
 
-            public void setBiography(String biography) {
-                this.biography = biography;
-            }
-
-            public String getCertifyUrl() {
-                return certifyUrl;
-            }
-
-            public void setCertifyUrl(String certifyUrl) {
-                this.certifyUrl = certifyUrl;
-            }
-
-            public int getStarLevel() {
-                return starLevel;
-            }
-
-            public void setStarLevel(int starLevel) {
-                this.starLevel = starLevel;
-            }
-
-            public int getCpm() {
-                return cpm;
-            }
-
-            public void setCpm(int cpm) {
-                this.cpm = cpm;
+            public void setAutograph(String autograph) {
+                this.autograph = autograph;
             }
 
             public boolean isOnline() {
@@ -251,44 +268,12 @@ public class OneToOneListBean extends BaseBean {
                 this.available = available;
             }
 
-            public int getHotweight() {
-                return hotweight;
+            public SettingBean getSetting() {
+                return setting;
             }
 
-            public void setHotweight(int hotweight) {
-                this.hotweight = hotweight;
-            }
-
-            public int getSortby() {
-                return sortby;
-            }
-
-            public void setSortby(int sortby) {
-                this.sortby = sortby;
-            }
-
-            public boolean isVerified() {
-                return verified;
-            }
-
-            public void setVerified(boolean verified) {
-                this.verified = verified;
-            }
-
-            public String getCreatedAt() {
-                return createdAt;
-            }
-
-            public void setCreatedAt(String createdAt) {
-                this.createdAt = createdAt;
-            }
-
-            public String getUpdatedAt() {
-                return updatedAt;
-            }
-
-            public void setUpdatedAt(String updatedAt) {
-                this.updatedAt = updatedAt;
+            public void setSetting(SettingBean setting) {
+                this.setting = setting;
             }
 
             public int getAnchorId() {
@@ -299,33 +284,130 @@ public class OneToOneListBean extends BaseBean {
                 this.anchorId = anchorId;
             }
 
-            public List<AnchorTagBean.DataBean> getTags() {
+            public String getAnswerRate() {
+                return answerRate;
+            }
+
+            public void setAnswerRate(String answerRate) {
+                this.answerRate = answerRate;
+            }
+
+            public String getCreatedAtDate() {
+                return createdAtDate;
+            }
+
+            public void setCreatedAtDate(String createdAtDate) {
+                this.createdAtDate = createdAtDate;
+            }
+
+            public int getLastActiveMinuteGap() {
+                return lastActiveMinuteGap;
+            }
+
+            public void setLastActiveMinuteGap(int lastActiveMinuteGap) {
+                this.lastActiveMinuteGap = lastActiveMinuteGap;
+            }
+
+            public List<?> getTags() {
                 return tags;
             }
 
-            public void setTags(List<AnchorTagBean.DataBean> tags) {
+            public void setTags(List<?> tags) {
                 this.tags = tags;
             }
 
-            public List<CoversBean> getCovers() {
-                return covers;
+            public List<AlbumBean> getAlbum() {
+                return album;
             }
 
-            public void setCovers(List<CoversBean> covers) {
-                this.covers = covers;
+            public void setAlbum(List<AlbumBean> album) {
+                this.album = album;
             }
 
-
-
-            public static class CoversBean {
+            public static class SettingBean {
                 /**
-                 * id : 2
-                 * coverUrl : http://test.anchor14.url2
-                 * sortby : 2
+                 * videoCpm : 20
+                 * audioCpm : 10
+                 * chatCpm : 1
+                 * videoNotify : true
+                 * audioNotify : true
+                 * chatNotify : true
                  */
 
+                @SerializedName("videoCpm")
+                private int videoCpm;
+                @SerializedName("audioCpm")
+                private int audioCpm;
+                @SerializedName("chatCpm")
+                private int chatCpm;
+                @SerializedName("videoNotify")
+                private boolean videoNotify;
+                @SerializedName("audioNotify")
+                private boolean audioNotify;
+                @SerializedName("chatNotify")
+                private boolean chatNotify;
+
+                public int getVideoCpm() {
+                    return videoCpm;
+                }
+
+                public void setVideoCpm(int videoCpm) {
+                    this.videoCpm = videoCpm;
+                }
+
+                public int getAudioCpm() {
+                    return audioCpm;
+                }
+
+                public void setAudioCpm(int audioCpm) {
+                    this.audioCpm = audioCpm;
+                }
+
+                public int getChatCpm() {
+                    return chatCpm;
+                }
+
+                public void setChatCpm(int chatCpm) {
+                    this.chatCpm = chatCpm;
+                }
+
+                public boolean isVideoNotify() {
+                    return videoNotify;
+                }
+
+                public void setVideoNotify(boolean videoNotify) {
+                    this.videoNotify = videoNotify;
+                }
+
+                public boolean isAudioNotify() {
+                    return audioNotify;
+                }
+
+                public void setAudioNotify(boolean audioNotify) {
+                    this.audioNotify = audioNotify;
+                }
+
+                public boolean isChatNotify() {
+                    return chatNotify;
+                }
+
+                public void setChatNotify(boolean chatNotify) {
+                    this.chatNotify = chatNotify;
+                }
+            }
+
+            public static class AlbumBean {
+                /**
+                 * id : 2
+                 * mediaUrl : http://starchat.anchor.7halachat.com/magazine-unlock-05-2.3.1562-715B87CD042446D7AFF69D07210E0131.jpg
+                 * sortby : 0
+                 */
+
+                @SerializedName("id")
                 private int id;
-                private String coverUrl;
+                @SerializedName("mediaUrl")
+                private String mediaUrl;
+                @SerializedName("sortby")
                 private int sortby;
 
                 public int getId() {
@@ -336,12 +418,12 @@ public class OneToOneListBean extends BaseBean {
                     this.id = id;
                 }
 
-                public String getCoverUrl() {
-                    return coverUrl;
+                public String getMediaUrl() {
+                    return mediaUrl;
                 }
 
-                public void setCoverUrl(String coverUrl) {
-                    this.coverUrl = coverUrl;
+                public void setMediaUrl(String mediaUrl) {
+                    this.mediaUrl = mediaUrl;
                 }
 
                 public int getSortby() {

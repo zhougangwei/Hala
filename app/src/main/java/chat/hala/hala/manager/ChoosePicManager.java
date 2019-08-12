@@ -3,6 +3,7 @@ package chat.hala.hala.manager;
 import android.Manifest;
 import android.app.Activity;
 
+import chat.hala.hala.base.Contact;
 import chat.hala.hala.glide.MyGlideEngine;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
@@ -13,7 +14,7 @@ import io.reactivex.functions.Consumer;
 
 public class ChoosePicManager {
 
-    public static final int REQUEST_CODE_CHOOSE = 224;
+    public static final int REQUEST_CODE_CHOOSE = Contact.REQUEST_CODE_CHOOSE;
 
     public static void choosePic(final Activity activity, final int count) {
         final RxPermissions rxPermissions = new RxPermissions(activity);
@@ -41,4 +42,6 @@ public class ChoosePicManager {
                     }
                 });
     }
+
+
 }

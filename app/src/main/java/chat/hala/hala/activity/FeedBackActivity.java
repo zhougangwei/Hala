@@ -55,7 +55,7 @@ public class FeedBackActivity extends BaseActivity {
 
 
     private List<EditHeadAdapter.UserHead> mList;
-    private static final int          REQUEST_CODE_CHOOSE = 224;
+
     private              List<String> uriList             = new ArrayList<>();
     private String mediaurl;
 
@@ -93,7 +93,7 @@ public class FeedBackActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_CHOOSE) {
+        if (resultCode == RESULT_OK && requestCode == ChoosePicManager.REQUEST_CODE_CHOOSE) {
             List<String> strings = Matisse.obtainPathResult(data);
             if (strings != null && strings.size() > 0) {
                 uriList.clear();

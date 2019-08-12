@@ -26,22 +26,13 @@ import chat.hala.hala.adapter.EditHeadAdapter;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.base.BaseActivity;
-import chat.hala.hala.base.Contact;
-import chat.hala.hala.bean.ApplyAnchorBean;
-import chat.hala.hala.bean.BeAnchorBean;
 import chat.hala.hala.bean.QiNiuToken;
-import chat.hala.hala.http.BaseCosumer;
-import chat.hala.hala.http.ProxyPostHttpRequest;
-import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.http.UploadPicManger;
 import chat.hala.hala.manager.ChoosePicManager;
-import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ToastUtils;
 import cn.qqtheme.framework.picker.DatePicker;
 import cn.qqtheme.framework.picker.DoublePicker;
 import cn.qqtheme.framework.picker.SinglePicker;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 public class EditUserActivity extends BaseActivity {
 
@@ -58,7 +49,7 @@ public class EditUserActivity extends BaseActivity {
     @BindView(R.id.et_phone_num)
     EditText etPhoneNum;
     @BindView(R.id.et_gender)
-    TextView     etGender;
+    TextView etGender;
     @BindView(R.id.ll_gender)
     LinearLayout llGender;
     @BindView(R.id.tv_height_weight)
@@ -90,32 +81,27 @@ public class EditUserActivity extends BaseActivity {
     RecyclerView recyclerView;
 
 
-
     private List<EditHeadAdapter.UserHead> mList;
     private List<String> uriList = new ArrayList<>();
     List<Integer> tagsList = new ArrayList<>();
-    List<ApplyAnchorBean.CoversBean> covers = new ArrayList<>();
+
     private String bio;     //个人经历
     private static final int REQUEST_BIO = 222;
     private static final int REQUEST_TAG = 223;
 
 
     EditHeadAdapter mAdapter;
-
-    private   String[] constellationEnArr  ;
-
     private String userName;
     private String phoneNum;
     private String height;
     private String weight;
     private String birth;
     private String city;
-    private String country;
     private String intro;
 
 
     private DoublePicker heightPicker;
-    private int zodiacIndex;
+
     private int genderIndex;
 
     @Override
@@ -131,20 +117,6 @@ public class EditUserActivity extends BaseActivity {
     @Override
     protected void initView() {
 
-        constellationEnArr= new String[]{
-                getString(R.string.Secret),
-                getString(R.string.Aries),
-                getString(R.string.Taurus),
-                getString(R.string.Gemini),
-                getString(R.string.Cancer),
-                getString(R.string.Leo),
-                getString(R.string.Virgo),
-                getString(R.string.Libra),
-                getString(R.string.Scorpio),
-                getString(R.string.Sagittarius),
-                getString(R.string.Capricorn),
-                getString(R.string.Aquarius),
-                getString(R.string.Pisces)};
         mList = new ArrayList<>();
         mList.add(new EditHeadAdapter.UserHead("", true));
         mAdapter = new EditHeadAdapter(mList);
@@ -152,6 +124,12 @@ public class EditUserActivity extends BaseActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+
+        if(!AvchatInfo.isAnchor()){
+            llBio.setVisibility(View.GONE);
+            llHeightWeight.setVisibility(View.GONE);
+        }
+
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -164,7 +142,7 @@ public class EditUserActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.ll_birth, R.id.ll_city, R.id.ll_introction, R.id.ll_bio, R.id.tv_save, R.id.iv_back, R.id.ll_height_weight,R.id.ll_gender})
+    @OnClick({R.id.ll_birth, R.id.ll_city, R.id.ll_introction, R.id.ll_bio, R.id.tv_save, R.id.iv_back, R.id.ll_height_weight, R.id.ll_gender})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_birth:
@@ -190,16 +168,16 @@ public class EditUserActivity extends BaseActivity {
             case R.id.ll_gender:
                 chooseGender();
                 break;
+
         }
     }
 
 
-
     private void chooseHeightAndWeight() {
-        if(heightPicker==null){
+        if (heightPicker == null) {
             final ArrayList<String> firstData = new ArrayList<>();
             for (int i = 100; i <= 200; i++) {
-                firstData.add(i+"");
+                firstData.add(i + "");
             }
 
             final ArrayList<String> secondData = new ArrayList<>();
@@ -211,7 +189,7 @@ public class EditUserActivity extends BaseActivity {
                 }
             }
             heightPicker = new DoublePicker(this, firstData, secondData);
-            heightPicker.setFirstLabel("","CM");
+            heightPicker.setFirstLabel("", "CM");
             heightPicker.setDividerVisible(true);
             heightPicker.setCycleDisable(true);
             heightPicker.setSelectedIndex(160, 50);
@@ -221,14 +199,14 @@ public class EditUserActivity extends BaseActivity {
             heightPicker.setOnPickListener(new DoublePicker.OnPickListener() {
                 @Override
                 public void onPicked(int selectedFirstIndex, int selectedSecondIndex) {
-                     height = firstData.get(selectedFirstIndex);
-                     weight = secondData.get(selectedSecondIndex);
+                    height = firstData.get(selectedFirstIndex);
+                    weight = secondData.get(selectedSecondIndex);
 
 
                 }
             });
             heightPicker.show();
-        }else{
+        } else {
             heightPicker.show();
         }
 
@@ -259,10 +237,7 @@ public class EditUserActivity extends BaseActivity {
         phoneNum = etPhoneNum.getText().toString();
         birth = tvBirth.getText().toString();  //星座
         city = etCity.getText().toString();
-
         intro = etIntroction.getText().toString();
-
-
         if (TextUtils.isEmpty(userName)) {
             ToastUtils.showToast(this, "userName" + "不可以为空");
             return false;
@@ -285,10 +260,7 @@ public class EditUserActivity extends BaseActivity {
             ToastUtils.showToast(this, "birth" + "不可以为空");
             return false;
         }
-        if (TextUtils.isEmpty(country)) {
-            ToastUtils.showToast(this, "country" + "不可以为空");
-            return false;
-        }
+
 
         if (TextUtils.isEmpty(city)) {
             ToastUtils.showToast(this, "city" + "不可以为空");
@@ -319,15 +291,15 @@ public class EditUserActivity extends BaseActivity {
     }
 
     private void setBirth() {
-        List<String> data = Arrays.asList(constellationEnArr);
+
         DatePicker picker = new DatePicker(this);
         picker.setCanceledOnTouchOutside(true);
-        picker.setSelectedItem(1900,1,1);
+        picker.setSelectedItem(1900, 1, 1);
         picker.setCycleDisable(true);
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {
-                tvBirth.setText(year+"-"+month+"day");
+                tvBirth.setText(year + "-" + month + "day");
             }
         });
         picker.show();
@@ -339,7 +311,7 @@ public class EditUserActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-             if (requestCode == REQUEST_BIO) {
+            if (requestCode == REQUEST_BIO) {
                 bio = data.getStringExtra("bio");
                 etBio.setText(bio);
             } else if (requestCode == ChoosePicManager.REQUEST_CODE_CHOOSE) {
@@ -379,53 +351,7 @@ public class EditUserActivity extends BaseActivity {
     }
 
     private void gotoSave(List<String> paths) {
-        if (paths != null) {
-            covers.clear();
-            for (int i = 0; i < paths.size(); i++) {
-                ApplyAnchorBean.CoversBean coversBean = new ApplyAnchorBean.CoversBean();
-                coversBean.setCoverUrl(paths.get(i));
-                coversBean.setSortby(i);
-                covers.add(coversBean);
-            }
-        }
 
-        ApplyAnchorBean applyAnchorBean = new ApplyAnchorBean();
-        applyAnchorBean.setRealName(userName);
-        applyAnchorBean.setMobileNumber(phoneNum);
-        applyAnchorBean.setHeight(TextUtils.isEmpty(height) ? 0 : Integer.parseInt(height));
-        applyAnchorBean.setWeight(TextUtils.isEmpty(weight) ? 0 : Integer.parseInt(weight));
-        applyAnchorBean.setZodiac(zodiacIndex+"");
-        applyAnchorBean.setCity(city);
-        applyAnchorBean.setIntroduction(intro);
-        applyAnchorBean.setCountry(country);
-        applyAnchorBean.setTagIds(tagsList);
-
-        applyAnchorBean.setBiography(bio);
-        applyAnchorBean.setCovers(covers);
-        applyAnchorBean.setCpm(20 + "");
-        RetrofitFactory.getInstance()
-                .applyAnchor(ProxyPostHttpRequest.getJsonInstance()
-                        .applyAnchor(GsonUtil.parseObjectToJson(applyAnchorBean)))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseCosumer<BeAnchorBean>() {
-                    @Override
-                    public void onGetData(BeAnchorBean baseBean) {
-                        if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
-                            ToastUtils.showToast(EditUserActivity.this, getString(R.string.submit_fail));
-                            LogUtils.e("Edit", GsonUtil.parseObjectToJson(baseBean));
-                            return;
-                        }
-                        if (Contact.REPONSE_CODE_APPLYANCHOR_FAIL_ALREADY_NAME_OR_PHONE != baseBean.getCode()) {
-                            ToastUtils.showToast(EditUserActivity.this, "主播用户名或手机号存在");
-                            return;
-                        }
-                        int id = baseBean.getData().getMemberId();
-                        AvchatInfo.setAnchorId(id);
-                        ToastUtils.showToast(EditUserActivity.this, getString(R.string.submit_success));
-                        finish();
-                    }
-                });
 
     }
 

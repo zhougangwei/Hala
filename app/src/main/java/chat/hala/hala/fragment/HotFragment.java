@@ -2,7 +2,7 @@ package chat.hala.hala.fragment;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -174,10 +174,11 @@ public class HotFragment extends BaseFragment {
                         LogUtils.e(TAG, "onGetData: " + GsonUtil.parseObjectToJson(oneToOneListBean));
 
                         if (oneToOneListBean.getData().getPageable().isNextPage()) {
+                            hotCallAdapter.loadMoreComplete();
+                        } else {
                             hotCallAdapter.loadMoreEnd();
                             isLoadMore = false;
-                        } else {
-                            hotCallAdapter.loadMoreComplete();
+
                         }
                         if (isRefresh) {
                             mHotOnetoOneList.clear();

@@ -43,7 +43,9 @@ public class Contact {
     public static final String RTM_ANSWER_STRING  = "tel://answer?";
 
 
-
+    public static final int REQUEST_BIO = 222;
     public static final int REQUEST_CHOOSE_COUNTRY = 666;
     public static final int REQUEST_PHONE = 668;
+    public static final int REQUEST_CODE_CHOOSE = 224;
+    public static final int REQUEST_CHOOSE_CARD = 225;      //身份验证
 }
