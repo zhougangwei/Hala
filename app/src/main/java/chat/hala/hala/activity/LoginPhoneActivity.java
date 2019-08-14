@@ -250,7 +250,7 @@ public class LoginPhoneActivity extends BaseActivity {
                             intent.putExtra("type", FillUserActivity.FROM_PHONE);
                             startActivityForResult(intent,REQUEST_PHONE);
                         } else if (Contact.SIGN_IN.equals(action)) {
-                            AvchatInfo.saveBaseData(baseBean.getData().getMember(),LoginPhoneActivity.this);
+                            AvchatInfo.saveBaseData(baseBean.getData().getMember(),LoginPhoneActivity.this,true);
                             Intent intent = new Intent(LoginPhoneActivity.this,MainActivity.class);
                             startActivity(intent);
                             finish();

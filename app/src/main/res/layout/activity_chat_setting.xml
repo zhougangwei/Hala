@@ -162,6 +162,8 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="212dp"
         android:layout_marginTop="13dp"
@@ -194,7 +196,6 @@
                 android:layout_marginEnd="12dp"
                 android:layout_toStartOf="@id/iv1"
                 android:gravity="center_vertical"
-                android:text="@string/coin_min"
                 android:textColor="#FFACACAC"
                 android:textSize="14sp"/>
 
@@ -253,7 +254,6 @@
                 android:layout_marginEnd="12dp"
                 android:layout_toStartOf="@id/iv2"
                 android:gravity="center_vertical"
-                android:text="@string/coin_min"
                 android:textColor="#FFACACAC"
                 android:textSize="14sp"/>
 
@@ -293,7 +293,6 @@
                 android:layout_marginEnd="12dp"
                 android:layout_toStartOf="@id/iv3"
                 android:gravity="center_vertical"
-                android:text="@string/coin_min"
                 android:textColor="#FFACACAC"
                 android:textSize="14sp"/>
 

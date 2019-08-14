@@ -22,6 +22,7 @@ import chat.hala.hala.R;
 import chat.hala.hala.adapter.TagsAdapter;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.bean.AnchorTagBean;
+import chat.hala.hala.bean.TagBean;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ResultUtils;

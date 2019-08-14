@@ -14,9 +14,9 @@ import java.util.List;
 
 public class SimplePagerAdapter extends PagerAdapter {
     private Context mContext;
-    private List<AnchorBean.DataBean.CoversBean> mData;
+    private List<AnchorBean.DataBean.AlbumBean> mData;
 
-    public SimplePagerAdapter(Context context , List<AnchorBean.DataBean.CoversBean> list) {
+    public SimplePagerAdapter(Context context , List<AnchorBean.DataBean.AlbumBean> list) {
         mContext = context;
         mData = list;
     }
@@ -30,7 +30,7 @@ public class SimplePagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View view =  View.inflate(mContext, R.layout.item_base,null);
         ImageView imageview = view.findViewById(R.id.iv);
-        Glide.with(mContext).load(mData.get(position).getCoverUrl())
+        Glide.with(mContext).load(mData.get(position).getMediaUrl())
                 .into(imageview);
 
         container.addView(view);

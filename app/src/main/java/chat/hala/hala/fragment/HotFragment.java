@@ -24,6 +24,7 @@ import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ResultUtils;
+import chat.hala.hala.wight.EmptyLoadMoreView;
 import chat.hala.hala.wight.GlideImageLoader;
 import chat.hala.hala.wight.banner.Banner;
 import chat.hala.hala.wight.banner.BannerConfig;
@@ -88,10 +89,8 @@ public class HotFragment extends BaseFragment {
             }
         }, rv);
         getBannerData();
-
-
         hotCallAdapter.setPreLoadNumber(5);
-        hotCallAdapter.disableLoadMoreIfNotFullPage(rv);
+
     }
 
     private void getBannerData() {
@@ -141,7 +140,7 @@ public class HotFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        getData(false);
+        getData(true);
     }
 
     private void getData(final boolean isRefresh) {
@@ -156,7 +155,8 @@ public class HotFragment extends BaseFragment {
         }
         LogUtils.e(TAG, "aaa" + page);
 
-        RetrofitFactory.getInstance().getHotOneToOneList(0, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
+
+        RetrofitFactory.getInstance().getHotOneToOneList(page, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<OneToOneListBean>() {
                     @Override
@@ -190,6 +190,7 @@ public class HotFragment extends BaseFragment {
                             mHotOnetoOneList.addAll(content);
                         }
                         hotCallAdapter.notifyDataSetChanged();
+                        hotCallAdapter.disableLoadMoreIfNotFullPage(rv);
                     }
                 });
     }

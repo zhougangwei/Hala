@@ -29,13 +29,16 @@ import io.reactivex.schedulers.Schedulers;
 public class VideoCallManager {
 
     public static String TAG = "VideoCallManager";
+    public static String VIDEO_CALL="video";
+    public static String AUDIO_CALL="audio";
+
 
 
 
 
 
     public static void gotoCallOrReverse(final Activity activity, final int anchorId){
-        gotoCallOrReverse(activity,anchorId,111);
+        gotoCallOrReverse(activity,VideoCallManager.VIDEO_CALL,anchorId,111);
     }
 
     /**
@@ -44,7 +47,7 @@ public class VideoCallManager {
      * @param anchorMemberId
      */
     @SuppressLint("CheckResult")
-    public static void gotoCallOrReverse(final Activity activity, final int anchorId, final int anchorMemberId) {
+    public static void gotoCallOrReverse(final Activity activity,final String videoOrAudio, final int anchorId, final int anchorMemberId) {
         final RxPermissions rxPermissions = new RxPermissions(activity);
         rxPermissions.setLogging(true);
         rxPermissions.request(Manifest.permission.CAMERA, Manifest
@@ -64,13 +67,13 @@ public class VideoCallManager {
                                             }
                                             if (!anchorStateBean.getData().isOnline()) {
                                                 ToastUtils.showToast(activity, activity.getString(R.string.anchor_is_not_aviliable));
-                                                new ReverseDialog(activity, anchorId).show();
+                                                new ReverseDialog(activity, anchorId,videoOrAudio).show();
                                                 return;
                                             }
                                             if (!anchorStateBean.getData().isAvailable()) {
-                                                new ReverseDialog(activity, anchorId).show();
+                                                new ReverseDialog(activity, anchorId,videoOrAudio).show();
                                             } else {
-                                                RetrofitFactory.getInstance().callAnchor(anchorId)
+                                                RetrofitFactory.getInstance().callAnchor(anchorId,videoOrAudio)
                                                         .subscribeOn(Schedulers.io())
                                                         .observeOn(AndroidSchedulers.mainThread())
                                                         .subscribe(new BaseCosumer<CallBean>() {

@@ -1,7 +1,6 @@
 package chat.hala.hala.activity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -95,14 +94,14 @@ public class FillUserActivity extends BaseActivity {
 
     public static final String FROM_FACEBOOK    = "from_facebook";
     public static final String FROM_PHONE       = "from_phone";
-    public static final String FROM_MYFRAG_MENT = "from_myfrag_ment";
+
     private String avatarUrl;
     private List<String> uriList = new ArrayList<>();
     private int genderIndex;
 
     @Override
     protected int getContentViewId() {
-        return R.layout.activity_edit_pro_user;
+        return R.layout.activity_fill_user;
     }
 
     @Override
@@ -124,12 +123,6 @@ public class FillUserActivity extends BaseActivity {
     @Override
     protected void initView() {
         tvTitle.setText(R.string.edit_profile);
-        if (FROM_MYFRAG_MENT.equals(type)) {
-            etUserName.setText(AvchatInfo.getName());
-            etGender.setText(AvchatInfo.getGender());
-            // etBirth.setText(AvchatInfo.getBirthDate());
-            Glide.with(this).load(AvchatInfo.getAvatarUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(ivHead);
-        }
 
         etUserName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -226,7 +219,7 @@ public class FillUserActivity extends BaseActivity {
 
     private void chooseGender() {
 
-        String[] sexArr = new String[]{getString(R.string.Secret), getString(R.string.male), getString(R.string.female)};
+        String[] sexArr = new String[]{getString(R.string.male), getString(R.string.female)};
         List<String> data = Arrays.asList(sexArr);
         SinglePicker<String> picker = new SinglePicker<String>(this, data);
         picker.setCanceledOnTouchOutside(true);
@@ -300,7 +293,7 @@ public class FillUserActivity extends BaseActivity {
         if (type.equals(FROM_PHONE)) {
             EditUserBean editUserBean = new EditUserBean();
             editUserBean.setUsername(username);
-            editUserBean.setAutograph(bio);
+            editUserBean.setAutograph(bio);         //个性签名
             editUserBean.setBirthDate(birthDate);
             editUserBean.setCode(code);
             editUserBean.setGender(genderIndex+"");
@@ -316,9 +309,7 @@ public class FillUserActivity extends BaseActivity {
                     GsonUtil.parseObjectToJson(editUserBean)
                    ));
         } else if (type.equals(FROM_FACEBOOK)) {
-            regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(avatarUrl, username, genderIndex + "", birthDate, facebookId));
-        } else if (type.equals(FROM_MYFRAG_MENT)) {
-            regist = RetrofitFactory.getInstance().changeUserInfo(ProxyPostHttpRequest.getInstance().changeUserInfo(avatarUrl, username, genderIndex + "", birthDate, mobileNumber));
+            regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(avatarUrl, username, (genderIndex+1) + "", birthDate, facebookId));
         }
         regist.subscribeOn(Schedulers.io())
                 .compose(this.<RegistBean>bindToLifecycle())

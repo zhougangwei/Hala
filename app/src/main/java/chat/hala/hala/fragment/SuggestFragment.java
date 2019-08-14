@@ -77,11 +77,8 @@ public class SuggestFragment extends BaseFragment {
                 getData(false);
             }
         }, rv);
-
-
-
         suggestAdapter.setPreLoadNumber(5);
-        suggestAdapter.disableLoadMoreIfNotFullPage(rv);
+        
     }
 
 
@@ -140,6 +137,7 @@ public class SuggestFragment extends BaseFragment {
                             mSuggestList.addAll(content);
                         }
                         suggestAdapter.notifyDataSetChanged();
+                        suggestAdapter.disableLoadMoreIfNotFullPage(rv);
                     }
                 });
     }

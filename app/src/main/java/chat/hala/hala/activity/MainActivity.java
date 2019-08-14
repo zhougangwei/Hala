@@ -82,6 +82,9 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
         RongIM.connect(memberBean.getRongToken(), new RongIMClient.ConnectCallback() {
             @Override
             public void onSuccess(String s) {
+                if (AvchatInfo.getMemberId()==-1) {
+                    return;
+                }
                 UserInfo userInfo = new UserInfo(AvchatInfo.getMemberId()+"",AvchatInfo.getName(), Uri.parse(AvchatInfo.getAvatarUrl()));
                 RongIM.getInstance().setCurrentUserInfo(userInfo);
                 LogUtils.e(TAG, "onSuccess: "+s);
@@ -113,7 +116,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                 return;
             }else{
                 memberBean = GsonUtil.parseJsonToBean(memberJson, LoginBean.DataBean.MemberBean.class);
-                AvchatInfo.saveBaseData(memberBean,this);
+                AvchatInfo.saveBaseData(memberBean,this,false);
             }
         }
         ((App) getApplication()).initWorkerThread();

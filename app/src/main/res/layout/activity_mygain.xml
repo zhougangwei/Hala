@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             tools:context="chat.hala.hala.activity.WalletActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="chat.hala.hala.activity.WalletActivity">
 
     <include
         android:id="@+id/title"
-        layout="@layout/include_top_toolbar_iv"/>
+        layout="@layout/include_top_toolbar_iv" />
 
     <ImageView
         android:id="@+id/iv1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_charge_bg"
-        app:layout_constraintTop_toBottomOf="@id/title"/>
+        app:layout_constraintTop_toBottomOf="@id/title" />
 
     <TextView
         android:id="@+id/tv_coin_num"
@@ -27,7 +27,7 @@
         android:textSize="37sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/iv1"/>
+        app:layout_constraintTop_toTopOf="@id/iv1" />
 
     <TextView
         android:id="@+id/tv1"
@@ -39,66 +39,54 @@
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="@id/tv_coin_num"
         app:layout_constraintStart_toStartOf="@id/tv_coin_num"
-        app:layout_constraintTop_toBottomOf="@id/tv_coin_num"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_coin_num" />
 
-    <android.support.v7.widget.RecyclerView
-        android:visibility="gone"
-        android:id="@+id/rv"
-        android:layout_width="match_parent"
-        android:layout_marginEnd="23dp"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="42dp"
-        android:background="@drawable/bg_rec_white_r12"
-        app:layout_constraintTop_toBottomOf="@id/tv1"
-        android:layout_height="wrap_content"/>
+
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="156dp"
-        android:layout_marginEnd="23dp"
         android:layout_marginStart="23dp"
         android:layout_marginTop="42dp"
+        android:layout_marginEnd="23dp"
         android:background="@drawable/bg_rec_white_r12"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/tv1">
 
         <LinearLayout
-            android:id="@+id/ll_recharge"
+            android:id="@+id/ll_gain_money"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
-                android:drawablePadding="15dp"
-                android:drawableStart="@drawable/ic_dollor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="34dp"
-                android:text="@string/recharge"
-                android:textColor="#4a4a4a"/>
+                android:drawableStart="@drawable/ic_gain_money"
+                android:drawablePadding="15dp"
+                android:text="提现"
+                android:textColor="#4a4a4a" />
         </LinearLayout>
 
 
-
-
         <LinearLayout
-            android:id="@+id/ll_cost"
+            android:id="@+id/ll_income_detail"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
-                android:drawablePadding="15dp"
-                android:drawableStart="@drawable/ic_cost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="34dp"
-                android:text="@string/cost"
-                android:textColor="#4a4a4a"/>
+                android:drawableStart="@drawable/ic_income_detail"
+                android:drawablePadding="15dp"
+                android:text="收益明细"
+                android:textColor="#4a4a4a" />
         </LinearLayout>
     </LinearLayout>
 

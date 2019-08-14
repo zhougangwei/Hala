@@ -6,8 +6,9 @@ import java.util.List;
 
 public class LoginBean extends BaseBean {
 
+
     /**
-     * data : {"member":{"characterId":"02544174","mobileNumber":"+8613811114444","username":"周","gender":"secret","birthDate":"2000-10-14","autograph":"你号","residentialPlace":"杭州","rongToken":"I34rC+bQTeEMQcO7kwL3K16AsbGff9KvUT62Noch30mb6n+CHOf4VSjk5+knDcNk6ysOovR6+BFc1gC7seANjA==","coin":0,"spent":0,"followingCount":0,"online":true,"album":[{"id":5,"mediaUrl":"http://starchat.member.7halachat.com/magazine-unlock-01-2.3.1552-BE1C1D482E72759249831391682C2D38.jpg","sortby":1}],"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwianRpIjoiOTk4ZWYwOWEtNWIwMS00OTlhLWI5ZWMtZDZmMzA0NTNhYzFhIn0.uJ7_2V-ZSoby_9rEPkZVcXXxWW7PlTnusbDgdDbDbQM","memberId":5,"lastActiveMinuteGap":0},"action":"sign_in"}
+     * data : {"member":{"characterId":"02544174","mobileNumber":"+8613811114444","username":"周","gender":"secret","birthDate":"2000-10-14","autograph":"你号","residentialPlace":"杭州","anchorId":1,"rongToken":"I34rC+bQTeEMQcO7kwL3K16AsbGff9KvUT62Noch30mb6n+CHOf4VSjk5+knDcNk6ysOovR6+BFc1gC7seANjA==","coin":0,"spent":0,"followingCount":0,"online":false,"album":[{"id":5,"mediaUrl":"http://starchat.member.7halachat.com/magazine-unlock-01-2.3.1552-BE1C1D482E72759249831391682C2D38.jpg","sortby":1}],"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwianRpIjoiM2EzNjA1ZGQtMDFkNi00YzBkLWIyM2QtZTY0OGE5NzA1NThmIn0.cMF8aKFCDUX_OeqyKMTFFbDKequm7qFympz0Zdk3MSE","memberId":5,"lastActiveMinuteGap":0},"action":"sign_in"}
      */
 
     @SerializedName("data")
@@ -21,9 +22,11 @@ public class LoginBean extends BaseBean {
         this.data = data;
     }
 
+
+
     public static class DataBean {
         /**
-         * member : {"characterId":"02544174","mobileNumber":"+8613811114444","username":"周","gender":"secret","birthDate":"2000-10-14","autograph":"你号","residentialPlace":"杭州","rongToken":"I34rC+bQTeEMQcO7kwL3K16AsbGff9KvUT62Noch30mb6n+CHOf4VSjk5+knDcNk6ysOovR6+BFc1gC7seANjA==","coin":0,"spent":0,"followingCount":0,"online":true,"album":[{"id":5,"mediaUrl":"http://starchat.member.7halachat.com/magazine-unlock-01-2.3.1552-BE1C1D482E72759249831391682C2D38.jpg","sortby":1}],"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwianRpIjoiOTk4ZWYwOWEtNWIwMS00OTlhLWI5ZWMtZDZmMzA0NTNhYzFhIn0.uJ7_2V-ZSoby_9rEPkZVcXXxWW7PlTnusbDgdDbDbQM","memberId":5,"lastActiveMinuteGap":0}
+         * member : {"characterId":"02544174","mobileNumber":"+8613811114444","username":"周","gender":"secret","birthDate":"2000-10-14","autograph":"你号","residentialPlace":"杭州","anchorId":1,"rongToken":"I34rC+bQTeEMQcO7kwL3K16AsbGff9KvUT62Noch30mb6n+CHOf4VSjk5+knDcNk6ysOovR6+BFc1gC7seANjA==","coin":0,"spent":0,"followingCount":0,"online":false,"album":[{"id":5,"mediaUrl":"http://starchat.member.7halachat.com/magazine-unlock-01-2.3.1552-BE1C1D482E72759249831391682C2D38.jpg","sortby":1}],"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwianRpIjoiM2EzNjA1ZGQtMDFkNi00YzBkLWIyM2QtZTY0OGE5NzA1NThmIn0.cMF8aKFCDUX_OeqyKMTFFbDKequm7qFympz0Zdk3MSE","memberId":5,"lastActiveMinuteGap":0}
          * action : sign_in
          */
 
@@ -57,15 +60,17 @@ public class LoginBean extends BaseBean {
              * birthDate : 2000-10-14
              * autograph : 你号
              * residentialPlace : 杭州
+             * anchorId : 1
              * rongToken : I34rC+bQTeEMQcO7kwL3K16AsbGff9KvUT62Noch30mb6n+CHOf4VSjk5+knDcNk6ysOovR6+BFc1gC7seANjA==
              * coin : 0
              * spent : 0
              * followingCount : 0
-             * online : true
+             * online : false
              * album : [{"id":5,"mediaUrl":"http://starchat.member.7halachat.com/magazine-unlock-01-2.3.1552-BE1C1D482E72759249831391682C2D38.jpg","sortby":1}]
-             * accessToken : eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwianRpIjoiOTk4ZWYwOWEtNWIwMS00OTlhLWI5ZWMtZDZmMzA0NTNhYzFhIn0.uJ7_2V-ZSoby_9rEPkZVcXXxWW7PlTnusbDgdDbDbQM
+             * accessToken : eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwianRpIjoiM2EzNjA1ZGQtMDFkNi00YzBkLWIyM2QtZTY0OGE5NzA1NThmIn0.cMF8aKFCDUX_OeqyKMTFFbDKequm7qFympz0Zdk3MSE
              * memberId : 5
-             * lastActiveMinuteGap : 0
+             * lastActiveMinuteGap : 0,
+             * introduction :"介绍"
              */
 
             @SerializedName("characterId")
@@ -82,6 +87,8 @@ public class LoginBean extends BaseBean {
             private String autograph;
             @SerializedName("residentialPlace")
             private String residentialPlace;
+            @SerializedName("anchorId")
+            private int anchorId;
             @SerializedName("rongToken")
             private String rongToken;
             @SerializedName("coin")
@@ -100,6 +107,14 @@ public class LoginBean extends BaseBean {
             private int lastActiveMinuteGap;
             @SerializedName("album")
             private List<AlbumBean> album;
+            @SerializedName("setting")
+            private SettingBean setting;
+
+
+
+
+            @SerializedName("introduction")
+            private String introduction;
 
             public String getCharacterId() {
                 return characterId;
@@ -155,6 +170,14 @@ public class LoginBean extends BaseBean {
 
             public void setResidentialPlace(String residentialPlace) {
                 this.residentialPlace = residentialPlace;
+            }
+
+            public int getAnchorId() {
+                return anchorId;
+            }
+
+            public void setAnchorId(int anchorId) {
+                this.anchorId = anchorId;
             }
 
             public String getRongToken() {
@@ -229,6 +252,22 @@ public class LoginBean extends BaseBean {
                 this.album = album;
             }
 
+            public String getIntroduction() {
+                return introduction == null ? "" : introduction;
+            }
+
+            public void setIntroduction(String introduction) {
+                this.introduction = introduction == null ? "" : introduction;
+            }
+
+            public SettingBean getSetting() {
+                return setting;
+            }
+
+            public void setSetting(SettingBean setting) {
+                this.setting = setting;
+            }
+
             public static class AlbumBean {
                 /**
                  * id : 5
@@ -267,6 +306,82 @@ public class LoginBean extends BaseBean {
                     this.sortby = sortby;
                 }
             }
+
+            public static class SettingBean{
+
+                /**
+                 * videoCpm : 20
+                 * audioCpm : 10
+                 * chatCpm : 1
+                 * videoNotify : true
+                 * audioNotify : true
+                 * chatNotify : true
+                 */
+
+                @SerializedName("videoCpm")
+                private int videoCpm;
+                @SerializedName("audioCpm")
+                private int audioCpm;
+                @SerializedName("chatCpm")
+                private int chatCpm;
+                @SerializedName("videoNotify")
+                private boolean videoNotify;
+                @SerializedName("audioNotify")
+                private boolean audioNotify;
+                @SerializedName("chatNotify")
+                private boolean chatNotify;
+
+                public int getVideoCpm() {
+                    return videoCpm;
+                }
+
+                public void setVideoCpm(int videoCpm) {
+                    this.videoCpm = videoCpm;
+                }
+
+                public int getAudioCpm() {
+                    return audioCpm;
+                }
+
+                public void setAudioCpm(int audioCpm) {
+                    this.audioCpm = audioCpm;
+                }
+
+                public int getChatCpm() {
+                    return chatCpm;
+                }
+
+                public void setChatCpm(int chatCpm) {
+                    this.chatCpm = chatCpm;
+                }
+
+                public boolean isVideoNotify() {
+                    return videoNotify;
+                }
+
+                public void setVideoNotify(boolean videoNotify) {
+                    this.videoNotify = videoNotify;
+                }
+
+                public boolean isAudioNotify() {
+                    return audioNotify;
+                }
+
+                public void setAudioNotify(boolean audioNotify) {
+                    this.audioNotify = audioNotify;
+                }
+
+                public boolean isChatNotify() {
+                    return chatNotify;
+                }
+
+                public void setChatNotify(boolean chatNotify) {
+                    this.chatNotify = chatNotify;
+                }
+            }
+
         }
+
+
     }
 }

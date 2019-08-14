@@ -44,6 +44,7 @@ public class Contact {
 
 
     public static final int REQUEST_BIO = 222;
+    public static final int REQUEST_TAG = 223;
     public static final int REQUEST_CHOOSE_COUNTRY = 666;
     public static final int REQUEST_PHONE = 668;
     public static final int REQUEST_CODE_CHOOSE = 224;

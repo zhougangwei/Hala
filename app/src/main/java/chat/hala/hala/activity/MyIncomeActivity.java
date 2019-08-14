@@ -29,8 +29,7 @@ public class MyIncomeActivity extends BaseActivity {
     ImageView    mIvBack;
     @BindView(R.id.tv_title)
     TextView     mTvTitle;
-    @BindView(R.id.tv_coin)
-    TextView     mTvCoin;
+
     @BindView(R.id.rv)
     RecyclerView mRv;
     private CoinIncomeAdapter adapter;
@@ -58,6 +57,7 @@ public class MyIncomeActivity extends BaseActivity {
         mRv.setLayoutManager(layoutManager);
         adapter = new CoinIncomeAdapter(R.layout.item_coin_income, callList);
         mRv.setAdapter(adapter);
+
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
@@ -83,17 +83,17 @@ public class MyIncomeActivity extends BaseActivity {
                             return;
                         }
                         if (callListBean.getData().getTransactions().getPageable().isNextPage()) {
+                            adapter.loadMoreComplete();
+                        } else {
                             adapter.loadMoreEnd();
                             isLoadMore =false;
-                        } else {
-                            adapter.loadMoreComplete();
                         }
-                        mTvCoin.setText(callListBean.getData().getTotal()+"");;
                         List<CoinListBean.DataBean.TransactionsBean.ListBean> list = callListBean.getData().getTransactions().getList();
                         if (list != null && list.size() > 0) {
                             callList.addAll(list);
                             adapter.notifyDataSetChanged();
                         }
+                        adapter.disableLoadMoreIfNotFullPage(mRv);
                     }
                 });
 

@@ -275,7 +275,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     }
 
     private void getAnchorData() {
-        RetrofitFactory.getInstance().getAnchorData(mAnchorId)
+        RetrofitFactory.getInstance().getAnchorData("anchor",mAnchorId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<AnchorBean>() {
@@ -284,11 +284,11 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                         if (ResultUtils.cheekSuccess(anchorBean)) {
                             anchorName=anchorBean.getData().getNickname();
                             try{
-                                anchorUrl=anchorBean.getData().getCovers().get(0).getCoverUrl();
+                                anchorUrl=anchorBean.getData().getAlbum().get(0).getMediaUrl();
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
-                            tvMinuteCost.setText(String.format(getString(R.string.charged_coins_per_min), anchorBean.getData().getCpm() + ""));
+                            tvMinuteCost.setText(String.format(getString(R.string.charged_coins_per_min), anchorBean.getData().getSetting().getVideoCpm() + ""));
                         }
                     }
                 });

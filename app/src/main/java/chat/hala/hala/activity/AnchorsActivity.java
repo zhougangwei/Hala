@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -27,13 +26,10 @@ import com.blankj.utilcode.utils.LogUtils;
 import com.blankj.utilcode.utils.ScreenUtils;
 import com.blankj.utilcode.utils.SizeUtils;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.AnchorDataAdapter;
@@ -44,9 +40,13 @@ import chat.hala.hala.base.VideoCallManager;
 import chat.hala.hala.bean.AnchorBean;
 import chat.hala.hala.bean.AnchorInfoBean;
 import chat.hala.hala.bean.AnchorTagBean;
+import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.GsonUtil;
+import chat.hala.hala.utils.ResultUtils;
+import chat.hala.hala.utils.TimeUtil;
+import chat.hala.hala.utils.ToastUtils;
 import chat.hala.hala.wight.RatingBarView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -71,7 +71,7 @@ public class AnchorsActivity extends SlideBackActivity {
     TextView                tvName;
     @BindView(R.id.rbv)
     RatingBarView           rbv;
-    @BindView(R.id.tv_introduction)
+    @BindView(R.id.tv_introduction)         //他说
     TextView                tvIntroduction;
     @BindView(R.id.tv1)
     TextView                tv1;
@@ -79,8 +79,18 @@ public class AnchorsActivity extends SlideBackActivity {
     TextView                tvBiography;
     @BindView(R.id.tv2)
     TextView                tv2;
+    @BindView(R.id.tv3)
+    TextView                tv3;
     @BindView(R.id.rv_tags)
     RecyclerView            rvTags;
+
+    @BindView(R.id.tv7)
+    TextView                tv7;
+    @BindView(R.id.tv8)
+    TextView                tv8;
+    @BindView(R.id.tv_cost)
+    TextView                tvCost;
+
 
     @BindView(R.id.rv_info)
     RecyclerView      rvInfo;
@@ -91,6 +101,8 @@ public class AnchorsActivity extends SlideBackActivity {
 
     @BindView(R.id.tv4)
     TextView  mTv4;
+    @BindView(R.id.tv5)
+    TextView  mTv5;
     @BindView(R.id.iv_message)
     ImageView mIvMessage;
     @BindView(R.id.iv_like)
@@ -110,28 +122,35 @@ public class AnchorsActivity extends SlideBackActivity {
 
     @BindView(R.id.iv_more)
     ImageView mIvMore;
+    @BindView(R.id.iv_edit)
+    ImageView mIvEdit;
 
 
-    private List<AnchorBean.DataBean.CoversBean> coverDatas      = new ArrayList<>();
+    private List<AnchorBean.DataBean.AlbumBean> coverDatas      = new ArrayList<>();
     private List<AnchorTagBean.DataBean>         tagsDatas       = new ArrayList<>();
     private List<AnchorInfoBean>                 anchorInfoDatas = new ArrayList<>();
 
 
     private SimplePagerAdapter  simplePagerAdapter;
     private AnchorTagsAdapter   tagsAdapter;
-    private int                 anchorId;
-    private int                 anchorIdMemberId;
+    private int                 anchorId;       //主播Id
+    private int                 memberId;       //主播Id或者主播的用户表Id或者用户Id
     private AnchorDataAdapter   mAnchorDataAdapter;
     private Paint               mPaint;
     private int                 mAnchormemberId;
     private AnchorBean.DataBean mAnchorData;
     private PopupWindow         mPopupWindow;
 
+    public static final int ANCHOR_AC=0;
+    public static final int EDIT_AC=1;
+    private int fromAc;
+
 
     public static void startAnchorAc(Context context, int anchorId, int anchorIdMemberId) {
         Intent intent = new Intent(context, AnchorsActivity.class);
         intent.putExtra("anchorId", anchorId);
-        intent.putExtra("anchorIdMemberId", anchorIdMemberId);
+        intent.putExtra("memberId", anchorIdMemberId);
+        intent.putExtra("fromAc", ANCHOR_AC);
         context.startActivity(intent);
     }
 
@@ -143,8 +162,9 @@ public class AnchorsActivity extends SlideBackActivity {
     @Override
     protected void beforeInitView() {
         Intent intent = getIntent();
+        fromAc = intent.getIntExtra("fromAc",ANCHOR_AC);
         anchorId = intent.getIntExtra("anchorId", 0);
-        anchorIdMemberId = intent.getIntExtra("anchorIdMemberId", 0);
+        memberId = intent.getIntExtra("memberId", 0);
     }
 
     @Override
@@ -184,14 +204,11 @@ public class AnchorsActivity extends SlideBackActivity {
             }
         });
 
-
         mAnchorDataAdapter = new AnchorDataAdapter(R.layout.item_anchor_infp, anchorInfoDatas);
         LinearLayoutManager gridLayoutManager = new LinearLayoutManager(AnchorsActivity.this, LinearLayoutManager.VERTICAL, false);
         rvInfo.setLayoutManager(gridLayoutManager);
         rvInfo.setItemAnimator(new DefaultItemAnimator());
         rvInfo.setAdapter(mAnchorDataAdapter);
-
-
     }
 
     private int getTextWidth(Paint paint, String str) {
@@ -208,12 +225,18 @@ public class AnchorsActivity extends SlideBackActivity {
     }
 
     private void initData() {
-        getAuchor();
+       getAuchor();
     }
+
+
+    public boolean isAnchor(){
+        return anchorId!=0;
+    }
+
 
     private void getAuchor() {
         RetrofitFactory.getInstance()
-                .getAnchorData(anchorId)
+                .getAnchorData(isAnchor()?"anchor":"member", isAnchor()?anchorId:memberId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<AnchorBean>() {
@@ -227,43 +250,82 @@ public class AnchorsActivity extends SlideBackActivity {
                             return;
                         }
                         mAnchorData = baseBean.getData();
-
                         mAnchormemberId = mAnchorData.getMemberId();
                         tvName.setText(mAnchorData.getNickname());
-                        mTvScore.setText(mAnchorData.getStarLevel() + "");
-                        mTvFans.setText("粉丝数目");
-                        tvBiography.setText(mAnchorData.getBiography());
-                        tvCall.setText(
-                                String.format(getString(R.string.video_cost),
-                                        mAnchorData.getCpm() + ""));
-                        mTvVoiceCall.setText(
-                                String.format(getString(R.string.video_cost),
-                                        mAnchorData.getCpm() + ""));
+                        mTvScore.setText(mAnchorData.getMarking() + "");
+                        mTvFans.setText(mAnchorData.getFansCount()+"");
 
 
-                        tvIntroduction.setText(mAnchorData.getIntroduction());
-                        List<AnchorBean.DataBean.CoversBean> covers = mAnchorData.getCovers();
+                        if(isAnchor()){                //查看过来的 查看用户的的界面
+                            tvBiography.setVisibility(View.VISIBLE);
+                            tvBiography.setText(mAnchorData.getIntroduction());
+                            tvCall.setText(
+                                    String.format(getString(R.string.video_cost),
+                                            mAnchorData.getSetting().getVideoCpm() + ""));
+                            mTvVoiceCall.setText(
+                                    String.format(getString(R.string.voice_cost),
+                                            mAnchorData.getSetting().getAudioCpm() + ""));
+                        }else{
+                            //隐藏Ta说
+                            tv1.setVisibility(View.GONE);
+                            tvBiography.setVisibility(View.GONE);
+                            // 显示用户花费
+                            tv3.setVisibility(View.GONE);
+                            rvTags.setVisibility(View.GONE);
+                            tvCost.setVisibility(View.VISIBLE);
+                            tvCost.setText(mAnchorData.getSpent()+"");
+                            tv7.setVisibility(View.VISIBLE);
+                            tv8.setVisibility(View.VISIBLE);
+                            //显示关注
+                            mTv5.setText("关注");
+                            mTvScore.setText(mAnchorData.getFollowingCount()+"");
+                            mTv4.setVisibility(View.GONE);
+                            mTvFans.setVisibility(View.GONE);
+                        }
+
+                        if(fromAc==EDIT_AC){            //编辑用户
+                            mIvEdit.setVisibility(View.VISIBLE);
+                            mIvMore.setVisibility(View.GONE);
+                            mIvMessage.setVisibility(View.GONE);
+                            mIvLike.setVisibility(View.GONE);
+                            tvCall.setVisibility(View.GONE);
+                            mTvVoiceCall.setVisibility(View.GONE);
+                        }
+                        tvIntroduction.setText(mAnchorData.getAutograph());
+                        List<AnchorBean.DataBean.AlbumBean> covers = mAnchorData.getAlbum();
                         coverDatas.addAll(covers);
                         simplePagerAdapter.notifyDataSetChanged();
-
                         List<AnchorTagBean.DataBean> tags = mAnchorData.getTags();
-                        tagsDatas.clear();
-                        tagsDatas.addAll(tags);
-                        tagsAdapter.notifyDataSetChanged();
+                        if(tags!=null&&tags.size()>0){
+                            tagsDatas.clear();
+                            tagsDatas.addAll(tags);
+                            tagsAdapter.notifyDataSetChanged();
+                        }
+                        mTvLastActive.setText(String.format(getResources().getString(R.string.many_mins_active),
+                                mAnchorData.getLastActiveMinuteGap()+"分钟"
+                        ));
+                        mTvDistance.setText(String.format(getResources().getString(R.string.distance_km),
+                                mAnchorData.getLastActiveMinuteGap()+""
+                        ));
+
+                        AnchorInfoBean anchorInfoBean = new AnchorInfoBean("账号", mAnchorData.getCharacterId());
+                        AnchorInfoBean anchorInfoBean1 = new AnchorInfoBean("应答率:", mAnchorData.getAnswerRate());
+                        AnchorInfoBean anchorInfoBean2 = new AnchorInfoBean("身高体重", mAnchorData.getHeight() + "cm/"+mAnchorData.getWeight()+"kg");
+                        AnchorInfoBean anchorInfoBean3 = new AnchorInfoBean("现居地:", mAnchorData.getResidentialPlace());
+                        AnchorInfoBean anchorInfoBean4 = new AnchorInfoBean("星座:", TimeUtil.getConstellation(mAnchorData.getBirthDate()));
+                        AnchorInfoBean anchorInfoBean5 = new AnchorInfoBean("注册日期:", mAnchorData.getCreatedAtDate());
+                        AnchorInfoBean anchorInfoBean6 = new AnchorInfoBean("个性签名:", mAnchorData.getAutograph());
 
 
-                        AnchorInfoBean anchorInfoBean = new AnchorInfoBean(getString(R.string.last_login), mAnchorData.isOnline() ? getString(R.string.online) : getString(R.string.offlIine));
-                        AnchorInfoBean anchorInfoBean1 = new AnchorInfoBean(getString(R.string.answer_rate), "60%");
-                        AnchorInfoBean anchorInfoBean2 = new AnchorInfoBean(getString(R.string.height), mAnchorData.getHeight() + "cm");
-                        AnchorInfoBean anchorInfoBean3 = new AnchorInfoBean(getString(R.string.weight), mAnchorData.getWeight() + "kg");
-                        AnchorInfoBean anchorInfoBean4 = new AnchorInfoBean(getString(R.string.city), mAnchorData.getCity() + "");
-                        AnchorInfoBean anchorInfoBean5 = new AnchorInfoBean(getString(R.string.zodiac), mAnchorData.getZodiac() + "");
                         anchorInfoDatas.add(anchorInfoBean);
-                        anchorInfoDatas.add(anchorInfoBean1);
-                        anchorInfoDatas.add(anchorInfoBean2);
+                        if(anchorId!=0){                                //如果不是主播就没这个
+                            anchorInfoDatas.add(anchorInfoBean1);
+                            anchorInfoDatas.add(anchorInfoBean2);
+                        }
                         anchorInfoDatas.add(anchorInfoBean3);
                         anchorInfoDatas.add(anchorInfoBean4);
                         anchorInfoDatas.add(anchorInfoBean5);
+                        anchorInfoDatas.add(anchorInfoBean6);
                         mAnchorDataAdapter.notifyDataSetChanged();
 
                     }
@@ -277,13 +339,13 @@ public class AnchorsActivity extends SlideBackActivity {
     }
 
 
-    @OnClick({R.id.toolbar, R.id.tv_call, R.id.iv_back, R.id.iv_message, R.id.iv_like, R.id.iv_more})
+    @OnClick({R.id.toolbar, R.id.tv_call, R.id.iv_back, R.id.iv_message, R.id.iv_like, R.id.iv_more,R.id.iv_edit,R.id.tv_voice_call})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.toolbar:
                 break;
             case R.id.tv_call:
-                VideoCallManager.gotoCallOrReverse(AnchorsActivity.this, anchorId, anchorIdMemberId);
+                VideoCallManager.gotoCallOrReverse(AnchorsActivity.this,VideoCallManager.VIDEO_CALL, anchorId, memberId);
                 break;
             case R.id.iv_back:
                 finish();
@@ -292,13 +354,57 @@ public class AnchorsActivity extends SlideBackActivity {
                 RongIM.getInstance().startPrivateChat(this, mAnchormemberId + "", mAnchorData != null ? mAnchorData.getNickname() : "");
                 break;
             case R.id.iv_like:
+                addFollow("follow");
                 break;
             case R.id.iv_more:
                 showMore();
                 break;
-
+            case R.id.iv_edit:
+                editUser();
+                break;
+            case R.id.tv_voice_call:
+                VideoCallManager.gotoCallOrReverse(AnchorsActivity.this,VideoCallManager.AUDIO_CALL, anchorId, memberId);
+                break;
         }
     }
+
+    private void editUser() {
+        startActivity(new Intent(this, EditUserActivity.class));
+    }
+
+
+
+    private void addFollow(String followOrUnFollow) {
+        RetrofitFactory.getInstance().addFollow(followOrUnFollow,anchorId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<BaseBean>() {
+                    @Override
+                    public void onGetData(BaseBean baseBean) {
+                        if (ResultUtils.cheekSuccess(baseBean)) {
+                            ToastUtils.showToast(AnchorsActivity.this,"关注成功!");
+                        }
+                    }
+                });
+    }
+    //拉黑或者不拉黑
+    private void addBlock(String blockOrBlock) {
+        RetrofitFactory.getInstance().addBlock(blockOrBlock,anchorId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<BaseBean>() {
+                    @Override
+                    public void onGetData(BaseBean baseBean) {
+                        if (ResultUtils.cheekSuccess(baseBean)) {
+                            ToastUtils.showToast(AnchorsActivity.this,"关注成功!");
+                        }
+                    }
+                });
+    }
+
+
+
+
 
     private void showMore() {
 
@@ -316,7 +422,7 @@ public class AnchorsActivity extends SlideBackActivity {
             tv_add_black.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    addBlock("block");
                 }
             });
             mPopupWindow = new PopupWindow(contentView,
@@ -332,10 +438,4 @@ public class AnchorsActivity extends SlideBackActivity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

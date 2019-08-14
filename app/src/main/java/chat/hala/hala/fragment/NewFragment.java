@@ -21,6 +21,7 @@ import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.OneToOneListBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.utils.GsonUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -44,6 +45,7 @@ public class NewFragment extends BaseFragment {
     @Override
     protected void initView() {
         hotCallAdapter = new HotCallAdapter(R.layout.item_hot_list,mHotOnetoOneList);
+
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(hotCallAdapter);
@@ -75,8 +77,9 @@ public class NewFragment extends BaseFragment {
                 LogUtils.e(TAG,"wo ");
                 getData(false);
             }},rv);
+
         hotCallAdapter.setPreLoadNumber(5);
-        hotCallAdapter.disableLoadMoreIfNotFullPage(rv);
+
     }
 
     @Override
@@ -86,11 +89,11 @@ public class NewFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        getData(false);
+        getData(true);
     }
 
     private void getData(final boolean isRefresh) {
-
+        LogUtils.e(TAG,"getData"+page);
         if (!isLoadMore){
             return;
         }
@@ -101,7 +104,7 @@ public class NewFragment extends BaseFragment {
         }
         LogUtils.e(TAG,"aaa"+page);
 
-        RetrofitFactory.getInstance().getHotOneToOneList(0, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
+        RetrofitFactory.getInstance().getHotOneToOneList(page, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<OneToOneListBean>() {
 
@@ -113,7 +116,7 @@ public class NewFragment extends BaseFragment {
 
                     @Override
                     public void onGetData(OneToOneListBean oneToOneListBean) {
-
+                        LogUtils.e(TAG,"ffff"+ GsonUtil.parseObjectToJson(oneToOneListBean));
                         if (Contact.REPONSE_CODE_SUCCESS != oneToOneListBean.getCode()) {
                             hotCallAdapter.loadMoreFail();
                             return;
@@ -135,6 +138,7 @@ public class NewFragment extends BaseFragment {
                             mHotOnetoOneList.addAll(content);
                         }
                         hotCallAdapter.notifyDataSetChanged();
+                        hotCallAdapter.disableLoadMoreIfNotFullPage(rv);
                     }
                 });
     }

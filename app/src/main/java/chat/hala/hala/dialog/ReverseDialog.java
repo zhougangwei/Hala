@@ -34,12 +34,14 @@ public class ReverseDialog extends Dialog {
     TextView tvReverse;
 
     int anchorId;
+    String videoOrAudio;
     private String TAG ="ReverseDialog";
 
-    public ReverseDialog(@NonNull Context context, int anchorId) {
+    public ReverseDialog(@NonNull Context context, int anchorId,  String videoOrAudio) {
         super(context);
         this.mContext = context;
         this.anchorId = anchorId;
+        this.videoOrAudio = videoOrAudio;
     }
 
     @Override
@@ -51,20 +53,21 @@ public class ReverseDialog extends Dialog {
 
 
     private void gotoReverse() {
-        RetrofitFactory.getInstance().reserveAnchor(anchorId)
+        RetrofitFactory.getInstance().reserveAnchor(anchorId,videoOrAudio)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<ReverseBean>() {
                     @Override
                     public void onGetData(ReverseBean reverseBean) {
                         LogUtils.e(TAG, "onGetData: "+ GsonUtil.parseObjectToJson(reverseBean));
-
-                        if (Contact.REPONSE_CODE_REVERSE_SAME==reverseBean.getCode()){
+                         if(Contact.REPONSE_CODE_REVERSE_SAME==reverseBean.getCode()){
                             ToastUtils.showToast(getContext(),"你已预约过该主播");
-                            dismiss();
                         }
-
+                        if (Contact.REPONSE_CODE_REVERSE_NOMONEY==reverseBean.getCode()){
+                            ToastUtils.showToast(getContext(),"余额不足");
+                        }
                         if (Contact.REPONSE_CODE_SUCCESS != reverseBean.getCode()) {
+                            dismiss();
                             return;
                         }
                         showReverseSuccessDialog();

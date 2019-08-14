@@ -7,7 +7,7 @@
     android:layout_marginTop="10dp"
     android:id="@+id/rl"
     android:paddingEnd="19dp"
-    android:paddingStart="19dp">
+    >
 
     <TextView
         android:lines="1"

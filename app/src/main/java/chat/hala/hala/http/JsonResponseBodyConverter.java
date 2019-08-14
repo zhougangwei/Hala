@@ -1,5 +1,6 @@
 package chat.hala.hala.http;
 
+import com.blankj.utilcode.utils.LogUtils;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 
@@ -28,6 +29,7 @@ public class JsonResponseBodyConverter<T> implements Converter<ResponseBody, T> 
     public T convert(ResponseBody value) throws IOException {
         try {
             String data = value.string();
+            LogUtils.i("JsonResponseBodyConverter",data);
             JSONObject jsonObject = new JSONObject(data);
             //需要重新登录
             String code = jsonObject.get("code").toString();

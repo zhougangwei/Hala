@@ -62,12 +62,10 @@ public interface HttpRequest {
                        @Query("gender")String gender, @Query("birthDate")String birthDate, @Query("facebookId")String facebookId
     );
 
-    RequestBody changeUserInfo(@Query("avatarUrl")String avatarUrl, @Query("username")String username,
-                       @Query("gender")String gender, @Query("birthDate")String birthDate, @Query("mobileNumber")String mobileNumber
-    );
+    RequestBody changeUserInfo(@JsonQuery String dataJson);
 
-    @POST("/member")
-    Observable<RegistBean> changeUserInfo(@Body RequestBody requestBody
+    @POST("/{type}")
+    Observable<RegistBean> changeUserInfo(@Body RequestBody requestBody,@Path("type")String type
     );
 
 
@@ -160,8 +158,8 @@ public interface HttpRequest {
     Observable<AnchorTagBean> getAnchorTag();
 
 
-    @GET("/anchor/{user}")
-    Observable<AnchorBean> getAnchorData(@Path("user") int user
+    @GET("/{type}/{user}")
+    Observable<AnchorBean> getAnchorData(@Path("type") String type,@Path("user") int user
     );
 
 
@@ -172,12 +170,12 @@ public interface HttpRequest {
     Observable<AnchorStateBean> getAnchorState(@Path("user") int user);
 
 
-    @POST ("/call/anchor/{user}/reserve")
-    Observable<ReverseBean> reserveAnchor(@Path("user") int user);
+    @POST ("/call/anchor/{user}/reserve/{type}")
+    Observable<ReverseBean> reserveAnchor(@Path("user") int user,@Path("type") String type);
 
 
-    @POST("/call/anchor/{user}")
-    Observable<CallBean> callAnchor(@Path("user") int user);
+    @POST("/call/anchor/{user}/{type}")
+    Observable<CallBean> callAnchor(@Path("user") int user,@Path("type") String type);
 
     /*
     * 获取钱的价格
@@ -216,4 +214,19 @@ public interface HttpRequest {
 
     @GET("/anchor/application/result")
     Observable<BeStarResultBean> getBeStarState();
+
+    @POST("/relationship/{type}/anchor/{anchorId}")
+    Observable<BaseBean> addFollow(@Path("type")String type,@Path("anchorId")int anchorId);
+
+    /*
+    * 拉黑
+    * */
+    @POST("/relationship/{type}/memberId/{memberId}")
+    Observable<BaseBean> addBlock(@Path("type")String type,@Path("memberId")int memberId);
+
+    @POST("/anchor/setting")
+    Observable<BaseBean> chatSetting(@Body RequestBody requestBody);
+
+    RequestBody chatSetting(@JsonQuery String dataJson
+    );
 }

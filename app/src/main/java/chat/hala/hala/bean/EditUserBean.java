@@ -31,6 +31,12 @@ public class EditUserBean {
     private String          autograph;
     private List<AlbumBean> album;
 
+    private List<Integer> tagIds;
+    private String height;
+    private String weight;
+    private String introduction;
+
+
     public String getGender() {
         return gender;
     }
@@ -93,6 +99,38 @@ public class EditUserBean {
 
     public void setAlbum(List<AlbumBean> album) {
         this.album = album;
+    }
+
+    public List<Integer> getTagIds() {
+        return tagIds;
+    }
+
+    public void setTagIds(List<Integer> tagIds) {
+        this.tagIds = tagIds;
+    }
+
+    public String getHeight() {
+        return height == null ? "" : height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height == null ? "" : height;
+    }
+
+    public String getWeight() {
+        return weight == null ? "" : weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight == null ? "" : weight;
+    }
+
+    public String getIntroduction() {
+        return introduction == null ? "" : introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction == null ? "" : introduction;
     }
 
     public static class AlbumBean {

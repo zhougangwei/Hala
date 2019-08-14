@@ -111,7 +111,7 @@
             android:background="@null"
             android:gravity="end"
             android:paddingEnd="10dp"
-            android:text="@string/Secret"
+            android:text="@string/female"
             android:textAlignment="textEnd"
             android:textColorHint="#C7C7CE"
             android:textSize="15sp"/>

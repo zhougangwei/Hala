@@ -62,7 +62,7 @@ public class MyCoinsListActivity extends BaseActivity {
         rv.setLayoutManager(layoutManager);
         adapter = new CoinListAdapter(R.layout.item_coin_list, callList);
         rv.setAdapter(adapter);
-        adapter.disableLoadMoreIfNotFullPage(rv);
+
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -97,6 +97,7 @@ public class MyCoinsListActivity extends BaseActivity {
                             callList.addAll(list);
                             adapter.notifyDataSetChanged();
                         }
+                        adapter.disableLoadMoreIfNotFullPage(rv);
                     }
                 });
 

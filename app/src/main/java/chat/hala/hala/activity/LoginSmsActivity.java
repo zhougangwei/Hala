@@ -166,7 +166,7 @@ public class LoginSmsActivity extends BaseActivity {
                             intent.putExtra("type", FillUserActivity.FROM_PHONE);
                             startActivityForResult(intent,Contact.REQUEST_PHONE);
                         } else if (Contact.SIGN_IN.equals(action)) {
-                            AvchatInfo.saveBaseData(baseBean.getData().getMember(),LoginSmsActivity.this);
+                            AvchatInfo.saveBaseData(baseBean.getData().getMember(),LoginSmsActivity.this,true);
                             Intent intent = new Intent(LoginSmsActivity.this,MainActivity.class);
                             startActivity(intent);
                             finish();

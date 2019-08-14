@@ -79,7 +79,7 @@ public class CallListAdapter extends BaseQuickAdapter<CallListBean.DataBean.List
 
         ImageView imageView = (ImageView) helper.getView(R.id.iv_head);
         Glide.with(mContext).load(item.getTargetInfo().getAvatarUrl())
-                .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(imageView.getDrawable()).placeholder(imageView.getDrawable()))
+                .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(imageView.getDrawable()))
                 .into(imageView);
 
 

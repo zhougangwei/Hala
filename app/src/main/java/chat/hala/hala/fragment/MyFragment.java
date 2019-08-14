@@ -13,6 +13,7 @@ import com.bumptech.glide.request.RequestOptions;
 import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
+import chat.hala.hala.activity.AnchorsActivity;
 import chat.hala.hala.activity.BeStarResultActivity;
 import chat.hala.hala.activity.BestarActivity;
 import chat.hala.hala.activity.ChargeActivity;
@@ -92,9 +93,12 @@ public class MyFragment extends BaseFragment {
         }
     }
 
-    @OnClick({ R.id.iv_head,R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
+    @OnClick({R.id.tv_income, R.id.iv_head,R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_income:
+
+                break;
             case R.id.iv_head:
                 gotoEdit();
                 break;
@@ -140,7 +144,11 @@ public class MyFragment extends BaseFragment {
     }
 
     private void gotoEdit() {
-        startActivity(new Intent(getActivity(), EditUserActivity.class));
+        Intent intent = new Intent(getActivity(), AnchorsActivity.class);
+        intent.putExtra("fromAc",AnchorsActivity.EDIT_AC);
+        intent.putExtra("anchorId",AvchatInfo.getAnchorId());
+        intent.putExtra("memberId",AvchatInfo.getMemberId());
+        startActivity(intent);
     }
 
     private void gotoBeautySetting() {

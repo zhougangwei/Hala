@@ -1,14 +1,17 @@
 package chat.hala.hala.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class CoinListBean extends BaseBean{
 
 
     /**
-     * data : {"total":900,"transactions":{"list":[{"id":22,"memberId":2,"category":"calling","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p","form":"anchor"},"datetime":"2019-06-22 01:07","date":"2019-06-22"}],"pageable":{"nextPage":false,"totalPages":1,"currentPage":1}}}
+     * data : {"total":-20,"transactions":{"pageable":{"nextPage":false,"totalPages":1,"currentPage":1},"list":[{"memberId":6,"category":"reservation","info":{"id":1,"avatarUrl":"http://starchat.anchor.7halachat.com/magazine-unlock-05-2.3.1562-715B87CD042446D7AFF69D07210E0131.jpg","name":"周","form":"anchor"},"categoryTrans":"预约花费","date":"2019-08-14","datetime":"2019-08-14 09:37","figure":"-20"}]}}
      */
 
+    @SerializedName("data")
     private DataBean data;
 
     public DataBean getData() {
@@ -21,11 +24,13 @@ public class CoinListBean extends BaseBean{
 
     public static class DataBean {
         /**
-         * total : 900
-         * transactions : {"list":[{"id":22,"memberId":2,"category":"calling","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p","form":"anchor"},"datetime":"2019-06-22 01:07","date":"2019-06-22"}],"pageable":{"nextPage":false,"totalPages":1,"currentPage":1}}
+         * total : -20
+         * transactions : {"pageable":{"nextPage":false,"totalPages":1,"currentPage":1},"list":[{"memberId":6,"category":"reservation","info":{"id":1,"avatarUrl":"http://starchat.anchor.7halachat.com/magazine-unlock-05-2.3.1562-715B87CD042446D7AFF69D07210E0131.jpg","name":"周","form":"anchor"},"categoryTrans":"预约花费","date":"2019-08-14","datetime":"2019-08-14 09:37","figure":"-20"}]}
          */
 
+        @SerializedName("total")
         private int total;
+        @SerializedName("transactions")
         private TransactionsBean transactions;
 
         public int getTotal() {
@@ -46,11 +51,13 @@ public class CoinListBean extends BaseBean{
 
         public static class TransactionsBean {
             /**
-             * list : [{"id":22,"memberId":2,"category":"calling","digit":-20,"info":{"id":14,"avatarUrl":"http://me.avatar.url","name":"old p","form":"anchor"},"datetime":"2019-06-22 01:07","date":"2019-06-22"}]
              * pageable : {"nextPage":false,"totalPages":1,"currentPage":1}
+             * list : [{"memberId":6,"category":"reservation","info":{"id":1,"avatarUrl":"http://starchat.anchor.7halachat.com/magazine-unlock-05-2.3.1562-715B87CD042446D7AFF69D07210E0131.jpg","name":"周","form":"anchor"},"categoryTrans":"预约花费","date":"2019-08-14","datetime":"2019-08-14 09:37","figure":"-20"}]
              */
 
+            @SerializedName("pageable")
             private PageableBean pageable;
+            @SerializedName("list")
             private List<ListBean> list;
 
             public PageableBean getPageable() {
@@ -76,8 +83,11 @@ public class CoinListBean extends BaseBean{
                  * currentPage : 1
                  */
 
+                @SerializedName("nextPage")
                 private boolean nextPage;
+                @SerializedName("totalPages")
                 private int totalPages;
+                @SerializedName("currentPage")
                 private int currentPage;
 
                 public boolean isNextPage() {
@@ -107,31 +117,29 @@ public class CoinListBean extends BaseBean{
 
             public static class ListBean {
                 /**
-                 * id : 22
-                 * memberId : 2
-                 * category : calling
-                 * digit : -20
-                 * info : {"id":14,"avatarUrl":"http://me.avatar.url","name":"old p","form":"anchor"}
-                 * datetime : 2019-06-22 01:07
-                 * date : 2019-06-22
+                 * memberId : 6
+                 * category : reservation
+                 * info : {"id":1,"avatarUrl":"http://starchat.anchor.7halachat.com/magazine-unlock-05-2.3.1562-715B87CD042446D7AFF69D07210E0131.jpg","name":"周","form":"anchor"}
+                 * categoryTrans : 预约花费
+                 * date : 2019-08-14
+                 * datetime : 2019-08-14 09:37
+                 * figure : -20
                  */
 
-                private int id;
-                private int      memberId;
-                private String   category;
-                private String      figure;
+                @SerializedName("memberId")
+                private int memberId;
+                @SerializedName("category")
+                private String category;
+                @SerializedName("info")
                 private InfoBean info;
-                private String   datetime;
-                private String   date;
-                private String   categoryTrans;
-
-                public int getId() {
-                    return id;
-                }
-
-                public void setId(int id) {
-                    this.id = id;
-                }
+                @SerializedName("categoryTrans")
+                private String categoryTrans;
+                @SerializedName("date")
+                private String date;
+                @SerializedName("datetime")
+                private String datetime;
+                @SerializedName("figure")
+                private String figure;
 
                 public int getMemberId() {
                     return memberId;
@@ -149,36 +157,12 @@ public class CoinListBean extends BaseBean{
                     this.category = category;
                 }
 
-                public String getFigure() {
-                    return figure;
-                }
-
-                public void setFigure(String figure) {
-                    this.figure = figure;
-                }
-
                 public InfoBean getInfo() {
                     return info;
                 }
 
                 public void setInfo(InfoBean info) {
                     this.info = info;
-                }
-
-                public String getDatetime() {
-                    return datetime;
-                }
-
-                public void setDatetime(String datetime) {
-                    this.datetime = datetime;
-                }
-
-                public String getDate() {
-                    return date;
-                }
-
-                public void setDate(String date) {
-                    this.date = date;
                 }
 
                 public String getCategoryTrans() {
@@ -189,17 +173,45 @@ public class CoinListBean extends BaseBean{
                     this.categoryTrans = categoryTrans;
                 }
 
+                public String getDate() {
+                    return date;
+                }
+
+                public void setDate(String date) {
+                    this.date = date;
+                }
+
+                public String getDatetime() {
+                    return datetime;
+                }
+
+                public void setDatetime(String datetime) {
+                    this.datetime = datetime;
+                }
+
+                public String getFigure() {
+                    return figure;
+                }
+
+                public void setFigure(String figure) {
+                    this.figure = figure;
+                }
+
                 public static class InfoBean {
                     /**
-                     * id : 14
-                     * avatarUrl : http://me.avatar.url
-                     * name : old p
+                     * id : 1
+                     * avatarUrl : http://starchat.anchor.7halachat.com/magazine-unlock-05-2.3.1562-715B87CD042446D7AFF69D07210E0131.jpg
+                     * name : 周
                      * form : anchor
                      */
 
+                    @SerializedName("id")
                     private int id;
+                    @SerializedName("avatarUrl")
                     private String avatarUrl;
+                    @SerializedName("name")
                     private String name;
+                    @SerializedName("form")
                     private String form;
 
                     public int getId() {

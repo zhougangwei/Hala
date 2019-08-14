@@ -41,7 +41,7 @@ public class MessageListFragment extends BaseFragment {
     private List<MessageUnreadBean.DataBean> msgDataList = new ArrayList<>();
     private MsgAdapter msgAdapter;
 
-    public static final String VIDEO_CALL="video_call";
+    public static final String VIDEO_CALL="online_call";
     public static final String COIN="coin";
     public static final String CALL_RESERVATION="call_reservation";
 

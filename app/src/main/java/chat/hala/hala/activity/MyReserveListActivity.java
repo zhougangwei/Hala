@@ -74,7 +74,7 @@ public class MyReserveListActivity extends BaseActivity {
                 //VideoCallManager.gotoCallOrReverse(MyReserveListActivity.this,callList.);
 
                 if (AvchatInfo.isAnchor()){
-                    VideoCallManager.gotoCallOrReverse(MyReserveListActivity.this,AvchatInfo.getAnchorId(),AvchatInfo.getAccount());
+                    VideoCallManager.gotoCallOrReverse(MyReserveListActivity.this,VideoCallManager.VIDEO_CALL,AvchatInfo.getAnchorId(),AvchatInfo.getAccount());
                 }
                 RetrofitFactory.getInstance().readMessage("reserve")
                         .subscribeOn(Schedulers.io())

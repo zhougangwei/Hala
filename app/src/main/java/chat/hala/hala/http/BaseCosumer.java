@@ -18,6 +18,7 @@ public  abstract class BaseCosumer< T extends BaseBean> implements Observer<T> {
         try {
             onGetData(t);
         }catch (Exception e){
+            e.printStackTrace();
             onError(e);
         }
     }

@@ -67,7 +67,7 @@ public class MyCallListActivity extends BaseActivity {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, final int position) {
-            VideoCallManager.gotoCallOrReverse(MyCallListActivity.this,callList.get(position).getAnchorId(),callList.get(position).getTargetInfo().getId());
+            VideoCallManager.gotoCallOrReverse(MyCallListActivity.this,VideoCallManager.VIDEO_CALL,callList.get(position).getAnchorId(),callList.get(position).getTargetInfo().getId());
             RetrofitFactory.getInstance().readMessage("call")
                     .subscribeOn(Schedulers.io())
                     .subscribe(new BaseCosumer<BaseBean>() {

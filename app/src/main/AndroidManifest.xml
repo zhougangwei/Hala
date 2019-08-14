@@ -44,7 +44,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.AuthenticationActivity"></activity>
+        <activity android:name=".activity.VideoVerityActivity"></activity>
+        <activity android:name=".activity.AuthenticationActivity" />
         <activity android:name=".activity.BeStarResultActivity" />
         <activity android:name=".activity.CashActivity" />
         <activity android:name=".activity.ConversationListActivity">

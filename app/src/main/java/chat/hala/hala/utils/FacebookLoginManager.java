@@ -104,7 +104,7 @@ public class FacebookLoginManager {
                                                 mOnResult.success();
                                                 LoginBean.DataBean.MemberBean member = baseBean.getData().getMember();
 
-                                                AvchatInfo.saveBaseData(member,activity);
+                                                AvchatInfo.saveBaseData(member,activity,true);
 
 
                                             }

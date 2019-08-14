@@ -22,7 +22,6 @@ public class SuggestAdapter extends BaseQuickAdapter<OneToOneListBean.DataBean.L
 
 
 
-
     public SuggestAdapter(int layoutIds, List<OneToOneListBean.DataBean.ListBean> countryDatas) {
         super(layoutIds, countryDatas);
     }

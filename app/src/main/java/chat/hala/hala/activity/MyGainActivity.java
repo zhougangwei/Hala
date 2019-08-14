@@ -19,10 +19,9 @@ import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.ResultUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class WalletActivity extends BaseActivity {
+public class MyGainActivity extends BaseActivity {
 
 
     @BindView(R.id.iv_back)
@@ -35,8 +34,7 @@ public class WalletActivity extends BaseActivity {
     ImageView    mIv1;
     @BindView(R.id.tv1)
     TextView     mTv1;
-    @BindView(R.id.rv)
-    RecyclerView mRv;
+
     @BindView(R.id.ll_recharge)
     LinearLayout mLlRecharge;
 
@@ -45,7 +43,7 @@ public class WalletActivity extends BaseActivity {
 
     @Override
     protected int getContentViewId() {
-        return R.layout.activity_wallet;
+        return R.layout.activity_mygain;
     }
 
     @Override
@@ -55,7 +53,7 @@ public class WalletActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mTvTitle.setText(R.string.wallet);
+        mTvTitle.setText("收益");
         initData();
     }
 
@@ -82,17 +80,17 @@ public class WalletActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.iv_back, R.id.ll_recharge,  R.id.ll_cost})
+    @OnClick({R.id.iv_back, R.id.ll_gain_money,  R.id.ll_income_detail})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
-            case R.id.ll_recharge:
+            case R.id.ll_gain_money:
                 startActivity(new Intent(this,ChargeActivity.class));
                 break;
-            case R.id.ll_cost:
-                startActivity(new Intent(this,MyCostActivity.class));
+            case R.id.ll_income_detail:
+                startActivity(new Intent(this,MyIncomeActivity.class));
                 break;
         }
     }
