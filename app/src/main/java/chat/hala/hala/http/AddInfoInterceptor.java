@@ -32,7 +32,7 @@ public class AddInfoInterceptor implements Interceptor {
         if (!TextUtils.isEmpty(token)) {
             builder.addHeader("Authorization","Bearer "+ token);
         }
-        builder.addHeader("Accept-Language", ToolUtils.getLanguage());
+      //  builder.addHeader("Accept-Language", ToolUtils.getLanguage());
         return chain.proceed(builder.build());
     }
 }

@@ -73,7 +73,6 @@ public class SuggestFragment extends BaseFragment {
         suggestAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                LogUtils.e(TAG, "wo ");
                 getData(false);
             }
         }, rv);
@@ -89,7 +88,7 @@ public class SuggestFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        getData(false);
+        getData(true);
     }
 
     private void getData(final boolean isRefresh) {

@@ -46,6 +46,8 @@ public class AnchorBean extends BaseBean {
          * createdAtDate : 2019-08-12
          * lastActiveMinuteGap : 1014
          * spent :0
+         * following:true
+         * blocking:false
          */
 
         @SerializedName("memberId")
@@ -93,6 +95,10 @@ public class AnchorBean extends BaseBean {
 
         private int spent;
         private int followingCount;
+
+        private boolean following;
+        private boolean blocking;
+
         public int getMemberId() {
             return memberId;
         }
@@ -275,6 +281,22 @@ public class AnchorBean extends BaseBean {
 
         public void setFollowingCount(int followingCount) {
             this.followingCount = followingCount;
+        }
+
+        public boolean isFollowing() {
+            return following;
+        }
+
+        public void setFollowing(boolean following) {
+            this.following = following;
+        }
+
+        public boolean isBlocking() {
+            return blocking;
+        }
+
+        public void setBlocking(boolean blocking) {
+            this.blocking = blocking;
         }
 
         public static class SettingBean {

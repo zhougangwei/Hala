@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.TagsAdapter;
+import chat.hala.hala.adapter.TagsChooseAdapter;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.bean.AnchorTagBean;
 import chat.hala.hala.bean.TagBean;
@@ -53,7 +54,7 @@ public class TagActivity extends BaseActivity {
     RecyclerView rvAll;
     private Paint mPaint;
     private TagsAdapter allTagsAdapter;
-    private TagsAdapter chooseAdapter;
+    private TagsChooseAdapter chooseAdapter;
 
 
     List<AnchorTagBean.DataBean> allDatas = new ArrayList<>();
@@ -80,8 +81,8 @@ public class TagActivity extends BaseActivity {
         rvAll.setLayoutManager(gridLayoutManager);
         rvChoose.setLayoutManager(gridLayoutManager2);
 
-        allTagsAdapter = new TagsAdapter(R.layout.item_choose_all_tag, allDatas);
-        chooseAdapter = new TagsAdapter(R.layout.item_choose_tag, chooseDatas);
+        allTagsAdapter = new TagsAdapter( allDatas);
+        chooseAdapter = new TagsChooseAdapter(R.layout.item_choose_tag, chooseDatas);
         rvAll.setAdapter(allTagsAdapter);
         rvChoose.setAdapter(chooseAdapter);
 
@@ -89,6 +90,9 @@ public class TagActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 AnchorTagBean.DataBean dataBean = allDatas.get(position);
+                if (dataBean.getItemType()==TagsAdapter.HEAD){
+                    return;
+                }
                 if (dataBean.isChoose()) {
                     dataBean.setChoose(false);
                     allTagsAdapter.notifyDataSetChanged();
@@ -96,7 +100,7 @@ public class TagActivity extends BaseActivity {
                     chooseAdapter.notifyDataSetChanged();
                     return;
                 }
-                if (chooseDatas.size() > 5) {
+                if (chooseDatas.size() > 10) {
                     ToastUtils.showToast(TagActivity.this, "Choose 10 tags at most!");
                     return;
                 }
@@ -122,8 +126,12 @@ public class TagActivity extends BaseActivity {
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
+                AnchorTagBean.DataBean dataBean = allDatas.get(position);
                 int width = ScreenUtils.getScreenWidth(TagActivity.this) - SizeUtils.dp2px(TagActivity.this, 39);
-                int itemWidth = getTextWidth(mPaint, allDatas.get(position).getContent()) + SizeUtils.dp2px(TagActivity.this, 30);
+                if(dataBean.getItemType()==TagsAdapter.HEAD){
+                    return 100;
+                }
+                int itemWidth = getTextWidth(mPaint, allDatas.get(position).getContent()) + SizeUtils.dp2px(TagActivity.this, 40);
                 return Math.min(100, itemWidth * 100 / width + 1);
             }
         });
@@ -131,7 +139,7 @@ public class TagActivity extends BaseActivity {
             @Override
             public int getSpanSize(int position) {
                 int width = ScreenUtils.getScreenWidth(TagActivity.this) - SizeUtils.dp2px(TagActivity.this, 39);
-                int itemWidth = getTextWidth(mPaint, chooseDatas.get(position).getContent()) + SizeUtils.dp2px(TagActivity.this, 30);
+                int itemWidth = getTextWidth(mPaint, chooseDatas.get(position).getContent()) + SizeUtils.dp2px(TagActivity.this, 40);
                 return Math.min(100, itemWidth * 100 / width + 1);
             }
         });
@@ -141,12 +149,22 @@ public class TagActivity extends BaseActivity {
                 .getAnchorTag()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<AnchorTagBean>() {
+                .subscribe(new Consumer<TagBean>() {
                     @Override
-                    public void accept(AnchorTagBean anchorTagBean) throws Exception {
+                    public void accept(TagBean anchorTagBean) throws Exception {
                         if (ResultUtils.cheekSuccess(anchorTagBean)) {
                             allDatas.clear();
-                            allDatas.addAll(anchorTagBean.getData());
+                            List<TagBean.DataBean> data = anchorTagBean.getData();
+                            for (int i = 0; i < data.size(); i++) {
+                                String name = data.get(i).getName();
+                                AnchorTagBean.DataBean dataBean = new AnchorTagBean.DataBean();
+                                dataBean.setContent(name);
+                                dataBean.setItemType(TagsAdapter.HEAD);
+                                allDatas.add(dataBean);
+                                if (data.get(i).getTags()!=null) {
+                                    allDatas.addAll(data.get(i).getTags());
+                                }
+                            }
                             allTagsAdapter.notifyDataSetChanged();
                         }
                     }

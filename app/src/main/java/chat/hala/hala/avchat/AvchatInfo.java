@@ -160,20 +160,20 @@ public class AvchatInfo {
 
 
 
-    public static void setGender(String gender) {
+    public static void setGender(int gender) {
         if(judgeMemberEmpty()){
             return;
         }
-        memberBean.setGender(gender);
+        memberBean.setGenderOrdinal(gender);
         saveBaseData(memberBean);
 
     }
 
-    public static String getGender() {
+    public static int getGender() {
         if(judgeMemberEmpty()){
-            return "";
+            return 1;
         }
-        return memberBean.getGender();
+        return memberBean.getGenderOrdinal();
     }
 
     public static void setBirthDate(String birthDate) {

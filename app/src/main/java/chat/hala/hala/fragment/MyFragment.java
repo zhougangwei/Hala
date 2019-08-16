@@ -2,6 +2,7 @@ package chat.hala.hala.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.support.constraint.Group;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +21,8 @@ import chat.hala.hala.activity.ChargeActivity;
 import chat.hala.hala.activity.ChatSettingActivity;
 import chat.hala.hala.activity.EditUserActivity;
 import chat.hala.hala.activity.FeedBackActivity;
+import chat.hala.hala.activity.FollowOrFansActivity;
+import chat.hala.hala.activity.MyGainActivity;
 import chat.hala.hala.activity.WalletActivity;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseFragment;
@@ -44,7 +47,8 @@ public class MyFragment extends BaseFragment {
 
     @BindView(R.id.tv_follow)
     TextView  tvFollow;
-
+    @BindView(R.id.gp_income)
+    Group gpInCome;
 
 
 
@@ -56,7 +60,9 @@ public class MyFragment extends BaseFragment {
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(ivHead.getDrawable()))
                 .into(ivHead);
         tvMoney.setText(AvchatInfo.getCoin() + "");
-
+        if (AvchatInfo.isAnchor()){
+            gpInCome.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -93,11 +99,14 @@ public class MyFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.tv_income, R.id.iv_head,R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
+    @OnClick({R.id.tv_follow,R.id.tv_income, R.id.iv_head,R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_follow:
+                gotoFollow();
+                break;
             case R.id.tv_income:
-
+                gotoGetIncome();
                 break;
             case R.id.iv_head:
                 gotoEdit();
@@ -141,6 +150,16 @@ public class MyFragment extends BaseFragment {
                         .show();
                 break;
         }
+    }
+
+    private void gotoFollow() {
+
+        startActivity(new Intent(getActivity(), FollowOrFansActivity.class));
+    }
+
+
+    private void gotoGetIncome() {
+        startActivity(new Intent(getActivity(), MyGainActivity.class));
     }
 
     private void gotoEdit() {

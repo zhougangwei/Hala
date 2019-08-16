@@ -13,6 +13,7 @@ import chat.hala.hala.bean.CallListBean;
 import chat.hala.hala.bean.CallStateBean;
 import chat.hala.hala.bean.CoinBriefBean;
 import chat.hala.hala.bean.CoinListBean;
+import chat.hala.hala.bean.FansBean;
 import chat.hala.hala.bean.FeedBackBean;
 import chat.hala.hala.bean.HeartBean;
 import chat.hala.hala.bean.LoginBean;
@@ -24,6 +25,7 @@ import chat.hala.hala.bean.RegistBean;
 import chat.hala.hala.bean.ReverseBean;
 import chat.hala.hala.bean.RtmTokenBean;
 import chat.hala.hala.bean.RuleBean;
+import chat.hala.hala.bean.TagBean;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
@@ -155,7 +157,7 @@ public interface HttpRequest {
 
 
     @GET("/anchor/tag")
-    Observable<AnchorTagBean> getAnchorTag();
+    Observable<TagBean> getAnchorTag();
 
 
     @GET("/{type}/{user}")
@@ -221,7 +223,7 @@ public interface HttpRequest {
     /*
     * 拉黑
     * */
-    @POST("/relationship/{type}/memberId/{memberId}")
+    @POST("/relationship/{type}/member/{memberId}")
     Observable<BaseBean> addBlock(@Path("type")String type,@Path("memberId")int memberId);
 
     @POST("/anchor/setting")
@@ -229,4 +231,7 @@ public interface HttpRequest {
 
     RequestBody chatSetting(@JsonQuery String dataJson
     );
+
+    @GET("/relationship/{type}")
+    Observable<FansBean> getFansNum(@Path("type")String type,@Query("page") int page,@Query("size") int size);
 }

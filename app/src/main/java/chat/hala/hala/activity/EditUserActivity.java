@@ -28,6 +28,7 @@ import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
+import chat.hala.hala.bean.AnchorBean;
 import chat.hala.hala.bean.AnchorTagBean;
 import chat.hala.hala.bean.ApplyAnchorBean;
 import chat.hala.hala.bean.EditUserBean;
@@ -164,7 +165,7 @@ public class EditUserActivity extends BaseActivity {
      * */
     private void dataBackShow() {
         etUsername.setText(AvchatInfo.getName());
-        etGender.setText(AvchatInfo.getGender());
+        etGender.setText(AvchatInfo.getGender()==1?"男":"女");
         tvBirth.setText(AvchatInfo.getBirthDate());
         etCity.setText(AvchatInfo.getResidentialPlace());
         etAutoGraph.setText(AvchatInfo.getAutoGraph());
@@ -374,9 +375,14 @@ public class EditUserActivity extends BaseActivity {
                 StringBuilder sb = new StringBuilder();
                 if (tagList != null && tagList.size() > 0) {
                     tagsList.clear();
-                    for (AnchorTagBean.DataBean dataBean : tagList) {
+                    for (int i = 0; i < tagList.size(); i++) {
+                       AnchorTagBean.DataBean dataBean=tagList.get(i);
                         tagsList.add(dataBean.getTagId());
-                        sb.append(dataBean.getContent() + " ");
+                        if(i==tagList.size()-1){
+                            sb.append(dataBean.getContent());
+                        }else{
+                            sb.append(dataBean.getContent() + ",");
+                        }
                     }
                 }
                 etTags.setText(sb.toString());

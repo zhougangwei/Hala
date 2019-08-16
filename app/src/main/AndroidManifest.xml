@@ -44,7 +44,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.VideoVerityActivity"></activity>
+        <activity android:name=".activity.FollowOrFansActivity"></activity>
+        <activity android:name=".activity.VideoVerityActivity" />
         <activity android:name=".activity.AuthenticationActivity" />
         <activity android:name=".activity.BeStarResultActivity" />
         <activity android:name=".activity.CashActivity" />
@@ -71,6 +72,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.MyGainActivity" />
         <activity android:name=".activity.LoginSmsActivity" />
         <activity android:name=".activity.ChooseCountryActivity" />
         <activity android:name=".activity.LoginPhoneActivity" />
@@ -109,6 +111,7 @@
             </intent-filter>
         </activity>
         <activity
+
             android:name=".activity.ConversationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">

@@ -88,19 +88,17 @@ public class App extends MultiDexApplication {
             SPUtil.setContext(this);
             addOnline();
         }
-
     }
 
     private void initRong() {
         RongIM.init(this);
         RongIM.getInstance().registerConversationTemplate(new MyPrivateConversationProvider());
-
+        RongIM.getInstance().setMessageAttachedUserInfo(true);
         RongIM.getInstance().registerMessageTemplate(new MyTextMessageItemProvider());
         RongIM.getInstance().registerMessageType(CustomizeVideoMessage.class);
         RongIM.getInstance().registerMessageType(CustomizeVoiceMessage.class);
         RongIM.getInstance().registerMessageType(CustomizeHongbaoMessage.class);
         RongIM.getInstance().registerMessageType(CustomizeHongbaoReceiveMessage.class);
-
         RongIM.getInstance().registerMessageTemplate(new CustomizeVideoMessageProvider());
         RongIM.getInstance().registerMessageTemplate(new CustomizeHongbaoMessageProvider());
         RongIM.getInstance().registerMessageTemplate(new CustomizeVoiceMessageProvider());

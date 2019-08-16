@@ -35,11 +35,6 @@ public class MyGainActivity extends BaseActivity {
     @BindView(R.id.tv1)
     TextView     mTv1;
 
-    @BindView(R.id.ll_recharge)
-    LinearLayout mLlRecharge;
-
-    @BindView(R.id.ll_cost)
-    LinearLayout mLlCost;
 
     @Override
     protected int getContentViewId() {

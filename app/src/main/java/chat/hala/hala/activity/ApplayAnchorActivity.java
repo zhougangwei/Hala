@@ -98,10 +98,6 @@ public class ApplayAnchorActivity extends BaseActivity {
 
     List<ApplyAnchorBean.AnchorBean.AlbumBean> covers = new ArrayList<>();
     private String bio;     //个人经历
-
-    private static final int REQUEST_TAG = 223;
-
-
     EditHeadAdapter mAdapter;
 
 
@@ -118,6 +114,10 @@ public class ApplayAnchorActivity extends BaseActivity {
     private String idCardFrontUrl;
     private String idCardBackUrl;
     private String idCardHandledUrl;
+
+    private String videoUrl;
+    private boolean clickUp;
+
 
     @Override
     protected int getContentViewId() {
@@ -177,6 +177,7 @@ public class ApplayAnchorActivity extends BaseActivity {
                     return;
                 } else {
                     upQiniu();
+                    ToastUtils.showToast(this,"正在上传!");
                 }
                 break;
         }
@@ -193,7 +194,7 @@ public class ApplayAnchorActivity extends BaseActivity {
     视频认证
     * */
     private void gotoVideoVerity() {
-
+        startActivityForResult(new Intent(this, VideoVerityActivity.class), Contact.REQUEST_VIDEO_VERIFY);
     }
 
 
@@ -279,17 +280,11 @@ public class ApplayAnchorActivity extends BaseActivity {
         }
 
 
-
-
-
-
-
-
-
-
-
+        if (TextUtils.isEmpty(videoUrl)) {
+            ToastUtils.showToast(this, "videoUrl" + "不可以为空");
+            return false;
+        }
         return true;
-
     }
 
     private void setBirth() {
@@ -335,6 +330,9 @@ public class ApplayAnchorActivity extends BaseActivity {
                 idCardBackUrl = data.getStringExtra("backCard");
                 idCardHandledUrl = data.getStringExtra("handCard");
                 tvNameVerity.setText("已填充");
+            }else if(requestCode == Contact.REQUEST_VIDEO_VERIFY){
+                videoUrl=data.getStringExtra("videoUrl");
+                tvVideoVerity.setText("已填充");
             }
 
         }
@@ -345,6 +343,10 @@ public class ApplayAnchorActivity extends BaseActivity {
         if (starchatanchorBean == null) {
             return;
         }
+        if(clickUp){
+            return;
+        }
+        clickUp =true;
         new UploadPicManger().uploadImageArray(uriList, 0, starchatanchorBean.getToken(), starchatanchorBean.getUrl(), new UploadPicManger.QiNiuUploadCompletionHandler() {
             @Override
             public void uploadSuccess(String path, List<String> paths) {
@@ -357,6 +359,7 @@ public class ApplayAnchorActivity extends BaseActivity {
             @Override
             public void uploadFailure() {
                 // TODO: 2019/6/25 0025 上传图片失败
+                clickUp =false;
                 LogUtils.e(TAG, "uploadFailure: 失败");
             }
         });
@@ -387,7 +390,7 @@ public class ApplayAnchorActivity extends BaseActivity {
         applicationBean.setIdCardBack(idCardBackUrl);
         applicationBean.setIdCardFront(idCardFrontUrl);
         applicationBean.setIdCardHandled(idCardHandledUrl);
-        applicationBean.setCertifyVideo("www.baidu.com");
+        applicationBean.setCertifyVideo(videoUrl);
 
 
         applyAnchorBean.setAnchor(anchorBean);

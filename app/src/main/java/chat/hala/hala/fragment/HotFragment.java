@@ -56,11 +56,9 @@ public class HotFragment extends BaseFragment {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(hotCallAdapter);
-
         View headView = View.inflate(getActivity(), R.layout.item_hotfragment_header, null);
         banner=headView.findViewById(R.id.banner);
-        hotCallAdapter.addHeaderView(headView);
-
+        hotCallAdapter.addHeaderView(headView,4);
         hotCallAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -171,7 +169,6 @@ public class HotFragment extends BaseFragment {
                             hotCallAdapter.loadMoreFail();
                             return;
                         }
-                        LogUtils.e(TAG, "onGetData: " + GsonUtil.parseObjectToJson(oneToOneListBean));
 
                         if (oneToOneListBean.getData().getPageable().isNextPage()) {
                             hotCallAdapter.loadMoreComplete();

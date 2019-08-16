@@ -1,6 +1,10 @@
 package chat.hala.hala.bean;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.List;
+
+import chat.hala.hala.adapter.TagsAdapter;
 
 public class AnchorTagBean extends BaseBean{
     /**
@@ -20,7 +24,7 @@ public class AnchorTagBean extends BaseBean{
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements MultiItemEntity {
         /**
          * tagId : 46
          * content : نشيط
@@ -29,6 +33,8 @@ public class AnchorTagBean extends BaseBean{
         private boolean isChoose;
         private int tagId;
         private String content;
+
+        private int itemType=TagsAdapter.TEXT;
 
         public int getTagId() {
             return tagId;
@@ -52,6 +58,15 @@ public class AnchorTagBean extends BaseBean{
 
         public void setChoose(boolean choose) {
             isChoose = choose;
+        }
+
+        public void setItemType(int itemType) {
+            this.itemType = itemType;
+        }
+
+        @Override
+        public int getItemType() {
+            return itemType;
         }
     }
 }

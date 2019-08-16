@@ -34,9 +34,6 @@ public class VideoCallManager {
 
 
 
-
-
-
     public static void gotoCallOrReverse(final Activity activity, final int anchorId){
         gotoCallOrReverse(activity,VideoCallManager.VIDEO_CALL,anchorId,111);
     }
@@ -83,7 +80,7 @@ public class VideoCallManager {
                                                                     getMediaToken(callBean, activity, anchorId, anchorMemberId);
                                                                 } else if (ResultUtils.isNoMoney(callBean)) {
                                                                     new CommonDialog(activity)
-                                                                            .setMsg("you have no money")
+                                                                            .setMsg("余额不足")
                                                                             .setListener(new CommonDialog.OnClickListener() {
                                                                                 @Override
                                                                                 public void onClickConfirm() {

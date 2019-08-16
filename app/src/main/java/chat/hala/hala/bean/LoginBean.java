@@ -71,13 +71,15 @@ public class LoginBean extends BaseBean {
              * memberId : 5
              * lastActiveMinuteGap : 0,
              * introduction :"介绍"
+             * genderOrdinal:"1"
+             *
              */
 
             @SerializedName("characterId")
             private String characterId;
             @SerializedName("mobileNumber")
             private String mobileNumber;
-            @SerializedName("username")
+            @SerializedName("nickname")
             private String username;
             @SerializedName("gender")
             private String gender;
@@ -110,8 +112,7 @@ public class LoginBean extends BaseBean {
             @SerializedName("setting")
             private SettingBean setting;
 
-
-
+            private int genderOrdinal;
 
             @SerializedName("introduction")
             private String introduction;
@@ -266,6 +267,14 @@ public class LoginBean extends BaseBean {
 
             public void setSetting(SettingBean setting) {
                 this.setting = setting;
+            }
+
+            public int getGenderOrdinal() {
+                return genderOrdinal;
+            }
+
+            public void setGenderOrdinal(int genderOrdinal) {
+                this.genderOrdinal = genderOrdinal;
             }
 
             public static class AlbumBean {

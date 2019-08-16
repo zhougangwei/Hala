@@ -133,7 +133,6 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     private Disposable mSubscribe;
     private int mAnchorId;
 
-
     private String callstate;
 
 
@@ -155,7 +154,6 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
      * @param callId
      */
     public static void docallOneToOneActivity(Context context, int anchorId, int anchorMemberId, String channelId, int callId) {
-
         Intent intent = new Intent(context, OneToOneActivity.class);
         intent.putExtra("anchorId", anchorId);
         intent.putExtra("anchorMemberId", anchorMemberId);
@@ -256,6 +254,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
             ivHangupPrepareAudience.setVisibility(View.VISIBLE);
             tv5.setVisibility(View.VISIBLE);
             getAnchorData();
+            tvName.setText(name);
         } else {
             ivAnchorAnswer.setVisibility(View.VISIBLE);
             tv7.setVisibility(View.VISIBLE);
@@ -288,6 +287,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
+                            tvName.setText(anchorName);
                             tvMinuteCost.setText(String.format(getString(R.string.charged_coins_per_min), anchorBean.getData().getSetting().getVideoCpm() + ""));
                         }
                     }

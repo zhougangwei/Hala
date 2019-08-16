@@ -138,7 +138,7 @@
         android:id="@+id/group_prepare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="tv1,tv2,iv1,tv3,tv4,tv_start_examine" />
 
     <android.support.constraint.Group

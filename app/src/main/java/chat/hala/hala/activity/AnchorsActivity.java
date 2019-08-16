@@ -141,9 +141,13 @@ public class AnchorsActivity extends SlideBackActivity {
     private AnchorBean.DataBean mAnchorData;
     private PopupWindow         mPopupWindow;
 
+    private boolean blockState;     //拉黑状态
+    private boolean followState;    //关注状态
+
     public static final int ANCHOR_AC=0;
     public static final int EDIT_AC=1;
     private int fromAc;
+    private TextView tvAddBlack;
 
 
     public static void startAnchorAc(Context context, int anchorId, int anchorIdMemberId) {
@@ -240,6 +244,9 @@ public class AnchorsActivity extends SlideBackActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<AnchorBean>() {
+
+
+
                     @Override
                     public void onGetData(AnchorBean baseBean) {
 
@@ -254,7 +261,8 @@ public class AnchorsActivity extends SlideBackActivity {
                         tvName.setText(mAnchorData.getNickname());
                         mTvScore.setText(mAnchorData.getMarking() + "");
                         mTvFans.setText(mAnchorData.getFansCount()+"");
-
+                        followState = baseBean.getData().isFollowing();
+                        blockState = baseBean.getData().isBlocking();
 
                         if(isAnchor()){                //查看过来的 查看用户的的界面
                             tvBiography.setVisibility(View.VISIBLE);
@@ -354,7 +362,11 @@ public class AnchorsActivity extends SlideBackActivity {
                 RongIM.getInstance().startPrivateChat(this, mAnchormemberId + "", mAnchorData != null ? mAnchorData.getNickname() : "");
                 break;
             case R.id.iv_like:
-                addFollow("follow");
+                if(followState){
+                    addFollow("unfollow");
+                }else{
+                    addFollow("follow");
+                }
                 break;
             case R.id.iv_more:
                 showMore();
@@ -382,26 +394,49 @@ public class AnchorsActivity extends SlideBackActivity {
                     @Override
                     public void onGetData(BaseBean baseBean) {
                         if (ResultUtils.cheekSuccess(baseBean)) {
-                            ToastUtils.showToast(AnchorsActivity.this,"关注成功!");
+                            followState=!followState;
+                            if (followState){
+                                mIvLike.setImageDrawable(AnchorsActivity.this.getResources().getDrawable(R.drawable.ic_like));
+                                ToastUtils.showToast(AnchorsActivity.this,"关注成功!");
+                            }else{
+                                mIvLike.setImageDrawable(AnchorsActivity.this.getResources().getDrawable(R.drawable.ic_dislike));
+                                ToastUtils.showToast(AnchorsActivity.this,"取消关注成功!");
+                            }
                         }
                     }
                 });
     }
     //拉黑或者不拉黑
-    private void addBlock(String blockOrBlock) {
-        RetrofitFactory.getInstance().addBlock(blockOrBlock,anchorId)
+    private void addBlock() {
+        String state="unblock";
+        if (blockState) {
+            state="unblock";
+            tvAddBlack.setText("取消黑名单");
+        }else{
+            state="block";
+            tvAddBlack.setText("加入黑名单");
+        }
+        RetrofitFactory.getInstance().addBlock(state,memberId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<BaseBean>() {
                     @Override
                     public void onGetData(BaseBean baseBean) {
-                        if (ResultUtils.cheekSuccess(baseBean)) {
-                            ToastUtils.showToast(AnchorsActivity.this,"关注成功!");
+                        blockState=!blockState;
+                        if (blockState){
+                            ToastUtils.showToast(AnchorsActivity.this,"拉黑成功!");
+                                if (tvAddBlack!=null) {
+                                    tvAddBlack.setText("取消黑名单");
+                                }
+                        }else{
+                            if (tvAddBlack!=null) {
+                                tvAddBlack.setText("加入黑名单");
+                            }
+                            ToastUtils.showToast(AnchorsActivity.this,"取消拉黑成功!");
                         }
                     }
                 });
     }
-
 
 
 
@@ -411,18 +446,26 @@ public class AnchorsActivity extends SlideBackActivity {
         if (mPopupWindow == null) {
             View contentView = View.inflate(this, R.layout.pop_anchor_more, null);
             TextView tv_report = contentView.findViewById(R.id.tv_report);
-            TextView tv_add_black = contentView.findViewById(R.id.tv_add_black);
+            tvAddBlack = contentView.findViewById(R.id.tv_add_black);
 
+            if (blockState) {
+
+                tvAddBlack.setText("取消黑名单");
+            }else{
+
+                tvAddBlack.setText("加入黑名单");
+            }
             tv_report.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                 }
             });
-            tv_add_black.setOnClickListener(new View.OnClickListener() {
+
+            tvAddBlack.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    addBlock("block");
+                    addBlock();
                 }
             });
             mPopupWindow = new PopupWindow(contentView,

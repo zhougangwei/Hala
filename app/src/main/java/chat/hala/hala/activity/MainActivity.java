@@ -89,7 +89,6 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                 RongIM.getInstance().setCurrentUserInfo(userInfo);
                 LogUtils.e(TAG, "onSuccess: "+s);
             }
-
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
                 LogUtils.e(TAG, "onError: "+errorCode);

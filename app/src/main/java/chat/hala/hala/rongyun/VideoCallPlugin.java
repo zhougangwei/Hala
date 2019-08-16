@@ -24,7 +24,7 @@ public class VideoCallPlugin implements IPluginModule {
 
   @Override
   public Drawable obtainDrawable(Context context) {
-    return ContextCompat.getDrawable(context, R.drawable.rc_ext_plugin_image_selector);
+    return ContextCompat.getDrawable(context, R.drawable.ic_video_call);
   }
 
   @Override
@@ -34,10 +34,8 @@ public class VideoCallPlugin implements IPluginModule {
 
   @Override
   public void onClick(Fragment currentFragment, RongExtension extension) {
-
    CustomizeVideoMessage myTextMessage = CustomizeVideoMessage.obtain(CustomizeVideoMessage.VIDEO_CALL);
     //TextMessage myTextMessage = TextMessage.obtain("我是消息内容");
-
     Message myMessage = Message.obtain(((ConversationFragment)currentFragment).getTargetId(), Conversation.ConversationType.PRIVATE, myTextMessage);
     RongIM.getInstance().sendMessage(myMessage, null, null, new IRongCallback.ISendMessageCallback() {
       @Override
