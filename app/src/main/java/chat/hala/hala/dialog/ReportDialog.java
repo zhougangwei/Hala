@@ -104,7 +104,7 @@ public class ReportDialog extends Dialog {
         WindowManager.LayoutParams lp = this.getWindow().getAttributes();
         lp.width = 4 * ScreenUtils.getScreenWidth(mContext) / 5;
         lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        this.getWindow().setAttributes(lp);
+        this.getWindow().setAttributes(lp);//
     }
     @OnClick(R.id.iv_close)
     public void onClick() {
