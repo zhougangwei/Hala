@@ -93,7 +93,7 @@ public class ReportDialog extends Dialog {
                             mRanodmList.addAll(data);
                         }
                         randomAnchorAdapter.notifyDataSetChanged();
-                    }
+                    }//
                 });
     }
 
