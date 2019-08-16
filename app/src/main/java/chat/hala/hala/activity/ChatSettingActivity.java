@@ -197,6 +197,9 @@ public class ChatSettingActivity extends BaseActivity {
     }
 
     private void gotoSave() {
+
+
+
         ChatSettingBean chatSettingBean = new ChatSettingBean();
         chatSettingBean.setAudioCpm(audioCpm);
         chatSettingBean.setChatCpm(chatCmp);
@@ -205,7 +208,7 @@ public class ChatSettingActivity extends BaseActivity {
         chatSettingBean.setAudioNotify(mVoiceOpen);
         chatSettingBean.setChatNotify(mChatOpen);
         RetrofitFactory.getInstance()
-                .chatSetting(ProxyPostHttpRequest.getJsonInstance().chatSetting(GsonUtil.parseObjectToJson(chatSettingBean)))
+                .chatSetting(AvchatInfo.isAnchor()?"anchor":"member",ProxyPostHttpRequest.getJsonInstance().chatSetting(GsonUtil.parseObjectToJson(chatSettingBean)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<BaseBean>() {

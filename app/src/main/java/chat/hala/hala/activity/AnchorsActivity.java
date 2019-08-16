@@ -41,6 +41,7 @@ import chat.hala.hala.bean.AnchorBean;
 import chat.hala.hala.bean.AnchorInfoBean;
 import chat.hala.hala.bean.AnchorTagBean;
 import chat.hala.hala.bean.BaseBean;
+import chat.hala.hala.dialog.ReportDialog;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.GsonUtil;
@@ -458,7 +459,7 @@ public class AnchorsActivity extends SlideBackActivity {
             tv_report.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                  new ReportDialog(AnchorsActivity.this,memberId).show();
                 }
             });
 

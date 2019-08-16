@@ -28,12 +28,14 @@ import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.LoginBean;
 import chat.hala.hala.bean.QiNiuToken;
+import chat.hala.hala.bean.RongToken;
 import chat.hala.hala.bean.RtmCallBean;
 import chat.hala.hala.bean.RtmTokenBean;
 import chat.hala.hala.dialog.CommonDialog;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.GsonUtil;
+import chat.hala.hala.utils.ResultUtils;
 import chat.hala.hala.utils.SPUtil;
 import chat.hala.hala.wight.NoScrollViewPager;
 import io.agora.rtc.IRtcEngineEventHandler;
@@ -75,47 +77,58 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     @Override
     protected void beforeInitView() {
 
-
     }
 
     private void initRongIm() {
-        RongIM.connect(memberBean.getRongToken(), new RongIMClient.ConnectCallback() {
-            @Override
-            public void onSuccess(String s) {
-                if (AvchatInfo.getMemberId()==-1) {
-                    return;
-                }
-                UserInfo userInfo = new UserInfo(AvchatInfo.getMemberId()+"",AvchatInfo.getName(), Uri.parse(AvchatInfo.getAvatarUrl()));
-                RongIM.getInstance().setCurrentUserInfo(userInfo);
-                LogUtils.e(TAG, "onSuccess: "+s);
-            }
-            @Override
-            public void onError(RongIMClient.ErrorCode errorCode) {
-                LogUtils.e(TAG, "onError: "+errorCode);
-            }
-            @Override
-            public void onTokenIncorrect() {
-                LogUtils.e(TAG, "onTokenIncorrect: ");
-            }
-        });
+        RetrofitFactory.getInstance().getRongToken()
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new BaseCosumer<RongToken>() {
+                    @Override
+                    public void onGetData(RongToken rongToken) {
+                        if (ResultUtils.cheekSuccess(rongToken)) {
+                            RongIM.connect(rongToken.getData().getRongCloudToken(), new RongIMClient.ConnectCallback() {
+                                @Override
+                                public void onSuccess(String s) {
+                                    if (AvchatInfo.getMemberId() == -1) {
+                                        return;
+                                    }
+                                    UserInfo userInfo = new UserInfo(AvchatInfo.getMemberId() + "", AvchatInfo.getName(), Uri.parse(AvchatInfo.getAvatarUrl()));
+                                    RongIM.getInstance().setCurrentUserInfo(userInfo);
+                                    LogUtils.e(TAG, "onSuccess: " + s);
+                                }
+                                @Override
+                                public void onError(RongIMClient.ErrorCode errorCode) {
+                                    LogUtils.e(TAG, "onError: " + errorCode);
+                                }
+                                @Override
+                                public void onTokenIncorrect() {
+                                    LogUtils.e(TAG, "onTokenIncorrect: ");
+                                }
+                            });
+                        }
+                    }
+                });
+
+
     }
 
     @Override
     protected void initView() {
         int userId = SPUtil.getInstance(this).getUserId();
-        if (userId==0){
-            startActivity(new Intent(this,LoginActivity.class));
+        if (userId == 0) {
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
             return;
-        }else{
+        } else {
             String memberJson = SPUtil.getInstance(this).getMemberJson();
             if (TextUtils.isEmpty(memberJson)) {
-                startActivity(new Intent(this,LoginActivity.class));
+                startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 return;
-            }else{
+            } else {
                 memberBean = GsonUtil.parseJsonToBean(memberJson, LoginBean.DataBean.MemberBean.class);
-                AvchatInfo.saveBaseData(memberBean,this,false);
+                AvchatInfo.saveBaseData(memberBean, this, false);
             }
         }
         ((App) getApplication()).initWorkerThread();
@@ -136,8 +149,8 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     }
 
     /*
-    * 七牛初始化
-    * */
+     * 七牛初始化
+     * */
     private void initQiniu() {
         RetrofitFactory
                 .getInstance()
@@ -160,6 +173,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                     }
                 });
     }
+
     private void initVideoCall() {
         this.event().addEventHandler(this);
     }
@@ -181,8 +195,6 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                     }
                 });
     }
-
-
 
 
     @Override
@@ -258,13 +270,12 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
 
     @Override
     protected void onDestroy() {
-        if (worker()!=null){
-            if (event()!=null){
+        if (worker() != null) {
+            if (event() != null) {
                 event().removeEventHandler(this);
             }
             worker().disconnectFromRtmService();
         }
-
 
 
         super.onDestroy();
@@ -329,7 +340,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                                                 String content = invitation.getContent();
                                                 RtmCallBean rtmCallBean = GsonUtil.parseJsonToBean(content, RtmCallBean.class);
                                                 OneToOneActivity.doReceivveOneToOneActivity(MainActivity.this, rtmCallBean.getChannelId(), Integer.parseInt(invitation.getCallerId())
-                                                        ,rtmCallBean.getImageUrl(),rtmCallBean.getMessage(),rtmCallBean.getName()
+                                                        , rtmCallBean.getImageUrl(), rtmCallBean.getMessage(), rtmCallBean.getName()
 
                                                 );
                                             }

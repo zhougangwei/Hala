@@ -1,8 +1,10 @@
 package chat.hala.hala.base;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -13,6 +15,9 @@ import android.util.Log;
 
 import com.blankj.utilcode.utils.LogUtils;
 import com.facebook.FacebookSdk;
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.List;
 import java.util.Locale;
@@ -68,9 +73,11 @@ public class App extends MultiDexApplication {
 
     private static final String TAG = "Application";
 
+    private IWXAPI api;
     private static App application;
     public static Context sContext;
     private int count;
+    private static final String APP_ID = "wxccfe886fa96a837a";
 
     @Override
     public void onCreate() {
@@ -80,6 +87,7 @@ public class App extends MultiDexApplication {
             application = this;
             sContext = this;
             initRong();
+            initWeixin();
             initRxjava();
             LogUtils.init(this, true, false, 'v', "Hala");
             FacebookSdk.setApplicationId("306102296576531");
@@ -88,6 +96,24 @@ public class App extends MultiDexApplication {
             SPUtil.setContext(this);
             addOnline();
         }
+    }
+
+    private void initWeixin() {
+
+            // 通过WXAPIFactory工厂，获取IWXAPI的实例
+            api = WXAPIFactory.createWXAPI(this, APP_ID, true);
+
+            // 将应用的appId注册到微信
+            api.registerApp(APP_ID);
+
+            //建议动态监听微信启动广播进行注册到微信
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    // 将该app注册到微信
+                    api.registerApp(APP_ID);
+                }
+            }, new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP));
     }
 
     private void initRong() {

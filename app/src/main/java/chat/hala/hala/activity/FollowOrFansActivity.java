@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.FansAdapter;
+import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.FansBean;
@@ -57,6 +58,13 @@ public class FollowOrFansActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+
+        if(AvchatInfo.isAnchor()){
+            tvTitle.setText("我的粉丝");
+        }else{
+            tvTitle.setText("我的关注");
+        }
+
         fansAdapter = new FansAdapter(R.layout.item_suggest_list, mFansList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -107,7 +115,7 @@ public class FollowOrFansActivity extends BaseActivity {
         }
 
         RetrofitFactory.getInstance()
-                .getFansNum("following",page,Contact.PAGE_SIZE)
+                .getFansNum(AvchatInfo.isAnchor()?"fans":"following",page,Contact.PAGE_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<FansBean>() {

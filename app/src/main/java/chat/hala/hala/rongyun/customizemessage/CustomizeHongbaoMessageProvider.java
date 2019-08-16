@@ -21,6 +21,7 @@ import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imkit.model.ProviderTag;
 import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
+import io.rong.imkit.widget.provider.ImageMessageItemProvider;
 import io.rong.imlib.IRongCallback;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -55,7 +56,6 @@ public class CustomizeHongbaoMessageProvider extends IContainerItemProvider.Mess
     public void bindView(View view, int i, CustomizeHongbaoMessage customizeMessage, UIMessage uiMessage) {
         ViewHolder holder = (ViewHolder) view.getTag();
 
-        
 
 
         if (uiMessage.getMessageDirection() == Message.MessageDirection.SEND) {//消息方向，自己发送的

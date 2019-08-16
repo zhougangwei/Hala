@@ -24,9 +24,11 @@ import chat.hala.hala.bean.QiNiuToken;
 import chat.hala.hala.bean.RegistBean;
 import chat.hala.hala.bean.ReportBean;
 import chat.hala.hala.bean.ReverseBean;
+import chat.hala.hala.bean.RongToken;
 import chat.hala.hala.bean.RtmTokenBean;
 import chat.hala.hala.bean.RuleBean;
 import chat.hala.hala.bean.TagBean;
+import chat.hala.hala.bean.VersionBean;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -96,7 +98,8 @@ public interface HttpRequest {
 
 
 
-
+    @GET("/member/rong_cloud/token")
+    Observable<RongToken> getRongToken();
 
     @GET("/general/qtoken")
     Observable<QiNiuToken> getQiNiuToken();
@@ -197,7 +200,7 @@ public interface HttpRequest {
     RequestBody changeCallState(@Query("state")String state,@Query("durationSeconds")int durationSeconds
     );
 
-    @POST("/member/feedback")
+        @POST("/member/feedback")
     Observable<FeedBackBean> feedBack(@Body RequestBody requestBody
     );
     RequestBody feedBack(@Query("description")String description,@Query("mediaUrl")String mediaUrl
@@ -228,8 +231,8 @@ public interface HttpRequest {
     @POST("/relationship/{type}/member/{memberId}")
     Observable<BaseBean> addBlock(@Path("type")String type,@Path("memberId")int memberId);
 
-    @POST("/anchor/setting")
-    Observable<BaseBean> chatSetting(@Body RequestBody requestBody);
+    @POST("/{type}/setting")
+    Observable<BaseBean> chatSetting(@Path("type")String type,@Body RequestBody requestBody);
 
     RequestBody chatSetting(@JsonQuery String dataJson
     );
@@ -240,4 +243,11 @@ public interface HttpRequest {
 
     @GET("/member/report/reason")
     Observable<ReportBean> getReportList();
+
+    RequestBody report(
+            @Query("category")String category,@Query("reasonType")int reasonType,@Query("toMemberId")int toMemberId
+    );
+
+    @GET("/general/version")
+    Observable<VersionBean> getVersion();
 }

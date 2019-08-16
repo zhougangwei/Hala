@@ -87,5 +87,12 @@
         <item name="android:textSize">15sp</item>
     </style>
 
-
+    <!--使用图片的方案-->
+    <style name="SplashThemeImage" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/bg_spalsh</item>
+        <!--沉浸-->
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
 </resources>

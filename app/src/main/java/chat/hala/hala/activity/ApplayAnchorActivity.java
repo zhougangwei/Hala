@@ -101,7 +101,6 @@ public class ApplayAnchorActivity extends BaseActivity {
     EditHeadAdapter mAdapter;
 
 
-
     private String userName;
     private String phoneNum;
     private String height;
@@ -117,6 +116,7 @@ public class ApplayAnchorActivity extends BaseActivity {
 
     private String videoUrl;
     private boolean clickUp;
+    private int chargePostion;
 
 
     @Override
@@ -142,8 +142,16 @@ public class ApplayAnchorActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mList.get(position).isAdd()) {
-                    ChoosePicManager.choosePic(ApplayAnchorActivity.this, 3);
+                    if (3 - (mList.size() - 1) == 0) {
+                        return;
+                    }
+                    chargePostion = 0;
+                    ChoosePicManager.choosePic(ApplayAnchorActivity.this, 3 - (mList.size() - 1));
+                } else {
+                    chargePostion = position;
+                    ChoosePicManager.choosePic(ApplayAnchorActivity.this, 1);
                 }
+
             }
         });
 
@@ -177,7 +185,7 @@ public class ApplayAnchorActivity extends BaseActivity {
                     return;
                 } else {
                     upQiniu();
-                    ToastUtils.showToast(this,"正在上传!");
+                    ToastUtils.showToast(this, "正在上传!");
                 }
                 break;
         }
@@ -226,6 +234,7 @@ public class ApplayAnchorActivity extends BaseActivity {
                 public void onPicked(int selectedFirstIndex, int selectedSecondIndex) {
                     height = firstData.get(selectedFirstIndex);
                     weight = secondData.get(selectedSecondIndex);
+                    etHeightWeight.setText(height+"/"+weight);
                 }
             });
             heightPicker.show();
@@ -300,7 +309,7 @@ public class ApplayAnchorActivity extends BaseActivity {
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {
-                tvBirth.setText(year + "-" + month + "-"+day);
+                tvBirth.setText(year + "-" + month + "-" + day);
             }
         });
         picker.show();
@@ -318,10 +327,14 @@ public class ApplayAnchorActivity extends BaseActivity {
             } else if (requestCode == ChoosePicManager.REQUEST_CODE_CHOOSE) {
                 List<String> strings = Matisse.obtainPathResult(data);
                 if (uriList != null) {
-                    uriList.clear();
-                    uriList.addAll(strings);
-                    for (String s : uriList) {
-                        mList.add(new EditHeadAdapter.UserHead(s, false));
+                    if (chargePostion == 0) {
+                        uriList.addAll(strings);
+                        for (String s : strings) {
+                            mList.add(new EditHeadAdapter.UserHead(s, false));
+                        }
+                    }else{
+                        uriList.set(chargePostion-1,strings.get(0));
+                        mList.set(chargePostion,new EditHeadAdapter.UserHead(strings.get(0), false));
                     }
                     mAdapter.notifyDataSetChanged();
                 }
@@ -330,8 +343,8 @@ public class ApplayAnchorActivity extends BaseActivity {
                 idCardBackUrl = data.getStringExtra("backCard");
                 idCardHandledUrl = data.getStringExtra("handCard");
                 tvNameVerity.setText("已填充");
-            }else if(requestCode == Contact.REQUEST_VIDEO_VERIFY){
-                videoUrl=data.getStringExtra("videoUrl");
+            } else if (requestCode == Contact.REQUEST_VIDEO_VERIFY) {
+                videoUrl = data.getStringExtra("videoUrl");
                 tvVideoVerity.setText("已填充");
             }
 
@@ -343,10 +356,10 @@ public class ApplayAnchorActivity extends BaseActivity {
         if (starchatanchorBean == null) {
             return;
         }
-        if(clickUp){
+        if (clickUp) {
             return;
         }
-        clickUp =true;
+        clickUp = true;
         new UploadPicManger().uploadImageArray(uriList, 0, starchatanchorBean.getToken(), starchatanchorBean.getUrl(), new UploadPicManger.QiNiuUploadCompletionHandler() {
             @Override
             public void uploadSuccess(String path, List<String> paths) {
@@ -359,7 +372,7 @@ public class ApplayAnchorActivity extends BaseActivity {
             @Override
             public void uploadFailure() {
                 // TODO: 2019/6/25 0025 上传图片失败
-                clickUp =false;
+                clickUp = false;
                 LogUtils.e(TAG, "uploadFailure: 失败");
             }
         });
@@ -371,20 +384,20 @@ public class ApplayAnchorActivity extends BaseActivity {
             for (int i = 0; i < paths.size(); i++) {
                 ApplyAnchorBean.AnchorBean.AlbumBean coversBean = new ApplyAnchorBean.AnchorBean.AlbumBean();
                 coversBean.setMediaUrl(paths.get(i));
-                coversBean.setSortby(i+"");
+                coversBean.setSortby(i + "");
                 covers.add(coversBean);
             }
         }
         ApplyAnchorBean applyAnchorBean = new ApplyAnchorBean();
-        ApplyAnchorBean.AnchorBean anchorBean=new ApplyAnchorBean.AnchorBean();
-        anchorBean.setHeight(TextUtils.isEmpty(height) ? 0+"" : height);
-        anchorBean.setWeight(TextUtils.isEmpty(weight) ? 0+"" : weight);
+        ApplyAnchorBean.AnchorBean anchorBean = new ApplyAnchorBean.AnchorBean();
+        anchorBean.setHeight(TextUtils.isEmpty(height) ? 0 + "" : height);
+        anchorBean.setWeight(TextUtils.isEmpty(weight) ? 0 + "" : weight);
         anchorBean.setResidentialPlace(city);
         anchorBean.setIntroduction(bio);
         anchorBean.setAlbum(covers);
         anchorBean.setBirthDate(birth);
 
-        ApplyAnchorBean.ApplicationBean applicationBean =new ApplyAnchorBean.ApplicationBean();
+        ApplyAnchorBean.ApplicationBean applicationBean = new ApplyAnchorBean.ApplicationBean();
         applicationBean.setRealName(userName);
         applicationBean.setMobileNumber(phoneNum);
         applicationBean.setIdCardBack(idCardBackUrl);

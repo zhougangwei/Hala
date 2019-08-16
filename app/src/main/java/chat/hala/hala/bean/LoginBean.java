@@ -72,7 +72,7 @@ public class LoginBean extends BaseBean {
              * lastActiveMinuteGap : 0,
              * introduction :"介绍"
              * genderOrdinal:"1"
-             *
+             *fansCount
              */
 
             @SerializedName("characterId")
@@ -116,6 +116,9 @@ public class LoginBean extends BaseBean {
 
             @SerializedName("introduction")
             private String introduction;
+
+            @SerializedName("fansCount")
+            private int fansCount;
 
             public String getCharacterId() {
                 return characterId;
@@ -275,6 +278,14 @@ public class LoginBean extends BaseBean {
 
             public void setGenderOrdinal(int genderOrdinal) {
                 this.genderOrdinal = genderOrdinal;
+            }
+
+            public int getFansCount() {
+                return fansCount;
+            }
+
+            public void setFansCount(int fansCount) {
+                this.fansCount = fansCount;
             }
 
             public static class AlbumBean {

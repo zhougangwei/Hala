@@ -28,28 +28,46 @@ public class AvchatInfo {
 
 
     public static int getAccount() {
+        if(judgeMemberEmpty()){
+            return 0;
+        }
         return memberBean.getMemberId();
     }
 
     public static void setAccount(int account) {
+        if(judgeMemberEmpty()){
+            return ;
+        }
         memberBean.setMemberId(account);
         saveBaseData(memberBean);
     }
 
     public static String getName() {
+        if(judgeMemberEmpty()){
+            return "";
+        }
         return memberBean.getUsername();
     }
 
     public static void setName(String name) {
+        if(judgeMemberEmpty()){
+            return;
+        }
         memberBean.setUsername(name);
         saveBaseData(memberBean);
     }
 
     public static int getCoin() {
+        if(judgeMemberEmpty()){
+            return 0;
+        }
         return memberBean.getCoin();
     }
 
     public static void setCoin(int coin) {
+        if(judgeMemberEmpty()){
+            return ;
+        }
         memberBean.setCoin(coin);
         saveBaseData(memberBean);
     }

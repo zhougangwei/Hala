@@ -103,4 +103,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
 
     implementation 'org.slf4j:slf4j-api:1.7.25'
+
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+
 }

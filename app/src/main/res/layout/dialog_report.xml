@@ -3,23 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:padding="20dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@color/black"
     android:background="@null"
     android:layout_height="match_parent">
 
 
     <android.support.v7.widget.RecyclerView
-        android:background="@color/white"
+        android:background="@drawable/bg_report_top"
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
     </android.support.v7.widget.RecyclerView>
 
     <TextView
-        android:background="@color/white"
+        android:background="@drawable/bg_report_bottom"
         android:id="@+id/tv_npc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,4 +30,17 @@
         android:textColor="#3EB4F9"
         android:textSize="15sp"
         app:layout_constraintTop_toBottomOf="@+id/rv" />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_report_cancel"
+        android:id="@+id/tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="取消"
+        android:textColor="#3EB4F9"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_npc" />
 </android.support.constraint.ConstraintLayout>

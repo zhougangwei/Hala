@@ -16,16 +16,15 @@ import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.activity.AnchorsActivity;
 import chat.hala.hala.activity.BeStarResultActivity;
-import chat.hala.hala.activity.BestarActivity;
 import chat.hala.hala.activity.ChargeActivity;
 import chat.hala.hala.activity.ChatSettingActivity;
-import chat.hala.hala.activity.EditUserActivity;
 import chat.hala.hala.activity.FeedBackActivity;
 import chat.hala.hala.activity.FollowOrFansActivity;
 import chat.hala.hala.activity.MyGainActivity;
 import chat.hala.hala.activity.WalletActivity;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseFragment;
+import chat.hala.hala.bean.AnchorBean;
 import chat.hala.hala.bean.CoinBriefBean;
 import chat.hala.hala.dialog.CommonDialog;
 import chat.hala.hala.http.BaseCosumer;
@@ -36,33 +35,39 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MyFragment extends BaseFragment {
     @BindView(R.id.tv_name)
-    TextView  tvName;
+    TextView tvName;
     @BindView(R.id.iv_head)
     ImageView ivHead;
 
     @BindView(R.id.tv_charge)
-    TextView  tvCharge;
+    TextView tvCharge;
     @BindView(R.id.tv_money)
-    TextView  tvMoney;
+    TextView tvMoney;
 
     @BindView(R.id.tv_follow)
-    TextView  tvFollow;
+    TextView tvFollow;
+
+    @BindView(R.id.tv_follow_name)
+    TextView tvFollowName;
     @BindView(R.id.gp_income)
     Group gpInCome;
 
 
-
     @Override
     protected void initView() {
+
         tvName.setText(AvchatInfo.getName());
         Glide.with(this)
                 .load(AvchatInfo.getAvatarUrl())
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(ivHead.getDrawable()))
                 .into(ivHead);
         tvMoney.setText(AvchatInfo.getCoin() + "");
-        if (AvchatInfo.isAnchor()){
+        if (AvchatInfo.isAnchor()) {
             gpInCome.setVisibility(View.VISIBLE);
+        }else{
+            gpInCome.setVisibility(View.GONE);
         }
+
     }
 
     @Override
@@ -77,6 +82,37 @@ public class MyFragment extends BaseFragment {
 
     @SuppressLint("CheckResult")
     public void refreshData() {
+        if (AvchatInfo.isAnchor()){
+            tvFollowName.setText("粉丝");
+            tvFollow.setText(AvchatInfo.getMemberBean().getFansCount()+"");
+        }else{
+            tvFollowName.setText("关注");
+            tvFollow.setText(AvchatInfo.getMemberBean().getFollowingCount()+"");
+        }
+
+        RetrofitFactory.getInstance()
+                .getAnchorData("member", AvchatInfo.getAccount())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<AnchorBean>() {
+                    @Override
+                    public void onGetData(AnchorBean baseBean) {
+                        tvName.setText(baseBean.getData().getNickname());
+                        int anchorId = baseBean.getData().getAnchorId();
+                        if (anchorId!=0) {
+                            AvchatInfo.setAnchorId(anchorId);
+                        }
+                        if (AvchatInfo.isAnchor()){
+                            tvFollow.setText(baseBean.getData().getFansCount()+"");
+                        }else{
+                            tvFollow.setText(baseBean.getData().getFollowingCount()+"");
+                        }
+                        Glide.with(getActivity())
+                                .load(baseBean.getData().getAlbum().get(0).getMediaUrl())
+                                .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(ivHead.getDrawable()))
+                                .into(ivHead);
+                    }
+                });
         RetrofitFactory.getInstance().getCoinBrief()
                 .subscribeOn(Schedulers.io())
                 .compose(this.<CoinBriefBean>bindToLifecycle())
@@ -99,7 +135,7 @@ public class MyFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.tv_follow,R.id.tv_income, R.id.iv_head,R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
+    @OnClick({R.id.tv_follow, R.id.tv_income, R.id.iv_head, R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_follow:
@@ -143,6 +179,7 @@ public class MyFragment extends BaseFragment {
                                 AvchatInfo.clearBaseData(getActivity());
                                 getActivity().finish();
                             }
+
                             @Override
                             public void onClickCancel() {
                             }
@@ -164,9 +201,9 @@ public class MyFragment extends BaseFragment {
 
     private void gotoEdit() {
         Intent intent = new Intent(getActivity(), AnchorsActivity.class);
-        intent.putExtra("fromAc",AnchorsActivity.EDIT_AC);
-        intent.putExtra("anchorId",AvchatInfo.getAnchorId());
-        intent.putExtra("memberId",AvchatInfo.getMemberId());
+        intent.putExtra("fromAc", AnchorsActivity.EDIT_AC);
+        intent.putExtra("anchorId", AvchatInfo.getAnchorId());
+        intent.putExtra("memberId", AvchatInfo.getMemberId());
         startActivity(intent);
     }
 

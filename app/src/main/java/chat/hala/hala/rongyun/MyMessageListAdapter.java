@@ -49,6 +49,7 @@ import io.rong.imkit.widget.ProviderContainerView;
 import io.rong.imkit.widget.adapter.MessageListAdapter;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
 import io.rong.imkit.widget.provider.IContainerItemProvider.MessageProvider;
+import io.rong.imkit.widget.provider.ImageMessageItemProvider;
 import io.rong.imkit.widget.provider.VoiceMessageItemProvider;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.RongIMClient.ErrorCode;
@@ -284,7 +285,6 @@ public class MyMessageListAdapter extends MessageListAdapter {
                 } else {
                     provider = RongContext.getInstance().getMessageTemplate(data.getContent().getClass());
                 }
-
                 if (provider != null) {
                     ((MessageProvider) provider).onItemClick(v, position, data.getContent(), data);
                 }
