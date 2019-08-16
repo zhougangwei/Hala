@@ -22,10 +22,12 @@ import chat.hala.hala.bean.MessageUnreadBean;
 import chat.hala.hala.bean.OneToOneListBean;
 import chat.hala.hala.bean.QiNiuToken;
 import chat.hala.hala.bean.RegistBean;
+import chat.hala.hala.bean.ReportBean;
 import chat.hala.hala.bean.ReverseBean;
 import chat.hala.hala.bean.RtmTokenBean;
 import chat.hala.hala.bean.RuleBean;
 import chat.hala.hala.bean.TagBean;
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
@@ -234,4 +236,8 @@ public interface HttpRequest {
 
     @GET("/relationship/{type}")
     Observable<FansBean> getFansNum(@Path("type")String type,@Query("page") int page,@Query("size") int size);
+
+
+    @GET("/member/report/reason")
+    Observable<ReportBean> getReportList();
 }
