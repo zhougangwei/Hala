@@ -15,6 +15,10 @@ import android.util.Log;
 
 import com.blankj.utilcode.utils.LogUtils;
 import com.facebook.FacebookSdk;
+import com.getui.gs.ias.core.GsConfig;
+import com.getui.gs.sdk.GsManager;
+import com.igexin.sdk.PushManager;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -22,6 +26,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import java.util.List;
 import java.util.Locale;
 
+import chat.hala.hala.BuildConfig;
 import chat.hala.hala.activity.LoginActivity;
 import chat.hala.hala.avchat.WorkerThread;
 import chat.hala.hala.bean.BaseBean;
@@ -36,6 +41,8 @@ import chat.hala.hala.rongyun.customizemessage.CustomizeVideoMessageProvider;
 import chat.hala.hala.rongyun.customizemessage.CustomizeVideoMessage;
 import chat.hala.hala.rongyun.customizemessage.CustomizeVoiceMessage;
 import chat.hala.hala.rongyun.customizemessage.CustomizeVoiceMessageProvider;
+import chat.hala.hala.service.DemoIntentService;
+import chat.hala.hala.service.DemoPushService;
 import chat.hala.hala.utils.SPUtil;
 import chat.hala.hala.utils.ToolUtils;
 import io.reactivex.schedulers.Schedulers;
@@ -73,21 +80,22 @@ public class App extends MultiDexApplication {
 
     private static final String TAG = "Application";
 
-    private IWXAPI api;
+
     private static App application;
     public static Context sContext;
     private int count;
-    private static final String APP_ID = "wxccfe886fa96a837a";
+
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         if (ToolUtils.isMainProcess(this)) {
+            CrashReport.initCrashReport(getApplicationContext(), "1067e333f5", BuildConfig.DEBUG?true:false);
             application = this;
             sContext = this;
             initRong();
-            initWeixin();
+            initGetui();
             initRxjava();
             LogUtils.init(this, true, false, 'v', "Hala");
             FacebookSdk.setApplicationId("306102296576531");
@@ -98,23 +106,14 @@ public class App extends MultiDexApplication {
         }
     }
 
-    private void initWeixin() {
+    private void initGetui() {
+        PushManager.getInstance().initialize(getApplicationContext(), DemoPushService.class);
+        PushManager.getInstance().registerPushIntentService(getApplicationContext(), DemoIntentService.class);
+        GsConfig.setDebugEnable(BuildConfig.DEBUG?true:false);
+        GsManager.getInstance().init(this);
 
-            // 通过WXAPIFactory工厂，获取IWXAPI的实例
-            api = WXAPIFactory.createWXAPI(this, APP_ID, true);
-
-            // 将应用的appId注册到微信
-            api.registerApp(APP_ID);
-
-            //建议动态监听微信启动广播进行注册到微信
-            registerReceiver(new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    // 将该app注册到微信
-                    api.registerApp(APP_ID);
-                }
-            }, new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP));
     }
+
 
     private void initRong() {
         RongIM.init(this);

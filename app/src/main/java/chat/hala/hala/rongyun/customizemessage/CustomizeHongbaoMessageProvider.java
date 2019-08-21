@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.LogUtils;
+
 import org.w3c.dom.Text;
 
 import chat.hala.hala.R;
@@ -81,15 +83,15 @@ public class CustomizeHongbaoMessageProvider extends IContainerItemProvider.Mess
         RongIM.getInstance().sendMessage(myMessage, null, null, new IRongCallback.ISendMessageCallback() {
             @Override
             public void onAttached(Message message) {
-                Log.e(TAG, "onAttached:"+message.getTargetId());
+                LogUtils.e(TAG, "onAttached:"+message.getTargetId());
             }
             @Override
             public void onSuccess(Message message) {
-                Log.e(TAG, "onSuccess: "+message.getTargetId());
+                LogUtils.e(TAG, "onSuccess: "+message.getTargetId());
             }
             @Override
             public void onError(Message message, RongIMClient.ErrorCode errorCode) {
-                Log.e(TAG, "onError: "+errorCode);
+                LogUtils.e(TAG, "onError: "+errorCode);
             }
         });
 

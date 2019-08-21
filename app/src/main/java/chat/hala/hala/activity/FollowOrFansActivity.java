@@ -87,7 +87,7 @@ public class FollowOrFansActivity extends BaseActivity {
                         getData(true);
                         swrl.setRefreshing(false);
                     }
-                }, 200);
+                }, 500);
             }
         });
         fansAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {

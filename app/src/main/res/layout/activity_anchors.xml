@@ -363,6 +363,7 @@
 
     <RelativeLayout
 
+        android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:layout_alignParentBottom="true"

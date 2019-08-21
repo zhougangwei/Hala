@@ -3,6 +3,7 @@ package chat.hala.hala.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -38,6 +39,10 @@ public class MessageListFragment extends BaseFragment {
     TextView tvTitle;
     @BindView(R.id.rcv)
     RecyclerView rcv;
+
+    @BindView(R.id.spf)
+    SwipeRefreshLayout swrl;
+
     private List<MessageUnreadBean.DataBean> msgDataList = new ArrayList<>();
     private MsgAdapter msgAdapter;
 
@@ -69,9 +74,19 @@ public class MessageListFragment extends BaseFragment {
 
             }
         });
+        swrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swrl.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        initData();
+                        swrl.setRefreshing(false);
+                    }
+                }, 500);
+            }
+        });
         initRxbus();
-
-
         initConversation();
     }
 

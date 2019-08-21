@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.LogUtils;
@@ -35,6 +36,7 @@ import chat.hala.hala.R;
 import chat.hala.hala.adapter.AnchorDataAdapter;
 import chat.hala.hala.adapter.AnchorTagsAdapter;
 import chat.hala.hala.adapter.SimplePagerAdapter;
+import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.base.VideoCallManager;
 import chat.hala.hala.bean.AnchorBean;
@@ -57,96 +59,98 @@ import io.rong.imkit.RongIM;
 public class AnchorsActivity extends SlideBackActivity {
 
     @BindView(R.id.rl_banner)
-    LinearLayout            rlBanner;
+    LinearLayout rlBanner;
     @BindView(R.id.toolbar)
-    Toolbar                 toolbar;
+    Toolbar toolbar;
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
     @BindView(R.id.appbar)
-    AppBarLayout            appbar;
+    AppBarLayout appbar;
     @BindView(R.id.vp_cover)
-    ViewPager               vp_cover;
+    ViewPager vp_cover;
     @BindView(R.id.view)
-    View                    view;
+    View view;
     @BindView(R.id.tv_name)
-    TextView                tvName;
+    TextView tvName;
     @BindView(R.id.rbv)
-    RatingBarView           rbv;
+    RatingBarView rbv;
     @BindView(R.id.tv_introduction)         //他说
-    TextView                tvIntroduction;
+            TextView tvIntroduction;
     @BindView(R.id.tv1)
-    TextView                tv1;
+    TextView tv1;
     @BindView(R.id.tv_biography)
-    TextView                tvBiography;
+    TextView tvBiography;
     @BindView(R.id.tv2)
-    TextView                tv2;
+    TextView tv2;
     @BindView(R.id.tv3)
-    TextView                tv3;
+    TextView tv3;
     @BindView(R.id.rv_tags)
-    RecyclerView            rvTags;
+    RecyclerView rvTags;
 
     @BindView(R.id.tv7)
-    TextView                tv7;
+    TextView tv7;
     @BindView(R.id.tv8)
-    TextView                tv8;
+    TextView tv8;
     @BindView(R.id.tv_cost)
-    TextView                tvCost;
+    TextView tvCost;
 
 
     @BindView(R.id.rv_info)
-    RecyclerView      rvInfo;
+    RecyclerView rvInfo;
     @BindView(R.id.main_content)
     CoordinatorLayout mainContent;
     @BindView(R.id.tv_call)
-    TextView          tvCall;
+    TextView tvCall;
 
     @BindView(R.id.tv4)
-    TextView  mTv4;
+    TextView mTv4;
     @BindView(R.id.tv5)
-    TextView  mTv5;
+    TextView mTv5;
     @BindView(R.id.iv_message)
     ImageView mIvMessage;
     @BindView(R.id.iv_like)
     ImageView mIvLike;
     @BindView(R.id.tv_gender)
-    TextView  mTvGender;
+    TextView mTvGender;
     @BindView(R.id.tv_distance)
-    TextView  mTvDistance;
+    TextView mTvDistance;
     @BindView(R.id.tv_last_active)
-    TextView  mTvLastActive;
+    TextView mTvLastActive;
     @BindView(R.id.tv_score)
-    TextView  mTvScore;
+    TextView mTvScore;
     @BindView(R.id.tv_fans)
-    TextView  mTvFans;
+    TextView mTvFans;
     @BindView(R.id.tv_voice_call)
-    TextView  mTvVoiceCall;
+    TextView mTvVoiceCall;
 
     @BindView(R.id.iv_more)
     ImageView mIvMore;
     @BindView(R.id.iv_edit)
     ImageView mIvEdit;
+    @BindView(R.id.rl_bottom)
+    RelativeLayout rlBottom;
 
 
-    private List<AnchorBean.DataBean.AlbumBean> coverDatas      = new ArrayList<>();
-    private List<AnchorTagBean.DataBean>         tagsDatas       = new ArrayList<>();
-    private List<AnchorInfoBean>                 anchorInfoDatas = new ArrayList<>();
+    private List<AnchorBean.DataBean.AlbumBean> coverDatas = new ArrayList<>();
+    private List<AnchorTagBean.DataBean> tagsDatas = new ArrayList<>();
+    private List<AnchorInfoBean> anchorInfoDatas = new ArrayList<>();
 
 
-    private SimplePagerAdapter  simplePagerAdapter;
-    private AnchorTagsAdapter   tagsAdapter;
-    private int                 anchorId;       //主播Id
-    private int                 memberId;       //主播Id或者主播的用户表Id或者用户Id
-    private AnchorDataAdapter   mAnchorDataAdapter;
-    private Paint               mPaint;
-    private int                 mAnchormemberId;
+    private SimplePagerAdapter simplePagerAdapter;
+    private AnchorTagsAdapter tagsAdapter;
+    private int anchorId;       //主播Id
+    private int memberId;       //主播Id或者主播的用户表Id或者用户Id
+    private AnchorDataAdapter mAnchorDataAdapter;
+    private Paint mPaint;
+    private int mAnchormemberId;
     private AnchorBean.DataBean mAnchorData;
-    private PopupWindow         mPopupWindow;
+    private PopupWindow mPopupWindow;
 
     private boolean blockState;     //拉黑状态
     private boolean followState;    //关注状态
 
-    public static final int ANCHOR_AC=0;
-    public static final int EDIT_AC=1;
+    public static final int ANCHOR_AC = 0;
+    public static final int EDIT_AC = 1;
     private int fromAc;
     private TextView tvAddBlack;
 
@@ -167,14 +171,16 @@ public class AnchorsActivity extends SlideBackActivity {
     @Override
     protected void beforeInitView() {
         Intent intent = getIntent();
-        fromAc = intent.getIntExtra("fromAc",ANCHOR_AC);
+        fromAc = intent.getIntExtra("fromAc", ANCHOR_AC);
         anchorId = intent.getIntExtra("anchorId", 0);
         memberId = intent.getIntExtra("memberId", 0);
     }
 
     @Override
     protected void initView() {
-
+        if(AvchatInfo.isAnchor()){
+            rlBottom.setVisibility(View.GONE);
+        }
         initPaint();
         initCovers();
         initTags();
@@ -230,27 +236,25 @@ public class AnchorsActivity extends SlideBackActivity {
     }
 
     private void initData() {
-       getAuchor();
+        getAuchor();
     }
 
 
-    public boolean isAnchor(){
-        return anchorId!=0;
+    public boolean isAnchor() {
+        return anchorId != 0;
     }
 
 
     private void getAuchor() {
         RetrofitFactory.getInstance()
-                .getAnchorData(isAnchor()?"anchor":"member", isAnchor()?anchorId:memberId)
+                .getAnchorData(isAnchor() ? "anchor" : "member", isAnchor() ? anchorId : memberId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<AnchorBean>() {
 
 
-
                     @Override
                     public void onGetData(AnchorBean baseBean) {
-
                         Log.i("AnchorsActivity", "AnchorBean" + GsonUtil.parseObjectToJson(
                                 baseBean
                         ));
@@ -261,11 +265,18 @@ public class AnchorsActivity extends SlideBackActivity {
                         mAnchormemberId = mAnchorData.getMemberId();
                         tvName.setText(mAnchorData.getNickname());
                         mTvScore.setText(mAnchorData.getMarking() + "");
-                        mTvFans.setText(mAnchorData.getFansCount()+"");
+                        mTvFans.setText(mAnchorData.getFansCount() + "");
                         followState = baseBean.getData().isFollowing();
                         blockState = baseBean.getData().isBlocking();
 
-                        if(isAnchor()){                //查看过来的 查看用户的的界面
+                        if (mAnchorData.isFollowing()) {
+                            mIvLike.setImageDrawable(AnchorsActivity.this.getResources().getDrawable(R.drawable.ic_like));
+                        } else {
+                            mIvLike.setImageDrawable(AnchorsActivity.this.getResources().getDrawable(R.drawable.ic_dislike));
+                        }
+
+
+                        if (isAnchor()) {                //查看过来的 查看用户的的界面
                             tvBiography.setVisibility(View.VISIBLE);
                             tvBiography.setText(mAnchorData.getIntroduction());
                             tvCall.setText(
@@ -274,7 +285,7 @@ public class AnchorsActivity extends SlideBackActivity {
                             mTvVoiceCall.setText(
                                     String.format(getString(R.string.voice_cost),
                                             mAnchorData.getSetting().getAudioCpm() + ""));
-                        }else{
+                        } else {
                             //隐藏Ta说
                             tv1.setVisibility(View.GONE);
                             tvBiography.setVisibility(View.GONE);
@@ -282,17 +293,17 @@ public class AnchorsActivity extends SlideBackActivity {
                             tv3.setVisibility(View.GONE);
                             rvTags.setVisibility(View.GONE);
                             tvCost.setVisibility(View.VISIBLE);
-                            tvCost.setText(mAnchorData.getSpent()+"");
+                            tvCost.setText(mAnchorData.getSpent() + "");
                             tv7.setVisibility(View.VISIBLE);
                             tv8.setVisibility(View.VISIBLE);
                             //显示关注
                             mTv5.setText("关注");
-                            mTvScore.setText(mAnchorData.getFollowingCount()+"");
+                            mTvScore.setText(mAnchorData.getFollowingCount() + "");
                             mTv4.setVisibility(View.GONE);
                             mTvFans.setVisibility(View.GONE);
                         }
 
-                        if(fromAc==EDIT_AC){            //编辑用户
+                        if (fromAc == EDIT_AC) {            //编辑用户
                             mIvEdit.setVisibility(View.VISIBLE);
                             mIvMore.setVisibility(View.GONE);
                             mIvMessage.setVisibility(View.GONE);
@@ -305,21 +316,21 @@ public class AnchorsActivity extends SlideBackActivity {
                         coverDatas.addAll(covers);
                         simplePagerAdapter.notifyDataSetChanged();
                         List<AnchorTagBean.DataBean> tags = mAnchorData.getTags();
-                        if(tags!=null&&tags.size()>0){
+                        if (tags != null && tags.size() > 0) {
                             tagsDatas.clear();
                             tagsDatas.addAll(tags);
                             tagsAdapter.notifyDataSetChanged();
                         }
                         mTvLastActive.setText(String.format(getResources().getString(R.string.many_mins_active),
-                                mAnchorData.getLastActiveMinuteGap()+"分钟"
+                                mAnchorData.getLastActiveMinuteGap() + "分钟"
                         ));
                         mTvDistance.setText(String.format(getResources().getString(R.string.distance_km),
-                                mAnchorData.getLastActiveMinuteGap()+""
+                                mAnchorData.getLastActiveMinuteGap() + ""
                         ));
 
                         AnchorInfoBean anchorInfoBean = new AnchorInfoBean("账号", mAnchorData.getCharacterId());
                         AnchorInfoBean anchorInfoBean1 = new AnchorInfoBean("应答率:", mAnchorData.getAnswerRate());
-                        AnchorInfoBean anchorInfoBean2 = new AnchorInfoBean("身高体重", mAnchorData.getHeight() + "cm/"+mAnchorData.getWeight()+"kg");
+                        AnchorInfoBean anchorInfoBean2 = new AnchorInfoBean("身高体重", mAnchorData.getHeight() + "cm/" + mAnchorData.getWeight() + "kg");
                         AnchorInfoBean anchorInfoBean3 = new AnchorInfoBean("现居地:", mAnchorData.getResidentialPlace());
                         AnchorInfoBean anchorInfoBean4 = new AnchorInfoBean("星座:", TimeUtil.getConstellation(mAnchorData.getBirthDate()));
                         AnchorInfoBean anchorInfoBean5 = new AnchorInfoBean("注册日期:", mAnchorData.getCreatedAtDate());
@@ -327,7 +338,7 @@ public class AnchorsActivity extends SlideBackActivity {
 
 
                         anchorInfoDatas.add(anchorInfoBean);
-                        if(anchorId!=0){                                //如果不是主播就没这个
+                        if (anchorId != 0) {                                //如果不是主播就没这个
                             anchorInfoDatas.add(anchorInfoBean1);
                             anchorInfoDatas.add(anchorInfoBean2);
                         }
@@ -348,13 +359,13 @@ public class AnchorsActivity extends SlideBackActivity {
     }
 
 
-    @OnClick({R.id.toolbar, R.id.tv_call, R.id.iv_back, R.id.iv_message, R.id.iv_like, R.id.iv_more,R.id.iv_edit,R.id.tv_voice_call})
+    @OnClick({R.id.toolbar, R.id.tv_call, R.id.iv_back, R.id.iv_message, R.id.iv_like, R.id.iv_more, R.id.iv_edit, R.id.tv_voice_call})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.toolbar:
                 break;
             case R.id.tv_call:
-                VideoCallManager.gotoCallOrReverse(AnchorsActivity.this,VideoCallManager.VIDEO_CALL, anchorId, memberId);
+                VideoCallManager.gotoCallOrReverse(AnchorsActivity.this, VideoCallManager.VIDEO_CALL, anchorId, memberId);
                 break;
             case R.id.iv_back:
                 finish();
@@ -363,9 +374,9 @@ public class AnchorsActivity extends SlideBackActivity {
                 RongIM.getInstance().startPrivateChat(this, mAnchormemberId + "", mAnchorData != null ? mAnchorData.getNickname() : "");
                 break;
             case R.id.iv_like:
-                if(followState){
+                if (followState) {
                     addFollow("unfollow");
-                }else{
+                } else {
                     addFollow("follow");
                 }
                 break;
@@ -376,7 +387,7 @@ public class AnchorsActivity extends SlideBackActivity {
                 editUser();
                 break;
             case R.id.tv_voice_call:
-                VideoCallManager.gotoCallOrReverse(AnchorsActivity.this,VideoCallManager.AUDIO_CALL, anchorId, memberId);
+                VideoCallManager.gotoCallOrReverse(AnchorsActivity.this, VideoCallManager.AUDIO_CALL, anchorId, memberId);
                 break;
         }
     }
@@ -386,60 +397,58 @@ public class AnchorsActivity extends SlideBackActivity {
     }
 
 
-
     private void addFollow(String followOrUnFollow) {
-        RetrofitFactory.getInstance().addFollow(followOrUnFollow,anchorId)
+        RetrofitFactory.getInstance().addFollow(followOrUnFollow, anchorId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<BaseBean>() {
                     @Override
                     public void onGetData(BaseBean baseBean) {
                         if (ResultUtils.cheekSuccess(baseBean)) {
-                            followState=!followState;
-                            if (followState){
+                            followState = !followState;
+                            if (followState) {
                                 mIvLike.setImageDrawable(AnchorsActivity.this.getResources().getDrawable(R.drawable.ic_like));
-                                ToastUtils.showToast(AnchorsActivity.this,"关注成功!");
-                            }else{
+                                ToastUtils.showToast(AnchorsActivity.this, "关注成功!");
+                            } else {
                                 mIvLike.setImageDrawable(AnchorsActivity.this.getResources().getDrawable(R.drawable.ic_dislike));
-                                ToastUtils.showToast(AnchorsActivity.this,"取消关注成功!");
+                                ToastUtils.showToast(AnchorsActivity.this, "取消关注成功!");
                             }
                         }
                     }
                 });
     }
+
     //拉黑或者不拉黑
     private void addBlock() {
-        String state="unblock";
+        String state = "unblock";
         if (blockState) {
-            state="unblock";
+            state = "unblock";
             tvAddBlack.setText("取消黑名单");
-        }else{
-            state="block";
+        } else {
+            state = "block";
             tvAddBlack.setText("加入黑名单");
         }
-        RetrofitFactory.getInstance().addBlock(state,memberId)
+        RetrofitFactory.getInstance().addBlock(state, memberId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<BaseBean>() {
                     @Override
                     public void onGetData(BaseBean baseBean) {
-                        blockState=!blockState;
-                        if (blockState){
-                            ToastUtils.showToast(AnchorsActivity.this,"拉黑成功!");
-                                if (tvAddBlack!=null) {
-                                    tvAddBlack.setText("取消黑名单");
-                                }
-                        }else{
-                            if (tvAddBlack!=null) {
+                        blockState = !blockState;
+                        if (blockState) {
+                            ToastUtils.showToast(AnchorsActivity.this, "拉黑成功!");
+                            if (tvAddBlack != null) {
+                                tvAddBlack.setText("取消黑名单");
+                            }
+                        } else {
+                            if (tvAddBlack != null) {
                                 tvAddBlack.setText("加入黑名单");
                             }
-                            ToastUtils.showToast(AnchorsActivity.this,"取消拉黑成功!");
+                            ToastUtils.showToast(AnchorsActivity.this, "取消拉黑成功!");
                         }
                     }
                 });
     }
-
-
 
 
     private void showMore() {
@@ -452,14 +461,14 @@ public class AnchorsActivity extends SlideBackActivity {
             if (blockState) {
 
                 tvAddBlack.setText("取消黑名单");
-            }else{
+            } else {
 
                 tvAddBlack.setText("加入黑名单");
             }
             tv_report.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                  new ReportDialog(AnchorsActivity.this,memberId).show();
+                    new ReportDialog(AnchorsActivity.this, memberId).show();
                 }
             });
 

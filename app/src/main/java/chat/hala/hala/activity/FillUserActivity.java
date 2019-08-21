@@ -1,5 +1,6 @@
 package chat.hala.hala.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -25,7 +26,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import chat.hala.hala.R;
-import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
@@ -51,37 +51,37 @@ public class FillUserActivity extends BaseActivity {
     private static final String TAG = "EditProUserActivity";
 
     @BindView(R.id.iv_back)
-    ImageView    ivBack;
+    ImageView ivBack;
     @BindView(R.id.tv_title)
-    TextView     tvTitle;
+    TextView tvTitle;
     @BindView(R.id.iv_head)
-    ImageView    ivHead;
+    ImageView ivHead;
     @BindView(R.id.ll_user_avatar)
     LinearLayout llUserAvatar;
     @BindView(R.id.et_user_name)
-    EditText     etUserName;
+    EditText etUserName;
     @BindView(R.id.ll_user_name)
     LinearLayout llUserName;
     @BindView(R.id.et_gender)
-    TextView     etGender;
+    TextView etGender;
     @BindView(R.id.ll_gender)
     LinearLayout llGender;
     @BindView(R.id.et_birth)
-    TextView     etBirth;
+    TextView etBirth;
     @BindView(R.id.ll_birthdate)
     LinearLayout llBirthdate;
     @BindView(R.id.tv_confirm)
-    TextView     tvConfirm;
+    TextView tvConfirm;
     @BindView(R.id.et_location)
-    EditText     mEtLocation;
+    EditText mEtLocation;
     @BindView(R.id.ll_location)
     LinearLayout mLlLocation;
     @BindView(R.id.et_bio)
-    TextView     mEtBio;
+    TextView mEtBio;
     @BindView(R.id.ll_bio)
     LinearLayout mLlBio;
     private String type;
-    private String facebookId;
+    private String openId;
     private String mobileNumber;
     private String code;
 
@@ -92,12 +92,23 @@ public class FillUserActivity extends BaseActivity {
     private String bio;
 
 
-    public static final String FROM_FACEBOOK    = "from_facebook";
-    public static final String FROM_PHONE       = "from_phone";
+    public static final String FROM_WE_QQ = "from_we_qq";
+    public static final String FROM_PHONE = "from_phone";
 
     private String avatarUrl;
     private List<String> uriList = new ArrayList<>();
     private int genderIndex;
+
+
+    public static void startFillUser(Context context,String openId, String headUrl, String username, int genderIndex, String location) {
+        Intent intent = new Intent(context, FillUserActivity.class);
+        intent.putExtra("headUrl", headUrl);
+        intent.putExtra("username", username);
+        intent.putExtra("genderIndex", genderIndex);
+        intent.putExtra("location", location);
+        intent.putExtra("type",FROM_WE_QQ);
+        context.startActivity(intent);
+    }
 
     @Override
     protected int getContentViewId() {
@@ -109,21 +120,28 @@ public class FillUserActivity extends BaseActivity {
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
         switch (type) {
-            case FROM_FACEBOOK:
-                facebookId = intent.getStringExtra("facebookId");
+            case FROM_WE_QQ:
+                openId = intent.getStringExtra("openId");
                 break;
             case FROM_PHONE:
                 mobileNumber = intent.getStringExtra("mobileNumber");
                 code = intent.getStringExtra("code");
                 break;
-
         }
+        String headUrl = intent.getStringExtra("headUrl");
+        uriList.add(headUrl);
+        username = intent.getStringExtra("username");
+        genderIndex = intent.getIntExtra("genderIndex", 0);
+        location = intent.getStringExtra("location");
+
     }
 
     @Override
     protected void initView() {
         tvTitle.setText(R.string.edit_profile);
+        Intent intent = getIntent();
 
+        backData();
         etUserName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -148,8 +166,17 @@ public class FillUserActivity extends BaseActivity {
         });
     }
 
+    private void backData() {
+        if (uriList.size() > 0) {
+            Glide.with(this).load(uriList.get(0)).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(ivHead);
+        }
+        etUserName.setText(username);
+        etGender.setText(genderIndex == 0 ? "男" : "女");
+        mEtLocation.setText(location);
+    }
 
-    @OnClick({R.id.iv_back, R.id.ll_user_avatar, R.id.ll_user_name, R.id.ll_gender, R.id.ll_birthdate, R.id.tv_confirm,R.id.ll_bio})
+
+    @OnClick({R.id.iv_back, R.id.ll_user_avatar, R.id.ll_user_name, R.id.ll_gender, R.id.ll_birthdate, R.id.tv_confirm, R.id.ll_bio})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -241,7 +268,7 @@ public class FillUserActivity extends BaseActivity {
         username = etUserName.getText().toString();
         birthDate = etBirth.getText().toString();
         location = mEtLocation.getText().toString();
-         bio = mEtBio.getText().toString();
+        bio = mEtBio.getText().toString();
         if (TextUtils.isEmpty(username)) {
             ToastUtils.showToast(this, "名字不能为空");
             return false;
@@ -251,7 +278,7 @@ public class FillUserActivity extends BaseActivity {
             return false;
         }
 
-        if (uriList==null||uriList.size()==0) {
+        if (uriList == null || uriList.size() == 0) {
             ToastUtils.showToast(this, "uriList出生日期不能为空");
             return false;
         }
@@ -296,7 +323,7 @@ public class FillUserActivity extends BaseActivity {
             editUserBean.setAutograph(bio);         //个性签名
             editUserBean.setBirthDate(birthDate);
             editUserBean.setCode(code);
-            editUserBean.setGender(genderIndex+"");
+            editUserBean.setGender(genderIndex + "");
             List<EditUserBean.AlbumBean> album = new ArrayList<>();
             EditUserBean.AlbumBean albumBean = new EditUserBean.AlbumBean();
             albumBean.setSortby("0");
@@ -307,9 +334,9 @@ public class FillUserActivity extends BaseActivity {
             editUserBean.setResidentialPlace(location);
             regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getJsonInstance().regist(
                     GsonUtil.parseObjectToJson(editUserBean)
-                   ));
-        } else if (type.equals(FROM_FACEBOOK)) {
-            regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(avatarUrl, username, (genderIndex+1) + "", birthDate, facebookId));
+            ));
+        } else if (type.equals(FROM_WE_QQ)) {
+            regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(avatarUrl, username, (genderIndex + 1) + "", birthDate, openId));
         }
         regist.subscribeOn(Schedulers.io())
                 .compose(this.<RegistBean>bindToLifecycle())
@@ -340,19 +367,19 @@ public class FillUserActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK )
+        if (resultCode == RESULT_OK)
 
-        if (requestCode == ChoosePicManager.REQUEST_CODE_CHOOSE) {
-            List<String> strings = Matisse.obtainPathResult(data);
-            if (strings != null) {
-                uriList.clear();
-                uriList.addAll(strings);
-                Glide.with(this).load(uriList.get(0)).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(ivHead);
+            if (requestCode == ChoosePicManager.REQUEST_CODE_CHOOSE) {
+                List<String> strings = Matisse.obtainPathResult(data);
+                if (strings != null) {
+                    uriList.clear();
+                    uriList.addAll(strings);
+                    Glide.with(this).load(uriList.get(0)).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(ivHead);
+                }
+            } else if (requestCode == Contact.REQUEST_BIO) {
+                bio = data.getStringExtra("bio");
+                mEtBio.setText(bio);
             }
-        }else if(requestCode == Contact.REQUEST_BIO){
-            bio = data.getStringExtra("bio");
-            mEtBio.setText(bio);
-        }
     }
 
     @Override

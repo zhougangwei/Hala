@@ -68,7 +68,7 @@ public class NewFragment extends BaseFragment {
                         getData(true);
                         swrl.setRefreshing(false);
                     }
-                }, 200);
+                }, 500);
             }
         });
         hotCallAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {

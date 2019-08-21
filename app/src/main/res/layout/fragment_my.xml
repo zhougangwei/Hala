@@ -109,12 +109,18 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_money" />
 
 
-    <ScrollView
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swrl"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="46dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_coin_name">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       >
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -361,16 +367,52 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/iv_beauty_setting" />
 
+            <LinearLayout
+                android:id="@+id/ll_about_us"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/iv_beauty_setting"
+                app:layout_constraintTop_toBottomOf="@id/iv_beauty_setting">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_about_us" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:text="关于我们"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_next_8" />
+            </LinearLayout>
+
 
             <ImageView
+                android:paddingBottom="15dp"
                 android:id="@+id/iv_loginout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="31dp"
+                android:layout_marginTop="15dp"
                 android:src="@drawable/ic_logout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_beauty_setting" />
+                app:layout_constraintTop_toBottomOf="@id/ll_about_us" />
 
             <TextView
                 android:id="@+id/tv_loginout"
@@ -398,12 +440,11 @@
 
 
             <android.support.constraint.Group
-                android:visibility="gone"
                 android:id="@+id/gp_income"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:constraint_referenced_ids="iv_income,tv_income,iv0" />
-
 
 
             <android.support.constraint.Group
@@ -451,4 +492,5 @@
                 app:constraint_referenced_ids="iv_loginout,tv_loginout,iv4" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.constraint.ConstraintLayout>

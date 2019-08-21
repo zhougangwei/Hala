@@ -3,8 +3,10 @@ package chat.hala.hala.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.constraint.Group;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -14,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
+import chat.hala.hala.activity.AboutUsActivity;
 import chat.hala.hala.activity.AnchorsActivity;
 import chat.hala.hala.activity.BeStarResultActivity;
 import chat.hala.hala.activity.ChargeActivity;
@@ -49,9 +52,12 @@ public class MyFragment extends BaseFragment {
 
     @BindView(R.id.tv_follow_name)
     TextView tvFollowName;
+    @BindView(R.id.ll_about_us)
+    LinearLayout llAboutUs;
     @BindView(R.id.gp_income)
     Group gpInCome;
-
+    @BindView(R.id.swrl)
+    SwipeRefreshLayout swrl;
 
     @Override
     protected void initView() {
@@ -67,6 +73,20 @@ public class MyFragment extends BaseFragment {
         }else{
             gpInCome.setVisibility(View.GONE);
         }
+
+        swrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swrl.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshData();
+                        swrl.setRefreshing(false);
+                    }
+                }, 500);
+            }
+        });
+
 
     }
 
@@ -135,9 +155,12 @@ public class MyFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.tv_follow, R.id.tv_income, R.id.iv_head, R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
+    @OnClick({R.id.ll_about_us,R.id.tv_follow, R.id.tv_income, R.id.iv_head, R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.ll_about_us:
+                gotoAboutUs();
+                break;
             case R.id.tv_follow:
                 gotoFollow();
                 break;
@@ -187,6 +210,10 @@ public class MyFragment extends BaseFragment {
                         .show();
                 break;
         }
+    }
+
+    private void gotoAboutUs() {
+        startActivity(new Intent(getActivity(), AboutUsActivity.class));
     }
 
     private void gotoFollow() {

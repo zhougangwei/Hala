@@ -215,7 +215,7 @@ public class LoginPhoneActivity extends BaseActivity {
             @Override
             public void regist(String id) {
                 Intent intent = new Intent(LoginPhoneActivity.this, FillUserActivity.class);
-                intent.putExtra("type", FillUserActivity.FROM_FACEBOOK);
+                intent.putExtra("type", FillUserActivity.FROM_WE_QQ);
                 intent.putExtra("facebookid",id);
                 startActivityForResult(intent,REQUEST_FACEBOOK);
             }

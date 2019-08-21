@@ -50,4 +50,9 @@ public class Contact {
     public static final int REQUEST_CODE_CHOOSE = 224;
     public static final int REQUEST_CHOOSE_CARD = 225;      //身份验证
     public static final int REQUEST_VIDEO_VERIFY = 226;      //身份验证
+    public static final String WEIXIN_APP_ID = "wxccfe886fa96a837a";      //微信appid
+    public static final String WEIXIN_SECRET = "810262f9e0d072c9a2970c3ab6d9726c";      //微信appid
+    public static final String QQ_APP_ID = "1105901042";      //qq appid
+
+
 }

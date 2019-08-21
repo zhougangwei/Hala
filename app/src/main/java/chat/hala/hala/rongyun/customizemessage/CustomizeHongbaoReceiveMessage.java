@@ -1,7 +1,8 @@
 package chat.hala.hala.rongyun.customizemessage;
 
 import android.os.Parcel;
-import android.util.Log;
+
+import com.blankj.utilcode.utils.LogUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,7 +10,6 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 import io.rong.common.ParcelUtils;
-import io.rong.common.RLog;
 import io.rong.imlib.MessageTag;
 import io.rong.imlib.model.MessageContent;
 
@@ -39,7 +39,7 @@ public class CustomizeHongbaoReceiveMessage extends MessageContent {
         try {
             jsonObj.put("type", this.getExtra());
         } catch (JSONException e) {
-            Log.e("JSONException", e.getMessage());
+            LogUtils.e("JSONException", e.getMessage());
         }
 
         try {
@@ -50,7 +50,7 @@ public class CustomizeHongbaoReceiveMessage extends MessageContent {
         try {
             return jsonObj.toString().getBytes("UTF-8");
         } catch (UnsupportedEncodingException var3) {
-            RLog.e("TextMessage", "UnsupportedEncodingException ", var3);
+            LogUtils.e("TextMessage", "UnsupportedEncodingException ", var3);
             return null;
         }
     }

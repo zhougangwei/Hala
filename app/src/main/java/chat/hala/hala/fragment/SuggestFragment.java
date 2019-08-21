@@ -67,7 +67,7 @@ public class SuggestFragment extends BaseFragment {
                         getData(true);
                         swrl.setRefreshing(false);
                     }
-                }, 200);
+                }, 500);
             }
         });
         suggestAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {

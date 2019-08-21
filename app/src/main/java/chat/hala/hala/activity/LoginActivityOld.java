@@ -122,7 +122,7 @@ public class LoginActivityOld extends BaseActivity implements IdViewListener {
             @Override
             public void regist(String id) {
                 Intent intent = new Intent(LoginActivityOld.this, FillUserActivity.class);
-                intent.putExtra("type", FillUserActivity.FROM_FACEBOOK);
+                intent.putExtra("type", FillUserActivity.FROM_WE_QQ);
                 intent.putExtra("facebookid", id);
                 startActivity(intent);
                 finish();
