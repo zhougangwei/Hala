@@ -27,9 +27,13 @@ import chat.hala.hala.activity.MyGainActivity;
 import chat.hala.hala.activity.WalletActivity;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseFragment;
+import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.AnchorBean;
+import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.bean.CoinBriefBean;
+import chat.hala.hala.bean.CoinListBean;
 import chat.hala.hala.dialog.CommonDialog;
+import chat.hala.hala.dialog.ShareDialog;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.ResultUtils;
@@ -44,6 +48,9 @@ public class MyFragment extends BaseFragment {
 
     @BindView(R.id.tv_charge)
     TextView tvCharge;
+
+    @BindView(R.id.tv_income_value)
+    TextView tvInComeValue;
     @BindView(R.id.tv_money)
     TextView tvMoney;
 
@@ -63,12 +70,15 @@ public class MyFragment extends BaseFragment {
     protected void initView() {
 
         tvName.setText(AvchatInfo.getName());
+
+
         Glide.with(this)
                 .load(AvchatInfo.getAvatarUrl())
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(ivHead.getDrawable()))
                 .into(ivHead);
         tvMoney.setText(AvchatInfo.getCoin() + "");
         if (AvchatInfo.isAnchor()) {
+            initIncome();
             gpInCome.setVisibility(View.VISIBLE);
         }else{
             gpInCome.setVisibility(View.GONE);
@@ -87,6 +97,21 @@ public class MyFragment extends BaseFragment {
             }
         });
 
+
+    }
+
+    private void initIncome() {
+        RetrofitFactory.getInstance().getCoinInComeList(0, Contact.PAGE_SIZE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<CoinListBean>() {
+                    @Override
+                    public void onGetData(CoinListBean baseBean) {
+                        if (ResultUtils.cheekSuccess(baseBean)) {
+                            tvInComeValue.setText(baseBean.getData().getTotal()+"");
+                        }
+                    }
+                });
 
     }
 
@@ -171,7 +196,7 @@ public class MyFragment extends BaseFragment {
                 gotoEdit();
                 break;
             case R.id.tv_charge:
-                gotoCharge();
+               gotoCharge();
                 break;
             case R.id.tv_money:
                 break;
@@ -243,7 +268,7 @@ public class MyFragment extends BaseFragment {
     }
 
     private void gotoInvite() {
-
+        new ShareDialog(getActivity()).show();
     }
 
     private void gotoFeedback() {

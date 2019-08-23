@@ -1,5 +1,6 @@
 package chat.hala.hala.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -92,7 +93,8 @@ public class FillUserActivity extends BaseActivity {
     private String bio;
 
 
-    public static final String FROM_WE_QQ = "from_we_qq";
+    public static final String FROM_WE = "from_we";
+    public static final String FROM_QQ = "from_qq";
     public static final String FROM_PHONE = "from_phone";
 
     private String avatarUrl;
@@ -100,14 +102,14 @@ public class FillUserActivity extends BaseActivity {
     private int genderIndex;
 
 
-    public static void startFillUser(Context context,String openId, String headUrl, String username, int genderIndex, String location) {
+    public static void startFillUser(Activity context, String openId, String jumpType, String headUrl, String username, int genderIndex, String location) {
         Intent intent = new Intent(context, FillUserActivity.class);
         intent.putExtra("headUrl", headUrl);
         intent.putExtra("username", username);
         intent.putExtra("genderIndex", genderIndex);
         intent.putExtra("location", location);
-        intent.putExtra("type",FROM_WE_QQ);
-        context.startActivity(intent);
+        intent.putExtra("type",jumpType);
+        context.startActivityForResult(intent,Contact.REQUEST_WEIXIN_QQ);
     }
 
     @Override
@@ -120,7 +122,8 @@ public class FillUserActivity extends BaseActivity {
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
         switch (type) {
-            case FROM_WE_QQ:
+            case FROM_WE:
+            case FROM_QQ:
                 openId = intent.getStringExtra("openId");
                 break;
             case FROM_PHONE:
@@ -168,6 +171,7 @@ public class FillUserActivity extends BaseActivity {
 
     private void backData() {
         if (uriList.size() > 0) {
+            avatarUrl=uriList.get(0);
             Glide.with(this).load(uriList.get(0)).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(ivHead);
         }
         etUserName.setText(username);
@@ -317,26 +321,32 @@ public class FillUserActivity extends BaseActivity {
     private void startConfirm() {
 
         Observable<RegistBean> regist = null;
+        EditUserBean editUserBean = new EditUserBean();
+        editUserBean.setNickname(username);
+        editUserBean.setAutograph(bio);         //个性签名
+        editUserBean.setBirthDate(birthDate);
+        editUserBean.setCode(code);
+        editUserBean.setGender(genderIndex + "");
+        List<EditUserBean.AlbumBean> album = new ArrayList<>();
+        EditUserBean.AlbumBean albumBean = new EditUserBean.AlbumBean();
+        albumBean.setSortby("0");
+        albumBean.setMediaUrl(avatarUrl);
+        album.add(albumBean);
+        editUserBean.setAlbum(album);
+        editUserBean.setMobileNumber(mobileNumber);
+        editUserBean.setResidentialPlace(location);
         if (type.equals(FROM_PHONE)) {
-            EditUserBean editUserBean = new EditUserBean();
-            editUserBean.setUsername(username);
-            editUserBean.setAutograph(bio);         //个性签名
-            editUserBean.setBirthDate(birthDate);
-            editUserBean.setCode(code);
-            editUserBean.setGender(genderIndex + "");
-            List<EditUserBean.AlbumBean> album = new ArrayList<>();
-            EditUserBean.AlbumBean albumBean = new EditUserBean.AlbumBean();
-            albumBean.setSortby("0");
-            albumBean.setMediaUrl(avatarUrl);
-            album.add(albumBean);
-            editUserBean.setAlbum(album);
-            editUserBean.setMobileNumber(mobileNumber);
-            editUserBean.setResidentialPlace(location);
             regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getJsonInstance().regist(
                     GsonUtil.parseObjectToJson(editUserBean)
             ));
-        } else if (type.equals(FROM_WE_QQ)) {
-            regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getInstance().regist(avatarUrl, username, (genderIndex + 1) + "", birthDate, openId));
+        } else if (type.equals(FROM_WE)||type.equals(FROM_QQ)) {
+            if(FROM_QQ.equals(type)){
+                editUserBean.setQqOpenId(openId);
+            }else{
+                editUserBean.setWxOpenId(openId);
+            }
+            regist = RetrofitFactory.getInstance().registThirdParty(ProxyPostHttpRequest.getJsonInstance().regist(
+                    GsonUtil.parseObjectToJson(editUserBean)));
         }
         regist.subscribeOn(Schedulers.io())
                 .compose(this.<RegistBean>bindToLifecycle())
@@ -358,7 +368,11 @@ public class FillUserActivity extends BaseActivity {
                             return;
                         }
                         ToastUtils.showToast(FillUserActivity.this, "保存成功");
-                        setResult(RESULT_OK);
+
+                        Intent intent = new Intent();
+                        intent.putExtra("type",type);
+                        intent.putExtra("openId",openId);
+                        setResult(RESULT_OK,intent);
                         finish();
                     }
                 });

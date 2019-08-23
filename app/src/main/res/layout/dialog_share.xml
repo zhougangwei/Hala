@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="204dp"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/iv_weixin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="24dp"
+        android:drawableTop="@drawable/ic_share_weixin"
+        android:drawablePadding="6dp"
+        android:gravity="center"
+        android:text="微信"
+        android:textColor="#696969"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/iv_weixin_quan"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/iv_weixin_quan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="24dp"
+        android:drawableTop="@drawable/ic_share_weixin_friend"
+        android:drawablePadding="6dp"
+        android:gravity="center"
+        android:text="朋友圈"
+        android:textColor="#696969"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/iv_qq"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/iv_weixin"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/iv_qq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="24dp"
+        android:drawableTop="@drawable/ic_share_qq"
+        android:drawablePadding="6dp"
+        android:gravity="center"
+        android:text="QQ好友"
+        android:textColor="#696969"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@id/iv_share_scan"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/iv_weixin_quan"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/iv_share_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="24dp"
+        android:drawableTop="@drawable/ic_share_2scan"
+        android:drawablePadding="6dp"
+        android:gravity="center"
+        android:text="保存二维码"
+        android:textColor="#696969"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/iv_share_copy"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/iv_qq"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:drawablePadding="6dp"
+        android:id="@+id/iv_share_copy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="19dp"
+        android:drawableTop="@drawable/ic_share_copy"
+        android:gravity="center"
+        android:text="复制链接"
+        android:textColor="#696969"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/iv_share_scan"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="35dp"
+        android:padding="10dp"
+        android:text="取消"
+        android:textColor="#696969"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>

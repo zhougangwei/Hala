@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import chat.hala.hala.activity.ConversationActivity;
+import chat.hala.hala.base.VideoCallManager;
 import chat.hala.hala.rongyun.customizemessage.CustomizeVideoMessage;
 import io.rong.imkit.R;
 import io.rong.imkit.RongExtension;
@@ -52,7 +54,7 @@ public class VideoCallPlugin implements IPluginModule {
       }
     });
     // TODO: 2019/8/8/008 进行打电话
-   //VideoCallManager.gotoCallOrReverse(currentFragment.getActivity(), Integer.parseInt(((ConversationFragment)currentFragment).getTargetId()));
+  VideoCallManager.gotoCallOrReverse(currentFragment.getActivity(),VideoCallManager.VIDEO_CALL, ((ConversationActivity)currentFragment.getActivity()).getAnchorId(),((ConversationActivity)currentFragment.getActivity()).getMemberId());
   }
 
   @Override

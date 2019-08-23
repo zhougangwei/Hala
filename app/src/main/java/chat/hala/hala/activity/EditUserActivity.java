@@ -424,7 +424,7 @@ public class EditUserActivity extends BaseActivity {
         }
         EditUserBean dataBean = new EditUserBean();
         dataBean.setAlbum(covers);
-        dataBean.setUsername(userName);
+        dataBean.setNickname(userName);
         dataBean.setGender((genderIndex + 1) + "");
         dataBean.setAutograph(autoGraph);
         dataBean.setBirthDate(birth);

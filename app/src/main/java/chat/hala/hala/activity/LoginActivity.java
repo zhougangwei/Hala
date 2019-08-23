@@ -37,16 +37,18 @@ import java.lang.ref.WeakReference;
 import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
+import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
+import chat.hala.hala.bean.LoginBean;
 import chat.hala.hala.bean.QiNiuToken;
 import chat.hala.hala.http.BaseCosumer;
+import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.ToastUtils;
 import chat.hala.hala.weixinqq.NetworkUtil;
 import chat.hala.hala.wight.country.CountryActivity;
-import chat.hala.hala.wxapi.WXEntryActivity;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -78,7 +80,7 @@ public class LoginActivity extends BaseActivity {
     public Tencent mTencent;
     private UserInfo mQQInfo;
     private MyHandler handler;
-    private  String openid;
+    private String openid;
 
     private static class MyHandler extends Handler {
         private final WeakReference<LoginActivity> wxEntryActivityWeakReference;
@@ -105,16 +107,48 @@ public class LoginActivity extends BaseActivity {
                         encode = getcode(json.getString("nickname"));
                         nickname = new String(json.getString("nickname").getBytes(encode), "utf-8");
                         sex = json.getInt("sex");
-                        city =json.getString("city");
-                        FillUserActivity.startFillUser(wxEntryActivityWeakReference.get(), wxEntryActivityWeakReference.get().openid, headimgurl, nickname, sex == 1 ? 0 : 1, city);
+                        city = json.getString("city");
+                        wxEntryActivityWeakReference.get().gotoLoginThird(wxEntryActivityWeakReference.get().openid, FillUserActivity.FROM_WE, headimgurl, nickname, sex == 1 ? 0 : 1, city);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        FillUserActivity.startFillUser(wxEntryActivityWeakReference.get(), wxEntryActivityWeakReference.get().openid, "", "", 0, "");
+                        wxEntryActivityWeakReference.get().gotoLoginThird(wxEntryActivityWeakReference.get().openid, FillUserActivity.FROM_WE, "", "", 0, "");
                     }
-
                     break;
-
             }
+        }
+    }
+
+    private void gotoLoginThird(final String openid, final String fromType, final String headurl, final String name, final int sex, final String city) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            if (FillUserActivity.FROM_WE.equals(fromType)) {
+                jsonObject.put("wxOpenId", openid);
+            } else {
+                jsonObject.put("qqOpenId", openid);
+            }
+            RetrofitFactory.getInstance()
+                    .loginThird(ProxyPostHttpRequest.getJsonInstance().loginThird(jsonObject.toString()))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseCosumer<LoginBean>() {
+                        @Override
+                        public void onGetData(LoginBean baseBean) {
+                            if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
+                                return;
+                            }
+                            String action = baseBean.getData().getAction();
+                            if (Contact.SIGN_UP.equals(action)) {
+                                FillUserActivity.startFillUser(LoginActivity.this, openid, fromType, headurl, name, sex, city);
+                            } else if (Contact.SIGN_IN.equals(action)) {
+                                AvchatInfo.saveBaseData(baseBean.getData().getMember(), LoginActivity.this, true);
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    });
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
@@ -181,6 +215,55 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    private void initQiniu() {
+        RetrofitFactory
+                .getInstance()
+                .getQiNiuToken()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<QiNiuToken>() {
+                    @Override
+                    public void onGetData(QiNiuToken baseBean) {
+                        if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
+                            return;
+                        }
+                        QiNiuToken.DataBean.StarchatanchorBean starchatanchor = baseBean.getData().getStarchatanchor();
+                        QiNiuToken.DataBean.StarchatfeedbackBean starchatfeedback = baseBean.getData().getStarchatfeedback();
+                        QiNiuToken.DataBean.StarchatmemberBean starchatmember = baseBean.getData().getStarchatmember();
+
+                        QiniuInfo.setmStarchatanchorBean(starchatanchor);
+                        QiniuInfo.setmStarchatfeedbackBean(starchatfeedback);
+                        QiniuInfo.setmStarchatmemberBean(starchatmember);
+                    }
+                });
+    }
+
+    @OnClick({R.id.tv_private_policy, R.id.tv_choose_country, R.id.tv_get_sms, R.id.tv_wechat, R.id.tv_qq})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_private_policy:
+                break;
+            case R.id.tv_choose_country:
+                Intent intent = new Intent(this, CountryActivity.class);
+                intent.putExtra("type", CountryActivity.FROM_LOGIN_PHONE);
+                startActivityForResult(intent, Contact.REQUEST_CHOOSE_COUNTRY);
+                break;
+            case R.id.tv_get_sms:
+                CharSequence text = mEtPhoneNum.getText();
+                Intent intent2 = new Intent(LoginActivity.this, LoginSmsActivity.class);
+                intent2.putExtra("phoneNum", mCountryCode + text);
+                startActivityForResult(intent2,Contact.REQUEST_SMS);
+                break;
+            case R.id.tv_wechat:
+                loginWeixin();
+                break;
+            case R.id.tv_qq:
+                loginQQ();
+                break;
+        }
+    }
+
+
     private void initQQ() {
         mTencent = Tencent.createInstance(Contact.QQ_APP_ID, this.getApplicationContext());
     }
@@ -202,36 +285,14 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.tv_private_policy, R.id.tv_choose_country, R.id.tv_get_sms, R.id.tv_wechat, R.id.tv_qq})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_private_policy:
-                break;
-            case R.id.tv_choose_country:
-                Intent intent = new Intent(this, CountryActivity.class);
-                intent.putExtra("type", CountryActivity.FROM_LOGIN_PHONE);
-                startActivityForResult(intent, Contact.REQUEST_CHOOSE_COUNTRY);
-                break;
-            case R.id.tv_get_sms:
-                CharSequence text = mEtPhoneNum.getText();
-                Intent intent2 = new Intent(LoginActivity.this, LoginSmsActivity.class);
-                intent2.putExtra("phoneNum", mCountryCode + text);
-                startActivity(intent2);
-                break;
-            case R.id.tv_wechat:
-                loginWeixin();
-                break;
-            case R.id.tv_qq:
-                loginQQ();
-                break;
-        }
-    }
 
     /* -----------------------QQ登录-----------------------------*/
 
     private void loginQQ() {
-
         if (!mTencent.isSessionValid()) {
+            mTencent.login(this, "all", loginListener);
+        }else{
+            mTencent.logout(this);
             mTencent.login(this, "all", loginListener);
         }
     }
@@ -279,9 +340,9 @@ public class LoginActivity extends BaseActivity {
                         }
                         userName = json.getString("nickname");
                         gender = "男".equals(json.getString("gender")) ? 0 : 1;
-                        FillUserActivity.startFillUser(LoginActivity.this,mTencent.getOpenId() ,avatarurl, userName, gender, "");
+                        gotoLoginThird(mTencent.getOpenId(), FillUserActivity.FROM_QQ, avatarurl, userName, gender, "");
                     } catch (JSONException e) {
-                        FillUserActivity.startFillUser(LoginActivity.this, mTencent.getOpenId(),"", "", 0, "");
+                        gotoLoginThird(mTencent.getOpenId(), FillUserActivity.FROM_QQ, "", "", 0, "");
                         e.printStackTrace();
                     }
                 }
@@ -319,33 +380,17 @@ public class LoginActivity extends BaseActivity {
             if (requestCode == Contact.REQUEST_CHOOSE_COUNTRY) {
                 mCountryCode = data.getStringExtra("countryCode");
                 mTvChooseCountry.setText(mCountryCode);
+            } else if (requestCode == Contact.REQUEST_WEIXIN_QQ) {
+                String type = data.getStringExtra("type");
+                String openId = data.getStringExtra("openId");
+                gotoLoginThird(openId, type, "", "", 1, "");
+            }else if(requestCode ==Contact.REQUEST_SMS){
+                finish();
             }
         }
 
     }
 
-    private void initQiniu() {
-        RetrofitFactory
-                .getInstance()
-                .getQiNiuToken()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseCosumer<QiNiuToken>() {
-                    @Override
-                    public void onGetData(QiNiuToken baseBean) {
-                        if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
-                            return;
-                        }
-                        QiNiuToken.DataBean.StarchatanchorBean starchatanchor = baseBean.getData().getStarchatanchor();
-                        QiNiuToken.DataBean.StarchatfeedbackBean starchatfeedback = baseBean.getData().getStarchatfeedback();
-                        QiNiuToken.DataBean.StarchatmemberBean starchatmember = baseBean.getData().getStarchatmember();
-
-                        QiniuInfo.setmStarchatanchorBean(starchatanchor);
-                        QiniuInfo.setmStarchatfeedbackBean(starchatfeedback);
-                        QiniuInfo.setmStarchatmemberBean(starchatmember);
-                    }
-                });
-    }
 
     private class BaseUiListener implements IUiListener {
 

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import chat.hala.hala.activity.ConversationActivity;
 import chat.hala.hala.base.VideoCallManager;
 import chat.hala.hala.rongyun.customizemessage.CustomizeHongbaoMessage;
 import chat.hala.hala.rongyun.customizemessage.CustomizeVideoMessage;
@@ -53,7 +54,7 @@ public class VoiceCallPlugin implements IPluginModule {
         Log.e(TAG, "onError: "+errorCode);
       }
     });
-     // VideoCallManager.gotoCallOrReverse(currentFragment.getActivity(), anchorId, anchorIdMemberId);
+    VideoCallManager.gotoCallOrReverse(currentFragment.getActivity(),VideoCallManager.AUDIO_CALL, ((ConversationActivity)currentFragment.getActivity()).getAnchorId(),((ConversationActivity)currentFragment.getActivity()).getMemberId());
 
   }
 

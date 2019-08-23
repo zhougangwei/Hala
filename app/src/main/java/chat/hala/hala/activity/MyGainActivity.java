@@ -15,6 +15,7 @@ import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.bean.CoinBriefBean;
+import chat.hala.hala.bean.CoinListBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.ResultUtils;
@@ -54,19 +55,18 @@ public class MyGainActivity extends BaseActivity {
 
     @SuppressLint("CheckResult")
     private void initData() {
-        RetrofitFactory.getInstance().getCoinBrief()
+        RetrofitFactory.getInstance().getCoinInComeList(0,20)
                 .subscribeOn(Schedulers.io())
-                .compose(this.<CoinBriefBean>bindToLifecycle())
+                .compose(this.<CoinListBean>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseCosumer<CoinBriefBean>() {
+                .subscribe(new BaseCosumer<CoinListBean>() {
                     @Override
-                    public void onGetData(CoinBriefBean coinBriefBean) {
+                    public void onGetData(CoinListBean coinBriefBean) {
                         if (ResultUtils.cheekSuccess(coinBriefBean)) {
                             mTvCoinNum.setText(coinBriefBean.getData().getTotal()+"");
                         }
                     }
                 });
-
     }
 
     @Override

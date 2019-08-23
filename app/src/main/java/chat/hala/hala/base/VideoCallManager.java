@@ -34,9 +34,7 @@ public class VideoCallManager {
 
 
 
-    public static void gotoCallOrReverse(final Activity activity, final int anchorId){
-        gotoCallOrReverse(activity,VideoCallManager.VIDEO_CALL,anchorId,111);
-    }
+
 
     /**
      * @param activity

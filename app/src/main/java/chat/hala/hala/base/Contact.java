@@ -47,6 +47,8 @@ public class Contact {
     public static final int REQUEST_TAG = 223;
     public static final int REQUEST_CHOOSE_COUNTRY = 666;
     public static final int REQUEST_PHONE = 668;
+    public static final int REQUEST_WEIXIN_QQ = 669;
+    public static final int REQUEST_SMS = 670;
     public static final int REQUEST_CODE_CHOOSE = 224;
     public static final int REQUEST_CHOOSE_CARD = 225;      //身份验证
     public static final int REQUEST_VIDEO_VERIFY = 226;      //身份验证

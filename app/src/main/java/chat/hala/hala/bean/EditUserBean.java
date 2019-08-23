@@ -26,7 +26,7 @@ public class EditUserBean {
     private String          residentialPlace;
     private String          code;
     private String          birthDate;
-    private String          username;
+    private String          nickname;
     private String          mobileNumber;
     private String          autograph;
     private List<AlbumBean> album;
@@ -35,7 +35,8 @@ public class EditUserBean {
     private String height;
     private String weight;
     private String introduction;
-
+    private String qqOpenId;
+    private String wxOpenId;
 
     public String getGender() {
         return gender;
@@ -69,12 +70,12 @@ public class EditUserBean {
         this.birthDate = birthDate;
     }
 
-    public String getUsername() {
-        return username;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setNickname(String username) {
+        this.nickname = username;
     }
 
     public String getMobileNumber() {
@@ -131,6 +132,22 @@ public class EditUserBean {
 
     public void setIntroduction(String introduction) {
         this.introduction = introduction == null ? "" : introduction;
+    }
+
+    public String getQqOpenId() {
+        return qqOpenId == null ? "" : qqOpenId;
+    }
+
+    public void setQqOpenId(String qqOpenId) {
+        this.qqOpenId = qqOpenId == null ? "" : qqOpenId;
+    }
+
+    public String getWxOpenId() {
+        return wxOpenId == null ? "" : wxOpenId;
+    }
+
+    public void setWxOpenId(String wxOpenId) {
+        this.wxOpenId = wxOpenId == null ? "" : wxOpenId;
     }
 
     public static class AlbumBean {

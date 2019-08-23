@@ -90,7 +90,7 @@
         <activity android:name=".activity.MyGainActivity" />
         <activity android:name=".activity.LoginSmsActivity" />
         <activity android:name=".activity.ChooseCountryActivity" />
-        <activity android:name=".activity.LoginPhoneActivity" />
+        <!--<activity android:name=".activity.LoginPhoneActivity" />-->
         <activity android:name=".activity.BestarActivity" />
         <activity android:name=".activity.AnchorsActivity" />
         <activity android:name=".activity.MyCallListActivity" />

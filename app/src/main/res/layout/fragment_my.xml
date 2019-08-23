@@ -146,9 +146,24 @@
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@id/iv_income"
-                app:layout_constraintEnd_toStartOf="@id/iv0"
+                app:layout_constraintEnd_toStartOf="@id/tv_income_value"
                 app:layout_constraintStart_toEndOf="@id/iv_income"
                 app:layout_constraintTop_toTopOf="@id/iv_income" />
+
+            <TextView
+                android:id="@+id/tv_income_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:padding="5dp"
+                android:text="50000金豆"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_income"
+                app:layout_constraintEnd_toStartOf="@id/iv0"
+                app:layout_constraintStart_toEndOf="@id/tv_income"
+                app:layout_constraintTop_toTopOf="@id/iv_income" />
+
 
             <ImageView
                 android:id="@+id/iv0"
@@ -444,7 +459,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:constraint_referenced_ids="iv_income,tv_income,iv0" />
+                app:constraint_referenced_ids="iv_income,tv_income,iv0,tv_income_value" />
 
 
             <android.support.constraint.Group

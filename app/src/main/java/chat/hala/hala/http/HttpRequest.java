@@ -19,6 +19,7 @@ import chat.hala.hala.bean.HeartBean;
 import chat.hala.hala.bean.LoginBean;
 import chat.hala.hala.bean.MediaToken;
 import chat.hala.hala.bean.MessageUnreadBean;
+import chat.hala.hala.bean.MinuteBean;
 import chat.hala.hala.bean.OneToOneListBean;
 import chat.hala.hala.bean.QiNiuToken;
 import chat.hala.hala.bean.RegistBean;
@@ -50,6 +51,15 @@ public interface HttpRequest {
     RequestBody login(@Query("code") String code, @Query("mobileNumber")String mobileNumber
     );
 
+
+    @POST("/account/third_party_signin_or_signup")
+    Observable<LoginBean> loginThird(@Body RequestBody requestBody);
+
+    RequestBody loginThird(@JsonQuery String dataJson
+    );
+
+
+
     @POST("/account/fb_signin_or_signup")
     Observable<LoginBean> loginFacebook(@Body RequestBody requestBody
     );
@@ -59,6 +69,11 @@ public interface HttpRequest {
 
     @POST("/account/mobile_signup")
     Observable<RegistBean> regist(@Body RequestBody requestBody
+    );
+
+
+    @POST("/account/third_party_signup")
+    Observable<RegistBean> registThirdParty(@Body RequestBody requestBody
     );
 
     RequestBody regist(@JsonQuery String dataJson
@@ -250,4 +265,9 @@ public interface HttpRequest {
 
     @GET("/general/version")
     Observable<VersionBean> getVersion();
+
+
+    @GET("/chat/to/{anchorId}/charge")
+    Observable<MinuteBean> minuteCharge(@Path("anchorId")int anchorId, @Query("category")String category );
+
 }

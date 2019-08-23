@@ -1,3 +1,4 @@
+/*
 package chat.hala.hala.activity;
 
 import android.content.Intent;
@@ -148,7 +149,7 @@ public class LoginPhoneActivity extends BaseActivity {
                 break;
             case R.id.iv_facebook:
                // startLogin(2);
-               loginfacebook();
+               //loginfacebook();
                 break;
             case R.id.tv_country_name:
                 Intent intent = new Intent(this, CountryActivity.class);
@@ -215,7 +216,7 @@ public class LoginPhoneActivity extends BaseActivity {
             @Override
             public void regist(String id) {
                 Intent intent = new Intent(LoginPhoneActivity.this, FillUserActivity.class);
-                intent.putExtra("type", FillUserActivity.FROM_WE_QQ);
+                intent.putExtra("type", FillUserActivity.FROM_WE);
                 intent.putExtra("facebookid",id);
                 startActivityForResult(intent,REQUEST_FACEBOOK);
             }
@@ -223,14 +224,8 @@ public class LoginPhoneActivity extends BaseActivity {
     }
 
     private void startLogin(int type) {
-       // final String mobileNumber ;
-       //if (type==1){
-       //    mobileNumber="+"+"8613851668725";
-       //}else{
-       //    mobileNumber= "+"+"86111111";
-       //}
+
        final String code = etSmsNum.getText().toString();
-        // final String code = "151439";
       final String mobileNumber = mCountryCode+etPhoneNum.getText().toString();
         RetrofitFactory.getInstance()
                 .login(ProxyPostHttpRequest.getInstance().login(code, mobileNumber))
@@ -259,3 +254,4 @@ public class LoginPhoneActivity extends BaseActivity {
                 });
     }
 }
+*/
