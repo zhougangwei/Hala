@@ -4,6 +4,7 @@ import com.blankj.utilcode.utils.LogUtils;
 
 import chat.hala.hala.bean.MinuteBean;
 import chat.hala.hala.http.BaseCosumer;
+import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.ResultUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -27,7 +28,7 @@ public class MoneyHelper {
     }
 
     public static void costMoney(int anchorId) {
-        RetrofitFactory.getInstance().minuteCharge(anchorId,"text")
+        RetrofitFactory.getInstance().minuteCharge(anchorId, ProxyPostHttpRequest.getInstance().minuteCharge("text"))
                 .subscribeOn(Schedulers.io())
                 .subscribe(new BaseCosumer<MinuteBean>() {
                     @Override

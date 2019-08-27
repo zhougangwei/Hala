@@ -125,15 +125,15 @@ public class ChatSettingActivity extends BaseActivity {
                 break;
             case R.id.rl_video:
                 choseVideoCpm();
-                gotoSave();
+
                 break;
             case R.id.rl_voice:
                 choseVoiceCpm();
-                gotoSave();
+
                 break;
             case R.id.rl_chat:
                 choseChatCpm();
-                gotoSave();
+
                 break;
         }
     }
@@ -152,6 +152,7 @@ public class ChatSettingActivity extends BaseActivity {
             public void onItemPicked(int index, String item) {
                 chatCmp = item;
                 mTvChatCoin.setText(String.format(getString(R.string.coin_min), item));
+                gotoSave();
             }
         });
         picker.show();
@@ -171,6 +172,7 @@ public class ChatSettingActivity extends BaseActivity {
             public void onItemPicked(int index, String item) {
                 audioCpm = item;
                 mTvVoiceCoin.setText(String.format(getString(R.string.coin_min), item));
+                gotoSave();
             }
         });
         picker.show();
@@ -190,6 +192,7 @@ public class ChatSettingActivity extends BaseActivity {
             public void onItemPicked(int index, String item) {
                 videoCpm = item;
                 mTvVideoCoin.setText(String.format(getString(R.string.coin_min), item));
+                gotoSave();
             }
         });
         picker.show();

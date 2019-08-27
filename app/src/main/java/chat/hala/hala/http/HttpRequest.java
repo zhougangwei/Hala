@@ -267,7 +267,12 @@ public interface HttpRequest {
     Observable<VersionBean> getVersion();
 
 
-    @GET("/chat/to/{anchorId}/charge")
-    Observable<MinuteBean> minuteCharge(@Path("anchorId")int anchorId, @Query("category")String category );
+    @POST("/chat/to/{anchorId}/charge")
+    Observable<MinuteBean> minuteCharge(@Path("anchorId")int anchorId, @Body RequestBody requestBody );
+
+    RequestBody minuteCharge(@Query("category") String category
+    );
+
+
 
 }

@@ -13,15 +13,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.FileUtils;
 import com.blankj.utilcode.utils.LogUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.reflect.TypeToken;
 import com.zhihu.matisse.Matisse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,14 +33,17 @@ import chat.hala.hala.R;
 import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
+import chat.hala.hala.bean.CountryBean;
 import chat.hala.hala.bean.EditUserBean;
 import chat.hala.hala.bean.QiNiuToken;
+import chat.hala.hala.bean.RandomNameBean;
 import chat.hala.hala.bean.RegistBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.http.UploadPicManger;
 import chat.hala.hala.manager.ChoosePicManager;
+import chat.hala.hala.utils.AssetUtils;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ToastUtils;
 import cn.qqtheme.framework.picker.DatePicker;
@@ -105,6 +111,7 @@ public class FillUserActivity extends BaseActivity {
     public static void startFillUser(Activity context, String openId, String jumpType, String headUrl, String username, int genderIndex, String location) {
         Intent intent = new Intent(context, FillUserActivity.class);
         intent.putExtra("headUrl", headUrl);
+        intent.putExtra("openId", openId);
         intent.putExtra("username", username);
         intent.putExtra("genderIndex", genderIndex);
         intent.putExtra("location", location);
@@ -173,6 +180,12 @@ public class FillUserActivity extends BaseActivity {
         if (uriList.size() > 0) {
             avatarUrl=uriList.get(0);
             Glide.with(this).load(uriList.get(0)).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(ivHead);
+        }
+        String json = AssetUtils.getJson(this, "name.json");
+        List<RandomNameBean> objects = GsonUtil.parseJsonToList(json, new TypeToken<List<RandomNameBean>>() {
+        }.getType());
+        if(TextUtils.isEmpty(username)){
+            username=objects.get(new Random().nextInt(objects.size())).getName();
         }
         etUserName.setText(username);
         etGender.setText(genderIndex == 0 ? "男" : "女");

@@ -32,11 +32,13 @@ import chat.hala.hala.avchat.WorkerThread;
 import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.rongyun.MySendMessageListener;
 import chat.hala.hala.rongyun.MyTextMessageItemProvider;
 import chat.hala.hala.rongyun.customizemessage.CustomizeHongbaoMessage;
 import chat.hala.hala.rongyun.customizemessage.CustomizeHongbaoMessageProvider;
 import chat.hala.hala.rongyun.customizemessage.CustomizeHongbaoReceiveMessage;
 import chat.hala.hala.rongyun.customizemessage.CustomizeHongbaoReceiveMessageProvider;
+import chat.hala.hala.rongyun.customizemessage.CustomizePicMessageProvider;
 import chat.hala.hala.rongyun.customizemessage.CustomizeVideoMessageProvider;
 import chat.hala.hala.rongyun.customizemessage.CustomizeVideoMessage;
 import chat.hala.hala.rongyun.customizemessage.CustomizeVoiceMessage;
@@ -117,8 +119,11 @@ public class App extends MultiDexApplication {
 
     private void initRong() {
         RongIM.init(this);
+
         RongIM.getInstance().registerConversationTemplate(new MyPrivateConversationProvider());
         RongIM.getInstance().setMessageAttachedUserInfo(true);
+        RongIM.getInstance().registerMessageTemplate(new CustomizePicMessageProvider());
+
         RongIM.getInstance().registerMessageTemplate(new MyTextMessageItemProvider());
         RongIM.getInstance().registerMessageType(CustomizeVideoMessage.class);
         RongIM.getInstance().registerMessageType(CustomizeVoiceMessage.class);

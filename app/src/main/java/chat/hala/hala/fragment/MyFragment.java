@@ -23,6 +23,7 @@ import chat.hala.hala.activity.ChargeActivity;
 import chat.hala.hala.activity.ChatSettingActivity;
 import chat.hala.hala.activity.FeedBackActivity;
 import chat.hala.hala.activity.FollowOrFansActivity;
+import chat.hala.hala.activity.LoginActivity;
 import chat.hala.hala.activity.MyGainActivity;
 import chat.hala.hala.activity.WalletActivity;
 import chat.hala.hala.avchat.AvchatInfo;
@@ -136,7 +137,7 @@ public class MyFragment extends BaseFragment {
         }
 
         RetrofitFactory.getInstance()
-                .getAnchorData("member", AvchatInfo.getAccount())
+                .getAnchorData(AvchatInfo.isAnchor()?"anchor":"member",AvchatInfo.isAnchor()?AvchatInfo.getAnchorId(): AvchatInfo.getAccount())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<AnchorBean>() {
@@ -226,8 +227,8 @@ public class MyFragment extends BaseFragment {
                             public void onClickConfirm() {
                                 AvchatInfo.clearBaseData(getActivity());
                                 getActivity().finish();
+                                startActivity(new Intent(getActivity(), LoginActivity.class));
                             }
-
                             @Override
                             public void onClickCancel() {
                             }

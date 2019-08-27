@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.LogUtils;
+import com.blankj.utilcode.utils.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.zhihu.matisse.Matisse;
@@ -41,6 +42,7 @@ import chat.hala.hala.http.UploadPicManger;
 import chat.hala.hala.manager.ChoosePicManager;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ResultUtils;
+import chat.hala.hala.utils.TimeUtil;
 import chat.hala.hala.utils.ToastUtils;
 import cn.qqtheme.framework.picker.DatePicker;
 import cn.qqtheme.framework.picker.DoublePicker;
@@ -433,7 +435,7 @@ public class EditUserActivity extends BaseActivity {
         dataBean.setTagIds(tagsList);
         dataBean.setHeight(height);
         dataBean.setWeight(weight);
-
+        TimeUtils.getCurTimeDate()
         RetrofitFactory.getInstance()
                 .changeUserInfo(ProxyPostHttpRequest.getJsonInstance().changeUserInfo(GsonUtil.parseObjectToJson(dataBean)),
                         AvchatInfo.isAnchor() ? "anchor" : "member"

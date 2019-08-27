@@ -36,7 +36,7 @@ public class VideoCallPlugin implements IPluginModule {
 
   @Override
   public void onClick(Fragment currentFragment, RongExtension extension) {
-   CustomizeVideoMessage myTextMessage = CustomizeVideoMessage.obtain(CustomizeVideoMessage.VIDEO_CALL);
+    CustomizeVideoMessage myTextMessage = CustomizeVideoMessage.obtain(CustomizeVideoMessage.VIDEO_CALL);
     //TextMessage myTextMessage = TextMessage.obtain("我是消息内容");
     Message myMessage = Message.obtain(((ConversationFragment)currentFragment).getTargetId(), Conversation.ConversationType.PRIVATE, myTextMessage);
     RongIM.getInstance().sendMessage(myMessage, null, null, new IRongCallback.ISendMessageCallback() {
@@ -54,7 +54,7 @@ public class VideoCallPlugin implements IPluginModule {
       }
     });
     // TODO: 2019/8/8/008 进行打电话
-  VideoCallManager.gotoCallOrReverse(currentFragment.getActivity(),VideoCallManager.VIDEO_CALL, ((ConversationActivity)currentFragment.getActivity()).getAnchorId(),((ConversationActivity)currentFragment.getActivity()).getMemberId());
+    VideoCallManager.gotoCallOrReverse(currentFragment.getActivity(),VideoCallManager.VIDEO_CALL, ((ConversationActivity)currentFragment.getActivity()).getAnchorId(),((ConversationActivity)currentFragment.getActivity()).getMemberId());
   }
 
   @Override
