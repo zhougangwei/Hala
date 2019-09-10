@@ -1,5 +1,6 @@
 package chat.hala.hala.fragment;
 
+import android.app.Activity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import chat.hala.hala.activity.AnchorsActivity;
 import chat.hala.hala.adapter.SuggestAdapter;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.base.Contact;
+import chat.hala.hala.base.VideoCallManager;
 import chat.hala.hala.bean.OneToOneListBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
@@ -24,6 +26,8 @@ import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.wight.banner.Banner;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.rong.imkit.RongIM;
+import io.rong.imkit.fragment.ConversationFragment;
 
 public class SuggestFragment extends BaseFragment {
 
@@ -56,7 +60,17 @@ public class SuggestFragment extends BaseFragment {
                 AnchorsActivity.startAnchorAc(getActivity(), mSuggestList.get(position).getAnchorId(), mSuggestList.get(position).getMemberId());
             }
         });
-
+        suggestAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.tv_hi:
+                        OneToOneListBean.DataBean.ListBean listBean = mSuggestList.get(position);
+                        RongIM.getInstance().startPrivateChat(getActivity(), listBean.getMemberId() + "", listBean.getNickname());
+                        break;
+                }
+            }
+        });
         swrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

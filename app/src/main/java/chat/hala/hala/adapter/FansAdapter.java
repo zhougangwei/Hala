@@ -31,7 +31,6 @@ public class FansAdapter extends BaseQuickAdapter<OneToOneListBean.DataBean.List
 
         helper.setText(R.id.tv_name,item.getNickname());
         helper.setText(R.id.tv_bio,item.getIntroduction());
-
         ImageView imageView = (ImageView) helper.getView(R.id.iv_head);
         Glide.with(mContext).load(item.getAlbum().get(0).getMediaUrl())
                 .apply((RequestOptions.bitmapTransform(new CircleCrop()).placeholder(imageView.getDrawable())))

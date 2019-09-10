@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_me_checked" android:state_selected="true" />
+    <item android:drawable="@drawable/ic_me" android:state_selected="true" />
     <!--<item android:drawable="@drawable/upgrade_main_refresh" android:state_selected="true" />-->
-    <item android:drawable="@drawable/ic_me" />
+    <item android:drawable="@drawable/ic_me2" />
 
 </selector>

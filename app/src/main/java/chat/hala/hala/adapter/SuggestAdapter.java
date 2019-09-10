@@ -36,5 +36,6 @@ public class SuggestAdapter extends BaseQuickAdapter<OneToOneListBean.DataBean.L
         Glide.with(mContext).load(item.getAlbum().get(0).getMediaUrl())
                 .apply((RequestOptions.bitmapTransform(new CircleCrop()).placeholder(imageView.getDrawable())))
                 .into(imageView);
+        helper.addOnClickListener(R.id.tv_hi);
     }
 }

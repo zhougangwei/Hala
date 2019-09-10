@@ -58,7 +58,7 @@ public class HotFragment extends BaseFragment {
         rv.setAdapter(hotCallAdapter);
         View headView = View.inflate(getActivity(), R.layout.item_hotfragment_header, null);
         banner=headView.findViewById(R.id.banner);
-        hotCallAdapter.addHeaderView(headView,4);
+        hotCallAdapter.addHeaderView(headView,1);
         hotCallAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

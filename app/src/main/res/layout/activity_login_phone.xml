@@ -10,29 +10,19 @@
     <include layout="@layout/include_top_toolbar_iv" />
 
     <TextView
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="29sp"
         android:id="@+id/tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="29dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="95dp"
-        android:text="@string/region"
+        android:text="验证码登录"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_country_name"
-        android:layout_width="0dp"
-        android:gravity="end"
-        app:layout_constraintStart_toEndOf="@id/tv1"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="31dp"
-        android:drawableEnd="@drawable/ic_next_6"
-        android:drawablePadding="11dp"
-        android:padding="7dp"
-        android:text="China"
-        app:layout_constraintBottom_toBottomOf="@id/tv1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv1" />
+
 
     <include
         android:id="@+id/include"
@@ -45,36 +35,38 @@
         app:layout_constraintTop_toBottomOf="@id/tv1" />
 
     <TextView
-        android:textColor="@color/black"
-        android:textSize="21sp"
+
         android:id="@+id/tv_country_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="29dp"
         android:text="+86"
+        android:textColor="#333333"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/tv1"
         app:layout_constraintTop_toBottomOf="@+id/tv1" />
 
     <ImageView
-        android:layout_marginStart="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="14dp"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/ic_arrow_down"
         app:layout_constraintBottom_toBottomOf="@+id/tv_country_code"
         app:layout_constraintStart_toEndOf="@+id/tv_country_code"
-        app:layout_constraintTop_toTopOf="@+id/tv_country_code"
-        android:src="@color/e8_grey"
-        android:layout_width="1dp"
-        android:layout_height="14dp" />
+        app:layout_constraintTop_toTopOf="@+id/tv_country_code" />
 
     <EditText
-        android:inputType="number"
         android:id="@+id/et_phone_num"
+        android:layout_width="0dp"
+        android:textSize="18sp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:background="@null"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/mobile_phone_numbe"
+        android:hint="请输入手机号"
+        android:inputType="number"
         android:textColorHint="@color/b_grey"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/tv_country_code"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_country_code"
         app:layout_constraintTop_toTopOf="@+id/tv_country_code" />
 
@@ -88,33 +80,35 @@
         app:layout_constraintTop_toBottomOf="@id/tv_country_code" />
 
     <EditText
+        android:textSize="18sp"
         android:id="@+id/et_sms_num"
         android:layout_width="wrap_content"
-        android:layout_height="18dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:background="@null"
-        android:hint="@string/sms_verification_code"
+        android:hint="请输入验证码"
         android:inputType="number"
         android:textColorHint="@color/b_grey"
         app:layout_constraintStart_toStartOf="@id/tv_country_code"
         app:layout_constraintTop_toBottomOf="@id/et_phone_num" />
 
 
-
     <TextView
-        android:layout_marginEnd="27dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/et_sms_num"
         android:id="@+id/tv_send_msm"
-        android:paddingEnd="11dp"
-        android:paddingStart="11dp"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:text="Send"
-
-        android:background="@drawable/bg_rec_3_send_msm"
         android:layout_width="wrap_content"
-        android:layout_height="28dp" />
+        android:layout_height="32dp"
+        android:layout_marginEnd="27dp"
+        android:background="@drawable/bg_rec_3_send_msm"
+        android:gravity="center"
+        android:paddingStart="13dp"
+        android:paddingEnd="13dp"
+        android:text="Send"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/et_sms_num"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/et_sms_num" />
+
     <include
         android:id="@+id/ll_3"
         layout="@layout/include_line"
@@ -124,63 +118,27 @@
         app:layout_constraintEnd_toEndOf="@+id/tv_country_name"
         app:layout_constraintStart_toStartOf="@+id/tv1"
         app:layout_constraintTop_toBottomOf="@id/et_sms_num" />
-    
+
     <TextView
         android:id="@+id/tv_login"
-        android:layout_marginTop="40dp"
-        app:layout_constraintTop_toBottomOf="@id/ll_3"
-        android:gravity="center"
-        android:text="@string/login"
-        android:textSize="16sp"
-        android:textColor="@color/white"
-        android:background="@drawable/bg_rec_purple_r1"
-        app:layout_constraintEnd_toEndOf="@+id/tv_country_name"
-        app:layout_constraintStart_toStartOf="@+id/tv1"
         android:layout_width="0dp"
-        android:layout_height="45dp" />
-    <TextView
-        android:layout_marginStart="79dp"
-        android:layout_marginTop="15dp"
-        android:id="@+id/tv2"
-        app:layout_constraintTop_toBottomOf="@id/tv_login"
-        app:layout_constraintEnd_toStartOf="@+id/tv_try"
-        app:layout_constraintStart_toStartOf="@+id/tv1"
-        android:text="@string/trouble_logging_in"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:textColor="#472EB4"
-        android:id="@+id/tv_try"
-        app:layout_constraintTop_toTopOf="@id/tv2"
-        app:layout_constraintBottom_toBottomOf="@id/tv2"
-        app:layout_constraintStart_toEndOf="@+id/tv2"
-        android:text="@string/try_other_ways"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/tv3"
-        android:layout_marginBottom="20dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="91dp"
+        android:layout_marginEnd="58dp"
+        android:background="@drawable/bg_rec_login_red1"
+        android:gravity="center"
+        android:text="立即登录"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/iv_facebook"
-        android:text="@string/quick_login_with"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        app:layout_constraintTop_toBottomOf="@id/ll_3" />
 
 
 
-    <ImageView
-        android:visibility="gone"
-        android:id="@+id/iv_facebook"
-        android:layout_marginBottom="38dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@drawable/ic_facebook_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
-    
+
+
+
 </android.support.constraint.ConstraintLayout>

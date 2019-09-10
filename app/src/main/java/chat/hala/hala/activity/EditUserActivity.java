@@ -435,7 +435,6 @@ public class EditUserActivity extends BaseActivity {
         dataBean.setTagIds(tagsList);
         dataBean.setHeight(height);
         dataBean.setWeight(weight);
-        TimeUtils.getCurTimeDate()
         RetrofitFactory.getInstance()
                 .changeUserInfo(ProxyPostHttpRequest.getJsonInstance().changeUserInfo(GsonUtil.parseObjectToJson(dataBean)),
                         AvchatInfo.isAnchor() ? "anchor" : "member"

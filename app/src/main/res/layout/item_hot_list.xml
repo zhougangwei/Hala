@@ -32,7 +32,7 @@
             android:paddingEnd="7dp"
             android:paddingStart="7dp"
             android:text="@string/online"
-            android:textColor="@color/white"
+            android:textColor="#595D71"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

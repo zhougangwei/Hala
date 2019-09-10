@@ -10,6 +10,7 @@ import android.content.res.Resources.NotFoundException;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -424,7 +425,7 @@ public class MyMessageListAdapter extends MessageListAdapter {
                 this.notifyDataSetChanged();
                 return;
             }
-
+            Log.e(TAG, "updateCountDownView: "+readTime +"--"+serverTime+"--"+delay);
             String leftTime;
             Drawable drawable;
             if (data.getMessageDirection() == MessageDirection.RECEIVE) {

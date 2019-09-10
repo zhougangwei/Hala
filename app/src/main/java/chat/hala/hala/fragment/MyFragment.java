@@ -24,6 +24,7 @@ import chat.hala.hala.activity.ChatSettingActivity;
 import chat.hala.hala.activity.FeedBackActivity;
 import chat.hala.hala.activity.FollowOrFansActivity;
 import chat.hala.hala.activity.LoginActivity;
+import chat.hala.hala.activity.LoginActivityNew;
 import chat.hala.hala.activity.MyGainActivity;
 import chat.hala.hala.activity.WalletActivity;
 import chat.hala.hala.avchat.AvchatInfo;
@@ -64,8 +65,7 @@ public class MyFragment extends BaseFragment {
     LinearLayout llAboutUs;
     @BindView(R.id.gp_income)
     Group gpInCome;
-    @BindView(R.id.swrl)
-    SwipeRefreshLayout swrl;
+
 
     @Override
     protected void initView() {
@@ -85,18 +85,7 @@ public class MyFragment extends BaseFragment {
             gpInCome.setVisibility(View.GONE);
         }
 
-        swrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swrl.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshData();
-                        swrl.setRefreshing(false);
-                    }
-                }, 500);
-            }
-        });
+
 
 
     }
@@ -128,6 +117,9 @@ public class MyFragment extends BaseFragment {
 
     @SuppressLint("CheckResult")
     public void refreshData() {
+        if(!AvchatInfo.isLogin()){
+            return;
+        }
         if (AvchatInfo.isAnchor()){
             tvFollowName.setText("粉丝");
             tvFollow.setText(AvchatInfo.getMemberBean().getFansCount()+"");
@@ -227,7 +219,7 @@ public class MyFragment extends BaseFragment {
                             public void onClickConfirm() {
                                 AvchatInfo.clearBaseData(getActivity());
                                 getActivity().finish();
-                                startActivity(new Intent(getActivity(), LoginActivity.class));
+                                LoginActivityNew.startLogin(getActivity());
                             }
                             @Override
                             public void onClickCancel() {

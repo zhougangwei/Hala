@@ -1,7 +1,10 @@
 package chat.hala.hala.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v4.view.ViewPager;
+import android.view.ActionMode;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -21,6 +24,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.HomeAdapter;
+import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.wight.ScaleTransitionPagerTitleView;
 
@@ -31,7 +35,6 @@ public class HomeFragment extends BaseFragment {
 
     @BindView(R.id.magic_indicator)
     MagicIndicator mTab;
-
     @BindView(R.id.vp)
     ViewPager vp;
     String[] titles;
@@ -39,9 +42,14 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        titles=new String[]{getString(R.string.suggest),getString(R.string.hot),getString(R.string.newnew)};
-        CommonNavigator commonNavigator7 = new CommonNavigator(getActivity());
 
+
+        if(AvchatInfo.isAnchor()){
+            titles=new String[]{getString(R.string.suggest),getString(R.string.hot),getString(R.string.newnew)};
+        }else{
+            titles=new String[]{getString(R.string.hot),getString(R.string.newnew)};
+        }
+        CommonNavigator commonNavigator7 = new CommonNavigator(getActivity());
         commonNavigator7.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
@@ -52,8 +60,8 @@ public class HomeFragment extends BaseFragment {
             public IPagerTitleView getTitleView(Context context, final int index) {
                 SimplePagerTitleView simplePagerTitleView = new ScaleTransitionPagerTitleView(context);
                 simplePagerTitleView.setText(titles[index]);
-                simplePagerTitleView.setNormalColor(getActivity().getResources().getColor(R.color.white));
-                simplePagerTitleView.setSelectedColor(getActivity().getResources().getColor(R.color.white));
+                simplePagerTitleView.setNormalColor(Color.parseColor("#323333"));
+                simplePagerTitleView.setSelectedColor(Color.parseColor("#353535"));
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -61,6 +69,7 @@ public class HomeFragment extends BaseFragment {
                     }
                 });
 
+                simplePagerTitleView.setTypeface(Typeface.DEFAULT , Typeface.BOLD );
                 return simplePagerTitleView;
             }
 
@@ -69,14 +78,12 @@ public class HomeFragment extends BaseFragment {
                 LinePagerIndicator indicator = new LinePagerIndicator(context);
                 indicator.setMode(LinePagerIndicator.MODE_EXACTLY);
                 indicator.setLineHeight(UIUtil.dip2px(context, 4));
-                indicator.setLineWidth(UIUtil.dip2px(context, 12));
-                indicator.setRoundRadius(UIUtil.dip2px(context, 2));
+                indicator.setLineWidth(UIUtil.dip2px(context, 7));
+                indicator.setRoundRadius(UIUtil.dip2px(context, 3));
                 indicator.setStartInterpolator(new AccelerateInterpolator());
                 indicator.setEndInterpolator(new DecelerateInterpolator(2.0f));
-
              //   indicator.setColors(getResources().getColor(R.color.linepager_indicator_color1),getResources().getColor(R.color.linepager_indicator_color2));
-                indicator.setColors(getResources().getColor(R.color.white));
-
+                indicator.setColors(Color.parseColor("#FF4066"));
                 return indicator;
             }
         });

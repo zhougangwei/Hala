@@ -18,6 +18,11 @@ public class AvchatInfo {
     private static LoginBean.DataBean.MemberBean memberBean;
 
 
+    public static boolean isLogin(){
+        return SPUtil.getInstance(App.sContext).getUserId()!=0;
+    }
+
+
     public static void setMemberBean(LoginBean.DataBean.MemberBean memberBean) {
         AvchatInfo.memberBean = memberBean;
     }
@@ -138,7 +143,7 @@ public class AvchatInfo {
 
     public static int getAnchorId() {
         if(judgeMemberEmpty()){
-            return -1;
+            return 0;
         }
         return memberBean.getAnchorId();
     }

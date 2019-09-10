@@ -1,4 +1,3 @@
-/*
 package chat.hala.hala.activity;
 
 import android.content.Intent;
@@ -38,8 +37,7 @@ public class LoginPhoneActivity extends BaseActivity {
     ImageView ivBack;
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.tv_country_name)
-    TextView tvCountryName;
+
     @BindView(R.id.tv_country_code)
     TextView tvCountryCode;
     @BindView(R.id.et_phone_num)
@@ -48,14 +46,9 @@ public class LoginPhoneActivity extends BaseActivity {
     EditText etSmsNum;
     @BindView(R.id.tv_login)
     TextView tvLogin;
-    @BindView(R.id.tv2)
-    TextView tv2;
-    @BindView(R.id.tv_try)
-    TextView tvTry;
-    @BindView(R.id.iv_facebook)
-    ImageView ivFacebook;
-    @BindView(R.id.tv3)
-    TextView tv3;
+
+
+
     @BindView(R.id.tv_send_msm)
     TextView tv_send_msm;
 
@@ -76,6 +69,7 @@ public class LoginPhoneActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        tvTitle.setText("");
         etPhoneNum.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -88,11 +82,11 @@ public class LoginPhoneActivity extends BaseActivity {
                     if (etSmsNum.getText().length()>0){
                         //tvLogin.setEnabled(true);
                         //tvLogin.setClickable(true);
-                        tvLogin.setBackgroundResource(R.drawable.bg_rec_purple_r2);
+                        tvLogin.setBackgroundResource(R.drawable.bg_rec_login_red2);
                     }else{
                         //tvLogin.setEnabled(false);
                         //tvLogin.setClickable(false);
-                        tvLogin.setBackgroundResource(R.drawable.bg_rec_purple_r1);
+                        tvLogin.setBackgroundResource(R.drawable.bg_rec_login_red1);
                     }
                     //tv_send_msm.setEnabled(true);
                     //tv_send_msm.setClickable(true);
@@ -119,12 +113,12 @@ public class LoginPhoneActivity extends BaseActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s!=null&&s.length()>0){
                     if (etPhoneNum.getText().length()>7){
-                        tvLogin.setBackgroundResource(R.drawable.bg_rec_purple_r2);
+                        tvLogin.setBackgroundResource(R.drawable.bg_rec_login_red2);
                     }else{
-                        tvLogin.setBackgroundResource(R.drawable.bg_rec_purple_r1);
+                        tvLogin.setBackgroundResource(R.drawable.bg_rec_login_red1);
                     }
                 }else if(s!=null){
-                    tvLogin.setBackgroundResource(R.drawable.bg_rec_purple_r1);
+                    tvLogin.setBackgroundResource(R.drawable.bg_rec_login_red1);
                 }
             }
             @Override
@@ -134,7 +128,7 @@ public class LoginPhoneActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_back, R.id.tv_login, R.id.tv_try, R.id.iv_facebook,R.id.tv_country_name,R.id.tv_send_msm})
+    @OnClick({R.id.iv_back, R.id.tv_login,R.id.tv_send_msm})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -143,14 +137,7 @@ public class LoginPhoneActivity extends BaseActivity {
             case R.id.tv_login:
                 startLogin(1);
                 break;
-            case R.id.tv_try:
-                ivFacebook.setVisibility(View.VISIBLE);
-                tv3.setVisibility(View.VISIBLE);
-                break;
-            case R.id.iv_facebook:
-               // startLogin(2);
-               //loginfacebook();
-                break;
+
             case R.id.tv_country_name:
                 Intent intent = new Intent(this, CountryActivity.class);
                 intent.putExtra("type",CountryActivity.FROM_LOGIN_PHONE);
@@ -174,7 +161,6 @@ public class LoginPhoneActivity extends BaseActivity {
               .subscribe(new BaseCosumer<BaseBean>() {
                   @Override
                   public void onGetData(BaseBean baseBean) {
-
                   }
               });
 
@@ -187,7 +173,7 @@ public class LoginPhoneActivity extends BaseActivity {
             if (requestCode==Contact.REQUEST_CHOOSE_COUNTRY) {
                 String countryName = data.getStringExtra("countryName");
                 mCountryCode = data.getStringExtra("countryCode");
-                tvCountryName.setText(countryName);
+
                 tvCountryCode.setText(mCountryCode);
             }else if(requestCode==REQUEST_FACEBOOK){
                 loginfacebook();
@@ -208,7 +194,6 @@ public class LoginPhoneActivity extends BaseActivity {
                 startActivity(intent);
                 finish();
             }
-
             @Override
             public void fail() {
                 ToastUtils.showToast(LoginPhoneActivity.this,getString(R.string.login_failed));
@@ -226,7 +211,7 @@ public class LoginPhoneActivity extends BaseActivity {
     private void startLogin(int type) {
 
        final String code = etSmsNum.getText().toString();
-      final String mobileNumber = mCountryCode+etPhoneNum.getText().toString();
+        final String mobileNumber = mCountryCode+etPhoneNum.getText().toString();
         RetrofitFactory.getInstance()
                 .login(ProxyPostHttpRequest.getInstance().login(code, mobileNumber))
                 .subscribeOn(Schedulers.io())
@@ -254,4 +239,3 @@ public class LoginPhoneActivity extends BaseActivity {
                 });
     }
 }
-*/

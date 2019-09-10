@@ -1,13 +1,10 @@
 package chat.hala.hala.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.utils.LogUtils;
 import com.bumptech.glide.Glide;
@@ -18,10 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import chat.hala.hala.R;
-import chat.hala.hala.adapter.EditHeadAdapter;
 import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.bean.QiNiuToken;
@@ -69,7 +64,7 @@ public class AuthenticationActivity extends BaseActivity {
     private int currentType;
 
     private String frontUrl;
-    private String backUrl;
+
     private String handUrl;
 
 
@@ -86,7 +81,7 @@ public class AuthenticationActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
+        tvTitle.setText("实名认证");
     }
 
 
@@ -109,7 +104,6 @@ public class AuthenticationActivity extends BaseActivity {
                 ChoosePicManager.choosePic(AuthenticationActivity.this, 1);
                 break;
             case R.id.tv_submit:
-
                 if (!judgeEmpty()) {
                     return;
                 } else {
@@ -129,10 +123,10 @@ public class AuthenticationActivity extends BaseActivity {
             ToastUtils.showToast(this, "请输入正面照");
             return false;
         }
-        if (backUrl.isEmpty()) {
+     /*   if (backUrl.isEmpty()) {
             ToastUtils.showToast(this, "请输入背面照");
             return false;
-        }
+        }*/
         if (handUrl.isEmpty()) {
             ToastUtils.showToast(this, "请输入手持照");
             return false;
@@ -155,12 +149,7 @@ public class AuthenticationActivity extends BaseActivity {
                                 .apply(RequestOptions.placeholderOf(ivFrontCard.getDrawable()))
                                 .into(ivFrontCard);
                         break;
-                    case FROT_BACK:
-                        backUrl = picUrl;
-                        Glide.with(this).load(picUrl)
-                                .apply(RequestOptions.placeholderOf(ivBackCard.getDrawable()))
-                                .into(ivBackCard);
-                        break;
+
                     case FROT_HAND:
                         handUrl = picUrl;
                         Glide.with(this).load(picUrl)
@@ -179,7 +168,6 @@ public class AuthenticationActivity extends BaseActivity {
         }
         ArrayList uriList = new ArrayList();
         uriList.add(frontUrl);
-        uriList.add(backUrl);
         uriList.add(handUrl);
         new UploadPicManger().uploadImageArray(uriList, 0, starchatanchorBean.getToken(), starchatanchorBean.getUrl(), new UploadPicManger.QiNiuUploadCompletionHandler() {
             @Override
@@ -187,7 +175,6 @@ public class AuthenticationActivity extends BaseActivity {
                 try {
                     Intent intent = new Intent();
                     intent.putExtra("frontCard", paths.get(0));
-                    intent.putExtra("backCard", paths.get(1));
                     intent.putExtra("handCard", paths.get(2));
                     setResult(RESULT_OK, intent);
                     finish();

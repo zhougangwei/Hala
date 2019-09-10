@@ -113,7 +113,6 @@ public class FollowOrFansActivity extends BaseActivity {
         } else {
             page++;
         }
-
         RetrofitFactory.getInstance()
                 .getFansNum(AvchatInfo.isAnchor()?"fans":"following",page,Contact.PAGE_SIZE)
                 .subscribeOn(Schedulers.io())

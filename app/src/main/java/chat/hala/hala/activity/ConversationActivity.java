@@ -88,6 +88,7 @@ public class ConversationActivity extends BaseActivity  {
     }
 
 
+
     @Override
     protected void onDestroy() {
         RongIM.getInstance().setSendMessageListener(null);

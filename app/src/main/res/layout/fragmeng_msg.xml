@@ -9,22 +9,34 @@
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="62dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:layout_marginTop="23dp"
-        android:paddingTop="19dp"
+        android:paddingTop="15dp"
         android:text="@string/message"
-        android:textColor="@color/black"
-        android:textSize="26sp"
+        android:textColor="#353535"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_marginTop="3dp"
+        android:id="@+id/iv"
+        android:layout_width="7dp"
+        android:layout_height="4dp"
+        android:src="@drawable/bg_follow"
+        app:layout_constraintEnd_toEndOf="@+id/tv_title"
+        app:layout_constraintStart_toStartOf="@+id/tv_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/spf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title">
+        app:layout_constraintTop_toBottomOf="@id/iv">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"

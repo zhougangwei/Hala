@@ -82,6 +82,10 @@ public class LoginActivity extends BaseActivity {
     private MyHandler handler;
     private String openid;
 
+    public static void startLogin(Context context) {
+        context.startActivity(new Intent(context,LoginActivity.class));
+    }
+
     private static class MyHandler extends Handler {
         private final WeakReference<LoginActivity> wxEntryActivityWeakReference;
 

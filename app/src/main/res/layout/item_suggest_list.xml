@@ -9,19 +9,16 @@
 
     <ImageView
         android:id="@+id/iv_head"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginStart="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/ic_facebook" />
 
-
-
     <TextView
-
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:textSize="16sp"
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
@@ -33,10 +30,12 @@
         app:layout_constraintTop_toTopOf="@id/iv_head" />
 
     <include
+        android:layout_marginBottom="3dp"
+        android:layout_marginStart="2dp"
         android:layout_width="wrap_content"
         android:layout_height="12dp"
-        app:layout_constraintStart_toStartOf="@id/tv_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        app:layout_constraintStart_toEndOf="@id/tv_name"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_name"
         android:layout_marginTop="1dp"
         layout="@layout/layout_year_old"/>
 
@@ -46,20 +45,26 @@
         android:id="@+id/tv_bio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="13dp"
         android:text="陪你到世界之巅......"
         android:textColor="#FFACACAC"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/tv_name"
          />
-        <ImageView
-            android:padding="10dp"
-            android:layout_marginEnd="4dp"
+        <TextView
+            android:id="@+id/tv_hi"
+            android:background="@drawable/bg_dazhaohu"
+            android:textColor="#464545"
+            android:text="打招呼"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:layout_marginEnd="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/ic_suggest_msg"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="26dp"/>
 
 </android.support.constraint.ConstraintLayout>

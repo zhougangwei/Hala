@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.fragment.HotFragment;
 import chat.hala.hala.fragment.NewFragment;
 import chat.hala.hala.fragment.SuggestFragment;
@@ -24,7 +25,9 @@ public class HomeAdapter extends FragmentPagerAdapter{
     public HomeAdapter(FragmentManager fm) {
         super(fm);
         fragments.clear();
-        fragments.add(new SuggestFragment());
+        if(AvchatInfo.isAnchor()){
+            fragments.add(new SuggestFragment());
+        }
         fragments.add(new HotFragment());
         fragments.add(new NewFragment());
 

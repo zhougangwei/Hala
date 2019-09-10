@@ -139,7 +139,9 @@ public class FillUserActivity extends BaseActivity {
                 break;
         }
         String headUrl = intent.getStringExtra("headUrl");
-        uriList.add(headUrl);
+        if(!TextUtils.isEmpty(headUrl)){
+            uriList.add(headUrl);
+        }
         username = intent.getStringExtra("username");
         genderIndex = intent.getIntExtra("genderIndex", 0);
         location = intent.getStringExtra("location");
@@ -308,7 +310,6 @@ public class FillUserActivity extends BaseActivity {
         if (starchatmemberBean == null) {
             return;
         }
-
         new UploadPicManger().uploadImageArray(uriList, 0, starchatmemberBean.getToken(), starchatmemberBean.getUrl(), new UploadPicManger.QiNiuUploadCompletionHandler() {
             @Override
             public void uploadSuccess(String path, List<String> paths) {

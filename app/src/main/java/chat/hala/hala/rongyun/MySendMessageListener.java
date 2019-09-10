@@ -41,7 +41,7 @@ public class MySendMessageListener implements RongIM.OnSendMessageListener {
     public boolean onSent(Message message, RongIM.SentMessageErrorCode sentMessageErrorCode) {
         Log.e(TAG, "onSent:");
         if (sentMessageErrorCode==null&&!AvchatInfo.isAnchor()) {
-             MoneyHelper.costMoney(conversationActivity.getAnchorId());
+             MoneyHelper.costMessageMoney(conversationActivity.getAnchorId());
         }
         return false;
     }

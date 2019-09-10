@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
@@ -45,6 +44,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activity.GreetActivity"></activity>
         <activity android:name=".activity.AboutUsActivity" />
         <activity
             android:name=".activity.SpalshActivity"
@@ -60,7 +60,7 @@
         <activity android:name=".activity.AuthenticationActivity" />
         <activity android:name=".activity.BeStarResultActivity" />
         <activity android:name=".activity.CashActivity" />
-        <activity android:name=".activity.ConversationListActivity"/>
+        <activity android:name=".activity.ConversationListActivity" />
         <activity android:name=".activity.WebviewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -85,12 +85,12 @@
             android:taskAffinity="chat.hala.hala"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.LoginActivityNew"
             android:launchMode="singleTask" />
         <activity android:name=".activity.MyGainActivity" />
+        <activity android:name=".activity.LoginPhoneActivity" />
         <activity android:name=".activity.LoginSmsActivity" />
-        <activity android:name=".activity.ChooseCountryActivity" />
-        <!--<activity android:name=".activity.LoginPhoneActivity" />-->
+        <activity android:name=".activity.ChooseCountryActivity" /> <!-- <activity android:name=".activity.LoginPhoneActivity" /> -->
         <activity android:name=".activity.BestarActivity" />
         <activity android:name=".activity.AnchorsActivity" />
         <activity android:name=".activity.MyCallListActivity" />

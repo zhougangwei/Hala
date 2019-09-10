@@ -4,6 +4,8 @@ public class Contact {
     public static final String UPLOAD_HOST = "http://47.244.164.243";
     public static final String HOST        = "http://47.244.164.243";
 
+   //public static final String UPLOAD_HOST = "http://192.168.191.1:8080";
+   //public static final String HOST        = "http://192.168.191.1:8080";
     public static final String TOKEN   = "token";
     public static final String RONG_TOKEN   = "rong_token";
     public static final String MEMBER_DATA   = "member_dta";

@@ -14,7 +14,7 @@ public class MyExtensionModule extends DefaultExtensionModule {
     public List<IPluginModule> getPluginModules(Conversation.ConversationType conversationType) {
         List<IPluginModule> pluginModules =  new ArrayList<>();
 
-        ImagePlugin imagePlugin = new ImagePlugin();
+        SelfImagePlugin imagePlugin = new SelfImagePlugin();
         VideoCallPlugin myPlugin=new VideoCallPlugin();
         VoiceCallPlugin voicePlugin=new VoiceCallPlugin();
          pluginModules.add(myPlugin);

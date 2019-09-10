@@ -2,6 +2,8 @@ package chat.hala.hala.manager;
 
 import com.blankj.utilcode.utils.LogUtils;
 
+import java.security.PublicKey;
+
 import chat.hala.hala.bean.MinuteBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.ProxyPostHttpRequest;
@@ -27,7 +29,7 @@ public class MoneyHelper {
         return false;
     }
 
-    public static void costMoney(int anchorId) {
+    public static void costMessageMoney(int anchorId) {
         RetrofitFactory.getInstance().minuteCharge(anchorId, ProxyPostHttpRequest.getInstance().minuteCharge("text"))
                 .subscribeOn(Schedulers.io())
                 .subscribe(new BaseCosumer<MinuteBean>() {
@@ -38,5 +40,32 @@ public class MoneyHelper {
                         }
                     }
                 });
+    }
+
+    public static void costPicMoney(String anchorId, final PayBack payBack) {
+        RetrofitFactory.getInstance().minuteCharge(Integer.parseInt(anchorId), ProxyPostHttpRequest.getInstance().minuteCharge("image"))
+                .subscribeOn(Schedulers.io())
+                .subscribe(new BaseCosumer<MinuteBean>() {
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        payBack.fail();
+                    }
+
+                    @Override
+                    public void onGetData(MinuteBean minuteBean) {
+                        if (ResultUtils.cheekSuccess(minuteBean)) {
+                            payBack.success();
+                            LogUtils.e("付费成功"+minuteBean.toString());
+                            return;
+                        }
+                        payBack.fail();
+                    }
+                });
+    }
+
+   public interface PayBack{
+         void success();
+        void fail();
     }
 }

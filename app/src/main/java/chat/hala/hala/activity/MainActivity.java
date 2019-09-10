@@ -2,13 +2,17 @@ package chat.hala.hala.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.blankj.utilcode.utils.LogUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,16 +62,24 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     @BindView(R.id.vp)
     NoScrollViewPager vp;
     @BindView(R.id.iv_home)
-    ImageView ivHome;
+    TextView ivHome;
     @BindView(R.id.iv_msg)
-    ImageView ivMsg;
+    TextView ivMsg;
     @BindView(R.id.iv_my)
-    ImageView ivMy;
+    TextView ivMy;
+
+    @BindView(R.id.iv_follow)
+    TextView ivFollow;
+    @BindView(R.id.iv_qiuliao)
+    TextView ivQiuliao;
+
+
+
     private long oldTime;
     private TabAdapter mTabAdapter;
 
-    List<View> viewList = new ArrayList<>();
-    private LoginBean.DataBean.MemberBean memberBean;
+    List<TextView> viewList = new ArrayList<>();
+
 
     @Override
     protected int getContentViewId() {
@@ -94,6 +106,8 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                                         return;
                                     }
                                     UserInfo userInfo = new UserInfo(AvchatInfo.getMemberId() + "", AvchatInfo.getName(), Uri.parse(AvchatInfo.getAvatarUrl()));
+                                    userInfo.setExtra(AvchatInfo.getAnchorId()+"");
+
                                     RongIM.getInstance().setCurrentUserInfo(userInfo);
                                     LogUtils.e(TAG, "onSuccess: " + s);
                                 }
@@ -117,35 +131,36 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     protected void initView() {
         int userId = SPUtil.getInstance(this).getUserId();
         if (userId == 0) {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-            return;
         } else {
             String memberJson = SPUtil.getInstance(this).getMemberJson();
             if (TextUtils.isEmpty(memberJson)) {
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
-                return;
             } else {
-                memberBean = GsonUtil.parseJsonToBean(memberJson, LoginBean.DataBean.MemberBean.class);
+                LoginBean.DataBean.MemberBean memberBean = GsonUtil.parseJsonToBean(memberJson, LoginBean.DataBean.MemberBean.class);
                 AvchatInfo.saveBaseData(memberBean, this, false);
+                initBase();
             }
         }
-        ((App) getApplication()).initWorkerThread();
-        initRongIm();
-        initQiniu();
+
         mTabAdapter = new TabAdapter(getSupportFragmentManager());
         vp.setAdapter(mTabAdapter);
         vp.setOffscreenPageLimit(5);
         vp.setCurrentItem(0, false);
         viewList.add(ivHome);
+        viewList.add(ivFollow);
+        viewList.add(ivQiuliao);
         viewList.add(ivMsg);
         viewList.add(ivMy);
-        initVideoCall();
-        initChat();
         setClicked(ivHome);
 
 
+    }
+
+    private void initBase() {
+        ((App) getApplication()).initWorkerThread();
+        initRongIm();
+        initQiniu();
+        initVideoCall();
+        initChat();
     }
 
     /*
@@ -222,7 +237,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     }
 
 
-    @OnClick({R.id.iv_home, R.id.iv_msg, R.id.iv_my})
+    @OnClick({R.id.iv_home, R.id.iv_msg, R.id.iv_my,R.id.iv_qiuliao,R.id.iv_follow})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_home:
@@ -234,19 +249,32 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
             case R.id.iv_my:
                 setClicked(ivMy);
                 break;
+            case R.id.iv_qiuliao:
+                setClicked(ivQiuliao);
+                break;
+            case R.id.iv_follow:
+                setClicked(ivFollow);
+                break;
+
         }
     }
 
-    private void setClicked(ImageView clickView) {
+    private void setClicked(TextView clickView) {
         for (int i = 0; i < viewList.size(); i++) {
-            View view = viewList.get(i);
+            TextView view = viewList.get(i);
             if (view != clickView) {
                 view.setSelected(false);
+                view.setTextColor(Color.parseColor("#595D71"));
             } else {
                 view.setSelected(true);
-                vp.setCurrentItem(i, false);
-            }
+                view.setTextColor(Color.parseColor("#FE4164"));
+                if(AvchatInfo.isLogin()){
+                    vp.setCurrentItem(i, false);
+                }else{
+                    LoginActivityNew.startLogin(this);
+                }
 
+            }
         }
     }
 

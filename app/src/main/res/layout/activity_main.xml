@@ -1,73 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context="chat.hala.hala.activity.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="chat.hala.hala.activity.MainActivity">
 
     <chat.hala.hala.wight.NoScrollViewPager
         android:id="@+id/vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/rl1"
-        />
+        android:layout_above="@id/rl1" />
 
-
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rl1"
         android:layout_width="match_parent"
         android:layout_height="49dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="horizontal">
 
-        <ImageView
+        <TextView
+
             android:id="@+id/iv_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-
             android:layout_centerVertical="true"
-            android:layout_marginStart="44dp"
-            android:paddingBottom="5dp"
-            android:paddingEnd="10dp"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/btn_tab_home"
+            android:drawablePadding="4dp"
+            android:gravity="center_horizontal"
             android:paddingStart="10dp"
             android:paddingTop="5dp"
-            android:src="@drawable/btn_tab_home"/>
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:text="首页"
+            android:textColor="#595D71"
+            android:textSize="10sp" />
 
-        <ImageView
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_alignEnd="@+id/iv_msg"
-            android:layout_alignTop="@+id/iv_msg"
-            android:src="@drawable/ic_count_msg"/>
+        <TextView
+            android:id="@+id/iv_follow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/btn_follow"
+            android:drawablePadding="4dp"
+            android:gravity="center_horizontal"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:text="关注"
+            android:textColor="#595D71"
+            android:textSize="10sp" />
 
-        <ImageView
+        <TextView
+            android:id="@+id/iv_qiuliao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/btn_tab_qiuliao"
+            android:drawablePadding="4dp"
+            android:gravity="center_horizontal"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:text="求聊"
+            android:textColor="#595D71"
+            android:textSize="10sp" />
+
+
+        <TextView
             android:id="@+id/iv_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:paddingBottom="5dp"
-            android:paddingEnd="10dp"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/btn_tab_msg"
+            android:drawablePadding="4dp"
+            android:gravity="center_horizontal"
             android:paddingStart="10dp"
             android:paddingTop="5dp"
-            android:src="@drawable/btn_tab_msg"/>
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:text="消息"
+            android:textColor="#595D71"
+            android:textSize="10sp" />
 
         <ImageView
+            android:visibility="gone"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_alignTop="@+id/iv_msg"
+            android:layout_alignEnd="@+id/iv_msg"
+            android:src="@drawable/ic_count_msg" />
+
+        <TextView
             android:id="@+id/iv_my"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="44dp"
-            android:paddingBottom="5dp"
-            android:paddingEnd="10dp"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/btn_tab_mine"
+            android:drawablePadding="4dp"
+            android:gravity="center_horizontal"
             android:paddingStart="10dp"
             android:paddingTop="5dp"
-            android:src="@drawable/btn_tab_mine"/>
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
 
-    </RelativeLayout>
+            android:text="我的"
+            android:textColor="#595D71"
+            android:textSize="10sp" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>

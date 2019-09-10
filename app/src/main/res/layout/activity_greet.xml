@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.GreetActivity">
+
+
+
+    <include layout="@layout/include_top_toolbar_save"/>
+
+    <EditText
+        android:id="@+id/et_bio"
+        android:paddingTop="14dp"
+        android:paddingStart="10dp"
+        android:hint="请输入打招呼内容"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="74dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="158dp"/>
+
+    <TextView
+        android:text="0/40"
+        android:id="@+id/tv_num"
+        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="#999999"
+        app:layout_constraintBottom_toBottomOf="@+id/et_bio"
+        app:layout_constraintEnd_toEndOf="@+id/et_bio" />
+
+
+
+</android.support.constraint.ConstraintLayout>

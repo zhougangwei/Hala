@@ -22,7 +22,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.EditHeadAdapter;
-import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
@@ -111,7 +110,7 @@ public class ApplayAnchorActivity extends BaseActivity {
     private DoublePicker heightPicker;
 
     private String idCardFrontUrl;
-    private String idCardBackUrl;
+
     private String idCardHandledUrl;
 
     private String videoUrl;
@@ -340,7 +339,7 @@ public class ApplayAnchorActivity extends BaseActivity {
                 }
             } else if (requestCode == Contact.REQUEST_CHOOSE_CARD) {
                 idCardFrontUrl = data.getStringExtra("frontCard");
-                idCardBackUrl = data.getStringExtra("backCard");
+
                 idCardHandledUrl = data.getStringExtra("handCard");
                 tvNameVerity.setText("已填充");
             } else if (requestCode == Contact.REQUEST_VIDEO_VERIFY) {
@@ -400,7 +399,6 @@ public class ApplayAnchorActivity extends BaseActivity {
         ApplyAnchorBean.ApplicationBean applicationBean = new ApplyAnchorBean.ApplicationBean();
         applicationBean.setRealName(userName);
         applicationBean.setMobileNumber(phoneNum);
-        applicationBean.setIdCardBack(idCardBackUrl);
         applicationBean.setIdCardFront(idCardFrontUrl);
         applicationBean.setIdCardHandled(idCardHandledUrl);
         applicationBean.setCertifyVideo(videoUrl);
