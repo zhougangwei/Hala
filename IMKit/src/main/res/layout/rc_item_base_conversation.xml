@@ -70,7 +70,17 @@
             android:orientation="horizontal"
             android:paddingTop="1dp">
 
+            <TextView
+                android:padding="3dp"
+                android:textColor="#fff"
+                android:textSize="10sp"
+                android:background="@drawable/bg_un_read"
+                android:id="@+id/rc_tv_unread"
+                android:text="99999"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <ImageView
+                android:visibility="gone"
                 android:id="@id/rc_conversation_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

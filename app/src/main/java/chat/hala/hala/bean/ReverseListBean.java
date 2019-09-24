@@ -1,14 +1,17 @@
 package chat.hala.hala.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class ReverseListBean extends BaseBean {
 
 
     /**
-     * data : {"content":[{"id":1,"state":"in_process","worth":20,"createdAt":"2019-05-27T06:13:09.000+0000","updatedAt":"2019-05-27T06:13:09.000+0000","targetInfo":{"id":2,"avatarUrl":"http://me.avatar.url","name":"pp"}}],"pageable":{"nextPage":false,"totalPages":1,"currentPage":1}}
+     * data : {"pageable":{"nextPage":false,"totalPages":1,"currentPage":1},"list":[{"category":"video","state":"in_process","worth":20,"createdAt":"2019-09-18T08:02:18.000+0000","updatedAt":"2019-09-18T08:02:18.000+0000","targetInfo":{"id":2,"avatarUrl":"http://starchat.anchor.7halachat.com/magazine-unlock-05-2.3.1602-7332AF736519138CFB0243C320D4C222.jpg","name":"????","form":"anchor"},"reservationId":4,"stateTrans":"等待回拨","date":"2019-09-18","datetime":"2019-09-18 16:02"}]}
      */
 
+    @SerializedName("data")
     private DataBean data;
 
     public DataBean getData() {
@@ -21,11 +24,13 @@ public class ReverseListBean extends BaseBean {
 
     public static class DataBean {
         /**
-         * content : [{"id":1,"state":"in_process","worth":20,"createdAt":"2019-05-27T06:13:09.000+0000","updatedAt":"2019-05-27T06:13:09.000+0000","targetInfo":{"id":2,"avatarUrl":"http://me.avatar.url","name":"pp"}}]
          * pageable : {"nextPage":false,"totalPages":1,"currentPage":1}
+         * list : [{"category":"video","state":"in_process","worth":20,"createdAt":"2019-09-18T08:02:18.000+0000","updatedAt":"2019-09-18T08:02:18.000+0000","targetInfo":{"id":2,"avatarUrl":"http://starchat.anchor.7halachat.com/magazine-unlock-05-2.3.1602-7332AF736519138CFB0243C320D4C222.jpg","name":"????","form":"anchor"},"reservationId":4,"stateTrans":"等待回拨","date":"2019-09-18","datetime":"2019-09-18 16:02"}]
          */
 
+        @SerializedName("pageable")
         private PageableBean pageable;
+        @SerializedName("list")
         private List<ListBean> list;
 
         public PageableBean getPageable() {
@@ -51,8 +56,11 @@ public class ReverseListBean extends BaseBean {
              * currentPage : 1
              */
 
+            @SerializedName("nextPage")
             private boolean nextPage;
+            @SerializedName("totalPages")
             private int totalPages;
+            @SerializedName("currentPage")
             private int currentPage;
 
             public boolean isNextPage() {
@@ -82,27 +90,45 @@ public class ReverseListBean extends BaseBean {
 
         public static class ListBean {
             /**
-             * id : 1
+             * category : video
              * state : in_process
              * worth : 20
-             * createdAt : 2019-05-27T06:13:09.000+0000
-             * updatedAt : 2019-05-27T06:13:09.000+0000
-             * targetInfo : {"id":2,"avatarUrl":"http://me.avatar.url","name":"pp"}
+             * createdAt : 2019-09-18T08:02:18.000+0000
+             * updatedAt : 2019-09-18T08:02:18.000+0000
+             * targetInfo : {"id":2,"avatarUrl":"http://starchat.anchor.7halachat.com/magazine-unlock-05-2.3.1602-7332AF736519138CFB0243C320D4C222.jpg","name":"????","form":"anchor"}
+             * reservationId : 4
+             * stateTrans : 等待回拨
+             * date : 2019-09-18
+             * datetime : 2019-09-18 16:02
              */
 
-            private int id;
-            private String state; //state的枚举值包括in_process进行中，success已通话，failed未回拨
+            @SerializedName("category")
+            private String category;
+            @SerializedName("state")
+            private String state;
+            @SerializedName("worth")
             private int worth;
+            @SerializedName("createdAt")
             private String createdAt;
+            @SerializedName("updatedAt")
             private String updatedAt;
+            @SerializedName("targetInfo")
             private TargetInfoBean targetInfo;
+            @SerializedName("reservationId")
+            private int reservationId;
+            @SerializedName("stateTrans")
+            private String stateTrans;
+            @SerializedName("date")
+            private String date;
+            @SerializedName("datetime")
+            private String datetime;
 
-            public int getId() {
-                return id;
+            public String getCategory() {
+                return category;
             }
 
-            public void setId(int id) {
-                this.id = id;
+            public void setCategory(String category) {
+                this.category = category;
             }
 
             public String getState() {
@@ -145,16 +171,54 @@ public class ReverseListBean extends BaseBean {
                 this.targetInfo = targetInfo;
             }
 
+            public int getReservationId() {
+                return reservationId;
+            }
+
+            public void setReservationId(int reservationId) {
+                this.reservationId = reservationId;
+            }
+
+            public String getStateTrans() {
+                return stateTrans;
+            }
+
+            public void setStateTrans(String stateTrans) {
+                this.stateTrans = stateTrans;
+            }
+
+            public String getDate() {
+                return date;
+            }
+
+            public void setDate(String date) {
+                this.date = date;
+            }
+
+            public String getDatetime() {
+                return datetime;
+            }
+
+            public void setDatetime(String datetime) {
+                this.datetime = datetime;
+            }
+
             public static class TargetInfoBean {
                 /**
                  * id : 2
-                 * avatarUrl : http://me.avatar.url
-                 * name : pp
+                 * avatarUrl : http://starchat.anchor.7halachat.com/magazine-unlock-05-2.3.1602-7332AF736519138CFB0243C320D4C222.jpg
+                 * name : ????
+                 * form : anchor
                  */
 
+                @SerializedName("id")
                 private int id;
+                @SerializedName("avatarUrl")
                 private String avatarUrl;
+                @SerializedName("name")
                 private String name;
+                @SerializedName("form")
+                private String form;
 
                 public int getId() {
                     return id;
@@ -178,6 +242,14 @@ public class ReverseListBean extends BaseBean {
 
                 public void setName(String name) {
                     this.name = name;
+                }
+
+                public String getForm() {
+                    return form;
+                }
+
+                public void setForm(String form) {
+                    this.form = form;
                 }
             }
         }

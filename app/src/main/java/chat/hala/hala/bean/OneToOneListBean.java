@@ -1,5 +1,6 @@
 package chat.hala.hala.bean;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -88,7 +89,9 @@ public class OneToOneListBean extends BaseBean {
             }
         }
 
-        public static class ListBean {
+        public static class ListBean implements MultiItemEntity {
+            public static final int BANNER = 1;
+            public static final int NORMAL = 0;
             /**
              * memberId : 5
              * characterId : 02544174
@@ -155,6 +158,11 @@ public class OneToOneListBean extends BaseBean {
             private List<?> tags;
             @SerializedName("album")
             private List<AlbumBean> album;
+            private int dataType;
+
+            @SerializedName("joinfamilyAt")
+            private String joinfamilyAt;
+
 
             public int getMemberId() {
                 return memberId;
@@ -322,6 +330,27 @@ public class OneToOneListBean extends BaseBean {
 
             public void setAlbum(List<AlbumBean> album) {
                 this.album = album;
+            }
+
+            public int getDataType() {
+                return dataType;
+            }
+
+            public void setDataType(int dataType) {
+                this.dataType = dataType;
+            }
+
+            @Override
+            public int getItemType() {
+                return dataType;
+            }
+
+            public String getJoinfamilyAt() {
+                return joinfamilyAt == null ? "" : joinfamilyAt;
+            }
+
+            public void setJoinfamilyAt(String joinfamilyAt) {
+                this.joinfamilyAt = joinfamilyAt == null ? "" : joinfamilyAt;
             }
 
             public static class SettingBean {

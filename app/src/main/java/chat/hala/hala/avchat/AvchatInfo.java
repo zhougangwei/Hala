@@ -1,6 +1,7 @@
 package chat.hala.hala.avchat;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import chat.hala.hala.base.App;
 import chat.hala.hala.base.Contact;
@@ -107,8 +108,12 @@ public class AvchatInfo {
         if (whileSaveSp) {
             String accessToken = member.getAccessToken();
             String rongToken = member.getRongToken();
-            SPUtil.getInstance(context).setString(Contact.TOKEN, accessToken);
-            SPUtil.getInstance(context).setString(Contact.RONG_TOKEN, rongToken);
+            if(!TextUtils.isEmpty(accessToken)){
+                SPUtil.getInstance(context).setString(Contact.TOKEN, accessToken);
+            }
+            if(!TextUtils.isEmpty(rongToken)){
+                SPUtil.getInstance(context).setString(Contact.RONG_TOKEN, rongToken);
+            }
             SPUtil.getInstance(context).setUserId(member.getMemberId());
             SPUtil.getInstance(context).setAnchorId(member.getAnchorId());
             SPUtil.getInstance(context).setMemberJson(memeberJson);

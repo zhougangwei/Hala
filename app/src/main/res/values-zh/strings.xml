@@ -93,7 +93,7 @@
     <string name="message">消息</string>
     <string name="wallet">我的钱包</string>
     <string name="online">在线</string>
-    <string name="offlIine">离线</string>
+    <string name="offlIine">休息</string>
     <string name="hot">热门</string>
     <string name="newnew">新人</string>
     <string name="reserve_now">马上预约</string>
@@ -120,7 +120,7 @@
     <string name="cost">我的支出</string>
     <string name="country">国家</string>
     <string name="distance_km">距离%1$skm</string>
-    <string name="many_mins_active">.%1$s前活跃</string>
+    <string name="many_mins_active"> · %1$s前活跃</string>
     <string name="voice_cost">语音/%1$s</string>
     <string name="video_cost">视频/%1$s</string>
     <string name="follow">关注</string>

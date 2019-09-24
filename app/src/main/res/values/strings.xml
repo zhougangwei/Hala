@@ -129,7 +129,7 @@
     <string name="voice_cost">Voice/%1$s</string>
     <string name="video_cost">Video/%1$s</string>
     <string name="distance_km">距离%1$skm</string>
-    <string name="many_mins_active">.%1$s前活跃</string>
+    <string name="many_mins_active"> · %1$s前活跃</string>
     <string name="follow">关注</string>
     <string name="score">评分</string>
     <string name="add_black">加入黑名单</string>

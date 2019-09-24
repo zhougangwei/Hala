@@ -51,6 +51,7 @@ public class MyPrivateConversationProvider extends PrivateConversationProvider {
         holder.content = (TextView) result.findViewById(R.id.rc_conversation_content);
         holder.notificationBlockImage = (ImageView) result.findViewById(R.id.rc_conversation_msg_block);
         holder.readStatus = (ImageView) result.findViewById(R.id.rc_conversation_status);
+        holder.tvUnread = (TextView) result.findViewById(R.id.rc_tv_unread);
         result.setTag(holder);
         return result;
     }
@@ -164,11 +165,18 @@ public class MyPrivateConversationProvider extends PrivateConversationProvider {
                 }
 
                 if (readRec) {
+                    holder.tvUnread.setText(data.getUnReadMessageCount()>99?"99+":data.getUnReadMessageCount()+"");
                     if (data.getSentStatus() == Message.SentStatus.READ && data.getConversationSenderId().equals(RongIM.getInstance().getCurrentUserId()) && !(data.getMessageContent() instanceof RecallNotificationMessage)) {
                         holder.readStatus.setImageDrawable(RongContext.getInstance().getResources().getDrawable(R.drawable.ic_item_read));
                     } else {
                         holder.readStatus.setImageDrawable(RongContext.getInstance().getResources().getDrawable(R.drawable.ic_item_unread));
                     }
+                    if(data.getUnReadMessageCount()>0){
+                        holder.tvUnread.setVisibility(View.VISIBLE);
+                    }else {
+                        holder.tvUnread.setVisibility(View.GONE);
+                    }
+
                 }
                 this.handleCommonContent(holder, data);
             } else {
@@ -233,6 +241,7 @@ public class MyPrivateConversationProvider extends PrivateConversationProvider {
         public TextView content;
         public ImageView notificationBlockImage;
         public ImageView readStatus;
+        public TextView tvUnread;
 
         protected ViewHolder() {
         }

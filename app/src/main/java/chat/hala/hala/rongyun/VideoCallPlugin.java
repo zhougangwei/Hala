@@ -54,7 +54,7 @@ public class VideoCallPlugin implements IPluginModule {
       }
     });
     // TODO: 2019/8/8/008 进行打电话
-    VideoCallManager.gotoCallOrReverse(currentFragment.getActivity(),VideoCallManager.VIDEO_CALL, ((ConversationActivity)currentFragment.getActivity()).getAnchorId(),((ConversationActivity)currentFragment.getActivity()).getMemberId());
+    VideoCallManager.gotoCallAnchor(currentFragment.getActivity(),VideoCallManager.VIDEO_CALL, ((ConversationActivity)currentFragment.getActivity()).getAnchorId(),((ConversationActivity)currentFragment.getActivity()).getMemberId());
   }
 
   @Override

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/iv_head"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="15dp"
+        android:src="@drawable/ic_head_place"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="#EAEAEA"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:text="唐诗"
+        android:textColor="#FF323333"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@id/iv_head"
+        app:layout_constraintTop_toTopOf="@id/iv_head" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="陪你到世界之巅......"
+        android:textColor="#FFACACAC"
+        app:layout_constraintStart_toStartOf="@id/tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+    <TextView
+        android:gravity="center"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp"
+        android:id="@+id/tv_state"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_marginEnd="18dp"
+        tools:text="#FFFFFFFF"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:background="@drawable/bg_apply_chat_failed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_name" />
+
+    <TextView
+        android:id="@+id/tv_cate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
+        android:text="语音/100Pa币"
+        android:textColor="#59FF3E69"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_content"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>

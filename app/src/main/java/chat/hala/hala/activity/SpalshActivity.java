@@ -39,7 +39,7 @@ public class SpalshActivity extends BaseActivity {
                     public void onGetData(VersionBean baseBean) {
                     }
                 });
-        Observable.timer(2, TimeUnit.SECONDS)
+        Observable.timer(1, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Long>() {
                     @Override

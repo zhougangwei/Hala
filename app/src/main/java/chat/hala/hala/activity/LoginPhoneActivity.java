@@ -1,5 +1,6 @@
 package chat.hala.hala.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.LogUtils;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -24,7 +27,10 @@ import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.FacebookLoginManager;
 import chat.hala.hala.utils.ToastUtils;
 import chat.hala.hala.wight.country.CountryActivity;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class LoginPhoneActivity extends BaseActivity {
@@ -51,8 +57,8 @@ public class LoginPhoneActivity extends BaseActivity {
 
     @BindView(R.id.tv_send_msm)
     TextView tv_send_msm;
-
-
+    private int countDown=60;
+    private Disposable mCountDownSubscribe;
 
     private String mCountryCode="+86";       //电话国家前面的countryCode
 
@@ -145,7 +151,6 @@ public class LoginPhoneActivity extends BaseActivity {
                 break;
 
             case R.id.tv_send_msm:
-
                 sendSms();
                 etSmsNum.setText("151439");
                 break;
@@ -156,6 +161,7 @@ public class LoginPhoneActivity extends BaseActivity {
     }
 
     private void sendSms() {
+        startCountDown();
       RetrofitFactory.getInstance().sendSms().subscribeOn(Schedulers.io())
               .observeOn(AndroidSchedulers.mainThread())
               .subscribe(new BaseCosumer<BaseBean>() {
@@ -164,6 +170,25 @@ public class LoginPhoneActivity extends BaseActivity {
                   }
               });
 
+    }
+
+    @SuppressLint("CheckResult")
+    private void startCountDown() {
+        mCountDownSubscribe = Observable.interval(1, TimeUnit.SECONDS)
+                .compose(this.<Long>bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        countDown--;
+                        tv_send_msm.setText(String.format(getString(R.string.count_down_sms), countDown + ""));
+                        if (countDown == 0) {
+                            mCountDownSubscribe.dispose();
+                            countDown = 60;
+                            tv_send_msm.setText("发验证码");
+                        }
+                    }
+                });
     }
 
     @Override
@@ -233,6 +258,7 @@ public class LoginPhoneActivity extends BaseActivity {
                             AvchatInfo.saveBaseData(baseBean.getData().getMember(),LoginPhoneActivity.this,true);
                             Intent intent = new Intent(LoginPhoneActivity.this,MainActivity.class);
                             startActivity(intent);
+                            setResult(RESULT_OK);
                             finish();
                         }
                     }

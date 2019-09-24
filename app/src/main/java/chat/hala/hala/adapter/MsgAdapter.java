@@ -2,6 +2,7 @@ package chat.hala.hala.adapter;
 
 import android.widget.ImageView;
 
+import com.blankj.utilcode.utils.TimeUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import chat.hala.hala.R;
 import chat.hala.hala.bean.MessageUnreadBean;
+import chat.hala.hala.utils.TimeUtil;
 
 /**
  * Created by kiddo on 2018/1/9.
@@ -39,6 +41,8 @@ public class MsgAdapter extends BaseQuickAdapter<MessageUnreadBean.DataBean, Bas
         }else{
             helper.setVisible(R.id.tv_count, false);
         }
+        TimeUtil.getTextTime2(item.getLastMessageTime());
+        helper.setText(R.id.tv_time,item.getLastMessageTime());
 
     }
 }

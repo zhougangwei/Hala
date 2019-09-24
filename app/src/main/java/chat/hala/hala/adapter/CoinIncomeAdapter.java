@@ -35,9 +35,11 @@ public class CoinIncomeAdapter extends BaseQuickAdapter<CoinListBean.DataBean.Tr
         }
         helper.setText(R.id.tv_time, item.getDate() );
         ImageView view = (ImageView) helper.getView(R.id.iv_head);
+
         Glide.with(mContext).load(item.getInfo().getAvatarUrl())
-                .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholderOf(view.getDrawable()))
+                .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(view.getDrawable()))
                 .into(view);
+
         helper.setText(R.id.tv_name, item.getInfo().getName());
         helper.setText(R.id.tv_cate, item.getCategoryTrans());
 

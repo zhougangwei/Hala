@@ -8,6 +8,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import chat.hala.hala.avchat.AvchatInfo;
+import chat.hala.hala.fragment.ApplyChatFragment;
+import chat.hala.hala.fragment.ApplyListFragment;
 import chat.hala.hala.fragment.FollowFragment;
 import chat.hala.hala.fragment.HomeFragment;
 import chat.hala.hala.fragment.MessageListFragment;
@@ -31,7 +34,12 @@ public class TabAdapter extends FragmentPagerAdapter{
         fragments.clear();
         fragments.add(new HomeFragment());
         fragments.add(new FollowFragment());
-        fragments.add(new FollowFragment());
+        if(AvchatInfo.isAnchor()){
+            fragments.add(new ApplyListFragment());
+        }else{
+            fragments.add(new ApplyChatFragment());
+        }
+
         fragments.add(new MessageListFragment());
         fragments.add(new MyFragment());
 

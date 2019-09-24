@@ -102,7 +102,7 @@
         android:gravity="center"
         android:paddingStart="13dp"
         android:paddingEnd="13dp"
-        android:text="Send"
+        android:text="发验证码"
         android:textColor="@color/white"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="@+id/et_sms_num"

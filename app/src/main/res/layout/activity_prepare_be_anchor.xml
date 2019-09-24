@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="chat.hala.hala.activity.ApplayAnchorActivity">
+    tools:context="chat.hala.hala.activity.ApplyAnchorActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -240,6 +240,7 @@
 
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/ll_video_verity"
             android:layout_width="match_parent"
             android:layout_height="68dp">

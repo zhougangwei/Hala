@@ -4,7 +4,8 @@ package chat.hala.hala.http;
 import chat.hala.hala.bean.AdBean;
 import chat.hala.hala.bean.AnchorBean;
 import chat.hala.hala.bean.AnchorStateBean;
-import chat.hala.hala.bean.AnchorTagBean;
+import chat.hala.hala.bean.ApplyAnchorBean;
+import chat.hala.hala.bean.ApplyListBean;
 import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.bean.BeAnchorBean;
 import chat.hala.hala.bean.BeStarResultBean;
@@ -13,6 +14,10 @@ import chat.hala.hala.bean.CallListBean;
 import chat.hala.hala.bean.CallStateBean;
 import chat.hala.hala.bean.CoinBriefBean;
 import chat.hala.hala.bean.CoinListBean;
+import chat.hala.hala.bean.FamilyAnchorBean;
+import chat.hala.hala.bean.FamilyAnchorDetailBean;
+import chat.hala.hala.bean.FamilyBeanA;
+import chat.hala.hala.bean.FamilyBeanB;
 import chat.hala.hala.bean.FansBean;
 import chat.hala.hala.bean.FeedBackBean;
 import chat.hala.hala.bean.HeartBean;
@@ -25,6 +30,7 @@ import chat.hala.hala.bean.QiNiuToken;
 import chat.hala.hala.bean.RegistBean;
 import chat.hala.hala.bean.ReportBean;
 import chat.hala.hala.bean.ReverseBean;
+import chat.hala.hala.bean.ReverseListBean;
 import chat.hala.hala.bean.RongToken;
 import chat.hala.hala.bean.RtmTokenBean;
 import chat.hala.hala.bean.RuleBean;
@@ -132,9 +138,7 @@ public interface HttpRequest {
     * 获取预约列表
     * */
     @GET("/call/reservation")
-    Observable<CallListBean> getReservationList(@Query("page") int page,@Query("size") int size);
-
-
+    Observable<ReverseListBean> getReservationList(@Query("page") int page, @Query("size") int size);
 
     /*
      * 获取花费列表
@@ -161,12 +165,19 @@ public interface HttpRequest {
     Observable<OneToOneListBean> getNewOneToOneList(@Query("page") int page, @Query("size") int size);
 
 
+    @GET("/anchor/recommend")
+    Observable<OneToOneListBean> getRecommendList(@Query("page") int page, @Query("size") int size);
+
     @GET("/anchor/rand")
     Observable<OneToOneListBean> getRandOneToOneList( @Query("size") int size);
 
 
-    @POST("/call/{user}/keep")
-    Observable<HeartBean> keepBeatHeart(@Path("user") int user);
+    @POST("/call/{callId}/keep")
+    Observable<HeartBean> keepBeatHeart(@Body RequestBody requestBody,@Path("callId") int callId);
+    RequestBody keepBeatHeart(@Query("lootId")Integer lootId,@Query("durationSeconds")Integer durationSeconds
+    );
+
+
 
     @GET("/member/agora/rtm/token")
     Observable<RtmTokenBean> getRtmToken();
@@ -174,16 +185,12 @@ public interface HttpRequest {
     @GET("call/agora/media/token")
     Observable<MediaToken> getMediaToken(@Query("channel")String channel);
 
-
-
     @GET("/anchor/tag")
     Observable<TagBean> getAnchorTag();
-
 
     @GET("/{type}/{user}")
     Observable<AnchorBean> getAnchorData(@Path("type") String type,@Path("user") int user
     );
-
 
     /*
     * 获取当前主播状态
@@ -196,8 +203,9 @@ public interface HttpRequest {
     Observable<ReverseBean> reserveAnchor(@Path("user") int user,@Path("type") String type);
 
 
-    @POST("/call/anchor/{user}/{type}")
-    Observable<CallBean> callAnchor(@Path("user") int user,@Path("type") String type);
+    @POST("/call/anchor/{anchorId}/{memberId}/{type}")
+    Observable<CallBean> callAnchor(@Path("anchorId") int anchor,@Path("memberId") int memberId,@Path("type") String type);
+
 
     /*
     * 获取钱的价格
@@ -209,8 +217,8 @@ public interface HttpRequest {
     Observable<CoinBriefBean> getCoinBrief();
 
 
-    @POST("/call/{callId}/state")
-    Observable<CallStateBean> changeCallState(@Body RequestBody requestBody,@Path("callId") int callId
+    @POST("/call/{callId}/state/{lootId}")
+    Observable<CallStateBean> changeCallState(@Body RequestBody requestBody,@Path("callId") int callId,@Path("lootId") Integer lootId
     );
     RequestBody changeCallState(@Query("state")String state,@Query("durationSeconds")int durationSeconds
     );
@@ -237,8 +245,8 @@ public interface HttpRequest {
     @GET("/anchor/application/result")
     Observable<BeStarResultBean> getBeStarState();
 
-    @POST("/relationship/{type}/anchor/{anchorId}")
-    Observable<BaseBean> addFollow(@Path("type")String type,@Path("anchorId")int anchorId);
+    @POST("/relationship/{type}/member/{memberId}")
+    Observable<BaseBean> addFollow(@Path("type")String type,@Path("memberId")int memberId);
 
     /*
     * 拉黑
@@ -273,6 +281,34 @@ public interface HttpRequest {
     RequestBody minuteCharge(@Query("category") String category
     );
 
+    @POST("/chat/to/progressChatQueue")
+    Observable<BaseBean> startQiuliao(@Body RequestBody requestBody );
+
+    RequestBody startQiuliao(@Query("category") String category,@Query("coin") int coin
+    );
+
+    @GET("/chat/to/getList")
+    Observable<ApplyListBean> getApplyList(@Query("page") int page, @Query("size") int size);
+
+    @GET("/chat/to/clickLoot")
+    Observable<BaseBean> startApply(@Query("lootChatId")int lootChatId);
+
+    @POST("/call/reservation/{reservationId}/reply")
+    Observable<CallBean> replyMember(@Path("reservationId")int reservationId);
+
+    @GET("/family/getAnchorManage")
+    Observable<FamilyAnchorBean> getFamilyAnchor(@Query("page") int page, @Query("size") int size);
+
+    @GET("/family/getAnchorDetails")
+    Observable<FamilyAnchorDetailBean>getFamilyAnchorDetail(@Query("memberId") int memberId, @Query("startedAt") String startedAt
+    , @Query("endedAt") String endedAt
+    );
+
+    @GET("/family/getFamilyManageA")
+    Observable<FamilyBeanA> getFamilyManageA();
 
 
+    @GET("/family/getFamilyManageB")
+    Observable<FamilyBeanB> getFamilyManageB(@Query("startedAt") String startedAt
+            , @Query("endedAt") String endedAt);
 }

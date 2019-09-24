@@ -53,8 +53,11 @@ public class CustomizeVideoMessageProvider extends IContainerItemProvider.Messag
             fromOrTo = "出";
             holder.topImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_chat_video_left));
             holder.llTop.setBackground(mContext.getResources().getDrawable(R.drawable.bg_chat_video_send_top_send));
+            holder.bottomMessage.setText("聊起来");
         } else {
             fromOrTo = "来";
+            holder.bottomMessage.setText("马上回拨");
+
             holder.llTop.setBackground(mContext.getResources().getDrawable(R.drawable.bg_chat_video_send_top_receive));
             holder.topImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_chat_video_right));
         }
@@ -64,6 +67,10 @@ public class CustomizeVideoMessageProvider extends IContainerItemProvider.Messag
         } else if (customizeMessage.getType() == CustomizeVideoMessage.VIDEO_CALL) {
             holder.topMessage.setText("发" + fromOrTo + "一个视频邀请");
         }
+
+
+
+
 
         //  AndroidEmoji.ensure((Spannable) holder.message.getText());//显示消息中的 Emoji 表情。
     }

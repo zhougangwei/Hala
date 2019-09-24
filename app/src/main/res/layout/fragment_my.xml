@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
     <android.support.constraint.ConstraintLayout
+        android:background="@null"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <View
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/empty"
             android:layout_width="match_parent"
             android:layout_height="62dp" />
@@ -28,21 +32,24 @@
             app:layout_constraintTop_toBottomOf="@+id/empty" />
 
         <TextView
-            android:textSize="11sp"
+            android:id="@+id/tv_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="查看或编辑个人资料"
+            android:paddingTop="5dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="5dp"
+            android:text="查看个人资料 >"
             android:textColor="#BC8200"
+            android:textSize="11sp"
             app:layout_constraintStart_toStartOf="@+id/tv_name"
             app:layout_constraintTop_toBottomOf="@id/tv_name" />
 
 
         <ImageView
-            android:layout_marginStart="13dp"
             android:id="@+id/iv_head"
             android:layout_width="52dp"
             android:layout_height="52dp"
+            android:layout_marginStart="13dp"
             android:layout_marginEnd="20dp"
             android:src="@drawable/circle_place"
 
@@ -51,7 +58,6 @@
 
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/tv_charge"
             android:layout_width="101dp"
             android:layout_height="36dp"
@@ -60,6 +66,7 @@
             android:gravity="center"
             android:text="@string/recharge"
             android:textColor="@color/white"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@id/iv_head"
             app:layout_constraintStart_toStartOf="@id/iv_head"
             app:layout_constraintTop_toBottomOf="@+id/iv_head" />
@@ -70,17 +77,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="37dp"
-            android:layout_marginTop="3dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:layout_marginTop="12dp"
             android:text="0"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
             android:textColor="@color/black"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_charge" />
 
         <TextView
-            android:textSize="12sp"
             android:id="@+id/tv_follow_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -88,77 +95,98 @@
             android:layout_marginTop="2dp"
             android:text="@string/follow"
             android:textColor="#FFACACAC"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_follow" />
 
 
         <TextView
-            android:id="@+id/tv_money"
+            android:paddingTop="10dp"
+            android:id="@+id/tv_fans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="57dp"
-            android:layout_marginTop="3dp"
+            android:text="0"
+
+            android:paddingEnd="10dp"
             android:textColor="@color/black"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/tv_follow"
-            app:layout_constraintTop_toTopOf="@+id/tv_charge"
-            tools:text="0" />
+            app:layout_constraintTop_toTopOf="@+id/tv_follow" />
 
         <TextView
-            android:textSize="12sp"
-            android:id="@+id/tv_coin_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:text="@string/coins"
+            android:text="粉丝"
             android:textColor="#A3A3A3"
-            app:layout_constraintStart_toStartOf="@id/tv_money"
-            app:layout_constraintTop_toBottomOf="@+id/tv_money" />
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/tv_fans"
+            app:layout_constraintTop_toBottomOf="@+id/tv_fans" />
 
 
         <TextView
+            android:paddingTop="10dp"
+            android:gravity="start"
             android:id="@+id/tv_friend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="57dp"
-            android:layout_marginTop="3dp"
+            android:paddingEnd="10dp"
+            android:text="10"
             android:textColor="@color/black"
             android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@id/tv_money"
-            app:layout_constraintTop_toTopOf="@+id/tv_charge"
-            android:text="10" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/tv_fans"
+            app:layout_constraintTop_toTopOf="@+id/tv_fans" />
 
         <TextView
-            android:textSize="12sp"
             android:id="@+id/tv_friend_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:text="好友"
             android:textColor="#A3A3A3"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@id/tv_friend"
             app:layout_constraintTop_toBottomOf="@+id/tv_friend" />
 
+        <ImageView
+            android:scaleType="fitXY"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="11dp"
+            android:layout_marginBottom="12dp"
+            android:src="@drawable/bkg_familycreat"
+            app:layout_constraintBottom_toTopOf="@+id/iv_income"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_follow_name" />
 
         <TextView
-            android:layout_marginTop="33dp"
             android:id="@+id/textView14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
+            android:layout_marginTop="33dp"
             android:text="申请家族"
             android:textColor="#1A1A1A"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_follow_name" />
 
         <ImageView
-            android:layout_marginTop="15dp"
             android:id="@+id/iv_family"
             android:layout_width="0dp"
-            android:layout_height="93dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="28dp"
-            android:src="@color/black"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_familycreat"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView14" />
@@ -166,7 +194,7 @@
         <ImageView
 
             android:id="@+id/iv_income"
-            android:layout_width="wrap_content"
+            android:layout_width="21dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="30dp"
@@ -195,8 +223,8 @@
             android:layout_marginStart="15dp"
             android:padding="5dp"
             android:text="50000金豆"
-            android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textColor="#FF5A5A"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_income"
             app:layout_constraintEnd_toStartOf="@id/iv0"
             app:layout_constraintStart_toEndOf="@id/tv_income"
@@ -215,7 +243,7 @@
 
         <ImageView
             android:id="@+id/iv_wallet"
-            android:layout_width="wrap_content"
+            android:layout_width="21dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="31dp"
@@ -228,14 +256,30 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
+            android:gravity="start"
             android:padding="5dp"
-            android:text="@string/wallet"
+            android:text="钱包余额"
             android:textColor="@color/black"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_wallet"
-            app:layout_constraintEnd_toStartOf="@id/iv1"
+            app:layout_constraintEnd_toStartOf="@id/tv_my_money"
             app:layout_constraintStart_toEndOf="@id/iv_wallet"
             app:layout_constraintTop_toTopOf="@id/iv_wallet" />
+
+        <TextView
+            android:id="@+id/tv_my_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:padding="5dp"
+            android:text="50000金币"
+            android:textColor="#FF5A5A"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_wallet"
+            app:layout_constraintEnd_toStartOf="@id/iv1"
+            app:layout_constraintStart_toEndOf="@id/tv_wallet"
+            app:layout_constraintTop_toTopOf="@id/tv_wallet" />
+
 
         <ImageView
             android:id="@+id/iv1"
@@ -250,7 +294,7 @@
 
         <ImageView
             android:id="@+id/iv_certify"
-            android:layout_width="wrap_content"
+            android:layout_width="21dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="31dp"
@@ -282,13 +326,59 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/iv_certify" />
 
+
+        <LinearLayout
+            android:id="@+id/ll_family_manager"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/iv_beauty_setting"
+            app:layout_constraintTop_toBottomOf="@id/iv_certify">
+
+            <ImageView
+                android:layout_width="21dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_familysetting" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:text="我的家族"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_next_8" />
+        </LinearLayout>
+
+
+
+        <ImageView
+            android:id="@+id/iv_devide"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginTop="16dp"
+            android:src="#FFF5F5F7"
+            app:layout_constraintTop_toBottomOf="@+id/ll_family_manager" />
+
         <ImageView
             android:id="@+id/iv_feedback"
-            android:layout_width="wrap_content"
+            android:layout_width="21dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="31dp"
-            android:src="@drawable/ic_chatsetting"
+            android:src="@drawable/ic_feedback"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_beauty_setting" />
 
@@ -319,7 +409,7 @@
 
         <ImageView
             android:id="@+id/iv_invite"
-            android:layout_width="wrap_content"
+            android:layout_width="21dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="15dp"
@@ -333,7 +423,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:padding="5dp"
-            android:text="@string/invite_friends"
+            android:text="分享给Ta"
             android:textColor="@color/black"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_invite"
@@ -354,13 +444,13 @@
 
         <ImageView
             android:id="@+id/iv_chat_setting"
-            android:layout_width="wrap_content"
+            android:layout_width="21dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="31dp"
+            android:layout_marginTop="16dp"
             android:src="@drawable/ic_chatsetting"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_certify" />
+            app:layout_constraintTop_toBottomOf="@id/iv_devide" />
 
         <TextView
             android:id="@+id/tv_chat_setting"
@@ -388,7 +478,7 @@
 
         <ImageView
             android:id="@+id/iv_beauty_setting"
-            android:layout_width="wrap_content"
+            android:layout_width="21dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="31dp"
@@ -432,7 +522,7 @@
             app:layout_constraintTop_toBottomOf="@id/iv_feedback">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="21dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/ic_about" />
@@ -444,7 +534,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_weight="1"
                 android:padding="5dp"
-                android:text="关于我们"
+                android:text="关于Pa聊"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -495,14 +585,13 @@
             app:layout_constraintTop_toTopOf="@id/iv_loginout" />
 
         <ImageView
-            android:layout_marginTop="14dp"
-            app:layout_constraintTop_toTopOf="parent"
-            android:padding="18dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/ic_settings"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:padding="18dp"
+            android:src="@drawable/ic_settings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <android.support.constraint.Group

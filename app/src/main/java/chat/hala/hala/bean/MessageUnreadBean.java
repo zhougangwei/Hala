@@ -23,6 +23,7 @@ public class MessageUnreadBean extends BaseBean {
          * unreadCount : 0
          * category : video_call
          * brief : just spent 20 coin
+         * lastMessageTime : 1999-12-12 12:12
          */
 
         private String iconUrl;
@@ -30,6 +31,7 @@ public class MessageUnreadBean extends BaseBean {
         private int unreadCount;
         private String category;
         private String brief;
+        private String lastMessageTime;
 
         public String getIconUrl() {
             return iconUrl;
@@ -69,6 +71,14 @@ public class MessageUnreadBean extends BaseBean {
 
         public void setBrief(String brief) {
             this.brief = brief;
+        }
+
+        public String getLastMessageTime() {
+            return lastMessageTime == null ? "" : lastMessageTime;
+        }
+
+        public void setLastMessageTime(String lastMessageTime) {
+            this.lastMessageTime = lastMessageTime == null ? "" : lastMessageTime;
         }
     }
 }

@@ -24,9 +24,10 @@ public class ChatSuccessHelper {
             @Override
             public void accept(ReverseSuccessEvent uiEvent) throws Exception {
                 new ReverseSuccessDialog(activity,activity.getString(R.string.just_finish_a_call)).show();
-                rxBus.unSubscribe(this);
+                rxBus.unSubscribe(activity);
             }
         });
         rxBus.addSubscription(activity,disposable);
     }
+
 }

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/black">
+    <chat.hala.hala.wight.NoScrollViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="17dp"
+        android:src="@drawable/ic_back_white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <TextView
+        android:id="@+id/tv_family_manager"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:gravity="end"
+
+        android:text="家族管理"
+        android:textColor="#FFFFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_back"
+        app:layout_constraintEnd_toStartOf="@+id/tv_anchor_manager"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_back" />
+
+    <ImageView
+        android:id="@+id/iv1"
+        app:layout_constraintTop_toBottomOf="@+id/tv_family_manager"
+        android:layout_width="22dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="21dp"
+        android:src="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/tv_family_manager" />
+
+    <ImageView
+        android:id="@+id/iv2"
+        app:layout_constraintTop_toBottomOf="@+id/tv_anchor_manager"
+        android:layout_width="22dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="21dp"
+        android:src="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/tv_anchor_manager" />
+
+
+    <TextView
+
+        android:id="@+id/tv_anchor_manager"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="主播管理"
+        android:textColor="#FFFFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_family_manager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/tv_family_manager"
+        app:layout_constraintTop_toTopOf="@+id/tv_family_manager" />
+
+</android.support.constraint.ConstraintLayout>

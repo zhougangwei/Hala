@@ -117,7 +117,7 @@ public class SuggestFragment extends BaseFragment {
         }
         LogUtils.e(TAG, "aaa" + page);
 
-        RetrofitFactory.getInstance().getHotOneToOneList(0, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
+        RetrofitFactory.getInstance().getRecommendList(0, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<OneToOneListBean>() {
                     @Override
@@ -125,7 +125,6 @@ public class SuggestFragment extends BaseFragment {
                         super.onError(e);
                         suggestAdapter.loadMoreFail();
                     }
-
                     @Override
                     public void onGetData(OneToOneListBean oneToOneListBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != oneToOneListBean.getCode()) {

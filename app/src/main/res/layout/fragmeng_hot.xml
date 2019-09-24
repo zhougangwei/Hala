@@ -8,8 +8,6 @@
                                               >
 
     <android.support.v7.widget.RecyclerView
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
         android:id="@+id/rv"
         android:background="@null"
         android:layout_width="match_parent"

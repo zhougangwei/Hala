@@ -1,5 +1,7 @@
 package chat.hala.hala.utils;
 
+import android.text.TextUtils;
+
 import com.blankj.utilcode.utils.TimeUtils;
 
 import java.text.DateFormat;
@@ -43,6 +45,21 @@ public class TimeUtil {
         return df2.format(date1);
     }
 
+    public static String dealDateFormat3(String oldDate) {
+        Date date1 = null;
+        DateFormat df2 = null;
+        try {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            Date date = df.parse(oldDate);
+            SimpleDateFormat df1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
+            date1 = df1.parse(date.toString());
+            df2 = new SimpleDateFormat("yyyy-MM-dd");
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+        }
+        return df2.format(date1);
+    }
 
     public static String stringForTime(int timeMs) {
 
@@ -128,5 +145,27 @@ public class TimeUtil {
             return "";
         }
 
+    }
+
+    public static String getTextTime2(String lastMessageTime) {
+
+        if(TextUtils.isEmpty(lastMessageTime)){
+            return "";
+        }
+        String textTime = getTextTime(lastMessageTime);
+        if ("今天".equals(textTime)) {
+            return TimeUtils.date2String(TimeUtils.string2Date(lastMessageTime, new SimpleDateFormat("HH:mm")));
+        }else{
+            return textTime;
+        }
+
+    }
+
+
+    public static  String getTodayStart(){
+        return TimeUtils.getCurTimeString(new SimpleDateFormat("yyyy-MM-dd"))+" 00:00:00";
+    }
+    public static  String getTodayEnd(){
+        return TimeUtils.getCurTimeString(new SimpleDateFormat("yyyy-MM-dd"))+" 23:59:59";
     }
 }

@@ -11,6 +11,9 @@ public class RtmCallBean {
     private String message;
     private String imageUrl;
     private String channelId;
+    private Integer callId;
+    private Integer lootId;
+    private boolean enableVideo=true;
 
     public String getName() {
         return name;
@@ -42,5 +45,29 @@ public class RtmCallBean {
 
     public void setChannelId(String channelId) {
         this.channelId = channelId;
+    }
+
+    public int getCallId() {
+        return callId;
+    }
+
+    public void setCallId(int callId) {
+        this.callId = callId;
+    }
+
+    public boolean isEnableVideo() {
+        return enableVideo;
+    }
+
+    public Integer getLootId() {
+        return lootId;
+    }
+
+    public void setLootId(Integer lootId) {
+        this.lootId = lootId;
+    }
+
+    public void setEnableVideo(boolean enableVideo) {
+        this.enableVideo = enableVideo;
     }
 }

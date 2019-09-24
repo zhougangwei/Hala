@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.LogUtils;
-import com.blankj.utilcode.utils.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.zhihu.matisse.Matisse;
@@ -29,20 +28,20 @@ import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
-import chat.hala.hala.bean.AnchorBean;
 import chat.hala.hala.bean.AnchorTagBean;
-import chat.hala.hala.bean.ApplyAnchorBean;
 import chat.hala.hala.bean.EditUserBean;
 import chat.hala.hala.bean.QiNiuToken;
 import chat.hala.hala.bean.RegistBean;
+import chat.hala.hala.dialog.CommonDialog;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.http.UploadPicManger;
 import chat.hala.hala.manager.ChoosePicManager;
+import chat.hala.hala.rxbus.RxBus;
+import chat.hala.hala.rxbus.event.RefreshUserInfoEvent;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ResultUtils;
-import chat.hala.hala.utils.TimeUtil;
 import chat.hala.hala.utils.ToastUtils;
 import cn.qqtheme.framework.picker.DatePicker;
 import cn.qqtheme.framework.picker.DoublePicker;
@@ -82,7 +81,7 @@ public class EditUserActivity extends BaseActivity {
     @BindView(R.id.ll_city)
     LinearLayout llCity;
     @BindView(R.id.et_autoGraph)
-    EditText etAutoGraph;
+    TextView etAutoGraph;
     @BindView(R.id.ll_autoGraph)
     LinearLayout llAutoGraph;
 
@@ -102,8 +101,9 @@ public class EditUserActivity extends BaseActivity {
     RecyclerView recyclerView;
 
 
-    private List<EditHeadAdapter.UserHead> mList;
-    private List<String> uriList = new ArrayList<>();
+    private List<EditHeadAdapter.UserHead> mDataList;
+    private List<String> uriList = new ArrayList<>();   //本地地址
+    private List<String> upurlList =new ArrayList<>();  //网络地址
     List<Integer> tagsList = new ArrayList<>();
 
 
@@ -123,7 +123,6 @@ public class EditUserActivity extends BaseActivity {
 
 
 
-
     @Override
     protected int getContentViewId() {
         return R.layout.activity_edit_user;
@@ -138,9 +137,9 @@ public class EditUserActivity extends BaseActivity {
     protected void initView() {
 
         tvTitle.setText("编辑资料");
-        mList = new ArrayList<>();
-        mList.add(new EditHeadAdapter.UserHead("", true));
-        mAdapter = new EditHeadAdapter(mList);
+        mDataList = new ArrayList<>();
+        mDataList.add(new EditHeadAdapter.UserHead("", true));
+        mAdapter = new EditHeadAdapter(mDataList);
         mAdapter.setEnableLoadMore(false);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -153,9 +152,34 @@ public class EditUserActivity extends BaseActivity {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (mList.get(position).isAdd()) {
+                if (mDataList.get(position).isAdd()) {
                     ChoosePicManager.choosePic(EditUserActivity.this, 3);
                 }
+            }
+        });
+        mAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, final int position) {
+                new CommonDialog(EditUserActivity.this)
+                        .setMsg("确定删除吗?")
+                        .setListener(new CommonDialog.OnClickListener() {
+                            @Override
+                            public void onClickConfirm() {
+                                if (!mDataList.get(position).isAdd()) {
+                                    EditHeadAdapter.UserHead userHead = mDataList.get(position);
+                                    if (upurlList.contains(userHead.getPicPath())){
+                                        upurlList.remove(userHead.getPicPath());
+                                    }
+                                    mDataList.remove(userHead);
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            }
+                            @Override
+                            public void onClickCancel() {
+                            }
+                        }).show();
+
+                return false;
             }
         });
 
@@ -167,11 +191,16 @@ public class EditUserActivity extends BaseActivity {
      * */
     private void dataBackShow() {
         etUsername.setText(AvchatInfo.getName());
-        etGender.setText(AvchatInfo.getGender()==1?"男":"女");
+        etGender.setText(AvchatInfo.getGender() == 1 ? "男" : "女");
         tvBirth.setText(AvchatInfo.getBirthDate());
         etCity.setText(AvchatInfo.getResidentialPlace());
         etAutoGraph.setText(AvchatInfo.getAutoGraph());
         etBio.setText(AvchatInfo.getIntroduction());
+        upurlList.add(AvchatInfo.getAvatarUrl());
+        for (String s : upurlList) {
+            mDataList.add(new EditHeadAdapter.UserHead(s, false));
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
     @OnClick({R.id.ll_tags, R.id.ll_birth, R.id.ll_city, R.id.ll_autoGraph, R.id.ll_bio, R.id.tv_save, R.id.iv_back, R.id.ll_height_weight, R.id.ll_gender})
@@ -192,7 +221,11 @@ public class EditUserActivity extends BaseActivity {
                 if (!judgeEmpty()) {
                     return;
                 } else {
-                    upQiniu();
+                    if (uriList.size()==0){
+                        gotoSave();
+                    }else{
+                        upQiniu();
+                    }
                 }
                 break;
             case R.id.iv_back:
@@ -203,6 +236,10 @@ public class EditUserActivity extends BaseActivity {
                 break;
             case R.id.ll_gender:
                 chooseGender();
+                break;
+            case R.id.ll_autoGraph:
+                Intent intent2 = new Intent(this, AutoGraphActivity.class);
+                startActivityForResult(intent2, Contact.REQUEST_AUTOGRAPH);
                 break;
 
         }
@@ -237,6 +274,8 @@ public class EditUserActivity extends BaseActivity {
                 public void onPicked(int selectedFirstIndex, int selectedSecondIndex) {
                     height = firstData.get(selectedFirstIndex);
                     weight = secondData.get(selectedSecondIndex);
+                    etHeightWeight.setText(height + "/" + weight);
+
                 }
             });
             heightPicker.show();
@@ -271,60 +310,56 @@ public class EditUserActivity extends BaseActivity {
 
         birth = tvBirth.getText().toString();  //星座
         city = etCity.getText().toString();
-        autoGraph = etAutoGraph.getText().toString();
+        autoGraph = etAutoGraph.getText().toString();       //个性签名
+        introdution = etAutoGraph.getText().toString();     //他说
 
         if (TextUtils.isEmpty(userName)) {
-            ToastUtils.showToast(this, "userName" + "不可以为空");
+            ToastUtils.showToast(this, "姓名" + "不可以为空");
             return false;
         }
-
-
         if (TextUtils.isEmpty(birth)) {
-            ToastUtils.showToast(this, "birth" + "不可以为空");
-            return false;
-        }
-
-
-        if (TextUtils.isEmpty(city)) {
-            ToastUtils.showToast(this, "city" + "不可以为空");
+            ToastUtils.showToast(this, "生日" + "不可以为空");
             return false;
         }
 
         if (uriList == null || uriList.size() == 0) {
-            ToastUtils.showToast(this, "uriList" + "不可以为空");
-            return false;
-        }
-        if (TextUtils.isEmpty(autoGraph)) {
-            ToastUtils.showToast(this, "autoGraph" + "不可以为空");
-            return false;
+            if (upurlList==null||upurlList.size() == 0){
+                ToastUtils.showToast(this, "头像" + "不可以为空");
+                return false;
+            }
         }
 
 
         if (AvchatInfo.isAnchor()) {
 
             if (TextUtils.isEmpty(height)) {
-                ToastUtils.showToast(this, "height" + "不可以为空");
+                ToastUtils.showToast(this, "身高" + "不可以为空");
                 return false;
             }
             if (TextUtils.isEmpty(weight)) {
-                ToastUtils.showToast(this, "weight" + "不可以为空");
+                ToastUtils.showToast(this, "体重" + "不可以为空");
                 return false;
             }
             if (TextUtils.isEmpty(introdution)) {
-                ToastUtils.showToast(this, "introdution" + "不可以为空");
+                ToastUtils.showToast(this, "Ta说" + "不可以为空");
                 return false;
             }
             if (tagsList == null || tagsList.size() == 0) {
-                ToastUtils.showToast(this, "tagsList" + "不可以为空");
+                ToastUtils.showToast(this, "标签" + "不可以为空");
+                return false;
+            }
+            if (TextUtils.isEmpty(city)) {
+                ToastUtils.showToast(this, "现居地" + "不可以为空");
+                return false;
+            }
+            if (TextUtils.isEmpty(autoGraph)) {
+                ToastUtils.showToast(this, "个性签名" + "不可以为空");
                 return false;
             }
         }
 
 
-        if (uriList == null || uriList.size() == 0) {
-            ToastUtils.showToast(this, "uriList" + "不可以为空");
-            return false;
-        }
+
 
         return true;
 
@@ -358,13 +393,15 @@ public class EditUserActivity extends BaseActivity {
             if (requestCode == Contact.REQUEST_BIO) {
                 introdution = data.getStringExtra("bio");
                 etBio.setText(introdution);
+            } else if (requestCode == Contact.REQUEST_AUTOGRAPH) {
+                autoGraph = data.getStringExtra("bio");
+                etAutoGraph.setText(autoGraph);
             } else if (requestCode == ChoosePicManager.REQUEST_CODE_CHOOSE) {
                 List<String> strings = Matisse.obtainPathResult(data);
                 if (uriList != null) {
-                    uriList.clear();
                     uriList.addAll(strings);
                     for (String s : uriList) {
-                        mList.add(new EditHeadAdapter.UserHead(s, false));
+                        mDataList.add(new EditHeadAdapter.UserHead(s, false));
                     }
                     mAdapter.notifyDataSetChanged();
                 }
@@ -378,11 +415,11 @@ public class EditUserActivity extends BaseActivity {
                 if (tagList != null && tagList.size() > 0) {
                     tagsList.clear();
                     for (int i = 0; i < tagList.size(); i++) {
-                       AnchorTagBean.DataBean dataBean=tagList.get(i);
+                        AnchorTagBean.DataBean dataBean = tagList.get(i);
                         tagsList.add(dataBean.getTagId());
-                        if(i==tagList.size()-1){
+                        if (i == tagList.size() - 1) {
                             sb.append(dataBean.getContent());
-                        }else{
+                        } else {
                             sb.append(dataBean.getContent() + ",");
                         }
                     }
@@ -400,10 +437,10 @@ public class EditUserActivity extends BaseActivity {
         new UploadPicManger().uploadImageArray(uriList, 0, starchatanchorBean.getToken(), starchatanchorBean.getUrl(), new UploadPicManger.QiNiuUploadCompletionHandler() {
             @Override
             public void uploadSuccess(String path, List<String> paths) {
-                for (int i = 0; i < paths.size(); i++) {
-                    LogUtils.e(TAG, "uploadSuccess:" + paths.get(i));
+                if (paths!=null&&paths.size()!=0) {
+                    upurlList.addAll(paths);
+                    gotoSave();
                 }
-                gotoSave(paths);
             }
 
             @Override
@@ -414,12 +451,12 @@ public class EditUserActivity extends BaseActivity {
         });
     }
 
-    private void gotoSave(List<String> paths) {
+    private void gotoSave() {
         List<EditUserBean.AlbumBean> covers = new ArrayList<>();
-        if (paths != null) {
-            for (int i = 0; i < paths.size(); i++) {
+        if (upurlList != null) {
+            for (int i = 0; i < upurlList.size(); i++) {
                 EditUserBean.AlbumBean coversBean = new EditUserBean.AlbumBean();
-                coversBean.setMediaUrl(paths.get(i));
+                coversBean.setMediaUrl(upurlList.get(i));
                 coversBean.setSortby(i + "");
                 covers.add(coversBean);
             }
@@ -445,7 +482,10 @@ public class EditUserActivity extends BaseActivity {
                     @Override
                     public void onGetData(RegistBean registBean) {
                         if (ResultUtils.cheekSuccess(registBean)) {
-                            AvchatInfo.saveBaseData(registBean.getData(), EditUserActivity.this,false);
+                            ToastUtils.showToast(EditUserActivity.this,"保存成功!");
+                            AvchatInfo.saveBaseData(registBean.getData(), EditUserActivity.this, true);
+                            RxBus.getIntanceBus().post(new RefreshUserInfoEvent());
+                            finish();
                         }
                     }
                 });

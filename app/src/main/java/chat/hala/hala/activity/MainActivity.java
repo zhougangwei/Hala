@@ -216,6 +216,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     public void onBackPressed() {
         long newTime = System.currentTimeMillis();
         if (newTime - oldTime < 3000) {
+            RongIM.getInstance().disconnect();
             finish();
         } else {
             new CommonDialog(this)
@@ -223,6 +224,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                     .setListener(new CommonDialog.OnClickListener() {
                         @Override
                         public void onClickConfirm() {
+                            RongIM.getInstance().disconnect();
                             finish();
                         }
 
@@ -271,9 +273,11 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                 if(AvchatInfo.isLogin()){
                     vp.setCurrentItem(i, false);
                 }else{
-                    LoginActivityNew.startLogin(this);
-                }
+                    if(clickView != ivHome ){
+                        LoginActivityNew.startLogin(this);
+                    }
 
+                }
             }
         }
     }
@@ -368,7 +372,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                                                 String content = invitation.getContent();
                                                 RtmCallBean rtmCallBean = GsonUtil.parseJsonToBean(content, RtmCallBean.class);
                                                 OneToOneActivity.doReceivveOneToOneActivity(MainActivity.this, rtmCallBean.getChannelId(), Integer.parseInt(invitation.getCallerId())
-                                                        , rtmCallBean.getImageUrl(), rtmCallBean.getMessage(), rtmCallBean.getName()
+                                                        , rtmCallBean.getImageUrl(), rtmCallBean.getMessage(), rtmCallBean.getName(),rtmCallBean.getCallId(),rtmCallBean.getLootId(),rtmCallBean.isEnableVideo()
 
                                                 );
                                             }

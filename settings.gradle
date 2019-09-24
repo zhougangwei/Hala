@@ -1,1 +1,1 @@
-include ':app', ':IMKit', ':IMLib' ,':googlepay','RedPacket'
+include ':app', ':IMKit', ':IMLib' ,'RedPacket'

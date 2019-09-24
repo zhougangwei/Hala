@@ -5,7 +5,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            tools:context="chat.hala.hala.activity.ApplayAnchorActivity">
+            tools:context="chat.hala.hala.activity.ApplyAnchorActivity">
 
 
     <LinearLayout
@@ -227,7 +227,7 @@
                 android:text="@string/personal_signature"
                 />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_autoGraph"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

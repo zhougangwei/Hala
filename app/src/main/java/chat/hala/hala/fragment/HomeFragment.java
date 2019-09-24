@@ -42,8 +42,6 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-
-
         if(AvchatInfo.isAnchor()){
             titles=new String[]{getString(R.string.suggest),getString(R.string.hot),getString(R.string.newnew)};
         }else{

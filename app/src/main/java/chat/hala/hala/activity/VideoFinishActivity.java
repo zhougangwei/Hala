@@ -48,6 +48,7 @@ public class VideoFinishActivity extends BaseActivity {
     private String mCost;
     private int    starLevel;
     private String anchorUrl;
+    private boolean click;
 
     @Override
     protected int getContentViewId() {
@@ -83,6 +84,10 @@ public class VideoFinishActivity extends BaseActivity {
 
     @OnClick(R.id.tv_ok)
     public void onClick() {
+        if (click){
+            return;
+        }
+        click =true;
         RxBus.getIntanceBus().post(new ReverseSuccessEvent());
         finish();
     }

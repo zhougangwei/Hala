@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="chat.hala.hala.activity.BioActivity">
+
+
+    <include layout="@layout/include_top_toolbar_save_2"/>
+    
+    <EditText
+        android:id="@+id/et_bio"
+        android:paddingTop="14dp"
+        android:paddingStart="29dp"
+        android:hint="编辑个性签名"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="74dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="158dp"/>
+</android.support.constraint.ConstraintLayout>

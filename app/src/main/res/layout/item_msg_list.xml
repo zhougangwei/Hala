@@ -9,8 +9,8 @@
     <ImageView
         android:scaleType="centerCrop"
         android:id="@+id/iv_head"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginStart="15dp"
         android:src="@drawable/ic_coinlist"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,19 +19,19 @@
        />
 
     <TextView
+
         android:id="@+id/tv_count"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:textSize="8sp"
-        tools:text="11"
-        android:layout_marginStart="32dp"
-        app:layout_constraintStart_toStartOf="@id/iv_head"
         android:layout_width="16dp"
         android:layout_height="16dp"
-        android:layout_marginTop="10dp"
+
         android:background="@drawable/ic_count_msg"
-        app:layout_constraintTop_toTopOf="parent"
-         />
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_content"
+        app:layout_constraintEnd_toEndOf="@+id/tv_time"
+
+        tools:text="11" />
 
 
     <TextView
@@ -56,15 +56,16 @@
         android:textColor="#A2A2A2"
         app:layout_constraintStart_toStartOf="@id/tv_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_name" />
-    <ImageView
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="17dp"
-        android:src="@drawable/ic_next_8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="14dp"
+        android:text="19:00"
+        android:textColor="#A2A2A2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_name" />
 
 
 

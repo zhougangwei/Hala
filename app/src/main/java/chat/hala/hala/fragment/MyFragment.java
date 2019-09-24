@@ -21,6 +21,7 @@ import chat.hala.hala.activity.AnchorsActivity;
 import chat.hala.hala.activity.BeStarResultActivity;
 import chat.hala.hala.activity.ChargeActivity;
 import chat.hala.hala.activity.ChatSettingActivity;
+import chat.hala.hala.activity.FamilyManagerActivity;
 import chat.hala.hala.activity.FeedBackActivity;
 import chat.hala.hala.activity.FollowOrFansActivity;
 import chat.hala.hala.activity.LoginActivity;
@@ -38,9 +39,15 @@ import chat.hala.hala.dialog.CommonDialog;
 import chat.hala.hala.dialog.ShareDialog;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.rxbus.RxBus;
+import chat.hala.hala.rxbus.event.RefreshMsgEvent;
+import chat.hala.hala.rxbus.event.RefreshUserInfoEvent;
 import chat.hala.hala.utils.ResultUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import io.rong.imkit.RongIM;
 
 public class MyFragment extends BaseFragment {
     @BindView(R.id.tv_name)
@@ -53,11 +60,14 @@ public class MyFragment extends BaseFragment {
 
     @BindView(R.id.tv_income_value)
     TextView tvInComeValue;
-    @BindView(R.id.tv_money)
-    TextView tvMoney;
-
     @BindView(R.id.tv_follow)
     TextView tvFollow;
+
+    @BindView(R.id.tv_fans)
+    TextView tvFans;
+
+    @BindView(R.id.tv_my_money)
+    TextView tvMyMoney;
 
     @BindView(R.id.tv_follow_name)
     TextView tvFollowName;
@@ -69,22 +79,26 @@ public class MyFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-
         tvName.setText(AvchatInfo.getName());
-
-
         Glide.with(this)
                 .load(AvchatInfo.getAvatarUrl())
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(ivHead.getDrawable()))
                 .into(ivHead);
-        tvMoney.setText(AvchatInfo.getCoin() + "");
+        tvMyMoney.setText(AvchatInfo.getCoin() + "Pa币");
         if (AvchatInfo.isAnchor()) {
             initIncome();
             gpInCome.setVisibility(View.VISIBLE);
         }else{
             gpInCome.setVisibility(View.GONE);
         }
-
+        RxBus intanceBus = RxBus.getIntanceBus();
+        Disposable disposable=intanceBus.doSubscribe(RefreshUserInfoEvent.class, new Consumer<RefreshUserInfoEvent>() {
+            @Override
+            public void accept(RefreshUserInfoEvent data) throws Exception {
+                refreshData();
+            }
+        });
+        intanceBus .addSubscription(this,disposable);
 
 
 
@@ -98,7 +112,7 @@ public class MyFragment extends BaseFragment {
                     @Override
                     public void onGetData(CoinListBean baseBean) {
                         if (ResultUtils.cheekSuccess(baseBean)) {
-                            tvInComeValue.setText(baseBean.getData().getTotal()+"");
+                            tvInComeValue.setText(baseBean.getData().getTotal()+"Pa豆");
                         }
                     }
                 });
@@ -120,14 +134,6 @@ public class MyFragment extends BaseFragment {
         if(!AvchatInfo.isLogin()){
             return;
         }
-        if (AvchatInfo.isAnchor()){
-            tvFollowName.setText("粉丝");
-            tvFollow.setText(AvchatInfo.getMemberBean().getFansCount()+"");
-        }else{
-            tvFollowName.setText("关注");
-            tvFollow.setText(AvchatInfo.getMemberBean().getFollowingCount()+"");
-        }
-
         RetrofitFactory.getInstance()
                 .getAnchorData(AvchatInfo.isAnchor()?"anchor":"member",AvchatInfo.isAnchor()?AvchatInfo.getAnchorId(): AvchatInfo.getAccount())
                 .subscribeOn(Schedulers.io())
@@ -159,7 +165,7 @@ public class MyFragment extends BaseFragment {
                     @Override
                     public void onGetData(CoinBriefBean coinBriefBean) {
                         if (ResultUtils.cheekSuccess(coinBriefBean)) {
-                            tvMoney.setText(coinBriefBean.getData().getTotal() + "");
+                            tvMyMoney.setText(coinBriefBean.getData().getTotal() + "Pa币");
                         }
                     }
                 });
@@ -173,9 +179,16 @@ public class MyFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.ll_about_us,R.id.tv_follow, R.id.tv_income, R.id.iv_head, R.id.tv_charge, R.id.tv_money, R.id.tv_wallet, R.id.tv_certify, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
+
+    @OnClick({R.id.tv_friend,R.id.tv_fans,R.id.ll_about_us,R.id.tv_follow, R.id.tv_income,R.id.tv_edit, R.id.iv_head, R.id.tv_charge,  R.id.tv_wallet, R.id.tv_certify,R.id.ll_family_manager, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_friend:
+                gotoFriend();
+                break;
+            case R.id.tv_fans:
+                gotoFans();
+                break;
             case R.id.ll_about_us:
                 gotoAboutUs();
                 break;
@@ -188,16 +201,20 @@ public class MyFragment extends BaseFragment {
             case R.id.iv_head:
                 gotoEdit();
                 break;
+            case R.id.tv_edit:
+                gotoEdit();
+                break;
             case R.id.tv_charge:
                gotoCharge();
-                break;
-            case R.id.tv_money:
                 break;
             case R.id.tv_wallet:
                 gotoWallet();
                 break;
             case R.id.tv_certify:
                 gotoCertify();
+                break;
+            case R.id.ll_family_manager:
+                gotoFamilyManager();
                 break;
             case R.id.tv_feedback:
                 gotoFeedback();
@@ -218,8 +235,9 @@ public class MyFragment extends BaseFragment {
                             @Override
                             public void onClickConfirm() {
                                 AvchatInfo.clearBaseData(getActivity());
-                                getActivity().finish();
                                 LoginActivityNew.startLogin(getActivity());
+                                RongIM.getInstance().logout();
+                                getActivity().finish();
                             }
                             @Override
                             public void onClickCancel() {
@@ -230,13 +248,31 @@ public class MyFragment extends BaseFragment {
         }
     }
 
+    private void gotoFamilyManager() {
+        startActivity(new Intent(getActivity(), FamilyManagerActivity.class));
+    }
+
+    private void gotoFriend() {
+        Intent intent = new Intent(getActivity(), FollowOrFansActivity.class);
+        intent.putExtra("type",FollowOrFansActivity.FRIENDS);
+        startActivity(intent);
+    }
+
+    private void gotoFans() {
+        Intent intent = new Intent(getActivity(), FollowOrFansActivity.class);
+        intent.putExtra("type",FollowOrFansActivity.FANS);
+        startActivity(intent);
+    }
+
     private void gotoAboutUs() {
         startActivity(new Intent(getActivity(), AboutUsActivity.class));
     }
 
-    private void gotoFollow() {
 
-        startActivity(new Intent(getActivity(), FollowOrFansActivity.class));
+    private void gotoFollow() {
+        Intent intent = new Intent(getActivity(), FollowOrFansActivity.class);
+        intent.putExtra("type",FollowOrFansActivity.FOLLOW);
+        startActivity(intent);
     }
 
 

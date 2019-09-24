@@ -1,5 +1,6 @@
 package chat.hala.hala.activity;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -46,6 +47,12 @@ public class FollowOrFansActivity extends BaseActivity {
     private boolean isLoadMore = true;
     private int page;
 
+    public final static int FANS=1;
+    public final static int FOLLOW=2;
+    public final static int FRIENDS=3;
+    private int type;
+
+
     @Override
     protected int getContentViewId() {
         return R.layout.activity_follow_or_fans;
@@ -58,11 +65,18 @@ public class FollowOrFansActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
-        if(AvchatInfo.isAnchor()){
-            tvTitle.setText("我的粉丝");
-        }else{
-            tvTitle.setText("我的关注");
+        Intent intent = getIntent();
+        type = intent.getIntExtra("type", 0);
+        switch (type) {
+            case FANS:
+                tvTitle.setText("我的粉丝");
+                break;
+            case FOLLOW:
+                tvTitle.setText("我的关注");
+                break;
+            case FRIENDS:
+                tvTitle.setText("我的朋友");
+                break;
         }
 
         fansAdapter = new FansAdapter(R.layout.item_suggest_list, mFansList);
@@ -114,7 +128,7 @@ public class FollowOrFansActivity extends BaseActivity {
             page++;
         }
         RetrofitFactory.getInstance()
-                .getFansNum(AvchatInfo.isAnchor()?"fans":"following",page,Contact.PAGE_SIZE)
+                .getFansNum(FANS==type?"fans":type==FOLLOW?"following":"friends",page,Contact.PAGE_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<FansBean>() {

@@ -329,12 +329,12 @@ public class AnchorsActivity extends SlideBackActivity {
                         ));
 
                         AnchorInfoBean anchorInfoBean = new AnchorInfoBean("账号", mAnchorData.getCharacterId());
-                        AnchorInfoBean anchorInfoBean1 = new AnchorInfoBean("应答率:", mAnchorData.getAnswerRate());
+                        AnchorInfoBean anchorInfoBean1 = new AnchorInfoBean("应答率", mAnchorData.getAnswerRate());
                         AnchorInfoBean anchorInfoBean2 = new AnchorInfoBean("身高体重", mAnchorData.getHeight() + "cm/" + mAnchorData.getWeight() + "kg");
-                        AnchorInfoBean anchorInfoBean3 = new AnchorInfoBean("现居地:", mAnchorData.getResidentialPlace());
-                        AnchorInfoBean anchorInfoBean4 = new AnchorInfoBean("星座:", TimeUtil.getConstellation(mAnchorData.getBirthDate()));
-                        AnchorInfoBean anchorInfoBean5 = new AnchorInfoBean("注册日期:", mAnchorData.getCreatedAtDate());
-                        AnchorInfoBean anchorInfoBean6 = new AnchorInfoBean("个性签名:", mAnchorData.getAutograph());
+                        AnchorInfoBean anchorInfoBean3 = new AnchorInfoBean("现居地", mAnchorData.getResidentialPlace());
+                        AnchorInfoBean anchorInfoBean4 = new AnchorInfoBean("星座", TimeUtil.getConstellation(mAnchorData.getBirthDate()));
+                        AnchorInfoBean anchorInfoBean5 = new AnchorInfoBean("注册日期", mAnchorData.getCreatedAtDate());
+                        AnchorInfoBean anchorInfoBean6 = new AnchorInfoBean("个性签名", mAnchorData.getAutograph());
 
 
                         anchorInfoDatas.add(anchorInfoBean);
@@ -365,7 +365,7 @@ public class AnchorsActivity extends SlideBackActivity {
             case R.id.toolbar:
                 break;
             case R.id.tv_call:
-                VideoCallManager.gotoCallOrReverse(AnchorsActivity.this, VideoCallManager.VIDEO_CALL, anchorId, memberId);
+                VideoCallManager.gotoCallAnchor(AnchorsActivity.this, VideoCallManager.VIDEO_CALL, anchorId, memberId);
                 break;
             case R.id.iv_back:
                 finish();
@@ -387,7 +387,7 @@ public class AnchorsActivity extends SlideBackActivity {
                 editUser();
                 break;
             case R.id.tv_voice_call:
-                VideoCallManager.gotoCallOrReverse(AnchorsActivity.this, VideoCallManager.AUDIO_CALL, anchorId, memberId);
+                VideoCallManager.gotoCallAnchor(AnchorsActivity.this, VideoCallManager.AUDIO_CALL, anchorId, memberId);
                 break;
         }
     }
@@ -398,7 +398,7 @@ public class AnchorsActivity extends SlideBackActivity {
 
 
     private void addFollow(String followOrUnFollow) {
-        RetrofitFactory.getInstance().addFollow(followOrUnFollow, anchorId)
+        RetrofitFactory.getInstance().addFollow(followOrUnFollow, memberId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<BaseBean>() {

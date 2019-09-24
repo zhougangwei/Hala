@@ -28,6 +28,13 @@ public class ResultUtils {
         }
         return false;
     }
+    public static boolean isInCall(BaseBean bean) {
+        if (Contact.REPONSE_CODE_CALL_IN_CALL==bean.code) {
+            return true;
+        }
+        return false;
+    }
+
 
     private boolean judgeEmpty(String... strings) {
         for (int i = 0; i < strings.length; i++) {

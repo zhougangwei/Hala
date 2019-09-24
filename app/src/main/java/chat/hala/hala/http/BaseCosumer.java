@@ -29,8 +29,10 @@ public  abstract class BaseCosumer< T extends BaseBean> implements Observer<T> {
     @Override
     public void onError(Throwable e) {
         try{
+            e.printStackTrace();
             LogUtils.e("BaseCosumer", e.getMessage());
         }catch (Exception e2){
+            e.printStackTrace();
             LogUtils.e("BaseCosumer", e2.getMessage()+"11");
         }
     }

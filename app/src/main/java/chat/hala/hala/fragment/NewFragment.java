@@ -1,5 +1,6 @@
 package chat.hala.hala.fragment;
 
+import android.graphics.Rect;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.blankj.utilcode.utils.LogUtils;
+import com.blankj.utilcode.utils.ScreenUtils;
+import com.blankj.utilcode.utils.SizeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -16,6 +19,7 @@ import butterknife.BindView;
 import chat.hala.hala.R;
 import chat.hala.hala.activity.AnchorsActivity;
 import chat.hala.hala.adapter.HotCallAdapter;
+import chat.hala.hala.adapter.NewCallAdapter;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.OneToOneListBean;
@@ -39,12 +43,12 @@ public class NewFragment extends BaseFragment {
 
 
     List<OneToOneListBean.DataBean.ListBean> mHotOnetoOneList=new ArrayList<>();
-    private HotCallAdapter hotCallAdapter;
+    private NewCallAdapter hotCallAdapter;
     private int page;
 
     @Override
     protected void initView() {
-        hotCallAdapter = new HotCallAdapter(R.layout.item_hot_list,mHotOnetoOneList);
+        hotCallAdapter = new NewCallAdapter(R.layout.item_hot_list,mHotOnetoOneList);
 
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         rv.setLayoutManager(layoutManager);
@@ -56,6 +60,31 @@ public class NewFragment extends BaseFragment {
                 AnchorsActivity.startAnchorAc(getActivity(),mHotOnetoOneList.get(position).getAnchorId(),mHotOnetoOneList.get(position).getMemberId());
             }
         });
+       /* int itemWidth = SizeUtils.dp2px(getActivity(),175);
+        final int space = ScreenUtils.getScreenWidth(getActivity()) - itemWidth * 2;*/
+       final int decowidth = SizeUtils.dp2px(getActivity(),9);;
+        RecyclerView.ItemDecoration itemDecoration = new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                int childLayoutPosition = parent.getChildLayoutPosition(view);
+                if(mHotOnetoOneList.get(childLayoutPosition).getDataType()==OneToOneListBean.DataBean.ListBean.BANNER){
+                    outRect.left=decowidth;
+                    outRect.right=decowidth;
+                    return;
+                }
+                int mode = childLayoutPosition % 2;
+                outRect.top = 0;
+                outRect.bottom = 0;
+                if (mode == 0) {
+                    outRect.right = decowidth / 2;
+                    outRect.left = decowidth;
+                } else if (mode == 1) {
+                    outRect.left = decowidth / 2;
+                    outRect.right = decowidth;
+                }
+            }};
+
+        rv.addItemDecoration(itemDecoration);
 
         swrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -104,7 +133,7 @@ public class NewFragment extends BaseFragment {
         }
         LogUtils.e(TAG,"aaa"+page);
 
-        RetrofitFactory.getInstance().getHotOneToOneList(page, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
+        RetrofitFactory.getInstance().getNewOneToOneList(page, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<OneToOneListBean>() {
 

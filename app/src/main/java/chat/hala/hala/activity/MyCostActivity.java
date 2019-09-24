@@ -54,7 +54,7 @@ public class MyCostActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mTvTitle.setText(R.string.cost);
+        mTvTitle.setText("消费");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRv.setLayoutManager(layoutManager);

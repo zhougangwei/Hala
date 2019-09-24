@@ -28,7 +28,6 @@ import chat.hala.hala.rxbus.event.RefreshMsgEvent;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ResultUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class MyCallListActivity extends BaseActivity {
@@ -67,7 +66,7 @@ public class MyCallListActivity extends BaseActivity {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, final int position) {
-            VideoCallManager.gotoCallOrReverse(MyCallListActivity.this,VideoCallManager.VIDEO_CALL,callList.get(position).getAnchorId(),callList.get(position).getTargetInfo().getId());
+            VideoCallManager.gotoCallAnchor(MyCallListActivity.this,VideoCallManager.VIDEO_CALL,callList.get(position).getAnchorId(),callList.get(position).getTargetInfo().getId());
             RetrofitFactory.getInstance().readMessage("call")
                     .subscribeOn(Schedulers.io())
                     .subscribe(new BaseCosumer<BaseBean>() {

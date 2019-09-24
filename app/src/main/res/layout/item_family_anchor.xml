@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_item_family_anchor_detail"
+    android:layout_margin="8dp"
+    android:paddingBottom="16dp">
+
+    <ImageView
+        android:id="@+id/iv_head"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="小莫哈哈哈 "
+        android:textColor="#FF363636"
+        app:layout_constraintEnd_toEndOf="@+id/iv_head"
+        app:layout_constraintStart_toStartOf="@+id/iv_head"
+        app:layout_constraintTop_toBottomOf="@+id/iv_head" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="加入时间 "
+        android:textColor="#FF363636"
+        app:layout_constraintEnd_toEndOf="@+id/tv_name"
+        app:layout_constraintStart_toStartOf="@+id/tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+    <TextView
+        android:id="@+id/tv_join_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="2019-06-25"
+        android:textColor="#FF818181"
+        app:layout_constraintEnd_toEndOf="@+id/textView23"
+        app:layout_constraintStart_toStartOf="@+id/textView23"
+        app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+    <TextView
+        android:textStyle="bold"
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="直播详情>"
+        android:textColor="#FF363636"
+        app:layout_constraintEnd_toEndOf="@+id/tv_join_time"
+        app:layout_constraintStart_toStartOf="@+id/tv_join_time"
+        app:layout_constraintTop_toBottomOf="@+id/tv_join_time" />
+</android.support.constraint.ConstraintLayout>

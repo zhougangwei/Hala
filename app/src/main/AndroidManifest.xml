@@ -44,7 +44,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.GreetActivity"></activity>
+        <activity android:name=".activity.FamilyAnchorDetailActivity"></activity>
+        <activity android:name=".activity.GreetActivity" />
         <activity android:name=".activity.AboutUsActivity" />
         <activity
             android:name=".activity.SpalshActivity"
@@ -75,6 +76,7 @@
         </activity>
         <activity android:name=".activity.TagActivity" />
         <activity android:name=".activity.BioActivity" />
+        <activity android:name=".activity.AutoGraphActivity" />
         <activity android:name=".activity.WalletActivity" />
         <activity android:name=".activity.MainActivity" />
         <activity
@@ -84,9 +86,7 @@
             android:launchMode="singleTask"
             android:taskAffinity="chat.hala.hala"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name=".activity.LoginActivityNew"
-            android:launchMode="singleTask" />
+        <activity android:name=".activity.LoginActivityNew" />
         <activity android:name=".activity.MyGainActivity" />
         <activity android:name=".activity.LoginPhoneActivity" />
         <activity android:name=".activity.LoginSmsActivity" />
@@ -94,7 +94,7 @@
         <activity android:name=".activity.BestarActivity" />
         <activity android:name=".activity.AnchorsActivity" />
         <activity android:name=".activity.MyCallListActivity" />
-        <activity android:name=".activity.ApplayAnchorActivity" />
+        <activity android:name=".activity.ApplyAnchorActivity" />
         <activity android:name=".activity.EditUserActivity" />
         <activity android:name=".activity.FillUserActivity" />
         <activity android:name=".activity.ChargeActivity" />
@@ -198,6 +198,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ChatSettingActivity" />
+        <activity android:name=".activity.FamilyManagerActivity" />
 
         <service
             android:name=".service.DemoPushService"

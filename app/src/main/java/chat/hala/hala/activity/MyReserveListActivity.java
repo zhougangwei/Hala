@@ -16,12 +16,14 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.CallListAdapter;
+import chat.hala.hala.adapter.ReverseListAdapter;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.base.VideoCallManager;
 import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.bean.CallListBean;
+import chat.hala.hala.bean.ReverseListBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.rxbus.RxBus;
@@ -40,8 +42,8 @@ public class MyReserveListActivity extends BaseActivity {
     @BindView(R.id.rv)
     RecyclerView rv;
 
-    List<CallListBean.DataBean.ListBean> callList = new ArrayList<>();
-    private CallListAdapter adapter;
+    List<ReverseListBean.DataBean.ListBean> callList = new ArrayList<>();
+    private ReverseListAdapter adapter;
     private int page = 0;
 
 
@@ -62,19 +64,20 @@ public class MyReserveListActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        tvTitle.setText("预约");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(layoutManager);
-        adapter = new CallListAdapter(R.layout.item_appointment, callList,CallListAdapter.REVERSE);
+        adapter = new ReverseListAdapter(R.layout.item_appointment, callList,CallListAdapter.REVERSE);
         rv.setAdapter(adapter);
 
        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //VideoCallManager.gotoCallOrReverse(MyReserveListActivity.this,callList.);
+                //VideoCallManager.gotoCallAnchor(MyReserveListActivity.this,callList.);
 
                 if (AvchatInfo.isAnchor()){
-                    VideoCallManager.gotoCallOrReverse(MyReserveListActivity.this,VideoCallManager.VIDEO_CALL,AvchatInfo.getAnchorId(),AvchatInfo.getAccount());
+                    VideoCallManager.gotoReplyReverse(MyReserveListActivity.this,callList.get(position).getReservationId(),callList.get(position).getCategory(),AvchatInfo.getAnchorId(),callList.get(position).getTargetInfo().getId());
                 }
                 RetrofitFactory.getInstance().readMessage("reserve")
                         .subscribeOn(Schedulers.io())
@@ -97,13 +100,13 @@ public class MyReserveListActivity extends BaseActivity {
         RetrofitFactory.getInstance().getReservationList(page, Contact.PAGE_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseCosumer<CallListBean>() {
+                .subscribe(new BaseCosumer<ReverseListBean>() {
                     @Override
-                    public void onGetData(CallListBean callListBean) {
+                    public void onGetData(ReverseListBean callListBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != callListBean.getCode()) {
                             return;
                         }
-                        List<CallListBean.DataBean.ListBean> content = callListBean.getData().getList();
+                        List<ReverseListBean.DataBean.ListBean> content = callListBean.getData().getList();
                         if (content != null && content.size() > 0) {
                             callList.addAll(content);
                             adapter.notifyDataSetChanged();

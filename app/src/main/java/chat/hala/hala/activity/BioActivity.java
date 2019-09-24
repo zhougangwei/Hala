@@ -35,7 +35,7 @@ public class BioActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
+        mTvTitle.setText("个人宣言");
     }
 
 

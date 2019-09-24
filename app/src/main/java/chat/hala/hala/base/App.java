@@ -171,7 +171,7 @@ public class App extends MultiDexApplication {
 
             @Override
             public void onActivityStarted(Activity activity) {
-                count++;
+                /*count++;
                 if (0 == count - 1) {
                     RetrofitFactory.getInstance().online().subscribeOn(Schedulers.io())
                             .subscribe(new BaseCosumer<BaseBean>() {
@@ -179,8 +179,7 @@ public class App extends MultiDexApplication {
                                 public void onGetData(BaseBean baseBean) {
                                 }
                             });
-                }
-
+                }*/
             }
 
             @Override
@@ -194,7 +193,7 @@ public class App extends MultiDexApplication {
 
             @Override
             public void onActivityStopped(Activity activity) {
-                count--;
+               /* count--;
                 if (0 == count) {
                     RetrofitFactory.getInstance().offline().subscribeOn(Schedulers.io())
                             .subscribe(new BaseCosumer<BaseBean>() {
@@ -202,7 +201,7 @@ public class App extends MultiDexApplication {
                                 public void onGetData(BaseBean baseBean) {
                                 }
                             });
-                }
+                }*/
             }
 
             @Override

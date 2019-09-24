@@ -10,7 +10,6 @@ import android.util.Log;
 import chat.hala.hala.activity.ConversationActivity;
 import chat.hala.hala.base.VideoCallManager;
 import chat.hala.hala.rongyun.customizemessage.CustomizeHongbaoMessage;
-import chat.hala.hala.rongyun.customizemessage.CustomizeVideoMessage;
 import io.rong.imkit.R;
 import io.rong.imkit.RongExtension;
 import io.rong.imkit.RongIM;
@@ -29,10 +28,9 @@ public class VoiceCallPlugin implements IPluginModule {
   public Drawable obtainDrawable(Context context) {
     return ContextCompat.getDrawable(context, R.drawable.ic_voice_call);
   }
-
   @Override
   public String obtainTitle(Context context) {
-    return "语音";
+    return "语音通话";
   }
 
   @Override
@@ -54,7 +52,7 @@ public class VoiceCallPlugin implements IPluginModule {
         Log.e(TAG, "onError: "+errorCode);
       }
     });
-    VideoCallManager.gotoCallOrReverse(currentFragment.getActivity(),VideoCallManager.AUDIO_CALL, ((ConversationActivity)currentFragment.getActivity()).getAnchorId(),((ConversationActivity)currentFragment.getActivity()).getMemberId());
+    VideoCallManager.gotoCallAnchor(currentFragment.getActivity(),VideoCallManager.AUDIO_CALL, ((ConversationActivity)currentFragment.getActivity()).getAnchorId(),((ConversationActivity)currentFragment.getActivity()).getMemberId());
 
   }
 

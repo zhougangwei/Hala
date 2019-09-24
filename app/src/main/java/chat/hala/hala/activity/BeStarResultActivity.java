@@ -2,7 +2,6 @@ package chat.hala.hala.activity;
 
 import android.content.Intent;
 import android.support.constraint.Group;
-import android.util.AndroidException;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,7 +14,6 @@ import chat.hala.hala.bean.BeStarResultBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.ResultUtils;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -100,10 +98,10 @@ public class BeStarResultActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_examine_again:
-                startActivity(new Intent(this, ApplayAnchorActivity.class));
+                startActivity(new Intent(this, ApplyAnchorActivity.class));
                 break;
             case R.id.tv_start_examine:
-                startActivity(new Intent(this, ApplayAnchorActivity.class));
+                startActivity(new Intent(this, ApplyAnchorActivity.class));
                 break;
 
         }

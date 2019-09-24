@@ -31,14 +31,7 @@ public class 跳楼梯 {
             }else if(target-1==0){
                 return 0;
             }
-            if(target-2>0){
-                count++;
-                return count+JumpFloor(target-2);
-            }else if(target-2==0){
-                return 1;
-            }else{
-                return 0;
-            }
+
             return count;
         }
     }

@@ -47,12 +47,12 @@ public class SelfImagePlugin implements IPluginModule {
 
   @Override
   public Drawable obtainDrawable(Context context) {
-    return ContextCompat.getDrawable(context, R.drawable.ic_video_call);
+    return ContextCompat.getDrawable(context, R.drawable.ic_send_imgg);
   }
 
   @Override
   public String obtainTitle(Context context) {
-    return "发送图片";
+    return "图片";
   }
 
   @Override

@@ -275,7 +275,7 @@
                     android:layout_alignStart="@+id/tv_name"
                     android:layout_below="@+id/tv1"
                     android:layout_marginTop="46dp"
-                    android:text="@string/basic_profile"
+                    android:text="个人信息"
                     android:textColor="#5f5f5f"
                     android:textStyle="bold"/>
 

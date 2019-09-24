@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.LogUtils;
@@ -63,6 +65,12 @@ public class LoginActivityNew extends BaseActivity {
     @BindView(R.id.tv_phone)
     TextView tvPhone;
 
+    @BindView(R.id.scroll_view)
+    ScrollView scrollView;
+    @BindView(R.id.iv_bg)
+    ImageView ivBg;
+
+
     private String accessToken;
 
 
@@ -72,6 +80,11 @@ public class LoginActivityNew extends BaseActivity {
     private UserInfo mQQInfo;
     private MyHandler handler;
     private String openid;
+
+    private final Handler mHandler = new Handler();
+
+
+
 
     public static void startLogin(Context context) {
         context.startActivity(new Intent(context,LoginActivityNew.class));
@@ -105,7 +118,7 @@ public class LoginActivityNew extends BaseActivity {
                         wxEntryActivityWeakReference.get().gotoLoginThird(wxEntryActivityWeakReference.get().openid, FillUserActivity.FROM_WE, headimgurl, nickname, sex == 1 ? 0 : 1, city);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        wxEntryActivityWeakReference.get().gotoLoginThird(wxEntryActivityWeakReference.get().openid, FillUserActivity.FROM_WE, "", "", 0, "");
+                        //wxEntryActivityWeakReference.get().gotoLoginThird(wxEntryActivityWeakReference.get().openid, FillUserActivity.FROM_WE, "", "", 0, "");
                     }
                     break;
             }
@@ -165,8 +178,6 @@ public class LoginActivityNew extends BaseActivity {
         setIntent(intent);
         user_openId = intent.getStringExtra("openId");
         accessToken = intent.getStringExtra("accessToken");
-
-
         getWeixinData();
 
     }
@@ -182,7 +193,33 @@ public class LoginActivityNew extends BaseActivity {
     protected void initView() {
         initWeixin();
         initQiniu();
+        startScroll();
     }
+
+    private void startScroll() {
+        mHandler.post(ScrollRunnable);
+    }
+
+    private Runnable ScrollRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+            int off = ivBg.getMeasuredHeight() - scrollView.getHeight();// 判断高度
+            if (off > 0) {
+                scrollView.scrollBy(0, 1);
+                if (scrollView.getScrollY() == off) {
+                    scrollView.smoothScrollTo(0, 0);
+                    mHandler.postDelayed(this, 20);
+                } else {
+                    mHandler.postDelayed(this, 20);
+                }
+            }else{
+                scrollView.smoothScrollTo(0, 0);
+                mHandler.postDelayed(this, 20);
+            }
+        }
+    };
 
     @OnClick({R.id.tv_private_policy,   R.id.tv_wechat,R.id.tv_phone})
     public void onClick(View view) {
@@ -194,7 +231,7 @@ public class LoginActivityNew extends BaseActivity {
                 break;
             case R.id.tv_phone:
                 Intent intent2 = new Intent(this, LoginPhoneActivity.class);
-                startActivity(intent2);
+                startActivityForResult(intent2,Contact.REQUEST_PHONE);
                 break;
         }
     }
@@ -258,11 +295,17 @@ public class LoginActivityNew extends BaseActivity {
                 String type = data.getStringExtra("type");
                 String openId = data.getStringExtra("openId");
                 gotoLoginThird(openId, type, "", "", 1, "");
-            }else if(requestCode ==Contact.REQUEST_SMS){
+            }else if(requestCode ==Contact.REQUEST_PHONE){
                 finish();
             }
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacks(ScrollRunnable);
     }
 
     private static String getcode(String str) {

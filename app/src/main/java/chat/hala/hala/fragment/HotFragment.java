@@ -1,12 +1,15 @@
 package chat.hala.hala.fragment;
 
+import android.graphics.Path;
+import android.graphics.Rect;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.blankj.utilcode.utils.LogUtils;
+import com.blankj.utilcode.utils.ScreenUtils;
+import com.blankj.utilcode.utils.SizeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -15,20 +18,17 @@ import java.util.List;
 import butterknife.BindView;
 import chat.hala.hala.R;
 import chat.hala.hala.activity.AnchorsActivity;
+import chat.hala.hala.activity.TagActivity;
 import chat.hala.hala.adapter.HotCallAdapter;
+import chat.hala.hala.adapter.TagsAdapter;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.AdBean;
+import chat.hala.hala.bean.AnchorTagBean;
 import chat.hala.hala.bean.OneToOneListBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
-import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ResultUtils;
-import chat.hala.hala.wight.EmptyLoadMoreView;
-import chat.hala.hala.wight.GlideImageLoader;
-import chat.hala.hala.wight.banner.Banner;
-import chat.hala.hala.wight.banner.BannerConfig;
-import chat.hala.hala.wight.banner.listener.OnBannerListener;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -43,22 +43,52 @@ public class HotFragment extends BaseFragment {
     SwipeRefreshLayout swrl;
     private boolean isLoadMore = true;
 
-
     List<OneToOneListBean.DataBean.ListBean> mHotOnetoOneList = new ArrayList<>();
     private HotCallAdapter hotCallAdapter;
     private int page;
-    Banner banner;
+
     private List<String> imagesList=new ArrayList<>();
 
     @Override
     protected void initView() {
-        hotCallAdapter = new HotCallAdapter(R.layout.item_hot_list, mHotOnetoOneList);
+        hotCallAdapter = new HotCallAdapter(mHotOnetoOneList,imagesList,getActivity());
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(hotCallAdapter);
-        View headView = View.inflate(getActivity(), R.layout.item_hotfragment_header, null);
-        banner=headView.findViewById(R.id.banner);
-        hotCallAdapter.addHeaderView(headView,1);
+        final int decowidth = SizeUtils.dp2px(getActivity(),9);
+
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if(mHotOnetoOneList.get(position).getDataType()==OneToOneListBean.DataBean.ListBean.BANNER){
+                    return 2;
+                }
+                return 1;
+            }
+        });
+
+        RecyclerView.ItemDecoration itemDecoration = new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                int childLayoutPosition = parent.getChildLayoutPosition(view);
+                if(mHotOnetoOneList.get(childLayoutPosition).getDataType()==OneToOneListBean.DataBean.ListBean.BANNER){
+                    outRect.left=decowidth;
+                    outRect.right=decowidth;
+                    return;
+                }
+                int mode = childLayoutPosition % 2;
+                outRect.top = 0;
+                outRect.bottom = 0;
+                if (mode == 0) {
+                    outRect.right = decowidth / 2;
+                    outRect.left = decowidth;
+                } else if (mode == 1) {
+                    outRect.left = decowidth / 2;
+                    outRect.right = decowidth;
+                }
+        }};
+
+        rv.addItemDecoration(itemDecoration);
         hotCallAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -79,6 +109,8 @@ public class HotFragment extends BaseFragment {
                 }, 500);
             }
         });
+
+
         hotCallAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
@@ -111,7 +143,7 @@ public class HotFragment extends BaseFragment {
                                 //imagesList.add( "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561969870482&di=5c1c1ce287af862e3165902039c59cbd&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160522%2F29bb43e8e4d44c94846ae13520d15f88_th.jpg");
                                 //imagesList.add( "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561969870482&di=5c1c1ce287af862e3165902039c59cbd&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160522%2F29bb43e8e4d44c94846ae13520d15f88_th.jpg");
                                 //imagesList.add( "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561969870482&di=5c1c1ce287af862e3165902039c59cbd&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160522%2F29bb43e8e4d44c94846ae13520d15f88_th.jpg");
-                                banner();
+                                hotCallAdapter.notifyDataSetChanged();
                             }
                         }
                     }
@@ -119,17 +151,7 @@ public class HotFragment extends BaseFragment {
     }
 
 
-    private void banner() {
-        banner.setImages(imagesList)
-                .setImageLoader(new GlideImageLoader())
-                .setOnBannerListener(new OnBannerListener() {
-                    @Override
-                    public void OnBannerClick(int position) {
-                    }
-                })
-                .start();
-        banner.setIndicatorGravity(BannerConfig.RIGHT);
-    }
+
 
     @Override
     protected int getLayoutId() {
@@ -181,10 +203,16 @@ public class HotFragment extends BaseFragment {
                             mHotOnetoOneList.clear();
                         }
                         LogUtils.e(TAG, "aaaListBean");
-
                         List<OneToOneListBean.DataBean.ListBean> content = oneToOneListBean.getData().getList();
                         if (content != null && content.size() > 0) {
                             mHotOnetoOneList.addAll(content);
+                            OneToOneListBean.DataBean.ListBean listBean = new OneToOneListBean.DataBean.ListBean();
+                            listBean.setDataType(OneToOneListBean.DataBean.ListBean.BANNER);
+                            if(content.size()>4){
+                                mHotOnetoOneList.add(4,listBean);
+                            }else{
+                                mHotOnetoOneList.add(content.size(),listBean);
+                            }
                         }
                         hotCallAdapter.notifyDataSetChanged();
                         hotCallAdapter.disableLoadMoreIfNotFullPage(rv);

@@ -5,4 +5,5 @@
     android:text="24"
     android:id="@+id/tv_gender"
     style="@style/text_year_gender"
+    android:includeFontPadding="false"
     tools:showIn="@layout/item_suggest_list"/>

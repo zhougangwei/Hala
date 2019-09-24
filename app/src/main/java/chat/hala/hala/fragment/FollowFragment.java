@@ -1,11 +1,14 @@
 package chat.hala.hala.fragment;
 
+import android.graphics.Rect;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.blankj.utilcode.utils.LogUtils;
+import com.blankj.utilcode.utils.ScreenUtils;
+import com.blankj.utilcode.utils.SizeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -27,17 +30,17 @@ import io.reactivex.schedulers.Schedulers;
 public class FollowFragment extends BaseFragment {
 
 
-    public  static String TAG="HotFragment";
+    public static String TAG = "HotFragment";
     @BindView(R.id.rv)
     RecyclerView rv;
     @BindView(R.id.rv_random)
     RecyclerView rvRandom;
 
-    @BindView(R.id.swrl)
-    SwipeRefreshLayout swrl;
-    private boolean isLoadMore=true;
+    /*@BindView(R.id.swrl)
+    SwipeRefreshLayout swrl;*/
+    private boolean isLoadMore = true;
     private List<OneToOneListBean.DataBean.ListBean> mRanodmList = new ArrayList<>();
-    List<OneToOneListBean.DataBean.ListBean> mFansList =new ArrayList<>();
+    List<OneToOneListBean.DataBean.ListBean> mFansList = new ArrayList<>();
     private FollowAdapter fansAdapter;
     private FollowAdapter randomAdapter;
     private int page;
@@ -47,7 +50,13 @@ public class FollowFragment extends BaseFragment {
         fansAdapter = new FollowAdapter(R.layout.item_hot_list, mFansList);
         randomAdapter = new FollowAdapter(R.layout.item_hot_list, mRanodmList);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        }
+        ;
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(fansAdapter);
         fansAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -57,11 +66,56 @@ public class FollowFragment extends BaseFragment {
             }
         });
 
-        GridLayoutManager layoutManager2 = new GridLayoutManager(getActivity(), 2);
+        GridLayoutManager layoutManager2 = new GridLayoutManager(getActivity(), 2){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         rvRandom.setLayoutManager(layoutManager2);
         rvRandom.setAdapter(randomAdapter);
+        final int decowidth = SizeUtils.dp2px(getActivity(), 9);
+        RecyclerView.ItemDecoration itemDecoration = new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                int childLayoutPosition = parent.getChildLayoutPosition(view);
+                int mode = childLayoutPosition % 2;
+                outRect.top = 0;
+                outRect.bottom = 0;
+                if (mode == 0) {
+                    outRect.right = decowidth / 2;
+                    outRect.left = decowidth;
+                } else if (mode == 1) {
+                    outRect.left = decowidth / 2;
+                    outRect.right = decowidth;
+                }
+            }
+        };
+        rvRandom.addItemDecoration(itemDecoration);
+        RecyclerView.ItemDecoration itemDecoration2 = new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                int childLayoutPosition = parent.getChildLayoutPosition(view);
+                int mode = childLayoutPosition % 2;
+                outRect.top = 0;
+                outRect.bottom = 0;
+                if (mode == 0) {
+                    outRect.right = decowidth / 2;
+                    outRect.left = decowidth;
+                } else if (mode == 1) {
+                    outRect.left = decowidth / 2;
+                    outRect.right = decowidth;
+                }
+            }
+        };
 
-        swrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+        rv.addItemDecoration(itemDecoration2);
+
+
+
+
+       /* swrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 isLoadMore = true;
@@ -74,16 +128,16 @@ public class FollowFragment extends BaseFragment {
                     }
                 }, 500);
             }
-        });
+        });*/
         fansAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                LogUtils.e(TAG,"wo ");
+                LogUtils.e(TAG, "wo ");
                 getRandomData(false);
-            }},rv);
+            }
+        }, rv);
         fansAdapter.setEmptyView(R.layout.view_follow_empty);
         fansAdapter.setPreLoadNumber(5);
-
 
 
     }
@@ -101,16 +155,16 @@ public class FollowFragment extends BaseFragment {
     }
 
     private void getRandomData(final boolean isRefresh) {
-        LogUtils.e(TAG,"getData"+page);
-        if (!isLoadMore){
+        LogUtils.e(TAG, "getData" + page);
+        if (!isLoadMore) {
             return;
         }
         if (isRefresh) {
-            page =0;
-        }else{
+            page = 0;
+        } else {
             page++;
         }
-        LogUtils.e(TAG,"aaa"+page);
+        LogUtils.e(TAG, "aaa" + page);
         RetrofitFactory.getInstance().getRandOneToOneList(10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -120,22 +174,84 @@ public class FollowFragment extends BaseFragment {
                         super.onError(e);
                         randomAdapter.loadMoreFail();
                     }
+
                     @Override
                     public void onGetData(OneToOneListBean oneToOneListBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != oneToOneListBean.getCode()) {
                             randomAdapter.loadMoreFail();
                             return;
                         }
-                         randomAdapter.loadMoreEnd();
-                         isLoadMore=false;
+                        randomAdapter.loadMoreEnd();
+                        isLoadMore = false;
                         if (isRefresh) {
                             mRanodmList.clear();
                         }
                         List<OneToOneListBean.DataBean.ListBean> content = oneToOneListBean.getData().getList();
                         if (content != null && content.size() > 0) {
                             mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mRanodmList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
+                            mFansList.addAll(content);
                         }
                         randomAdapter.notifyDataSetChanged();
+                        fansAdapter.notifyDataSetChanged();
                         randomAdapter.disableLoadMoreIfNotFullPage(rv);
                     }
                 });
@@ -144,25 +260,26 @@ public class FollowFragment extends BaseFragment {
     private void getData() {
 
 
-
         RetrofitFactory.getInstance()
-                .getFansNum("following",page,Contact.PAGE_SIZE)
+                .getFansNum("following", page, Contact.PAGE_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<FansBean>() {
 
                     @Override
                     public void onGetData(FansBean oneToOneListBean) {
-
                         if (Contact.REPONSE_CODE_SUCCESS != oneToOneListBean.getCode()) {
                             return;
                         }
+                        fansAdapter.loadMoreEnd();
+                        isLoadMore = false;
                         mFansList.clear();
                         List<OneToOneListBean.DataBean.ListBean> content = oneToOneListBean.getData().getList();
                         if (content != null && content.size() > 0) {
                             mFansList.addAll(content);
                         }
                         fansAdapter.notifyDataSetChanged();
+                        fansAdapter.disableLoadMoreIfNotFullPage(rv);
                     }
                 });
     }

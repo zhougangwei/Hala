@@ -75,7 +75,7 @@ public class ReverseSuccessDialog extends Dialog {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.tv_call:
-                        VideoCallManager.gotoCallOrReverse((Activity) mContext,VideoCallManager.VIDEO_CALL, mRanodmList.get(position).getAnchorId(),mRanodmList.get(position).getMemberId());
+                        VideoCallManager.gotoCallAnchor((Activity) mContext,VideoCallManager.VIDEO_CALL, mRanodmList.get(position).getAnchorId(),mRanodmList.get(position).getMemberId());
                         dismiss();
                         break;
                 }

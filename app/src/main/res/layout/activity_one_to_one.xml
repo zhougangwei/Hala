@@ -129,14 +129,14 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="gone"
+        tools:visibility="visible"
         >
 
         <FrameLayout
             android:id="@+id/remote_video_view_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"/>
+            />
 
         <FrameLayout
             android:id="@+id/local_video_view_container"

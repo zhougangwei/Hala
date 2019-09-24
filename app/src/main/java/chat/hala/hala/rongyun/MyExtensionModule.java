@@ -17,8 +17,8 @@ public class MyExtensionModule extends DefaultExtensionModule {
         SelfImagePlugin imagePlugin = new SelfImagePlugin();
         VideoCallPlugin myPlugin=new VideoCallPlugin();
         VoiceCallPlugin voicePlugin=new VoiceCallPlugin();
+        pluginModules.add(imagePlugin);
          pluginModules.add(myPlugin);
-         pluginModules.add(imagePlugin);
          pluginModules.add(voicePlugin);
         return pluginModules;
     }

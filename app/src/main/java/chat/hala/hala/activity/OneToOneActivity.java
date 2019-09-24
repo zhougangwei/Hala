@@ -129,7 +129,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     private String imageUrl;       //渠道Id
     private String message;       //渠道Id
     private String name;       //渠道Id
-    private int callId;       //服务端通话Id
+    private Integer callId;       //服务端通话Id
     private Disposable mSubscribe;
     private int mAnchorId;
 
@@ -144,6 +144,9 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     private int callTime = 0;            //通话时间 单位是秒
     private String anchorName = "";         //主播名字
     private String anchorUrl = "";         //主播名字
+    private Integer lootId;
+    private boolean enableVideo;
+    private boolean muteCamera;
 
 
     /**
@@ -152,26 +155,31 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
      * @param anchorMemberId
      * @param channelId
      * @param callId
+     * @param lootId
      */
-    public static void docallOneToOneActivity(Context context, int anchorId, int anchorMemberId, String channelId, int callId) {
+    public static void docallOneToOneActivity(Context context, int anchorId, int otherId, String channelId, int callId, int lootId,boolean enableVideo) {
         Intent intent = new Intent(context, OneToOneActivity.class);
         intent.putExtra("anchorId", anchorId);
-        intent.putExtra("anchorMemberId", anchorMemberId);
+        intent.putExtra("otherId", otherId);
         intent.putExtra("outCall", true);
         intent.putExtra("channelId", channelId);
         intent.putExtra("callId", callId);
+        intent.putExtra("lootId", lootId);
+        intent.putExtra("enableVideo", enableVideo);        //声音还是
         context.startActivity(intent);
     }
 
-    public static void doReceivveOneToOneActivity(Context context, String channelId, int callId, String imageUrl, String message, String name) {
+    public static void doReceivveOneToOneActivity(Context context, String channelId, int otherId, String imageUrl, String message, String name, int callId,Integer lootId, boolean enableVideo) {
         Intent intent = new Intent(context, OneToOneActivity.class);
-        intent.putExtra("callerId", callId);
+        intent.putExtra("otherId", otherId);
         intent.putExtra("outCall", false);
         intent.putExtra("channelId", channelId);
         intent.putExtra("imageUrl", imageUrl);
         intent.putExtra("message", message);
         intent.putExtra("name", name);
-
+        intent.putExtra("callId", callId);
+        intent.putExtra("lootId", lootId);
+        intent.putExtra("enableVideo", enableVideo);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
     }
@@ -183,21 +191,22 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         Intent intent = getIntent();
         //主播AnchorId很有用
         mAnchorId = intent.getIntExtra("anchorId", -1);
-        int anchorMemberId = intent.getIntExtra("anchorMemberId", -1);
-        int callerId = intent.getIntExtra("callerId", -1);
+        otherId = intent.getIntExtra("otherId", -1);
+
         doOutCall = intent.getBooleanExtra("outCall", false);
         channelId = intent.getStringExtra("channelId");
-         imageUrl = intent.getStringExtra("imageUrl");
-         message = intent.getStringExtra("message");
-         name = intent.getStringExtra("name");
+        imageUrl = intent.getStringExtra("imageUrl");
+        message = intent.getStringExtra("message");
+        name = intent.getStringExtra("name");
+        lootId = intent.getIntExtra("lootId", 0);
+        callId = intent.getIntExtra("callId", 0);
+        enableVideo = intent.getBooleanExtra("enableVideo", true);
 
-        callId = intent.getIntExtra("callId", -1);
+
         myId = AvchatInfo.getAccount();
         if (doOutCall) {      //打出去
-            otherId = anchorMemberId;
             mIsCallInRefuse = false;
         } else {
-            otherId = callerId;
             mIsCallInRefuse = true;
         }
         LogUtils.e(TAG, "channelId: " + channelId + " callId :" + callId + " otherId :" + otherId + " myId:" + myId);
@@ -214,7 +223,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                     @Override
                     public void accept(Long aLong) throws Exception {
                         // TODO: 2019/6/30 0030 关闭
-                        if (startTimer.get()){
+                        if (startTimer.get()) {
                             callOutHangup();
                             changeCallState(Call_NO_ANSWERED);
                         }
@@ -274,17 +283,17 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     }
 
     private void getAnchorData() {
-        RetrofitFactory.getInstance().getAnchorData("anchor",mAnchorId)
+        RetrofitFactory.getInstance().getAnchorData("anchor", mAnchorId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<AnchorBean>() {
                     @Override
                     public void onGetData(AnchorBean anchorBean) {
                         if (ResultUtils.cheekSuccess(anchorBean)) {
-                            anchorName=anchorBean.getData().getNickname();
-                            try{
-                                anchorUrl=anchorBean.getData().getAlbum().get(0).getMediaUrl();
-                            }catch (Exception e){
+                            anchorName = anchorBean.getData().getNickname();
+                            try {
+                                anchorUrl = anchorBean.getData().getAlbum().get(0).getMediaUrl();
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             tvName.setText(anchorName);
@@ -296,6 +305,12 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
 
     private void initAgoraEngineAndJoinChannel() {
         this.event().addEventHandler(this);
+        if(enableVideo){
+            rtcEngine().enableLocalVideo(true);
+        }else{
+            rtcEngine().enableLocalVideo(false);
+
+        }
         setupLocalVideo();
         RetrofitFactory.getInstance().getMediaToken(channelId).subscribeOn(Schedulers.io())
                 .subscribeOn(Schedulers.newThread())
@@ -348,23 +363,19 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         if (uid == otherId) {
             changeCallState(Call_SUCCEED_HUNG_UP);
             onEncCallClicked();
-
         }
     }
 
     private void onRemoteUserVideoMuted(int uid, boolean muted) {
-
-
-        SurfaceView surfaceView = (SurfaceView) remoteVideoViewContainer.getChildAt(0);
-
-        Object tag = surfaceView.getTag();
-        if (tag != null && (Integer) tag == uid) {
-            surfaceView.setVisibility(muted ? View.GONE : View.VISIBLE);
-        }
+        //SurfaceView surfaceView = (SurfaceView) remoteVideoViewContainer.getChildAt(0);
+        //Object tag = surfaceView.getTag();
+        //if (tag != null && (Integer) tag == uid) {
+        //    surfaceView.setVisibility(muted ? View.GONE : View.VISIBLE);
+        //}
     }
 
 
-    @OnClick({R.id.tv_charge,R.id.iv_hangup_prepare_audience, R.id.iv_hangup_prepare_anchor, R.id.iv_hangup, R.id.iv_camera_off, R.id.iv_camera_control, R.id.iv_anchor_answer})
+    @OnClick({R.id.tv_charge, R.id.iv_hangup_prepare_audience, R.id.iv_hangup_prepare_anchor, R.id.iv_hangup, R.id.iv_camera_off, R.id.iv_camera_control, R.id.iv_anchor_answer})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_hangup_prepare_audience:
@@ -379,19 +390,18 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 break;
             case R.id.iv_hangup:
                 callOutHangup();
-                if (doOutCall){
-                    changeCallState(Call_SUCCEED_HUNG_UP);
-                }
+                changeCallState(Call_SUCCEED_HUNG_UP);
                 break;
             case R.id.iv_camera_off:
-                // TODO: 2019/6/30 0030 ga 
-                rtcEngine().muteLocalVideoStream(true);
+                // TODO: 2019/6/30 0030 ga
+                muteCamera=!muteCamera;
+                rtcEngine().muteLocalVideoStream(muteCamera);
                 break;
             case R.id.iv_camera_control:
                 rtcEngine().switchCamera();
                 break;
             case R.id.tv_charge:
-               startActivity(new Intent(this,ChargeActivity.class));
+                startActivity(new Intent(this, ChargeActivity.class));
                 break;
 
         }
@@ -410,7 +420,8 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 });
     }
 
-    public void gotoVideoFinsh( String name, int time, String cost,String anchorUrl) {
+    // TODO: 2019/9/20/020 别人挂断也要弹
+    public void gotoVideoFinsh(String name, int time, String cost, String anchorUrl) {
         Intent intent = new Intent(OneToOneActivity.this, VideoFinishActivity.class);
         intent.putExtra("name", name);
         intent.putExtra("time", time);
@@ -422,7 +433,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
 
 
     private void callInRefuse() {
-        startTimer.compareAndSet(true,false);
+        startTimer.compareAndSet(true, false);
         onEncCallClicked();
         // "status": 0 // Default
         // "status": 1 // Busy
@@ -442,7 +453,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     }
 
     private void answer() {
-        startTimer.compareAndSet(true,false);
+        startTimer.compareAndSet(true, false);
         AVChatSoundPlayer.instance().stop();
         mIsCallInRefuse = false;
         joinChannel();
@@ -454,11 +465,11 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     }
 
     private void changeCallState(final String mcallstate) {
-        startTimer.compareAndSet(true,false);
+        startTimer.compareAndSet(true, false);
         LogUtils.e(TAG, "callId:" + callId);
         callstate = mcallstate;
         RetrofitFactory.getInstance()
-                .changeCallState(ProxyPostHttpRequest.getInstance().changeCallState(callstate, callTime), callId)
+                .changeCallState(ProxyPostHttpRequest.getInstance().changeCallState(callstate, callTime), callId,lootId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<CallStateBean>() {
@@ -468,7 +479,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                         if (ResultUtils.cheekSuccess(callStateBean)) {
                             if (Call_SUCCEED_HUNG_UP.equals(mcallstate)) {
                                 if (!AvchatInfo.isAnchor()) {
-                                    gotoVideoFinsh(anchorName, callStateBean.getData().getDurationSeconds() , callStateBean.getData().getWorth() + "",anchorUrl);
+                                    gotoVideoFinsh(anchorName, callStateBean.getData().getDurationSeconds(), callStateBean.getData().getWorth() + "", anchorUrl);
                                     finish();
                                 }
                             }
@@ -493,6 +504,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         super.onDestroy();
         if (mSubscribe != null && mSubscribe.isDisposed()) {
             mSubscribe.dispose();
+
         }
         AvchatInfo.setIsInCall(false);
         worker().leaveChannel(channelId);
@@ -545,14 +557,20 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
             worker().sendMessage(new MessageBean(otherId + "", Contact.RTM_DO_CALL_STRING + mAnchorId), new ResultCallback() {
                 @Override
                 public void onSuccess(Object o) {
-                    LogUtils.e(TAG, "onSuccess:0 "+ channelId);
+                    LogUtils.e(TAG, "onSuccess:0 " + channelId);
                     final RtmCallBean rtmCallBean = new RtmCallBean();
                     rtmCallBean.setMessage("make your time");
                     rtmCallBean.setName(AvchatInfo.getName());
                     rtmCallBean.setImageUrl(AvchatInfo.getAvatarUrl());
                     rtmCallBean.setChannelId(channelId);
+                    rtmCallBean.setCallId(callId);
+                    if(lootId!=null&&lootId!=0){
+                        rtmCallBean.setLootId(lootId);
+                    }
+                    rtmCallBean.setEnableVideo(enableVideo);
                     worker().makeACall(otherId + "", channelId, GsonUtil.parseObjectToJson(rtmCallBean));
                 }
+
                 @Override
                 public void onFailure(ErrorInfo errorInfo) {
                 }
@@ -584,12 +602,12 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
      * */
     @Override
     public void onLocalInvitationAccepted(LocalInvitation invitation, String response) {
-        LogUtils.e(TAG, "onLocalInvitationAccepted: " );
+        LogUtils.e(TAG, "onLocalInvitationAccepted: ");
         AVChatSoundPlayer.instance().stop();
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                LogUtils.e(TAG, "run: "+"onLocalInvitationAccepted");
+                LogUtils.e(TAG, "run: " + "onLocalInvitationAccepted");
                 startHeartBeat();
                 showOnshow();
                 changeCallState(Call_CONNECTED);
@@ -618,10 +636,14 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
      * */
     private void startHeartBeat() {
         mSubscribe = Observable.interval(15, TimeUnit.SECONDS)
+                .compose(this.<Long>bindToLifecycle())
                 .flatMap(new Function<Long, ObservableSource<HeartBean>>() {
                     @Override
                     public ObservableSource<HeartBean> apply(Long aLong) throws Exception {
-                        return RetrofitFactory.getInstance().keepBeatHeart(myId).subscribeOn(Schedulers.io());
+                        if (lootId==null||lootId == 0) {
+                            lootId = null;
+                        }
+                        return RetrofitFactory.getInstance().keepBeatHeart(ProxyPostHttpRequest.getInstance().keepBeatHeart(lootId, callTime), callId).subscribeOn(Schedulers.io());
                     }
                 }).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<HeartBean>() {
@@ -629,8 +651,12 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                     public void accept(HeartBean heartBean) throws Exception {
                         LogUtils.e(TAG, "accept: " + GsonUtil.parseObjectToJson(heartBean) + "");
                         if (ResultUtils.cheekSuccess(heartBean)) {
-                            // TODO: 2019/6/24 0024 剩余多少时间
-                            int restSeconds = heartBean.getData().getRestSeconds();
+                            if (HeartBean.DataBean.CallInfoState.countdown.equals(heartBean.getData().getCallInfoState())) {
+                                // TODO: 2019/9/18/018 没钱了 可以倒计时了
+                            }if(HeartBean.DataBean.CallInfoState.hangup.equals(heartBean.getData().getCallInfoState())){
+                                callOutHangup();
+                                changeCallState(Call_SUCCEED_HUNG_UP);
+                            }
                         }
                     }
                 }, new Consumer<Throwable>() {

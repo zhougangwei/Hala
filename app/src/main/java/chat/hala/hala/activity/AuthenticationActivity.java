@@ -1,6 +1,7 @@
 package chat.hala.hala.activity;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -119,7 +120,7 @@ public class AuthenticationActivity extends BaseActivity {
     }
 
     private boolean judgeEmpty() {
-        if (frontUrl.isEmpty()) {
+        if (TextUtils.isEmpty(frontUrl)) {
             ToastUtils.showToast(this, "请输入正面照");
             return false;
         }
@@ -127,7 +128,7 @@ public class AuthenticationActivity extends BaseActivity {
             ToastUtils.showToast(this, "请输入背面照");
             return false;
         }*/
-        if (handUrl.isEmpty()) {
+        if (TextUtils.isEmpty(handUrl)) {
             ToastUtils.showToast(this, "请输入手持照");
             return false;
         }
