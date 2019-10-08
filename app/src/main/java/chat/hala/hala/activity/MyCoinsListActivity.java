@@ -56,7 +56,7 @@ public class MyCoinsListActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        tvTitle.setText(R.string.mycoins);
+        tvTitle.setText("消费");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(layoutManager);

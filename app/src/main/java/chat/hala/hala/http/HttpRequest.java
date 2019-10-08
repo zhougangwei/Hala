@@ -2,6 +2,7 @@ package chat.hala.hala.http;
 
 
 import chat.hala.hala.bean.AdBean;
+import chat.hala.hala.bean.AliPayBean;
 import chat.hala.hala.bean.AnchorBean;
 import chat.hala.hala.bean.AnchorStateBean;
 import chat.hala.hala.bean.ApplyAnchorBean;
@@ -18,6 +19,7 @@ import chat.hala.hala.bean.FamilyAnchorBean;
 import chat.hala.hala.bean.FamilyAnchorDetailBean;
 import chat.hala.hala.bean.FamilyBeanA;
 import chat.hala.hala.bean.FamilyBeanB;
+import chat.hala.hala.bean.FamilyCodeBean;
 import chat.hala.hala.bean.FansBean;
 import chat.hala.hala.bean.FeedBackBean;
 import chat.hala.hala.bean.HeartBean;
@@ -296,8 +298,14 @@ public interface HttpRequest {
     @POST("/call/reservation/{reservationId}/reply")
     Observable<CallBean> replyMember(@Path("reservationId")int reservationId);
 
+
+    /*
+    * 获取家族主播列表
+    * */
     @GET("/family/getAnchorManage")
     Observable<FamilyAnchorBean> getFamilyAnchor(@Query("page") int page, @Query("size") int size);
+
+
 
     @GET("/family/getAnchorDetails")
     Observable<FamilyAnchorDetailBean>getFamilyAnchorDetail(@Query("memberId") int memberId, @Query("startedAt") String startedAt
@@ -311,4 +319,26 @@ public interface HttpRequest {
     @GET("/family/getFamilyManageB")
     Observable<FamilyBeanB> getFamilyManageB(@Query("startedAt") String startedAt
             , @Query("endedAt") String endedAt);
+
+    @GET("/family/createCode/{num}")
+    Observable<FamilyCodeBean> createFamilyCode(@Path("num") int num);
+
+
+    @GET("/family/johnByCheckCode")
+    Observable<BaseBean> joinFamily(@Query("code") String code);
+
+    @GET("/family/dailyDetails")
+    Observable<BaseBean> getFamilyAnchorDayDetail(@Query("startedAt") String startedAt
+            , @Query("endedAt") String endedAt);
+
+
+    @POST("/payment/ali/shartcharge/{productId}")
+    Observable<AliPayBean> startAliCharge(@Path("productId")String productId);
+
+
+    @POST("/payment/ali/verifycharge")
+    Observable<BaseBean> finalCharge(@Body RequestBody requestBody);
+    RequestBody finalCharge(@JsonQuery String dataJson
+    );
+
 }

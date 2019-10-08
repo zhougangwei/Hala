@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,16 +13,23 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.ChargeAdapter;
+import chat.hala.hala.ali.AliPay;
+import chat.hala.hala.ali.demo.PayResult;
 import chat.hala.hala.base.BaseActivity;
+import chat.hala.hala.bean.BaseBean;
+import chat.hala.hala.bean.CoinBriefBean;
 import chat.hala.hala.bean.RuleBean;
 import chat.hala.hala.http.BaseCosumer;
+import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.ResultUtils;
+import chat.hala.hala.utils.ToastUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -49,7 +57,7 @@ public class ChargeActivity extends BaseActivity {
     private ChargeAdapter mChargeAdapter;
 
     List<RuleBean.DataBean.MainlandRechargeSettingBean> mdataList = new ArrayList<>();
-
+    private String productId;
 
     @Override
     protected int getContentViewId() {
@@ -76,12 +84,28 @@ public class ChargeActivity extends BaseActivity {
                     mdataList.get(i).setClicked(false);
                 }
                 mdataList.get(position).setClicked(true);
+                productId = mdataList.get(position).getProductId();
                 mChargeAdapter.notifyDataSetChanged();
             }
         });
-
-
     }
+
+    public void getTotal(){
+        RetrofitFactory.getInstance().getCoinBrief()
+                .subscribeOn(Schedulers.io())
+                .compose(this.<CoinBriefBean>bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<CoinBriefBean>() {
+                    @Override
+                    public void onGetData(CoinBriefBean coinBriefBean) {
+                        if (ResultUtils.cheekSuccess(coinBriefBean)) {
+                            mTvCoin.setText(coinBriefBean.getData().getTotal()+"");
+                        }
+                    }
+                });
+    }
+
+
 
     @SuppressLint("CheckResult")
     private void initData() {
@@ -102,13 +126,13 @@ public class ChargeActivity extends BaseActivity {
                         }
                     }
                 });
+        getTotal();
     }
 
-
     /*
-    * 明细
-    * */
-    @OnClick({R.id.iv_back, R.id.tv_charge,R.id.iv_detail})
+     * 明细
+     * */
+    @OnClick({R.id.iv_back, R.id.tv_charge, R.id.iv_detail})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -122,21 +146,53 @@ public class ChargeActivity extends BaseActivity {
                 break;
         }
     }
+
     private void startChargeDetail() {
 
     }
+
     private void startCharge() {
-        if(chargeType==0){
+        gotoChargeAli();
+       /* if (chargeType == 0) {
             return;
-        }else if(chargeType == CHARGE_WEXIN){
+        } else if (chargeType == CHARGE_WEXIN) {
             gotoChargeWeixin();
-        }else if(chargeType ==CHARGE_ALI){
+        } else if (chargeType == CHARGE_ALI) {
             gotoChargeAli();
-        }
+        }*/
     }
+
     private void gotoChargeAli() {
 
+        AliPay.payV2(this, productId, new AliPay.PayBack() {
+            @Override
+            public void backResult(Map<String, String> result) {
+                PayResult payResult = new PayResult(result);
+                String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                String resultStatus = payResult.getResultStatus();
+                if (TextUtils.equals(resultStatus, "9000")) {
+                    // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                    RetrofitFactory.getInstance().finalCharge(
+                            ProxyPostHttpRequest.getJsonInstance().finalCharge(resultInfo)
+                    ).subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new BaseCosumer<BaseBean>() {
+                                @Override
+                                public void onGetData(BaseBean baseBean) {
+                                    if (ResultUtils.cheekSuccess(baseBean)) {
+                                        getTotal();
+                                        ToastUtils.showToast(ChargeActivity.this,"充值成功!");
+                                    }
+                                }
+                            });
+                } else {
+                    ToastUtils.showToast(ChargeActivity.this,"充值失败!"+resultStatus);
+                    // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                }
+            }
+        });
     }
+
 
     private void gotoChargeWeixin() {
 

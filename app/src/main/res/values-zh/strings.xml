@@ -108,8 +108,8 @@
     <string name="fee_100_coins">费用: %1$s 金币</string>
     <string name="charged_coins_per_min">每分钟收费 %1$s 金币</string>
     <string name="continue_user_rules">继续使用我们的应用程序和服务，您将同意遵守以下条款和条件</string>
-    <string name="submit_success">提交失败</string>
-    <string name="submit_fail">提交成功</string>
+    <string name="submit_success">提交成功</string>
+    <string name="submit_fail">提交失败</string>
     <string name="select_region">选择地区</string>
     <string name="screenshot_optional">屏幕截图（可选）</string>
     <string name="eula">《用户注册协议》</string>

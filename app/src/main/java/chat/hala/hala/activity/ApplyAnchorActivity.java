@@ -113,7 +113,7 @@ public class ApplyAnchorActivity extends BaseActivity {
 
     private String idCardHandledUrl;
 
-    private String videoUrl;
+
     private boolean clickUp;
     private int chargePostion;
 
@@ -250,49 +250,43 @@ public class ApplyAnchorActivity extends BaseActivity {
         birth = tvBirth.getText().toString();  //星座
         city = etCity.getText().toString();
         if (TextUtils.isEmpty(userName)) {
-            ToastUtils.showToast(this, "userName" + "不可以为空");
+            ToastUtils.showToast(this, "名字" + "不可以为空");
             return false;
         }
         if (TextUtils.isEmpty(phoneNum)) {
-            ToastUtils.showToast(this, "phoneNum" + "不可以为空");
+            ToastUtils.showToast(this, "电话号码" + "不可以为空");
             return false;
         }
         phoneNum = "+86" + phoneNum;
 
         if (TextUtils.isEmpty(height)) {
-            ToastUtils.showToast(this, "height" + "不可以为空");
+            ToastUtils.showToast(this, "身高" + "不可以为空");
             return false;
         }
         if (TextUtils.isEmpty(weight)) {
-            ToastUtils.showToast(this, "weight" + "不可以为空");
+            ToastUtils.showToast(this, "体重" + "不可以为空");
             return false;
         }
         if (TextUtils.isEmpty(birth)) {
-            ToastUtils.showToast(this, "birth" + "不可以为空");
+            ToastUtils.showToast(this, "生日" + "不可以为空");
             return false;
         }
 
 
         if (TextUtils.isEmpty(city)) {
-            ToastUtils.showToast(this, "city" + "不可以为空");
+            ToastUtils.showToast(this, "城市" + "不可以为空");
             return false;
         }
 
         if (uriList == null || uriList.size() == 0) {
-            ToastUtils.showToast(this, "uriList" + "不可以为空");
+            ToastUtils.showToast(this, "封面" + "不可以为空");
             return false;
         }
         if (TextUtils.isEmpty(bio)) {
-            ToastUtils.showToast(this, "bio)) {\n" +
-                    "            ToastUtils.showToast(this" + "不可以为空");
+            ToastUtils.showToast(this, "Ta说" + "不可以为空");
             return false;
         }
 
-
-        if (TextUtils.isEmpty(videoUrl)) {
-            ToastUtils.showToast(this, "videoUrl" + "不可以为空");
-            return false;
-        }
         return true;
     }
 
@@ -343,10 +337,10 @@ public class ApplyAnchorActivity extends BaseActivity {
 
                 idCardHandledUrl = data.getStringExtra("handCard");
                 tvNameVerity.setText("已填充");
-            } else if (requestCode == Contact.REQUEST_VIDEO_VERIFY) {
+            }/* else if (requestCode == Contact.REQUEST_VIDEO_VERIFY) {
                 videoUrl = data.getStringExtra("videoUrl");
                 tvVideoVerity.setText("已填充");
-            }
+            }*/
 
         }
     }
@@ -402,7 +396,7 @@ public class ApplyAnchorActivity extends BaseActivity {
         applicationBean.setMobileNumber(phoneNum);
         applicationBean.setIdCardFront(idCardFrontUrl);
         applicationBean.setIdCardHandled(idCardHandledUrl);
-        applicationBean.setCertifyVideo(videoUrl);
+       //applicationBean.setCertifyVideo(videoUrl);
 
 
         applyAnchorBean.setAnchor(anchorBean);

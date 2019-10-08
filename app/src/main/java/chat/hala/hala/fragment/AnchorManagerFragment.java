@@ -1,5 +1,6 @@
 package chat.hala.hala.fragment;
 
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,6 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.Unbinder;
 import chat.hala.hala.R;
+import chat.hala.hala.activity.FamilyAnchorDetailActivity;
 import chat.hala.hala.adapter.FamilyAnchorAdapter;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.base.Contact;
@@ -46,7 +48,9 @@ public class AnchorManagerFragment extends BaseFragment {
         familyAnchorAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                Intent intent = new Intent(getActivity(), FamilyAnchorDetailActivity.class);
+                intent.putExtra("memberId",mAnchorList.get(position).getMemberId());
+                startActivity(intent);
             }
         });
         familyAnchorAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {

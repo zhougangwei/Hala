@@ -2,7 +2,6 @@ package chat.hala.hala.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -89,5 +88,10 @@ public class FamilyManagerActivity extends BaseActivity {
                 tvFamilyManager.setTextColor(Color.BLACK);
                 break;
         }
+    }
+
+    @OnClick(R.id.iv_back)
+    public void onViewClicked() {
+        finish();
     }
 }

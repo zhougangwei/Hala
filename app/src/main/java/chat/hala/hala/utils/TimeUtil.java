@@ -23,8 +23,8 @@ public class TimeUtil {
             date1 = df1.parse(date.toString());
             df2 = new SimpleDateFormat("HH:mm");
         } catch (ParseException e) {
-
             e.printStackTrace();
+            return "";
         }
         return df2.format(date1);
     }
@@ -39,8 +39,8 @@ public class TimeUtil {
             date1 = df1.parse(date.toString());
             df2 = new SimpleDateFormat("MM dd");
         } catch (ParseException e) {
-
             e.printStackTrace();
+            return "";
         }
         return df2.format(date1);
     }
@@ -55,8 +55,8 @@ public class TimeUtil {
             date1 = df1.parse(date.toString());
             df2 = new SimpleDateFormat("yyyy-MM-dd");
         } catch (ParseException e) {
-
             e.printStackTrace();
+            return "";
         }
         return df2.format(date1);
     }
@@ -148,7 +148,6 @@ public class TimeUtil {
     }
 
     public static String getTextTime2(String lastMessageTime) {
-
         if(TextUtils.isEmpty(lastMessageTime)){
             return "";
         }

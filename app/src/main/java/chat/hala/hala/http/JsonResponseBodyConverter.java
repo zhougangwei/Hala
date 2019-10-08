@@ -30,9 +30,9 @@ public class JsonResponseBodyConverter<T> implements Converter<ResponseBody, T> 
         try {
             String data = value.string();
             LogUtils.w("JsonResponseBodyConverter",data);
-            JSONObject jsonObject = new JSONObject(data);
+       /*     JSONObject jsonObject = new JSONObject(data);
             //需要重新登录
-            String code = jsonObject.get("code").toString();
+            String code = jsonObject.get("code").toString();*/
 
             return adapter.fromJson(data);
         } catch (Exception e) {

@@ -24,6 +24,7 @@ import chat.hala.hala.activity.ChatSettingActivity;
 import chat.hala.hala.activity.FamilyManagerActivity;
 import chat.hala.hala.activity.FeedBackActivity;
 import chat.hala.hala.activity.FollowOrFansActivity;
+import chat.hala.hala.activity.JoinFamilyActivity;
 import chat.hala.hala.activity.LoginActivity;
 import chat.hala.hala.activity.LoginActivityNew;
 import chat.hala.hala.activity.MyGainActivity;
@@ -73,12 +74,21 @@ public class MyFragment extends BaseFragment {
     TextView tvFollowName;
     @BindView(R.id.ll_about_us)
     LinearLayout llAboutUs;
+
+    @BindView(R.id.tv_joinfamily)
+    TextView tvJoinFamily;
     @BindView(R.id.gp_income)
     Group gpInCome;
+    @BindView(R.id.ll_family_manager)
+    LinearLayout llFamilyManager;
 
 
     @Override
     protected void initView() {
+
+        if(!AvchatInfo.isLogin()){
+            return;
+        }
         tvName.setText(AvchatInfo.getName());
         Glide.with(this)
                 .load(AvchatInfo.getAvatarUrl())
@@ -100,6 +110,18 @@ public class MyFragment extends BaseFragment {
         });
         intanceBus .addSubscription(this,disposable);
 
+        if(AvchatInfo.isFamilyLeader()){
+          llFamilyManager.setVisibility(View.VISIBLE);
+        }else{
+          llFamilyManager.setVisibility(View.GONE);
+        }
+
+        if(AvchatInfo.isAnchor()){
+            tvJoinFamily.setVisibility(View.VISIBLE);
+        }else{
+            tvJoinFamily.setVisibility(View.GONE);
+        }
+
 
 
     }
@@ -116,8 +138,7 @@ public class MyFragment extends BaseFragment {
                         }
                     }
                 });
-
-    }
+   }
 
     @Override
     protected int getLayoutId() {
@@ -169,6 +190,10 @@ public class MyFragment extends BaseFragment {
                         }
                     }
                 });
+        if (AvchatInfo.isAnchor()) {
+            initIncome();
+        }
+
     }
 
     @Override
@@ -180,9 +205,12 @@ public class MyFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.tv_friend,R.id.tv_fans,R.id.ll_about_us,R.id.tv_follow, R.id.tv_income,R.id.tv_edit, R.id.iv_head, R.id.tv_charge,  R.id.tv_wallet, R.id.tv_certify,R.id.ll_family_manager, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
+    @OnClick({R.id.tv_joinfamily,R.id.tv_friend,R.id.tv_fans,R.id.ll_about_us,R.id.tv_follow, R.id.tv_income,R.id.tv_edit, R.id.iv_head, R.id.tv_charge,  R.id.tv_wallet, R.id.tv_certify,R.id.ll_family_manager, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_joinfamily:
+                startActivity(new Intent(getActivity(), JoinFamilyActivity.class));
+                break;
             case R.id.tv_friend:
                 gotoFriend();
                 break;

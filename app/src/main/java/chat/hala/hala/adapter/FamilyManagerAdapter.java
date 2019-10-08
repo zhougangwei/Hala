@@ -8,12 +8,8 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.fragment.AnchorManagerFragment;
 import chat.hala.hala.fragment.FamilyManagerFragment;
-import chat.hala.hala.fragment.HotFragment;
-import chat.hala.hala.fragment.NewFragment;
-import chat.hala.hala.fragment.SuggestFragment;
 
 /**
  * Created by kiddo on 2017/11/28.

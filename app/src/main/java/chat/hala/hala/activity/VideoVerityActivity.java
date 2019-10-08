@@ -2,7 +2,6 @@ package chat.hala.hala.activity;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -11,22 +10,16 @@ import android.widget.VideoView;
 
 import com.blankj.utilcode.utils.LogUtils;
 import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import chat.hala.hala.R;
-import chat.hala.hala.adapter.EditHeadAdapter;
 import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.base.BaseActivity;
-import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.QiNiuToken;
-import chat.hala.hala.glide.MyGlideEngine;
 import chat.hala.hala.http.UploadPicManger;
 import chat.hala.hala.manager.ChoosePicManager;
 import chat.hala.hala.utils.ToastUtils;

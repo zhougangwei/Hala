@@ -27,11 +27,10 @@ public class FollowAdapter extends BaseQuickAdapter<OneToOneListBean.DataBean.Li
 
     @Override
     protected void convert(BaseViewHolder helper, OneToOneListBean.DataBean.ListBean item) {
-
         helper.setText(R.id.tv_online_state,item.isOnline()?R.string.online:R.string.offlIine);
         helper.setText(R.id.tv_name,item.getNickname());
         helper.setText(R.id.tv_content,item.getIntroduction());
-        helper.setText(R.id.tv_cost,item.getSetting().getChatCpm()+"");
+        helper.setText(R.id.tv_cost,item.getSetting()==null?"":item.getSetting().getChatCpm()+"");
         ImageView imageView = (ImageView) helper.getView(R.id.iv_bg);
         Glide.with(mContext).load(item.getAlbum().get(0).getMediaUrl())
                 .apply(RequestOptions.placeholderOf(imageView.getDrawable()))

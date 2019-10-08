@@ -10,7 +10,8 @@ public class BeStarResultBean extends BaseBean {
     public static final String BESTAR_OPEN = "open";// 可申请
     public static final String BESTAR_WAITING = "waiting";// 等待审核
     public static final String BESTAR_PASS = "pass";// 审核通过
-    public static final String BESTAR_REJECTED = "rejected";// 审核失败
+    public static final String BESTAR_REJECTED = "reject";// 审核失败
+    public static final String BESTAR_REJECTED_FRONT = "reject_front";// 审核失败
 
     /**
      * data : {"state":"rejected","info":"video"}

@@ -199,6 +199,7 @@
         </activity>
         <activity android:name=".activity.ChatSettingActivity" />
         <activity android:name=".activity.FamilyManagerActivity" />
+        <activity android:name=".activity.JoinFamilyActivity" />
 
         <service
             android:name=".service.DemoPushService"

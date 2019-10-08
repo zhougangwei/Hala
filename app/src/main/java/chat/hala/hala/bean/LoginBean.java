@@ -2,6 +2,7 @@ package chat.hala.hala.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
 import java.util.List;
 
 public class LoginBean extends BaseBean {
@@ -73,6 +74,7 @@ public class LoginBean extends BaseBean {
              * introduction :"介绍"
              * genderOrdinal:"1"
              *fansCount
+             * familyData
              */
 
             @SerializedName("characterId")
@@ -111,6 +113,9 @@ public class LoginBean extends BaseBean {
             private List<AlbumBean> album;
             @SerializedName("setting")
             private SettingBean setting;
+            @SerializedName("familyData")
+            private FamilyData familyData;
+
 
             private int genderOrdinal;
 
@@ -287,6 +292,63 @@ public class LoginBean extends BaseBean {
             public void setFansCount(int fansCount) {
                 this.fansCount = fansCount;
             }
+
+            public FamilyData getFamilyData() {
+                return familyData;
+            }
+
+            public void setFamilyData(FamilyData familyData) {
+                this.familyData = familyData;
+            }
+
+            public static class FamilyData{
+                Long fid;
+                String fname;
+                int leaderId;
+                String mediaUrl;
+                String joinTime;
+
+                public Long getFid() {
+                    return fid;
+                }
+
+                public void setFid(Long fid) {
+                    this.fid = fid;
+                }
+
+                public String getFname() {
+                    return fname == null ? "" : fname;
+                }
+
+                public void setFname(String fname) {
+                    this.fname = fname == null ? "" : fname;
+                }
+
+                public int getLeaderId() {
+                    return leaderId;
+                }
+
+                public void setLeaderId(int leaderId) {
+                    this.leaderId = leaderId;
+                }
+
+                public String getMediaUrl() {
+                    return mediaUrl == null ? "" : mediaUrl;
+                }
+
+                public void setMediaUrl(String mediaUrl) {
+                    this.mediaUrl = mediaUrl == null ? "" : mediaUrl;
+                }
+
+                public String getJoinTime() {
+                    return joinTime;
+                }
+
+                public void setJoinTime(String joinTime) {
+                    this.joinTime = joinTime;
+                }
+            }
+
 
             public static class AlbumBean {
                 /**

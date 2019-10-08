@@ -108,6 +108,7 @@ public class AuthenticationActivity extends BaseActivity {
                 if (!judgeEmpty()) {
                     return;
                 } else {
+                    ToastUtils.showToast(this,"正在提交!");
                     upQiniu();
                 }
                 break;
@@ -168,15 +169,16 @@ public class AuthenticationActivity extends BaseActivity {
             return;
         }
         ArrayList uriList = new ArrayList();
-        uriList.add(frontUrl);
         uriList.add(handUrl);
+        uriList.add(frontUrl);
+
         new UploadPicManger().uploadImageArray(uriList, 0, starchatanchorBean.getToken(), starchatanchorBean.getUrl(), new UploadPicManger.QiNiuUploadCompletionHandler() {
             @Override
             public void uploadSuccess(String path, List<String> paths) {
                 try {
                     Intent intent = new Intent();
-                    intent.putExtra("frontCard", paths.get(0));
-                    intent.putExtra("handCard", paths.get(2));
+                    intent.putExtra("frontCard", paths.get(1));
+                    intent.putExtra("handCard", paths.get(0));
                     setResult(RESULT_OK, intent);
                     finish();
                 } catch (Exception e) {

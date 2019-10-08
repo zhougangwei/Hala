@@ -39,6 +39,13 @@ public class AvchatInfo {
         }
         return memberBean.getMemberId();
     }
+    public static boolean hasFamily(){
+        return memberBean.getFamilyData()!=null&&memberBean.getFamilyData().getFid()!=0;
+    }
+    public static boolean isFamilyLeader(){
+        return memberBean!=null&& memberBean.getFamilyData()!=null&&memberBean.getFamilyData().getLeaderId()==memberBean.getMemberId();
+    }
+
 
     public static void setAccount(int account) {
         if(judgeMemberEmpty()){

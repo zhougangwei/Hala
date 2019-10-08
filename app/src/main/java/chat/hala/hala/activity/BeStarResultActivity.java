@@ -77,8 +77,11 @@ public class BeStarResultActivity extends BaseActivity {
                                 case BeStarResultBean.BESTAR_PASS:
                                     showExamineSuccess();
                                     break;
+                                case BeStarResultBean.BESTAR_REJECTED_FRONT:
+                                    showExamineFail(1);
+                                    break;
                                 case BeStarResultBean.BESTAR_REJECTED:
-                                    showExamineFail();
+                                    showExamineFail(2);
                                     break;
                             }
                         }
@@ -112,18 +115,23 @@ public class BeStarResultActivity extends BaseActivity {
         groupResult.setVisibility(View.VISIBLE);
         groupPrepare.setVisibility(View.GONE);
         tvState.setText("恭喜您，认证通过！");
-        tvContent.setText("开始为你的时间创造价值吧！ 请联系官方微信wx:12345");
+        tvContent.setText("开始为你的时间创造价值吧！ 请联系官方微信");
         ivExamineState.setImageDrawable(getResources().getDrawable(R.drawable.ic_examine_success));
         tvExamineAgain.setVisibility(View.GONE);
     }
 
-    public void showExamineFail(){
+    public void showExamineFail(int type){
+        if(type==1){
+            tvContent.setText("所填头像信息出现问题，请重新提交申请 如有问题，请联系在线客服！");
+        }else{
+            tvContent.setText("所填信息出现问题，请重新提交申请 如有问题，请联系在线客服！");
+        }
+        ivExamineState.setImageDrawable(getResources().getDrawable(R.drawable.ic_examine_fail));
+        tvExamineAgain.setVisibility(View.VISIBLE);
         groupResult.setVisibility(View.VISIBLE);
         groupPrepare.setVisibility(View.GONE);
         tvState.setText("很抱歉，审核失败");
-        tvContent.setText("所填信息出现问题，请重新提交申请 如有问题，请联系在线客服！");
-        ivExamineState.setImageDrawable(getResources().getDrawable(R.drawable.ic_examine_fail));
-        tvExamineAgain.setVisibility(View.VISIBLE);
+
     }
     public void showExamineWait(){
         groupResult.setVisibility(View.VISIBLE);

@@ -4,11 +4,11 @@ public class Contact {
     //public static final String UPLOAD_HOST = "http://47.244.164.243";
     //public static final String HOST = "http://47.244.164.243";
 
-    //public static final String UPLOAD_HOST = "http://18p8166y92.iok.la:51775";
-    //public static final String HOST        = "http://18p8166y92.iok.la:51775";
+    public static final String UPLOAD_HOST = "http://18p8166y92.iok.la:51775";
+    public static final String HOST        = "http://18p8166y92.iok.la:51775";
 
-   public static final String UPLOAD_HOST = "http://192.168.191.1:8081";
-   public static final String HOST = "http://192.168.191.1:8081";
+   //public static final String UPLOAD_HOST = "http://192.168.124.22:8081";
+   //public static final String HOST = "http://192.168.124.22:8081";
 
     public static final String TOKEN = "token";
     public static final String RONG_TOKEN = "rong_token";

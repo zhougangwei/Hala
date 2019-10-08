@@ -56,11 +56,14 @@ public class WalletActivity extends BaseActivity {
     @Override
     protected void initView() {
         mTvTitle.setText(R.string.wallet);
-        initData();
+
     }
 
-    @SuppressLint("CheckResult")
-    private void initData() {
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         RetrofitFactory.getInstance().getCoinBrief()
                 .subscribeOn(Schedulers.io())
                 .compose(this.<CoinBriefBean>bindToLifecycle())
@@ -73,7 +76,6 @@ public class WalletActivity extends BaseActivity {
                         }
                     }
                 });
-
     }
 
     @Override

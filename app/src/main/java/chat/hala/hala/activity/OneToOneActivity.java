@@ -223,7 +223,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                     @Override
                     public void accept(Long aLong) throws Exception {
                         // TODO: 2019/6/30 0030 关闭
-                        if (startTimer.get()) {
+                        if (   startTimer.get()) {
                             callOutHangup();
                             changeCallState(Call_NO_ANSWERED);
                         }
@@ -662,6 +662,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+                        startHeartBeat();
                         throwable.printStackTrace();
                     }
                 });
