@@ -55,7 +55,7 @@ public class MyIncomeActivity extends BaseActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRv.setLayoutManager(layoutManager);
-        adapter = new CoinIncomeAdapter(R.layout.item_coin_income, callList);
+        adapter = new CoinIncomeAdapter(R.layout.item_coin_income, callList, CoinIncomeAdapter.INCOME);
         mRv.setAdapter(adapter);
 
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {

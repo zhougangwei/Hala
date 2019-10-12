@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.blankj.utilcode.utils.LogUtils;
@@ -16,6 +18,7 @@ import butterknife.BindView;
 import chat.hala.hala.R;
 import chat.hala.hala.activity.AnchorsActivity;
 import chat.hala.hala.adapter.SuggestAdapter;
+import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.base.VideoCallManager;
@@ -28,6 +31,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationFragment;
+import io.rong.imlib.IRongCallback;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Message;
+import io.rong.message.TextMessage;
 
 public class SuggestFragment extends BaseFragment {
 
@@ -65,8 +73,26 @@ public class SuggestFragment extends BaseFragment {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.tv_hi:
-                        OneToOneListBean.DataBean.ListBean listBean = mSuggestList.get(position);
-                        RongIM.getInstance().startPrivateChat(getActivity(), listBean.getMemberId() + "", listBean.getNickname());
+                       OneToOneListBean.DataBean.ListBean listBean = mSuggestList.get(position);
+                       // RongIM.getInstance().startPrivateChat(getActivity(), listBean.getMemberId() + "", listBean.getNickname());
+                        if (!TextUtils.isEmpty(AvchatInfo.getGreetWord())) {
+                            TextMessage obtain = TextMessage.obtain(AvchatInfo.getGreetWord());
+                            Message myMessage = Message.obtain(listBean.getMemberId()+"", Conversation.ConversationType.PRIVATE, obtain);
+                            RongIM.getInstance().sendMessage(myMessage, null, null, new IRongCallback.ISendMessageCallback() {
+                            @Override
+                            public void onAttached(Message message) {
+                                Log.e(TAG, "onAttached: "+message.getTargetId());
+                            }
+                            @Override
+                            public void onSuccess(Message message) {
+                                Log.e(TAG, "onSuccess: "+message.getTargetId());
+                            }
+                            @Override
+                            public void onError(Message message, RongIMClient.ErrorCode errorCode) {
+                                Log.e(TAG, "onError: "+errorCode);
+                            }
+                        });
+                        }
                         break;
                 }
             }
@@ -108,6 +134,7 @@ public class SuggestFragment extends BaseFragment {
     private void getData(final boolean isRefresh) {
 
         if (!isLoadMore) {
+            suggestAdapter.loadMoreEnd();
             return;
         }
         if (isRefresh) {

@@ -1,6 +1,13 @@
 package chat.hala.hala.avchat;
 
+import chat.hala.hala.base.App;
+import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.QiNiuToken;
+import chat.hala.hala.http.BaseCosumer;
+import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.utils.SPUtil;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class QiniuInfo {
 
@@ -32,5 +39,27 @@ public class QiniuInfo {
 
     public static void setmStarchatmemberBean(QiNiuToken.DataBean.StarchatmemberBean mStarchatmemberBean) {
         QiniuInfo.mStarchatmemberBean = mStarchatmemberBean;
+    }
+
+    public static void initQiniu() {
+        RetrofitFactory
+                .getInstance()
+                .getQiNiuToken()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<QiNiuToken>() {
+                    @Override
+                    public void onGetData(QiNiuToken baseBean) {
+                        if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
+                            return;
+                        }
+                        QiNiuToken.DataBean.StarchatanchorBean starchatanchor = baseBean.getData().getStarchatanchor();
+                        QiNiuToken.DataBean.StarchatfeedbackBean starchatfeedback = baseBean.getData().getStarchatfeedback();
+                        QiNiuToken.DataBean.StarchatmemberBean starchatmember = baseBean.getData().getStarchatmember();
+                        QiniuInfo.setmStarchatanchorBean(starchatanchor);
+                        QiniuInfo.setmStarchatfeedbackBean(starchatfeedback);
+                        QiniuInfo.setmStarchatmemberBean(starchatmember);
+                    }
+                });
     }
 }

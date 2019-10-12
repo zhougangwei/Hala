@@ -4,7 +4,7 @@
     android:layout_width="315dp"
     android:layout_height="1dp"
     xmlns:tools="http://schemas.android.com/tools"
-    android:src="@color/e8_grey"
+    android:src="@color/f4_grey"
     >
 
 

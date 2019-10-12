@@ -3,6 +3,7 @@ package chat.hala.hala.fragment;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import chat.hala.hala.R;
+import chat.hala.hala.activity.FamilyDayDetailActivity;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.bean.FamilyBeanA;
@@ -202,7 +204,7 @@ public class FamilyManagerFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.tv_invite, R.id.iv_choose_time})
+    @OnClick({R.id.tv_invite, R.id.iv_choose_time,R.id.tv_today_more})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_invite:
@@ -210,6 +212,9 @@ public class FamilyManagerFragment extends BaseFragment {
                 break;
             case R.id.iv_choose_time:
                 showCustomTimePicker();
+                break;
+            case R.id.tv_today_more:
+                goTodayMore();
                 break;
         }
     }
@@ -239,7 +244,9 @@ public class FamilyManagerFragment extends BaseFragment {
             mDoubleTimeSelectDialog.show();
         }
     }
-
+    private void goTodayMore() {
+        startActivity(new Intent(getActivity(), FamilyDayDetailActivity.class));
+    }
     private void startInvite() {
         RetrofitFactory.getInstance().createFamilyCode(7)
                 .subscribeOn(Schedulers.io())

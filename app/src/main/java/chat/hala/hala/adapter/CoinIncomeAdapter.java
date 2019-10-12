@@ -1,6 +1,7 @@
 package chat.hala.hala.adapter;
 
 import android.graphics.Color;
+import android.net.wifi.aware.PublishConfig;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -21,13 +22,24 @@ import chat.hala.hala.bean.CoinListBean;
 public class CoinIncomeAdapter extends BaseQuickAdapter<CoinListBean.DataBean.TransactionsBean.ListBean, BaseViewHolder> {
 
 
-    public CoinIncomeAdapter(int layoutIds, List<CoinListBean.DataBean.TransactionsBean.ListBean> countryDatas) {
+    public static final int COST =1 ;
+    public static final int INCOME =2 ;
+
+    public int type;
+    public CoinIncomeAdapter(int layoutIds, List<CoinListBean.DataBean.TransactionsBean.ListBean> countryDatas, int type) {
         super(layoutIds, countryDatas);
+        this.type=type;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, CoinListBean.DataBean.TransactionsBean.ListBean item) {
-        helper.setText(R.id.tv_cost, String.format(mContext.getResources().getString(R.string.star_coin),item.getFigure()));
+        String unit="";
+        if(type==COST){
+            unit="Pa币";
+        }else if(type==INCOME){
+            unit="Pa豆";
+        }
+        helper.setText(R.id.tv_cost, item.getFigure()+"Pa币");
         if(item.getFigure().contains("\\-")){
             helper.setTextColor(R.id.tv_cost, Color.parseColor("#21C089"));
         }else{

@@ -3,6 +3,7 @@ package chat.hala.hala.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -10,7 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.LogUtils;
+import com.google.gson.reflect.TypeToken;
 
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -20,11 +24,17 @@ import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.BaseBean;
+import chat.hala.hala.bean.EditUserBean;
 import chat.hala.hala.bean.LoginBean;
+import chat.hala.hala.bean.RandomNameBean;
+import chat.hala.hala.bean.RegistBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.utils.AssetUtils;
 import chat.hala.hala.utils.FacebookLoginManager;
+import chat.hala.hala.utils.GsonUtil;
+import chat.hala.hala.utils.RandomUtils;
 import chat.hala.hala.utils.ToastUtils;
 import chat.hala.hala.wight.country.CountryActivity;
 import io.reactivex.Observable;
@@ -249,11 +259,7 @@ public class LoginPhoneActivity extends BaseActivity {
                         }
                         String action = baseBean.getData().getAction();
                         if (Contact.SIGN_UP.equals(action)) {
-                            Intent intent = new Intent(LoginPhoneActivity.this, FillUserActivity.class);
-                            intent.putExtra("mobileNumber", mobileNumber);
-                            intent.putExtra("code", code);
-                            intent.putExtra("type", FillUserActivity.FROM_PHONE);
-                            startActivityForResult(intent,REQUEST_PHONE);
+                            startConfirm(mobileNumber,code);
                         } else if (Contact.SIGN_IN.equals(action)) {
                             AvchatInfo.saveBaseData(baseBean.getData().getMember(),LoginPhoneActivity.this,true);
                             Intent intent = new Intent(LoginPhoneActivity.this,MainActivity.class);
@@ -264,4 +270,51 @@ public class LoginPhoneActivity extends BaseActivity {
                     }
                 });
     }
+    private void startConfirm(String mobileNumber, String code) {
+        String birthDate ="2000-10-14";
+        String json = AssetUtils.getJson(this, "name.json");
+        String username ="";
+        List<RandomNameBean> objects = GsonUtil.parseJsonToList(json, new TypeToken<List<RandomNameBean>>() {
+        }.getType());
+        if(TextUtils.isEmpty(username)){
+            username=objects.get(new Random().nextInt(objects.size())).getName()+ RandomUtils.getRandomString();
+        }
+
+
+        Observable<RegistBean> regist = null;
+        EditUserBean editUserBean = new EditUserBean();
+        editUserBean.setNickname(username);
+        editUserBean.setBirthDate(birthDate);
+        editUserBean.setCode(code);
+        editUserBean.setGender(0 + "");
+        editUserBean.setMobileNumber(mobileNumber);
+           regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getJsonInstance().regist(
+                   GsonUtil.parseObjectToJson(editUserBean)
+           ));
+
+        regist.subscribeOn(Schedulers.io())
+                .compose(this.<RegistBean>bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<RegistBean>() {
+                    @Override
+                    public void onGetData(RegistBean baseBean) {
+                        LogUtils.e(TAG, "onGetData: " + GsonUtil.parseObjectToJson(baseBean));
+                        if (Contact.REPONSE_CODE_REGIST_FAIL_ALREADY_NAME == baseBean.getCode()) {
+                            ToastUtils.showToast(LoginPhoneActivity.this, "名字已存在");
+                            return;
+                        }
+                        if (Contact.REPONSE_CODE_REGIST_FAIL_ALREADY_PHONE == baseBean.getCode()) {
+                            ToastUtils.showToast(LoginPhoneActivity.this, "手机号已存在无法注册");
+                            return;
+                        }
+                        if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
+                            ToastUtils.showToast(LoginPhoneActivity.this, "保存失败");
+                            return;
+                        }
+                        startLogin(1);
+
+                    }
+                });
+    }
+
 }

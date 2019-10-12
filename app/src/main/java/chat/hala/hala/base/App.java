@@ -119,11 +119,9 @@ public class App extends MultiDexApplication {
 
     private void initRong() {
         RongIM.init(this);
-
         RongIM.getInstance().registerConversationTemplate(new MyPrivateConversationProvider());
         RongIM.getInstance().setMessageAttachedUserInfo(true);
         RongIM.getInstance().registerMessageTemplate(new CustomizePicMessageProvider());
-
         RongIM.getInstance().registerMessageTemplate(new MyTextMessageItemProvider());
         RongIM.getInstance().registerMessageType(CustomizeVideoMessage.class);
         RongIM.getInstance().registerMessageType(CustomizeVoiceMessage.class);

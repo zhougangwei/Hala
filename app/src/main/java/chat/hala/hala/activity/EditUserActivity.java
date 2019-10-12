@@ -432,6 +432,8 @@ public class EditUserActivity extends BaseActivity {
     private void upQiniu() {
         QiNiuToken.DataBean.StarchatanchorBean starchatanchorBean = QiniuInfo.getmStarchatanchorBean();
         if (starchatanchorBean == null) {
+            QiniuInfo.initQiniu();
+            ToastUtils.showToast(EditUserActivity.this, "图片上传失败,请过三秒重新提交!");
             return;
         }
         new UploadPicManger().uploadImageArray(uriList, 0, starchatanchorBean.getToken(), starchatanchorBean.getUrl(), new UploadPicManger.QiNiuUploadCompletionHandler() {

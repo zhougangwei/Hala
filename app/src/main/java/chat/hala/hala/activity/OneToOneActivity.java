@@ -152,7 +152,6 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     /**
      * @param context
      * @param anchorId       主播Id
-     * @param anchorMemberId
      * @param channelId
      * @param callId
      * @param lootId
@@ -290,7 +289,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                     @Override
                     public void onGetData(AnchorBean anchorBean) {
                         if (ResultUtils.cheekSuccess(anchorBean)) {
-                            anchorName = anchorBean.getData().getNickname();
+                            anchorName = anchorBean.getData().getUsername();
                             try {
                                 anchorUrl = anchorBean.getData().getAlbum().get(0).getMediaUrl();
                             } catch (Exception e) {

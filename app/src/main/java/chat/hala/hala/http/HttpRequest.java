@@ -25,6 +25,7 @@ import chat.hala.hala.bean.FeedBackBean;
 import chat.hala.hala.bean.HeartBean;
 import chat.hala.hala.bean.LoginBean;
 import chat.hala.hala.bean.MediaToken;
+import chat.hala.hala.bean.MemberInfoBean;
 import chat.hala.hala.bean.MessageUnreadBean;
 import chat.hala.hala.bean.MinuteBean;
 import chat.hala.hala.bean.OneToOneListBean;
@@ -167,7 +168,7 @@ public interface HttpRequest {
     Observable<OneToOneListBean> getNewOneToOneList(@Query("page") int page, @Query("size") int size);
 
 
-    @GET("/anchor/recommend")
+    @GET("/member/recommend")
     Observable<OneToOneListBean> getRecommendList(@Query("page") int page, @Query("size") int size);
 
     @GET("/anchor/rand")
@@ -193,6 +194,11 @@ public interface HttpRequest {
     @GET("/{type}/{user}")
     Observable<AnchorBean> getAnchorData(@Path("type") String type,@Path("user") int user
     );
+
+    @GET("/member/{user}")
+    Observable<MemberInfoBean> getMemberData(@Path("user") int user
+    );
+
 
     /*
     * 获取当前主播状态
@@ -340,5 +346,14 @@ public interface HttpRequest {
     Observable<BaseBean> finalCharge(@Body RequestBody requestBody);
     RequestBody finalCharge(@JsonQuery String dataJson
     );
+
+
+    @POST("/family/apply/createFamily")
+    Observable<BaseBean> applyFamily(@Body RequestBody requestBody);
+    RequestBody applyFamily(@JsonQuery String dataJson
+    );
+
+    @POST("/member/bindClientIdToMemberId/{clientid}")
+    Observable<BaseBean> bindClientIdToMemberId(@Path("clientid")String clientid);
 
 }

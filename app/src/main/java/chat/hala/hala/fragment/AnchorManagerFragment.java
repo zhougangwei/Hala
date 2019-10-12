@@ -95,7 +95,7 @@ public class AnchorManagerFragment extends BaseFragment {
 
                     @Override
                     public void onGetData(FamilyAnchorBean oneToOneListBean) {
-                        LogUtils.e(TAG, "ffff" + GsonUtil.parseObjectToJson(oneToOneListBean));
+
                         if (Contact.REPONSE_CODE_SUCCESS != oneToOneListBean.getCode()) {
                             familyAnchorAdapter.loadMoreFail();
                             return;

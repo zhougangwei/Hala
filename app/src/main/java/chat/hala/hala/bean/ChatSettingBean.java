@@ -27,6 +27,9 @@ public class ChatSettingBean {
     private boolean audioNotify;
     @SerializedName("chatNotify")
     private boolean chatNotify;
+    @SerializedName("greetWord")
+    private String greetWord;
+
 
     public String getAudioCpm() {
         return audioCpm;
@@ -74,5 +77,13 @@ public class ChatSettingBean {
 
     public void setChatNotify(boolean chatNotify) {
         this.chatNotify = chatNotify;
+    }
+
+    public String getGreetWord() {
+        return greetWord == null ? "" : greetWord;
+    }
+
+    public void setGreetWord(String greetWord) {
+        this.greetWord = greetWord == null ? "" : greetWord;
     }
 }

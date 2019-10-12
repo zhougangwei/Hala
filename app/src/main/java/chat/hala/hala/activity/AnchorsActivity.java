@@ -37,6 +37,7 @@ import chat.hala.hala.adapter.AnchorDataAdapter;
 import chat.hala.hala.adapter.AnchorTagsAdapter;
 import chat.hala.hala.adapter.SimplePagerAdapter;
 import chat.hala.hala.avchat.AvchatInfo;
+import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.base.VideoCallManager;
 import chat.hala.hala.bean.AnchorBean;
@@ -56,10 +57,10 @@ import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;
 
 
-public class AnchorsActivity extends SlideBackActivity {
+public class AnchorsActivity extends BaseActivity {
 
     @BindView(R.id.rl_banner)
-    LinearLayout rlBanner;
+    RelativeLayout rlBanner;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.collapsing_toolbar)
@@ -122,6 +123,9 @@ public class AnchorsActivity extends SlideBackActivity {
     TextView mTvFans;
     @BindView(R.id.tv_voice_call)
     TextView mTvVoiceCall;
+
+    @BindView(R.id.tv_vp_num)
+    TextView tvVpNum;
 
     @BindView(R.id.iv_more)
     ImageView mIvMore;
@@ -251,8 +255,6 @@ public class AnchorsActivity extends SlideBackActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<AnchorBean>() {
-
-
                     @Override
                     public void onGetData(AnchorBean baseBean) {
                         Log.i("AnchorsActivity", "AnchorBean" + GsonUtil.parseObjectToJson(
@@ -263,7 +265,7 @@ public class AnchorsActivity extends SlideBackActivity {
                         }
                         mAnchorData = baseBean.getData();
                         mAnchormemberId = mAnchorData.getMemberId();
-                        tvName.setText(mAnchorData.getNickname());
+                        tvName.setText(mAnchorData.getUsername());
                         mTvScore.setText(mAnchorData.getMarking() + "");
                         mTvFans.setText(mAnchorData.getFansCount() + "");
                         followState = baseBean.getData().isFollowing();
@@ -355,7 +357,22 @@ public class AnchorsActivity extends SlideBackActivity {
     private void initCovers() {
         simplePagerAdapter = new SimplePagerAdapter(AnchorsActivity.this, coverDatas);
         vp_cover.setAdapter(simplePagerAdapter);
+        vp_cover.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                tvVpNum.setText((position+1)+"/5");
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 
@@ -371,7 +388,7 @@ public class AnchorsActivity extends SlideBackActivity {
                 finish();
                 break;
             case R.id.iv_message:
-                RongIM.getInstance().startPrivateChat(this, mAnchormemberId + "", mAnchorData != null ? mAnchorData.getNickname() : "");
+                RongIM.getInstance().startPrivateChat(this, mAnchormemberId + "", mAnchorData != null ? mAnchorData.getUsername() : "");
                 break;
             case R.id.iv_like:
                 if (followState) {

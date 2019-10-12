@@ -32,7 +32,7 @@ import io.reactivex.schedulers.Schedulers;
 public class NewFragment extends BaseFragment {
 
 
-    public  static String TAG="HotFragment";
+    public  static String TAG="NewFragment";
     @BindView(R.id.rv)
     RecyclerView rv;
 
@@ -122,8 +122,8 @@ public class NewFragment extends BaseFragment {
     }
 
     private void getData(final boolean isRefresh) {
-        LogUtils.e(TAG,"getData"+page);
         if (!isLoadMore){
+            hotCallAdapter.loadMoreEnd();
             return;
         }
         if (isRefresh) {
@@ -131,7 +131,7 @@ public class NewFragment extends BaseFragment {
         }else{
             page++;
         }
-        LogUtils.e(TAG,"aaa"+page);
+
 
         RetrofitFactory.getInstance().getNewOneToOneList(page, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -145,7 +145,7 @@ public class NewFragment extends BaseFragment {
 
                     @Override
                     public void onGetData(OneToOneListBean oneToOneListBean) {
-                        LogUtils.e(TAG,"ffff"+ GsonUtil.parseObjectToJson(oneToOneListBean));
+
                         if (Contact.REPONSE_CODE_SUCCESS != oneToOneListBean.getCode()) {
                             hotCallAdapter.loadMoreFail();
                             return;

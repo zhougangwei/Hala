@@ -25,7 +25,7 @@ public class LoginBean extends BaseBean {
 
 
 
-    public static class DataBean {
+    public static class DataBean  extends BaseBean{
         /**
          * member : {"characterId":"02544174","mobileNumber":"+8613811114444","username":"周","gender":"secret","birthDate":"2000-10-14","autograph":"你号","residentialPlace":"杭州","anchorId":1,"rongToken":"I34rC+bQTeEMQcO7kwL3K16AsbGff9KvUT62Noch30mb6n+CHOf4VSjk5+knDcNk6ysOovR6+BFc1gC7seANjA==","coin":0,"spent":0,"followingCount":0,"online":false,"album":[{"id":5,"mediaUrl":"http://starchat.member.7halachat.com/magazine-unlock-01-2.3.1552-BE1C1D482E72759249831391682C2D38.jpg","sortby":1}],"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwianRpIjoiM2EzNjA1ZGQtMDFkNi00YzBkLWIyM2QtZTY0OGE5NzA1NThmIn0.cMF8aKFCDUX_OeqyKMTFFbDKequm7qFympz0Zdk3MSE","memberId":5,"lastActiveMinuteGap":0}
          * action : sign_in
@@ -124,6 +124,9 @@ public class LoginBean extends BaseBean {
 
             @SerializedName("fansCount")
             private int fansCount;
+
+            @SerializedName("friendCount")
+            private int friendCount;
 
             public String getCharacterId() {
                 return characterId;
@@ -301,6 +304,14 @@ public class LoginBean extends BaseBean {
                 this.familyData = familyData;
             }
 
+            public int getFriendCount() {
+                return friendCount;
+            }
+
+            public void setFriendCount(int friendCount) {
+                this.friendCount = friendCount;
+            }
+
             public static class FamilyData{
                 Long fid;
                 String fname;
@@ -412,6 +423,10 @@ public class LoginBean extends BaseBean {
                 private boolean audioNotify;
                 @SerializedName("chatNotify")
                 private boolean chatNotify;
+                @SerializedName("greetWord")
+                private String greetWord;
+
+
 
                 public int getVideoCpm() {
                     return videoCpm;
@@ -460,7 +475,17 @@ public class LoginBean extends BaseBean {
                 public void setChatNotify(boolean chatNotify) {
                     this.chatNotify = chatNotify;
                 }
+
+                public String getGreetWord() {
+                    return greetWord == null ? "" : greetWord;
+                }
+
+                public void setGreetWord(String greetWord) {
+                    this.greetWord = greetWord == null ? "" : greetWord;
+                }
             }
+
+
 
         }
 

@@ -246,6 +246,8 @@ public class LoginActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_private_policy:
+
+
                 break;
             case R.id.tv_choose_country:
                 Intent intent = new Intent(this, CountryActivity.class);

@@ -42,8 +42,6 @@ public class FamilyAnchorDetailActivity extends BaseActivity {
     ImageView ivHead;
     @BindView(R.id.tv_head)
     TextView tvHead;
-    @BindView(R.id.tv_content)
-    TextView tvContent;
     @BindView(R.id.imageView3)
     ImageView imageView3;
     @BindView(R.id.tv_total_time)
@@ -68,8 +66,7 @@ public class FamilyAnchorDetailActivity extends BaseActivity {
     TextView tvDuringTotalIncome;
     @BindView(R.id.tv2)
     TextView tv2;
-    @BindView(R.id.tv_today_more)
-    ImageView tvTodayMore;
+
     @BindView(R.id.tv_today_total_time)
     TextView tvTodayTotalTime;
     @BindView(R.id.tv_today_total_income)
@@ -113,11 +110,20 @@ public class FamilyAnchorDetailActivity extends BaseActivity {
                                     CalculateUtils.getTime(data.getSumLiveTimes())
                            );
                             tvTodayTotalIncome.setText(
-                                   "时长:"+ CalculateUtils.getMoney(data.getZoneAnchorWorth())
+                                   "时长:"+ CalculateUtils.getMoney(data.getZoneLiveTimes())
                                  );
                             tvTodayTotalTime.setText(
-                                    "收益:"+  CalculateUtils.getMoney(data.getZoneLiveTimes())
+                                    "收益:"+  CalculateUtils.getMoney(data.getZoneAnchorWorth())
                                     );
+                            tvDuringTotalIncome.setText(
+                                    "收益总计:"
+                                            +
+                                            CalculateUtils.getMoney(data.getZoneAnchorWorth())
+                            );
+                            tvDuringTotalTime.setText(
+                                    "时长总计:"+
+                                            CalculateUtils.getTime(data.getZoneLiveTimes())
+                            );
                             tvHead.setText(bean.getData().getName());
                             Glide.with(FamilyAnchorDetailActivity.this).load(bean.getData().getMediaUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(ivHead);
                         }
@@ -138,17 +144,17 @@ public class FamilyAnchorDetailActivity extends BaseActivity {
                             tvDuringTotalIncome.setText(
                                     "收益总计:"
                                     +
-                                    CalculateUtils.getMoney(data.getSumAnchorWorth())
+                                    CalculateUtils.getMoney(data.getZoneAnchorWorth())
                             );
                             tvDuringTotalTime.setText(
                                     "时长总计:"+
-                                    CalculateUtils.getTime(data.getSumLiveTimes())
+                                    CalculateUtils.getTime(data.getZoneLiveTimes())
                             );
                         }
                     }
                 });
     }
-    @OnClick({R.id.iv_back,R.id.iv_choose_time,R.id.tv_today_more})
+    @OnClick({R.id.iv_back,R.id.iv_choose_time})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -157,20 +163,16 @@ public class FamilyAnchorDetailActivity extends BaseActivity {
             case   R.id.iv_choose_time:
                 showCustomTimePicker();
                 break;
-            case  R.id.tv_today_more:
-                goTodayMore();
-                break;
+
         }
 
 
     }
 
-    private void goTodayMore() {
-        startActivity(new Intent(this,FamilyDayDetailActivity.class));
-    }
+
 
     public void showCustomTimePicker() {
-        String allowedSmallestTime = "2019-9-12";
+        String allowedSmallestTime = "2018-9-12";
         String allowedBiggestTime = TimeUtils.getCurTimeString(new SimpleDateFormat("yyyy-MM-dd"));
         if (mDoubleTimeSelectDialog == null) {
             mDoubleTimeSelectDialog = new DoubleDateSelectDialog(this, allowedSmallestTime, allowedBiggestTime, allowedBiggestTime);

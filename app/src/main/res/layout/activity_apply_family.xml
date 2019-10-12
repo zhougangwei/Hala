@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ApplyFamilyActivity">
+
+    <include
+        android:id="@+id/include11"
+        layout="@layout/include_top_toolbar_iv_line" />
+
+    <ImageView
+        android:id="@+id/iv_head"
+        android:layout_width="98dp"
+        android:layout_height="98dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/bg_family_camera"
+        android:scaleType="center"
+        android:src="@drawable/ic_family_camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include11" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="46dp"
+        android:text="家族昵称"
+        android:textColor="#FF343434"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_head" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="主播数量"
+        android:textColor="#FF343434"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/textView21"
+        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="申请人"
+        android:textColor="#FF343434"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/textView22"
+        app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="手机号"
+        android:textColor="#FF343434"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/textView22"
+        app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+    <EditText
+        android:id="@+id/et_family_name"
+        android:layout_width="0dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="21dp"
+        android:background="@drawable/bg_family_item"
+        android:gravity="center"
+        android:hint="给你的家族起个名字…"
+        android:paddingStart="13dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView21"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView21"
+        app:layout_constraintTop_toTopOf="@+id/textView21" />
+
+
+    <EditText
+        android:id="@+id/et_family_anchor_num"
+        android:layout_width="0dp"
+        android:layout_height="33dp"
+        android:background="@drawable/bg_family_item"
+        android:gravity="center"
+        android:hint="目前家族拥有主播数量…"
+        android:inputType="number"
+        android:paddingStart="13dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView22"
+        app:layout_constraintEnd_toEndOf="@+id/et_family_name"
+        app:layout_constraintStart_toStartOf="@+id/et_family_name"
+        app:layout_constraintTop_toTopOf="@+id/textView22" />
+
+    <EditText
+        android:id="@+id/et_family_phone_num"
+        android:layout_width="0dp"
+        android:layout_height="33dp"
+        android:background="@drawable/bg_family_item"
+        android:gravity="center"
+        android:hint="可联系到您的手机号"
+        android:inputType="number|phone"
+        android:paddingStart="13dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView28"
+        app:layout_constraintEnd_toEndOf="@+id/et_family_anchor_num"
+        app:layout_constraintStart_toStartOf="@+id/et_family_name"
+        app:layout_constraintTop_toTopOf="@+id/textView28" />
+
+    <EditText
+        android:id="@+id/et_family_apply_name"
+        android:layout_width="0dp"
+        android:layout_height="33dp"
+        android:background="@drawable/bg_family_item"
+        android:gravity="center"
+        android:hint="您的真实姓名…"
+        android:paddingStart="13dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView27"
+        app:layout_constraintEnd_toEndOf="@+id/et_family_phone_num"
+        app:layout_constraintStart_toStartOf="@+id/et_family_name"
+        app:layout_constraintTop_toTopOf="@+id/textView27" />
+
+    <TextView
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="提交"
+        android:id="@+id/tv_submit"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="53dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/bg_family_apply_click"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_family_apply_name" />
+
+</android.support.constraint.ConstraintLayout>

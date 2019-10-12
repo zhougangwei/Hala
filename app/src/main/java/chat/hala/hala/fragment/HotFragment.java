@@ -5,6 +5,7 @@ import android.graphics.Rect;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.blankj.utilcode.utils.LogUtils;
@@ -60,6 +61,9 @@ public class HotFragment extends BaseFragment {
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
+                if(position>=mHotOnetoOneList.size()){
+                    position=position-1;
+                }
                 if(mHotOnetoOneList.get(position).getDataType()==OneToOneListBean.DataBean.ListBean.BANNER){
                     return 2;
                 }
@@ -71,6 +75,9 @@ public class HotFragment extends BaseFragment {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
                 int childLayoutPosition = parent.getChildLayoutPosition(view);
+                if(childLayoutPosition>=mHotOnetoOneList.size()){
+                    childLayoutPosition=childLayoutPosition-1;
+                }
                 if(mHotOnetoOneList.get(childLayoutPosition).getDataType()==OneToOneListBean.DataBean.ListBean.BANNER){
                     outRect.left=decowidth;
                     outRect.right=decowidth;
@@ -103,7 +110,7 @@ public class HotFragment extends BaseFragment {
                 swrl.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        getData(true);
+                       getData(true);
                         swrl.setRefreshing(false);
                     }
                 }, 500);
@@ -119,6 +126,7 @@ public class HotFragment extends BaseFragment {
             }
         }, rv);
         getBannerData();
+
         hotCallAdapter.setPreLoadNumber(5);
 
     }
@@ -160,12 +168,14 @@ public class HotFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        Log.e(TAG, "initData: " );
         getData(true);
     }
 
     private void getData(final boolean isRefresh) {
-
+        Log.e(TAG, "getData: " );
         if (!isLoadMore) {
+            hotCallAdapter.loadMoreEnd();
             return;
         }
         if (isRefresh) {
@@ -173,7 +183,7 @@ public class HotFragment extends BaseFragment {
         } else {
             page++;
         }
-        LogUtils.e(TAG, "aaa" + page);
+        LogUtils.e(TAG, "aaa " + hashCode());
 
 
         RetrofitFactory.getInstance().getHotOneToOneList(page, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
@@ -215,7 +225,7 @@ public class HotFragment extends BaseFragment {
                             }
                         }
                         hotCallAdapter.notifyDataSetChanged();
-                        hotCallAdapter.disableLoadMoreIfNotFullPage(rv);
+                       hotCallAdapter.disableLoadMoreIfNotFullPage(rv);
                     }
                 });
     }

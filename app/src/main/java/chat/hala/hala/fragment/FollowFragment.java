@@ -36,8 +36,8 @@ public class FollowFragment extends BaseFragment {
     @BindView(R.id.rv_random)
     RecyclerView rvRandom;
 
-    /*@BindView(R.id.swrl)
-    SwipeRefreshLayout swrl;*/
+  @BindView(R.id.swrl)
+    SwipeRefreshLayout swrl;
     private boolean isLoadMore = true;
     private List<OneToOneListBean.DataBean.ListBean> mRanodmList = new ArrayList<>();
     List<OneToOneListBean.DataBean.ListBean> mFansList = new ArrayList<>();
@@ -108,32 +108,40 @@ public class FollowFragment extends BaseFragment {
                 }
             }
         };
+        randomAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                AnchorsActivity.startAnchorAc(getActivity(), mRanodmList.get(position).getAnchorId(), mRanodmList.get(position).getMemberId());
+            }
+        });
 
-
-        rv.addItemDecoration(itemDecoration2);
-
-
-
-
-       /* swrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      rv.addItemDecoration(itemDecoration2);
+      swrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 isLoadMore = true;
                 swrl.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        LogUtils.e(TAG,"wo222");
+                        getData(true);
                         getRandomData(true);
                         swrl.setRefreshing(false);
                     }
                 }, 500);
             }
-        });*/
+        });
+
+        randomAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                getRandomData(false);
+            }
+        }, rv);
+
         fansAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                LogUtils.e(TAG, "wo ");
-                getRandomData(false);
+                getData(false);
             }
         }, rv);
         fansAdapter.setEmptyView(R.layout.view_follow_empty);
@@ -149,23 +157,12 @@ public class FollowFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        getData();
+        getData(true);
         getRandomData(true);
-
     }
 
     private void getRandomData(final boolean isRefresh) {
-        LogUtils.e(TAG, "getData" + page);
-        if (!isLoadMore) {
-            return;
-        }
-        if (isRefresh) {
-            page = 0;
-        } else {
-            page++;
-        }
-        LogUtils.e(TAG, "aaa" + page);
-        RetrofitFactory.getInstance().getRandOneToOneList(10)
+        RetrofitFactory.getInstance().getRandOneToOneList(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<OneToOneListBean>() {
@@ -174,7 +171,6 @@ public class FollowFragment extends BaseFragment {
                         super.onError(e);
                         randomAdapter.loadMoreFail();
                     }
-
                     @Override
                     public void onGetData(OneToOneListBean oneToOneListBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != oneToOneListBean.getCode()) {
@@ -182,98 +178,47 @@ public class FollowFragment extends BaseFragment {
                             return;
                         }
                         randomAdapter.loadMoreEnd();
-                        isLoadMore = false;
                         if (isRefresh) {
                             mRanodmList.clear();
                         }
                         List<OneToOneListBean.DataBean.ListBean> content = oneToOneListBean.getData().getList();
                         if (content != null && content.size() > 0) {
                             mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mRanodmList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
-                            mFansList.addAll(content);
                         }
                         randomAdapter.notifyDataSetChanged();
-                        fansAdapter.notifyDataSetChanged();
-                        randomAdapter.disableLoadMoreIfNotFullPage(rv);
+                        randomAdapter.disableLoadMoreIfNotFullPage(rvRandom);
                     }
                 });
     }
 
-    private void getData() {
-
-
+    private void getData(final boolean isRefresh) {
+        if (isRefresh) {
+            page = 0;
+        } else {
+            page++;
+        }
         RetrofitFactory.getInstance()
                 .getFansNum("following", page, Contact.PAGE_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseCosumer<FansBean>() {
-
+                .subscribe(
+                        new BaseCosumer<FansBean>() {
+                            @Override
+                            public void onError(Throwable e) {
+                                super.onError(e);
+                                fansAdapter.loadMoreFail();
+                            }
                     @Override
                     public void onGetData(FansBean oneToOneListBean) {
                         if (Contact.REPONSE_CODE_SUCCESS != oneToOneListBean.getCode()) {
+                            fansAdapter.loadMoreFail();
                             return;
                         }
                         fansAdapter.loadMoreEnd();
                         isLoadMore = false;
-                        mFansList.clear();
+                        if (isRefresh) {
+                            mFansList.clear();
+                        }
                         List<OneToOneListBean.DataBean.ListBean> content = oneToOneListBean.getData().getList();
                         if (content != null && content.size() > 0) {
                             mFansList.addAll(content);

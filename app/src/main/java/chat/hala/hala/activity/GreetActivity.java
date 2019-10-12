@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.utils.KeyboardUtils;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -31,6 +33,7 @@ public class GreetActivity extends BaseActivity {
     @BindView(R.id.tv_num)
     TextView tvNum;
 
+
     String greet;
 
     @Override
@@ -45,6 +48,7 @@ public class GreetActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        tvTitle.setText("招呼设置");
         etBio.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -53,11 +57,11 @@ public class GreetActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 try {
-                    if (s.toString().trim().length() > 40) {
-                        etBio.setText(s.toString().substring(0, 40));
-                        etBio.setSelection(40);
-                        tvNum.setText(s.toString().trim().length()+"/"+40);
-                        ToastUtils.showToast(GreetActivity.this, "您最多能输入40个字");
+                    if (s.toString().trim().length() > 25) {
+                        etBio.setText(s.toString().substring(0, 25));
+                        etBio.setSelection(25);
+                        tvNum.setText(s.toString().trim().length()+"/"+25);
+                        ToastUtils.showToast(GreetActivity.this, "您最多能输入25个字");
                     }
                 }catch (Exception e){
                 }
@@ -70,9 +74,12 @@ public class GreetActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_back, R.id.tv_save})
+    @OnClick({R.id.cl,R.id.iv_back, R.id.tv_save})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.cl:
+                KeyboardUtils.hideSoftInput(this);
+                break;
             case R.id.iv_back:
                 finish();
                 break;
@@ -82,13 +89,14 @@ public class GreetActivity extends BaseActivity {
                     ToastUtils.showToast(this, "未填写!");
                     return;
                 }
-                if (greet.length() > 40) {
+                if (greet.length() > 25) {
                     ToastUtils.showToast(this, "超出字数限制!");
                     return;
                 }
                 Intent intent = new Intent();
                 intent.putExtra("greet", greet);
                 setResult(RESULT_OK, intent);
+                finish();
                 break;
         }
     }

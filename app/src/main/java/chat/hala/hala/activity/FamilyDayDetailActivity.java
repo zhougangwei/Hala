@@ -38,8 +38,7 @@ public class FamilyDayDetailActivity extends BaseActivity {
     ImageView imageView6;
     @BindView(R.id.tv2)
     TextView tv2;
-    @BindView(R.id.tv_today_more)
-    ImageView tvTodayMore;
+
     @BindView(R.id.tv_today_open_anchor_num)
     TextView tvTodayOpenAnchorNum;
     @BindView(R.id.tv_today_open_anchor_total_time)
@@ -62,7 +61,7 @@ public class FamilyDayDetailActivity extends BaseActivity {
 
     @Override
     protected void beforeInitView() {
-        tvTitle.setText("加入家族");
+
     }
 
     @Override
@@ -71,7 +70,7 @@ public class FamilyDayDetailActivity extends BaseActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(familyDayDetailAdapter);
-
+        tvTitle.setText("统计");
         initData();
 
     }

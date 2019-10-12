@@ -1,12 +1,19 @@
 package chat.hala.hala.service;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.blankj.utilcode.utils.LogUtils;
 import com.igexin.sdk.GTIntentService;
 import com.igexin.sdk.message.GTCmdMessage;
 import com.igexin.sdk.message.GTNotificationMessage;
 import com.igexin.sdk.message.GTTransmitMessage;
+
+import chat.hala.hala.bean.BaseBean;
+import chat.hala.hala.http.BaseCosumer;
+import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.utils.ResultUtils;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by xyy on 2019/4/4.
@@ -19,6 +26,10 @@ public class DemoIntentService extends GTIntentService {
 
     @Override
     public void onReceiveClientId(Context context, String s) {
+        Log.e(TAG, "onReceiveClientId: "+s );
+
+
+
 
     }
 
@@ -59,12 +70,27 @@ public class DemoIntentService extends GTIntentService {
     }
 
     @Override
-    public void onNotificationMessageArrived(Context context, GTNotificationMessage gtNotificationMessage) {
+    public void onNotificationMessageArrived(Context context, GTNotificationMessage msg) {
+        String appid = msg.getAppid();
+        String taskid = msg.getTaskId();
+        String messageid = msg.getMessageId();
+        String pkg = msg.getPkgName();
+        String cid = msg.getClientId();
 
+        LogUtils.e(TAG, "onReceiveMessageData -> " + "appid = " + appid + "\ntaskid = " + taskid + "\nmessageid = " + messageid + "\npkg = " + pkg
+                + "\ncid = " + cid);
     }
 
     @Override
-    public void onNotificationMessageClicked(Context context, GTNotificationMessage gtNotificationMessage) {
+    public void onNotificationMessageClicked(Context context, GTNotificationMessage msg) {
+        String appid = msg.getAppid();
+        String taskid = msg.getTaskId();
+        String messageid = msg.getMessageId();
+        String pkg = msg.getPkgName();
+        String cid = msg.getClientId();
+
+        LogUtils.e(TAG, "onReceiveMessageData -> " + "appid = " + appid + "\ntaskid = " + taskid + "\nmessageid = " + messageid + "\npkg = " + pkg
+                + "\ncid = " + cid);
     }
 
 }

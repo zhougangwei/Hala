@@ -166,6 +166,8 @@ public class AuthenticationActivity extends BaseActivity {
     private void upQiniu() {
         QiNiuToken.DataBean.StarchatanchorBean starchatanchorBean = QiniuInfo.getmStarchatanchorBean();
         if (starchatanchorBean == null) {
+            QiniuInfo.initQiniu();
+            ToastUtils.showToast(AuthenticationActivity.this, "图片上传失败,请过三秒重新提交!");
             return;
         }
         ArrayList uriList = new ArrayList();

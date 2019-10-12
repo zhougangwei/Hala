@@ -89,6 +89,15 @@ public class BeStarResultActivity extends BaseActivity {
                 });
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            getBestarState();
+        }
+    }
+
     private void showExaminePrepare() {
         groupResult.setVisibility(View.GONE);
         groupPrepare.setVisibility(View.VISIBLE);
@@ -101,10 +110,10 @@ public class BeStarResultActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_examine_again:
-                startActivity(new Intent(this, ApplyAnchorActivity.class));
+                startActivityForResult(new Intent(this, ApplyAnchorActivity.class),1);
                 break;
             case R.id.tv_start_examine:
-                startActivity(new Intent(this, ApplyAnchorActivity.class));
+                startActivityForResult(new Intent(this, ApplyAnchorActivity.class),1);
                 break;
 
         }

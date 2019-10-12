@@ -18,6 +18,7 @@ import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.activity.AboutUsActivity;
 import chat.hala.hala.activity.AnchorsActivity;
+import chat.hala.hala.activity.ApplyFamilyActivity;
 import chat.hala.hala.activity.BeStarResultActivity;
 import chat.hala.hala.activity.ChargeActivity;
 import chat.hala.hala.activity.ChatSettingActivity;
@@ -36,6 +37,8 @@ import chat.hala.hala.bean.AnchorBean;
 import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.bean.CoinBriefBean;
 import chat.hala.hala.bean.CoinListBean;
+import chat.hala.hala.bean.LoginBean;
+import chat.hala.hala.bean.MemberInfoBean;
 import chat.hala.hala.dialog.CommonDialog;
 import chat.hala.hala.dialog.ShareDialog;
 import chat.hala.hala.http.BaseCosumer;
@@ -67,6 +70,9 @@ public class MyFragment extends BaseFragment {
     @BindView(R.id.tv_fans)
     TextView tvFans;
 
+    @BindView(R.id.tv_friend)
+    TextView tvFriend;
+
     @BindView(R.id.tv_my_money)
     TextView tvMyMoney;
 
@@ -95,12 +101,7 @@ public class MyFragment extends BaseFragment {
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(ivHead.getDrawable()))
                 .into(ivHead);
         tvMyMoney.setText(AvchatInfo.getCoin() + "Pa币");
-        if (AvchatInfo.isAnchor()) {
-            initIncome();
-            gpInCome.setVisibility(View.VISIBLE);
-        }else{
-            gpInCome.setVisibility(View.GONE);
-        }
+
         RxBus intanceBus = RxBus.getIntanceBus();
         Disposable disposable=intanceBus.doSubscribe(RefreshUserInfoEvent.class, new Consumer<RefreshUserInfoEvent>() {
             @Override
@@ -110,17 +111,6 @@ public class MyFragment extends BaseFragment {
         });
         intanceBus .addSubscription(this,disposable);
 
-        if(AvchatInfo.isFamilyLeader()){
-          llFamilyManager.setVisibility(View.VISIBLE);
-        }else{
-          llFamilyManager.setVisibility(View.GONE);
-        }
-
-        if(AvchatInfo.isAnchor()){
-            tvJoinFamily.setVisibility(View.VISIBLE);
-        }else{
-            tvJoinFamily.setVisibility(View.GONE);
-        }
 
 
 
@@ -162,16 +152,15 @@ public class MyFragment extends BaseFragment {
                 .subscribe(new BaseCosumer<AnchorBean>() {
                     @Override
                     public void onGetData(AnchorBean baseBean) {
-                        tvName.setText(baseBean.getData().getNickname());
+                        tvName.setText(baseBean.getData().getUsername());
                         int anchorId = baseBean.getData().getAnchorId();
                         if (anchorId!=0) {
                             AvchatInfo.setAnchorId(anchorId);
                         }
-                        if (AvchatInfo.isAnchor()){
-                            tvFollow.setText(baseBean.getData().getFansCount()+"");
-                        }else{
-                            tvFollow.setText(baseBean.getData().getFollowingCount()+"");
-                        }
+                        AvchatInfo.saveBaseData(baseBean.getData(),getActivity(),true);
+                        tvFans.setText(baseBean.getData().getFansCount()+"");
+                        tvFollow.setText(baseBean.getData().getFollowingCount()+"");
+                        tvFriend.setText(baseBean.getData().getFriendCount()+"");
                         Glide.with(getActivity())
                                 .load(baseBean.getData().getAlbum().get(0).getMediaUrl())
                                 .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(ivHead.getDrawable()))
@@ -194,6 +183,22 @@ public class MyFragment extends BaseFragment {
             initIncome();
         }
 
+        if(AvchatInfo.isFamilyLeader()){
+            llFamilyManager.setVisibility(View.VISIBLE);
+        }else{
+            llFamilyManager.setVisibility(View.GONE);
+        }
+        if(AvchatInfo.isAnchor()){
+            tvJoinFamily.setVisibility(View.VISIBLE);
+        }else{
+            tvJoinFamily.setVisibility(View.GONE);
+        }
+        if (AvchatInfo.isAnchor()) {
+            initIncome();
+            gpInCome.setVisibility(View.VISIBLE);
+        }else{
+            gpInCome.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -205,9 +210,12 @@ public class MyFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.tv_joinfamily,R.id.tv_friend,R.id.tv_fans,R.id.ll_about_us,R.id.tv_follow, R.id.tv_income,R.id.tv_edit, R.id.iv_head, R.id.tv_charge,  R.id.tv_wallet, R.id.tv_certify,R.id.ll_family_manager, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
+    @OnClick({R.id.iv_family,R.id.tv_my_money,R.id.tv_income_value,R.id.tv_joinfamily,R.id.tv_friend,R.id.tv_fans,R.id.ll_about_us,R.id.tv_follow, R.id.tv_income,R.id.tv_edit, R.id.iv_head, R.id.tv_charge,  R.id.tv_wallet, R.id.tv_certify,R.id.ll_family_manager, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.iv_family:
+                startActivity(new Intent(getActivity(), ApplyFamilyActivity.class));
+                break;
             case R.id.tv_joinfamily:
                 startActivity(new Intent(getActivity(), JoinFamilyActivity.class));
                 break;
@@ -223,6 +231,7 @@ public class MyFragment extends BaseFragment {
             case R.id.tv_follow:
                 gotoFollow();
                 break;
+            case R.id.tv_income_value:
             case R.id.tv_income:
                 gotoGetIncome();
                 break;
@@ -235,6 +244,7 @@ public class MyFragment extends BaseFragment {
             case R.id.tv_charge:
                gotoCharge();
                 break;
+            case R.id.tv_my_money:
             case R.id.tv_wallet:
                 gotoWallet();
                 break;

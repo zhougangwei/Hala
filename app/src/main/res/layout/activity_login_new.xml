@@ -7,6 +7,8 @@
     tools:context="chat.hala.hala.activity.LoginActivityNew">
 
     <ScrollView
+
+        android:touchscreenBlocksFocus="true"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:id="@+id/scroll_view"
@@ -21,14 +23,15 @@
             android:background="@drawable/login_bg" />
     </ScrollView>
 
-    <TextView
-        android:id="@+id/textView13"
+    <ImageView
+        android:id="@+id/iv13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="106dp"
         android:layout_marginEnd="8dp"
         android:text="Pa聊"
+        android:src="@drawable/ic_login_logo"
         android:textColor="@color/white"
         android:textSize="40sp"
         android:textStyle="bold"
@@ -43,9 +46,9 @@
         android:text="每时每刻，我陪你"
         android:textColor="@color/white"
         android:textSize="19sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView13"
-        app:layout_constraintStart_toStartOf="@+id/textView13"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintEnd_toEndOf="@+id/iv13"
+        app:layout_constraintStart_toStartOf="@+id/iv13"
+        app:layout_constraintTop_toBottomOf="@+id/iv13" />
 
     <TextView
         android:id="@+id/tv_phone"
@@ -56,7 +59,7 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/bg_login_button"
         android:drawableStart="@drawable/ic_phone"
-        android:drawablePadding="20dp"
+        android:drawablePadding="32dp"
         android:gravity="center_vertical"
         android:paddingStart="100dp"
         android:text="手机登录"
@@ -76,7 +79,7 @@
         android:layout_marginBottom="48dp"
         android:background="@drawable/bg_login_wx_button"
         android:drawableStart="@drawable/ic_wechat"
-        android:drawablePadding="20dp"
+        android:drawablePadding="27dp"
         android:gravity="center_vertical"
         android:paddingStart="100dp"
         android:text="微信登录"
@@ -100,18 +103,37 @@
 
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <TextView
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:id="@+id/tv_regist_policy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="《用户注册协议》"
+        android:textColor="#C1986B"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView16"
+        app:layout_constraintStart_toEndOf="@+id/textView16"
+        app:layout_constraintTop_toTopOf="@+id/textView16" />
+
+    <TextView
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:id="@+id/tv_private_policy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-
-        android:text="《用户注册协议》《用户隐私协议》"
+        android:text="《用户隐私协议》"
         android:textColor="#C1986B"
         android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_regist_policy"
+        app:layout_constraintStart_toEndOf="@+id/tv_regist_policy"
+        app:layout_constraintTop_toTopOf="@+id/tv_regist_policy" />
 
-        app:layout_constraintStart_toEndOf="@+id/textView16"
-        app:layout_constraintTop_toTopOf="@+id/textView16" />
+
+
+
 
 </android.support.constraint.ConstraintLayout>

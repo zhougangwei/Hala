@@ -52,7 +52,7 @@ public class AvchatInfo {
             return ;
         }
         memberBean.setMemberId(account);
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
     }
 
     public static String getName() {
@@ -67,7 +67,7 @@ public class AvchatInfo {
             return;
         }
         memberBean.setUsername(name);
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
     }
 
     public static int getCoin() {
@@ -82,7 +82,7 @@ public class AvchatInfo {
             return ;
         }
         memberBean.setCoin(coin);
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
     }
 
     public static void setRTMToken(String RTMToken) {
@@ -126,7 +126,7 @@ public class AvchatInfo {
             SPUtil.getInstance(context).setMemberJson(memeberJson);
         }
     }
-    public static void saveBaseData(LoginBean.DataBean.MemberBean member) {
+    public static void saveBaseMember(LoginBean.DataBean.MemberBean member) {
         String memeberJson = GsonUtil.parseObjectToJson(member);
         AvchatInfo.setMemberBean(member);
         SPUtil.getInstance(App.sContext).setMemberJson(memeberJson);
@@ -150,7 +150,7 @@ public class AvchatInfo {
             return;
         }
         memberBean.setAnchorId(anchorId);
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
     }
 
     public static int getAnchorId() {
@@ -173,7 +173,7 @@ public class AvchatInfo {
             return;
         }
         memberBean.getAlbum().get(0).setMediaUrl(avatarUrl);
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
 
     }
 
@@ -200,7 +200,7 @@ public class AvchatInfo {
             return;
         }
         memberBean.setGenderOrdinal(gender);
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
 
     }
 
@@ -216,7 +216,7 @@ public class AvchatInfo {
             return;
         }
         memberBean.setBirthDate(birthDate) ;
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
     }
 
     public static String getBirthDate() {
@@ -231,7 +231,7 @@ public class AvchatInfo {
             return;
         }
         memberBean.setMemberId(memberId);
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
 
     }
 
@@ -248,7 +248,7 @@ public class AvchatInfo {
             return;
         }
         memberBean.setResidentialPlace(residentialPlace);
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
     }
 
     public static String getResidentialPlace() {
@@ -263,7 +263,7 @@ public class AvchatInfo {
             return;
         }
         memberBean.setAutograph(autoGraph);
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
     }
 
     public static String getAutoGraph() {
@@ -293,7 +293,7 @@ public class AvchatInfo {
             return;
         }
         memberBean.setIntroduction(introduction);
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
     }
 
 
@@ -302,7 +302,7 @@ public class AvchatInfo {
             return;
         }
         memberBean.getSetting().setAudioCpm(Integer.parseInt(audioCpm));
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
     }
 
     public static void setVideoCpm(String videoCpm) {
@@ -310,7 +310,7 @@ public class AvchatInfo {
             return;
         }
         memberBean.getSetting().setVideoCpm(Integer.parseInt(videoCpm));
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
     }
 
     public static void setChatCpm(String chatCmp) {
@@ -318,7 +318,7 @@ public class AvchatInfo {
             return;
         }
         memberBean.getSetting().setChatCpm(Integer.parseInt(chatCmp));
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
     }
 
     public static void setVideoNotify(boolean mVideoOpen) {
@@ -326,7 +326,7 @@ public class AvchatInfo {
             return;
         }
         memberBean.getSetting().setVideoNotify(mVideoOpen);
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
     }
 
     public static void setAudioNotify(boolean mVoiceOpen) {
@@ -334,7 +334,7 @@ public class AvchatInfo {
             return;
         }
         memberBean.getSetting().setAudioNotify(mVoiceOpen);
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
     }
 
     public static void setChatNotify(boolean mChatOpen) {
@@ -342,7 +342,15 @@ public class AvchatInfo {
             return;
         }
         memberBean.getSetting().setChatNotify(mChatOpen);
-        saveBaseData(memberBean);
+        saveBaseMember(memberBean);
+    }
+
+    public static void setGreetWord(String greetWord) {
+        if(judgeMemberEmpty()){
+            return;
+        }
+        memberBean.getSetting().setGreetWord(greetWord);
+        saveBaseMember(memberBean);
     }
 
 
@@ -359,6 +367,14 @@ public class AvchatInfo {
         }
         return memberBean.getSetting()==null?0:memberBean.getSetting().getVideoCpm();
     }
+
+    public static String getGreetWord() {
+        if(judgeMemberEmpty()){
+            return "";
+        }
+        return memberBean.getSetting()==null?"":memberBean.getSetting().getGreetWord();
+    }
+
     public static int getChatCpm() {
         if(judgeMemberEmpty()){
             return 0;

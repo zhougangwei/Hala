@@ -4,37 +4,31 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.LogUtils;
-import com.blankj.utilcode.utils.RegexUtils;
+import com.google.gson.reflect.TypeToken;
 import com.tencent.connect.UserInfo;
-import com.tencent.connect.common.Constants;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
-import com.tencent.tauth.UiError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -43,14 +37,20 @@ import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.avchat.QiniuInfo;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
+import chat.hala.hala.bean.EditUserBean;
 import chat.hala.hala.bean.LoginBean;
 import chat.hala.hala.bean.QiNiuToken;
+import chat.hala.hala.bean.RandomNameBean;
+import chat.hala.hala.bean.RegistBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.utils.AssetUtils;
+import chat.hala.hala.utils.GsonUtil;
+import chat.hala.hala.utils.RandomUtils;
 import chat.hala.hala.utils.ToastUtils;
 import chat.hala.hala.weixinqq.NetworkUtil;
-import chat.hala.hala.wight.country.CountryActivity;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -145,7 +145,7 @@ public class LoginActivityNew extends BaseActivity {
                             }
                             String action = baseBean.getData().getAction();
                             if (Contact.SIGN_UP.equals(action)) {
-                                FillUserActivity.startFillUser(LoginActivityNew.this, openid, fromType, headurl, name, sex, city);
+                                startConfirm(openid, headurl, name, sex, city);
                             } else if (Contact.SIGN_IN.equals(action)) {
                                 AvchatInfo.saveBaseData(baseBean.getData().getMember(), LoginActivityNew.this, true);
                                 Intent intent = new Intent(LoginActivityNew.this, MainActivity.class);
@@ -191,6 +191,7 @@ public class LoginActivityNew extends BaseActivity {
 
     @Override
     protected void initView() {
+        scrollView.setEnabled(false);
         initWeixin();
         initQiniu();
         startScroll();
@@ -209,22 +210,26 @@ public class LoginActivityNew extends BaseActivity {
             if (off > 0) {
                 scrollView.scrollBy(0, 1);
                 if (scrollView.getScrollY() == off) {
-                    scrollView.smoothScrollTo(0, 0);
+                    scrollView.scrollTo(0, 0);
                     mHandler.postDelayed(this, 20);
                 } else {
                     mHandler.postDelayed(this, 20);
                 }
             }else{
-                scrollView.smoothScrollTo(0, 0);
+                scrollView.scrollTo(0, 0);
                 mHandler.postDelayed(this, 20);
             }
         }
     };
 
-    @OnClick({R.id.tv_private_policy,   R.id.tv_wechat,R.id.tv_phone})
+    @OnClick({R.id.tv_private_policy,R.id.tv_regist_policy,   R.id.tv_wechat,R.id.tv_phone})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_private_policy:
+                WebviewActivity.loadUrl(this,"http://palive.cn/privacy.html","隐私协议");
+                break;
+            case R.id.tv_regist_policy:
+                WebviewActivity.loadUrl(this,"http://palive.cn/terms.html   ","用户协议");
                 break;
             case R.id.tv_wechat:
                 loginWeixin();
@@ -323,4 +328,57 @@ public class LoginActivityNew extends BaseActivity {
         }
         return "";
     }
+
+    private void startConfirm(final String openId, String headurl, String mobileNumber, int sex, String city) {
+        String birthDate ="2000-10-14";
+        String json = AssetUtils.getJson(this, "name.json");
+        String username ="";
+        List<RandomNameBean> objects = GsonUtil.parseJsonToList(json, new TypeToken<List<RandomNameBean>>() {
+        }.getType());
+        if(TextUtils.isEmpty(username)){
+            username=objects.get(new Random().nextInt(objects.size())).getName()+ RandomUtils.getRandomString();
+        }
+        Observable<RegistBean> regist = null;
+        EditUserBean editUserBean = new EditUserBean();
+        editUserBean.setNickname(username);
+        editUserBean.setBirthDate(birthDate);
+        editUserBean.setGender(sex + "");
+        editUserBean.setMobileNumber(mobileNumber);
+        editUserBean.setResidentialPlace(city);
+        List<EditUserBean.AlbumBean> album = new ArrayList<>();
+        if (!TextUtils.isEmpty(headurl)){
+            EditUserBean.AlbumBean albumBean = new EditUserBean.AlbumBean();
+            albumBean.setSortby("0");
+            albumBean.setMediaUrl(headurl);
+            album.add(albumBean);
+            editUserBean.setAlbum(album);
+        }
+
+        editUserBean.setWxOpenId(openId);
+            regist = RetrofitFactory.getInstance().registThirdParty(ProxyPostHttpRequest.getJsonInstance().regist(
+                    GsonUtil.parseObjectToJson(editUserBean)));
+        regist.subscribeOn(Schedulers.io())
+                .compose(this.<RegistBean>bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<RegistBean>() {
+                    @Override
+                    public void onGetData(RegistBean baseBean) {
+                        if (Contact.REPONSE_CODE_REGIST_FAIL_ALREADY_NAME == baseBean.getCode()) {
+                            ToastUtils.showToast(LoginActivityNew.this, "名字已存在");
+                            return;
+                        }
+                        if (Contact.REPONSE_CODE_REGIST_FAIL_ALREADY_PHONE == baseBean.getCode()) {
+                            ToastUtils.showToast(LoginActivityNew.this, "手机号已存在无法注册");
+                            return;
+                        }
+                        if (Contact.REPONSE_CODE_SUCCESS != baseBean.getCode()) {
+                            ToastUtils.showToast(LoginActivityNew.this, "保存失败");
+                            return;
+                        }
+                        gotoLoginThird(openId, FillUserActivity.FROM_WE, "", "", 1, "");
+                    }
+                });
+    }
+
+
 }

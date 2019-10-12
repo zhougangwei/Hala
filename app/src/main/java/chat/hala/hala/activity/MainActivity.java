@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.LogUtils;
+import com.igexin.sdk.PushManager;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.w3c.dom.Text;
@@ -161,6 +162,8 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
         initQiniu();
         initVideoCall();
         initChat();
+        boolean b = PushManager.getInstance().bindAlias(this, AvchatInfo.getMemberId() + "");
+        System.out.println(b+"");
     }
 
     /*
@@ -181,7 +184,6 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                         QiNiuToken.DataBean.StarchatanchorBean starchatanchor = baseBean.getData().getStarchatanchor();
                         QiNiuToken.DataBean.StarchatfeedbackBean starchatfeedback = baseBean.getData().getStarchatfeedback();
                         QiNiuToken.DataBean.StarchatmemberBean starchatmember = baseBean.getData().getStarchatmember();
-
                         QiniuInfo.setmStarchatanchorBean(starchatanchor);
                         QiniuInfo.setmStarchatfeedbackBean(starchatfeedback);
                         QiniuInfo.setmStarchatmemberBean(starchatmember);

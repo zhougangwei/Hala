@@ -1,5 +1,6 @@
 package chat.hala.hala.activity;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,6 +17,7 @@ import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseActivity;
+import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.bean.ChatSettingBean;
 import chat.hala.hala.http.BaseCosumer;
@@ -55,6 +57,8 @@ public class ChatSettingActivity extends BaseActivity {
     TextView mTvVideoCoin;
     @BindView(R.id.tv_chat_coin)
     TextView mTvChatCoin;
+    @BindView(R.id.tv_greet)
+    TextView tvGreet;
     @BindView(R.id.ll)
     LinearLayout mLl;
 
@@ -64,12 +68,12 @@ public class ChatSettingActivity extends BaseActivity {
     private String audioCpm;
     private String chatCmp;
     private String videoCpm;
+    private String greetWord;
 
     @Override
     protected int getContentViewId() {
         return R.layout.activity_chat_setting;
     }
-
     @Override
     protected void beforeInitView() {
 
@@ -85,6 +89,7 @@ public class ChatSettingActivity extends BaseActivity {
         mIvVoiceSet.setSelected(mVoiceOpen);
         mIvVideoSet.setSelected(mVideoOpen);
         mIvChatSet.setSelected(mChatOpen);
+        tvGreet.setText(greetWord);
 
         mTvVideoCoin.setText(String.format(getString(R.string.coin_min), videoCpm));
         mTvVoiceCoin.setText(String.format(getString(R.string.coin_min), audioCpm));
@@ -99,12 +104,16 @@ public class ChatSettingActivity extends BaseActivity {
         audioCpm = AvchatInfo.getAudioCpm() + "";
         chatCmp = AvchatInfo.getChatCpm() + "";
         videoCpm = AvchatInfo.getVideoCpm() + "";
+        greetWord = AvchatInfo.getGreetWord() + "";
 
     }
 
-    @OnClick({R.id.iv_back, R.id.iv_voice_set, R.id.iv_video_set, R.id.iv_chat_set, R.id.rl_video, R.id.rl_voice, R.id.rl_chat})
+    @OnClick({R.id.rl_zhaohu,R.id.iv_back, R.id.iv_voice_set, R.id.iv_video_set, R.id.iv_chat_set, R.id.rl_video, R.id.rl_voice, R.id.rl_chat})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.rl_zhaohu:
+                startActivityForResult(new Intent(this,GreetActivity.class), Contact.REQUEST_GREET);
+                break;
             case R.id.iv_back:
                 finish();
                 break;
@@ -125,25 +134,35 @@ public class ChatSettingActivity extends BaseActivity {
                 break;
             case R.id.rl_video:
                 choseVideoCpm();
-
+                gotoSave();
                 break;
             case R.id.rl_voice:
                 choseVoiceCpm();
-
+                gotoSave();
                 break;
             case R.id.rl_chat:
                 choseChatCpm();
-
+                gotoSave();
                 break;
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==Contact.REQUEST_GREET&&resultCode==RESULT_OK){
+             greetWord = data.getStringExtra("greet");
+            tvGreet.setText(greetWord);
+            gotoSave();
+        }
+    }
+
     private void choseChatCpm() {
-        String[] sexArr = new String[]{"0", "20", "40", "60"};
+        String[] sexArr = new String[]{"1", "2", "3", "4","5","6","7","8","9","10"};
         List<String> data = Arrays.asList(sexArr);
         SinglePicker<String> picker = new SinglePicker<String>(this, data);
         picker.setCanceledOnTouchOutside(true);
-        picker.setSelectedIndex(1);
+        picker.setSelectedIndex(0);
         picker.setCycleDisable(true);
         picker.setTextSize(17);
         picker.setTextPadding(10);
@@ -159,11 +178,11 @@ public class ChatSettingActivity extends BaseActivity {
     }
 
     private void choseVoiceCpm() {
-        String[] sexArr = new String[]{"0", "100", "150", "200"};
+        String[] sexArr = new String[]{"10","15","20","25","30","35","40","45","50","55","60","65","70","75","80","85","90","95","100"};
         List<String> data = Arrays.asList(sexArr);
         SinglePicker<String> picker = new SinglePicker<String>(this, data);
         picker.setCanceledOnTouchOutside(true);
-        picker.setSelectedIndex(1);
+        picker.setSelectedIndex(2);
         picker.setCycleDisable(true);
         picker.setTextSize(17);
         picker.setTextPadding(10);
@@ -179,11 +198,11 @@ public class ChatSettingActivity extends BaseActivity {
     }
 
     private void choseVideoCpm() {
-        String[] sexArr = new String[]{"0", "100", "150", "200"};
+        String[] sexArr = new String[]{"10","15","20","25","30","35","40","45","50","55","60","65","70","75","80","85","90","95","100"};
         List<String> data = Arrays.asList(sexArr);
         SinglePicker<String> picker = new SinglePicker<String>(this, data);
         picker.setCanceledOnTouchOutside(true);
-        picker.setSelectedIndex(1);
+        picker.setSelectedIndex(4);
         picker.setCycleDisable(true);
         picker.setTextSize(17);
         picker.setTextPadding(10);
@@ -201,8 +220,6 @@ public class ChatSettingActivity extends BaseActivity {
 
     private void gotoSave() {
 
-
-
         ChatSettingBean chatSettingBean = new ChatSettingBean();
         chatSettingBean.setAudioCpm(audioCpm);
         chatSettingBean.setChatCpm(chatCmp);
@@ -210,6 +227,9 @@ public class ChatSettingActivity extends BaseActivity {
         chatSettingBean.setVideoNotify(mVideoOpen);
         chatSettingBean.setAudioNotify(mVoiceOpen);
         chatSettingBean.setChatNotify(mChatOpen);
+        chatSettingBean.setGreetWord(greetWord);
+
+
         RetrofitFactory.getInstance()
                 .chatSetting(AvchatInfo.isAnchor()?"anchor":"member",ProxyPostHttpRequest.getJsonInstance().chatSetting(GsonUtil.parseObjectToJson(chatSettingBean)))
                 .subscribeOn(Schedulers.io())
@@ -224,6 +244,7 @@ public class ChatSettingActivity extends BaseActivity {
                             AvchatInfo.setVideoNotify(mVideoOpen);
                             AvchatInfo.setAudioNotify(mVoiceOpen);
                             AvchatInfo.setChatNotify(mChatOpen);
+                            AvchatInfo.setGreetWord(greetWord);
                         }
                     }
                 });

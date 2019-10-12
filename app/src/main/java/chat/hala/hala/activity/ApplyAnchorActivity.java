@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.KeyboardUtils;
 import com.blankj.utilcode.utils.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhihu.matisse.Matisse;
@@ -90,6 +91,8 @@ public class ApplyAnchorActivity extends BaseActivity {
     LinearLayout llNameVerity;
     @BindView(R.id.tv_submit)
     TextView tvSubmit;
+    @BindView(R.id.ll)
+    View ll;
 
 
     private List<EditHeadAdapter.UserHead> mList;
@@ -158,9 +161,12 @@ public class ApplyAnchorActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.ll_birth, R.id.ll_city, R.id.ll_bio, R.id.iv_back, R.id.ll_height_weight, R.id.ll_video_verity, R.id.ll_name_verity, R.id.tv_submit})
+    @OnClick({R.id.ll,R.id.ll_birth, R.id.ll_city, R.id.ll_bio, R.id.iv_back, R.id.ll_height_weight, R.id.ll_video_verity, R.id.ll_name_verity, R.id.tv_submit})
     public void onClickView(View view) {
         switch (view.getId()) {
+            case R.id.ll:
+                KeyboardUtils.hideSoftInput(this);
+                break;
             case R.id.ll_birth:
                 setBirth();
                 break;
@@ -348,6 +354,8 @@ public class ApplyAnchorActivity extends BaseActivity {
     private void upQiniu() {
         QiNiuToken.DataBean.StarchatanchorBean starchatanchorBean = QiniuInfo.getmStarchatanchorBean();
         if (starchatanchorBean == null) {
+            QiniuInfo.initQiniu();
+            ToastUtils.showToast(ApplyAnchorActivity.this, "图片上传失败,请过三秒重新提交!");
             return;
         }
         if (clickUp) {
@@ -420,6 +428,7 @@ public class ApplyAnchorActivity extends BaseActivity {
                             return;
                         }
                         ToastUtils.showToast(ApplyAnchorActivity.this, getString(R.string.submit_success));
+                        setResult(RESULT_OK);
                         finish();
                     }
                 });

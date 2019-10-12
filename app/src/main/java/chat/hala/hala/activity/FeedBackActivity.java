@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.igexin.sdk.message.FeedbackCmdMessage;
 import com.zhihu.matisse.Matisse;
 
 import java.util.ArrayList;
@@ -71,6 +72,8 @@ public class FeedBackActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+
+
         tvSave.setText(R.string.Submit);
         tvTitle.setText(R.string.feedback);
         mList = new ArrayList<>();
@@ -155,6 +158,8 @@ public class FeedBackActivity extends BaseActivity {
     private boolean upQiniu() {
         QiNiuToken.DataBean.StarchatfeedbackBean starchatfeedbackBean = QiniuInfo.getmStarchatfeedbackBean();
         if (starchatfeedbackBean == null) {
+            QiniuInfo.initQiniu();
+            ToastUtils.showToast(FeedBackActivity.this, "图片上传失败,请过三秒重新提交!");
             return true;
         }
         new UploadPicManger().uploadImageArray(uriList, 0, starchatfeedbackBean.getToken(), starchatfeedbackBean.getUrl(), new UploadPicManger.QiNiuUploadCompletionHandler() {

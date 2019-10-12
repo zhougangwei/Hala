@@ -2,31 +2,23 @@ package chat.hala.hala.activity;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import chat.hala.hala.R;
-import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.bean.AnchorBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
-import chat.hala.hala.manager.MoneyHelper;
 import chat.hala.hala.rongyun.MySendMessageListener;
-import chat.hala.hala.rongyun.RongInfo;
 import chat.hala.hala.utils.ResultUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationFragment;
-import io.rong.imlib.model.Message;
-import retrofit2.http.Path;
 
 public class ConversationActivity extends BaseActivity  {
 

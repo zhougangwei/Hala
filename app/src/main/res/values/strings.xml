@@ -154,7 +154,7 @@
     <string name="personal_signature">个性签名</string>
     <string name="ta_say">Ta说</string>
 
-    <string name="coin_min">%1$s 金币/分钟</string>
+    <string name="coin_min">%1$s Pa币/分钟</string>
     <string name="date">号</string>
     <string name="choose_pay_way">选择支付方式</string>
     <string name="charge_and_gain">充%1$s得%2$s星币</string>

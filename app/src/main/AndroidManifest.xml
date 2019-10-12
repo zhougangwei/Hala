@@ -13,6 +13,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
 
     <uses-feature android:name="android.hardware.camera" /> <!-- 使用照相机权限 -->
     <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- 自动聚焦权限 -->
@@ -38,13 +40,14 @@
         android:alwaysRetainTaskState="true"
         android:clearTaskOnLaunch="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Pa聊"
         android:largeHeap="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.FamilyAnchorDetailActivity"></activity>
+        <activity android:name=".activity.ApplyFamilyActivity"></activity>
+        <activity android:name=".activity.FamilyAnchorDetailActivity" />
         <activity android:name=".activity.GreetActivity" />
         <activity android:name=".activity.AboutUsActivity" />
         <activity
@@ -200,6 +203,7 @@
         <activity android:name=".activity.ChatSettingActivity" />
         <activity android:name=".activity.FamilyManagerActivity" />
         <activity android:name=".activity.JoinFamilyActivity" />
+        <activity android:name=".activity.FamilyDayDetailActivity" />
 
         <service
             android:name=".service.DemoPushService"
@@ -207,6 +211,15 @@
         <service
             android:name=".service.DemoIntentService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+        <receiver
+            android:name=".receiver.SealNotificationReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="io.rong.push.intent.MESSAGE_ARRIVED" />
+                <action android:name="io.rong.push.intent.MESSAGE_CLICKED" />
+                <action android:name="io.rong.push.intent.THIRD_PARTY_PUSH_STATE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

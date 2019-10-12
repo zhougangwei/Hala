@@ -45,6 +45,7 @@ import chat.hala.hala.http.UploadPicManger;
 import chat.hala.hala.manager.ChoosePicManager;
 import chat.hala.hala.utils.AssetUtils;
 import chat.hala.hala.utils.GsonUtil;
+import chat.hala.hala.utils.RandomUtils;
 import chat.hala.hala.utils.ToastUtils;
 import cn.qqtheme.framework.picker.DatePicker;
 import cn.qqtheme.framework.picker.SinglePicker;
@@ -151,10 +152,8 @@ public class FillUserActivity extends BaseActivity {
     @Override
     protected void initView() {
         tvTitle.setText(R.string.edit_profile);
-        Intent intent = getIntent();
-
         backData();
-        etUserName.addTextChangedListener(new TextWatcher() {
+      /*  etUserName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -173,9 +172,9 @@ public class FillUserActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
-        });
+        });*/
+        startConfirm();
     }
 
     private void backData() {
@@ -187,7 +186,7 @@ public class FillUserActivity extends BaseActivity {
         List<RandomNameBean> objects = GsonUtil.parseJsonToList(json, new TypeToken<List<RandomNameBean>>() {
         }.getType());
         if(TextUtils.isEmpty(username)){
-            username=objects.get(new Random().nextInt(objects.size())).getName();
+            username=objects.get(new Random().nextInt(objects.size())).getName()+ RandomUtils.getRandomString();
         }
         etUserName.setText(username);
         etGender.setText(genderIndex == 0 ? "男" : "女");
@@ -214,7 +213,7 @@ public class FillUserActivity extends BaseActivity {
                 if (!judgeEmpty()) {
                     return;
                 } else {
-                    upQiniu();
+                    startConfirm();
                 }
                 break;
             case R.id.ll_bio:
@@ -288,25 +287,12 @@ public class FillUserActivity extends BaseActivity {
         birthDate = etBirth.getText().toString();
         location = mEtLocation.getText().toString();
         bio = mEtBio.getText().toString();
-        if (TextUtils.isEmpty(username)) {
-            ToastUtils.showToast(this, "名字不能为空");
-            return false;
-        }
-        if (TextUtils.isEmpty(birthDate)) {
-            ToastUtils.showToast(this, "出生日期不能为空");
-            return false;
-        }
-
-        if (uriList == null || uriList.size() == 0) {
-            ToastUtils.showToast(this, "uriList出生日期不能为空");
-            return false;
-        }
 
         return true;
     }
 
     private void upQiniu() {
-        QiNiuToken.DataBean.StarchatmemberBean starchatmemberBean = QiniuInfo.getmStarchatmemberBean();
+      /*  QiNiuToken.DataBean.StarchatmemberBean starchatmemberBean = QiniuInfo.getmStarchatmemberBean();
         if (starchatmemberBean == null) {
             return;
         }
@@ -324,7 +310,7 @@ public class FillUserActivity extends BaseActivity {
                 startConfirm();
                 LogUtils.e(TAG, "uploadFailure: 失败");
             }
-        });
+        });*/
     }
 
 
@@ -341,12 +327,6 @@ public class FillUserActivity extends BaseActivity {
         editUserBean.setBirthDate(birthDate);
         editUserBean.setCode(code);
         editUserBean.setGender(genderIndex + "");
-        List<EditUserBean.AlbumBean> album = new ArrayList<>();
-        EditUserBean.AlbumBean albumBean = new EditUserBean.AlbumBean();
-        albumBean.setSortby("0");
-        albumBean.setMediaUrl(avatarUrl);
-        album.add(albumBean);
-        editUserBean.setAlbum(album);
         editUserBean.setMobileNumber(mobileNumber);
         editUserBean.setResidentialPlace(location);
         if (type.equals(FROM_PHONE)) {
@@ -382,7 +362,6 @@ public class FillUserActivity extends BaseActivity {
                             return;
                         }
                         ToastUtils.showToast(FillUserActivity.this, "保存成功");
-
                         Intent intent = new Intent();
                         intent.putExtra("type",type);
                         intent.putExtra("openId",openId);
@@ -410,10 +389,5 @@ public class FillUserActivity extends BaseActivity {
             }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }
