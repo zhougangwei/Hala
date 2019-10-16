@@ -1,6 +1,7 @@
 package chat.hala.hala.activity;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -79,6 +80,8 @@ public class FamilyManagerActivity extends BaseActivity {
                 iv2.setVisibility(View.GONE);
                 tvAnchorManager.setTextColor(Color.WHITE);
                 tvFamilyManager.setTextColor(Color.WHITE);
+                tvFamilyManager.setTypeface(Typeface.DEFAULT , Typeface.BOLD );
+                tvAnchorManager.setTypeface(Typeface.DEFAULT , Typeface.NORMAL );
                 break;
             case R.id.tv_anchor_manager:
                 vp.setCurrentItem(1);
@@ -86,6 +89,8 @@ public class FamilyManagerActivity extends BaseActivity {
                 iv2.setVisibility(View.VISIBLE);
                 tvAnchorManager.setTextColor(Color.BLACK);
                 tvFamilyManager.setTextColor(Color.BLACK);
+                tvFamilyManager.setTypeface(Typeface.DEFAULT , Typeface.NORMAL );
+                tvAnchorManager.setTypeface(Typeface.DEFAULT , Typeface.BOLD );
                 break;
         }
     }

@@ -51,7 +51,7 @@ public class MyIncomeActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mTvTitle.setText("My Income");
+        mTvTitle.setText("我的收益");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRv.setLayoutManager(layoutManager);

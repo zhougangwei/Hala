@@ -247,8 +247,13 @@ public interface HttpRequest {
     @POST("member/offline")
     Observable<BaseBean>  offline();
 
-    @GET("/account/sms/send")
-    Observable<BaseBean> sendSms();
+    @POST("/account/sms/send")
+    Observable<BaseBean> sendSms(@Body RequestBody requestBody);
+    RequestBody sendSms(@Query("mobileNumber")String mobileNumber
+    );
+
+
+
 
     @GET("/anchor/application/result")
     Observable<BeStarResultBean> getBeStarState();
@@ -280,7 +285,7 @@ public interface HttpRequest {
     );
 
     @GET("/general/version")
-    Observable<VersionBean> getVersion();
+    Observable<VersionBean> getVersion( @Query("version")String category,@Query("model")String model);
 
 
     @POST("/chat/to/{anchorId}/charge")
@@ -353,7 +358,7 @@ public interface HttpRequest {
     RequestBody applyFamily(@JsonQuery String dataJson
     );
 
-    @POST("/member/bindClientIdToMemberId/{clientid}")
-    Observable<BaseBean> bindClientIdToMemberId(@Path("clientid")String clientid);
+    @POST("/coin/rechargelist")
+    Observable<BaseBean> getMemberRechargeList();
 
 }

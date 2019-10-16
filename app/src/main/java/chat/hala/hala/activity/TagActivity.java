@@ -24,6 +24,7 @@ import chat.hala.hala.adapter.TagsChooseAdapter;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.bean.AnchorTagBean;
 import chat.hala.hala.bean.TagBean;
+import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ResultUtils;
@@ -149,9 +150,9 @@ public class TagActivity extends BaseActivity {
                 .getAnchorTag()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<TagBean>() {
+                .subscribe(new BaseCosumer<TagBean>() {
                     @Override
-                    public void accept(TagBean anchorTagBean) throws Exception {
+                    public void onGetData(TagBean anchorTagBean)  {
                         if (ResultUtils.cheekSuccess(anchorTagBean)) {
                             allDatas.clear();
                             List<TagBean.DataBean> data = anchorTagBean.getData();

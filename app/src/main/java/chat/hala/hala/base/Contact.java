@@ -1,11 +1,11 @@
 package chat.hala.hala.base;
 
 public class Contact {
-    public static final String UPLOAD_HOST = "http://47.244.164.243";
-    public static final String HOST = "http://47.244.164.243";
+   //public static final String UPLOAD_HOST = "http://47.244.164.243";
+   //public static final String HOST = "http://47.244.164.243";
 
-   // public static final String UPLOAD_HOST = "http://18p8166y92.iok.la:51775";
-   // public static final String HOST        = "http://18p8166y92.iok.la:51775";
+    public static final String UPLOAD_HOST = "http://18p8166y92.iok.la:51775";
+    public static final String HOST        = "http://18p8166y92.iok.la:51775";
 
    //public static final String UPLOAD_HOST = "http://192.168.124.22:8081";
    //public static final String HOST = "http://192.168.124.22:8081";
@@ -64,6 +64,7 @@ public class Contact {
     public static final String WEIXIN_SECRET = "810262f9e0d072c9a2970c3ab6d9726c";      //微信appid
     public static final String QQ_APP_ID = "1105901042";      //qq appid
 
-
+    public static final int REQUEST_CLOSE_MAIN = 229;  //
     public static final int REQUEST_GREET = 671;
+    public static final String CHECK_UPDATE_DATE = "checkUpdateDate";
 }

@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 
 import chat.hala.hala.activity.LoginActivity;
+import chat.hala.hala.activity.LoginActivityNew;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.weixinqq.NetworkUtil;
 
@@ -58,7 +59,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 						refreshToken = json.getString("refresh_token");
 						scope = json.getString("scope");
 
-						Intent intent = new Intent(wxEntryActivityWeakReference.get(), LoginActivity.class);
+						Intent intent = new Intent(wxEntryActivityWeakReference.get(), LoginActivityNew.class);
 						intent.putExtra("openId", openId);
 						intent.putExtra("accessToken", accessToken);
 						intent.putExtra("refreshToken", refreshToken);

@@ -89,7 +89,10 @@
             android:launchMode="singleTask"
             android:taskAffinity="chat.hala.hala"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".activity.LoginActivityNew" />
+        <activity android:name=".activity.LoginActivityNew"
+            android:theme="@style/AppTheme.FullScreen"
+            android:launchMode="singleTop"
+            />
         <activity android:name=".activity.MyGainActivity" />
         <activity android:name=".activity.LoginPhoneActivity" />
         <activity android:name=".activity.LoginSmsActivity" />
@@ -204,6 +207,9 @@
         <activity android:name=".activity.FamilyManagerActivity" />
         <activity android:name=".activity.JoinFamilyActivity" />
         <activity android:name=".activity.FamilyDayDetailActivity" />
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.ChargeListActivity" />
+        <activity android:name=".activity.WebviewActivity2" />
 
         <service
             android:name=".service.DemoPushService"

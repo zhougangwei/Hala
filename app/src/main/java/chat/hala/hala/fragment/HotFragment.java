@@ -19,9 +19,11 @@ import java.util.List;
 import butterknife.BindView;
 import chat.hala.hala.R;
 import chat.hala.hala.activity.AnchorsActivity;
+import chat.hala.hala.activity.LoginActivityNew;
 import chat.hala.hala.activity.TagActivity;
 import chat.hala.hala.adapter.HotCallAdapter;
 import chat.hala.hala.adapter.TagsAdapter;
+import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.AdBean;
@@ -99,7 +101,12 @@ public class HotFragment extends BaseFragment {
         hotCallAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                AnchorsActivity.startAnchorAc(getActivity(), mHotOnetoOneList.get(position).getAnchorId(), mHotOnetoOneList.get(position).getMemberId());
+                if (AvchatInfo.isLogin()){
+                    AnchorsActivity.startAnchorAc(getActivity(), mHotOnetoOneList.get(position).getAnchorId(), mHotOnetoOneList.get(position).getMemberId());
+                }else{
+                    LoginActivityNew.startLogin(getActivity());
+                }
+
             }
         });
 
@@ -143,14 +150,7 @@ public class HotFragment extends BaseFragment {
                                 imagesList.clear();
                                 for (AdBean.DataBean datum : data) {
                                     imagesList.add(datum.getMediaUrl());
-                                    imagesList.add(datum.getMediaUrl());
-                                    imagesList.add(datum.getMediaUrl());
-                                    imagesList.add(datum.getMediaUrl());
                                 }
-                                //imagesList.add( "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561969870482&di=5c1c1ce287af862e3165902039c59cbd&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160522%2F29bb43e8e4d44c94846ae13520d15f88_th.jpg");
-                                //imagesList.add( "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561969870482&di=5c1c1ce287af862e3165902039c59cbd&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160522%2F29bb43e8e4d44c94846ae13520d15f88_th.jpg");
-                                //imagesList.add( "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561969870482&di=5c1c1ce287af862e3165902039c59cbd&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160522%2F29bb43e8e4d44c94846ae13520d15f88_th.jpg");
-                                //imagesList.add( "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561969870482&di=5c1c1ce287af862e3165902039c59cbd&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160522%2F29bb43e8e4d44c94846ae13520d15f88_th.jpg");
                                 hotCallAdapter.notifyDataSetChanged();
                             }
                         }
@@ -228,6 +228,7 @@ public class HotFragment extends BaseFragment {
                        hotCallAdapter.disableLoadMoreIfNotFullPage(rv);
                     }
                 });
+        getBannerData();
     }
 
 

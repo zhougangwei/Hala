@@ -28,6 +28,7 @@
         android:layout_marginTop="36dp"
         android:text="恭喜您，认证通过！"
         android:textColor="@color/black"
+        android:textStyle="bold"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +38,7 @@
         android:id="@+id/tv_content"
         android:layout_width="182dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="13dp"
         android:gravity="center"
         android:text="开始为你的时间创造价值吧！ 请联系官方微信wx:12345"
         android:textColor="#A6A6A6"
@@ -52,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="34dp"
         android:layout_marginEnd="25dp"
         android:background="@drawable/bg_examine_again"
         android:gravity="center"
@@ -64,6 +65,7 @@
 
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,6 +79,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,6 +92,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv1" />
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/iv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -99,6 +103,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -111,6 +116,7 @@
         app:layout_constraintTop_toBottomOf="@id/iv1" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -122,6 +128,7 @@
 
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv_start_examine"
         android:layout_width="match_parent"
         android:layout_height="45dp"

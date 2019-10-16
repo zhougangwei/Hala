@@ -126,7 +126,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     private static final int RTM_ANSWER = 3;
     private boolean mIsCallInRefuse;
     private String channelId;       //渠道Id
-    private String imageUrl;       //渠道Id
+    private String imageUrl;       //
     private String message;       //渠道Id
     private String name;       //渠道Id
     private Integer callId;       //服务端通话Id
@@ -145,7 +145,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     private String anchorName = "";         //主播名字
     private String anchorUrl = "";         //主播名字
     private Integer lootId;
-    private boolean enableVideo;
+    private boolean enableVideo;        //声音还是视频
     private boolean muteCamera;
 
 
@@ -169,6 +169,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     }
 
     public static void doReceivveOneToOneActivity(Context context, String channelId, int otherId, String imageUrl, String message, String name, int callId,Integer lootId, boolean enableVideo) {
+        AvchatInfo.setIsInCall(true);
         Intent intent = new Intent(context, OneToOneActivity.class);
         intent.putExtra("otherId", otherId);
         intent.putExtra("outCall", false);
@@ -245,7 +246,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
 
     @Override
     protected void initView() {
-        AvchatInfo.setIsInCall(true);
+
         showPreView();
         initAgoraEngineAndJoinChannel();
     }
@@ -295,8 +296,17 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
+                            Glide.with(OneToOneActivity.this)
+                                    .load(anchorUrl)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(ivHead.getDrawable()))
+                                    .into(ivHead);
                             tvName.setText(anchorName);
-                            tvMinuteCost.setText(String.format(getString(R.string.charged_coins_per_min), anchorBean.getData().getSetting().getVideoCpm() + ""));
+                            if(enableVideo){
+                                tvMinuteCost.setText(String.format(getString(R.string.charged_coins_per_min), anchorBean.getData().getSetting().getVideoCpm() + ""));
+                            }else{
+                                tvMinuteCost.setText(String.format(getString(R.string.charged_coins_per_min), anchorBean.getData().getSetting().getAudioCpm() + ""));
+                            }
+
                         }
                     }
                 });
@@ -351,7 +361,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         SurfaceView surfaceView = RtcEngine.CreateRendererView(getBaseContext());
 
         remoteVideoViewContainer.addView(surfaceView);
-        rtcEngine().setupRemoteVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid));
+        rtcEngine().setupRemoteVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_HIDDEN, uid));
         surfaceView.setTag(uid); // for mark purpose
 
 
@@ -488,8 +498,20 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     }
 
     private void showOnshow() {
-        rl_prepare.setVisibility(View.GONE);
-        rlOnshow.setVisibility(View.VISIBLE);
+        if (!enableVideo){
+            ivHangupPrepareAnchor.setVisibility(View.GONE);
+            tv7.setVisibility(View.GONE);
+            tv6.setVisibility(View.GONE);
+            tv5.setVisibility(View.GONE);
+            ivAnchorAnswer.setVisibility(View.GONE);
+            ivHangupPrepareAudience.setVisibility(View.GONE);
+            rl_prepare.setVisibility(View.VISIBLE);
+            rlOnshow.setVisibility(View.GONE);
+            ivHangup.setVisibility(View.VISIBLE);
+        }else{
+            rl_prepare.setVisibility(View.GONE);
+            rlOnshow.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -558,7 +580,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 public void onSuccess(Object o) {
                     LogUtils.e(TAG, "onSuccess:0 " + channelId);
                     final RtmCallBean rtmCallBean = new RtmCallBean();
-                    rtmCallBean.setMessage("make your time");
+                    rtmCallBean.setMessage("专家说每天和美女聊天可以长寿哦");
                     rtmCallBean.setName(AvchatInfo.getName());
                     rtmCallBean.setImageUrl(AvchatInfo.getAvatarUrl());
                     rtmCallBean.setChannelId(channelId);
@@ -626,6 +648,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                         callTime = callTime + 1;
                         String stringForTime = TimeUtil.stringForTime(callTime * 1000);
                         tvCallDuration.setText(stringForTime);
+                        tv_message.setText(stringForTime);
                     }
                 });
     }

@@ -14,11 +14,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.base.BaseActivity;
+import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.CoinBriefBean;
 import chat.hala.hala.bean.CoinListBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.ResultUtils;
+import chat.hala.hala.utils.SPUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -82,7 +84,7 @@ public class MyGainActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.ll_gain_money:
-                startActivity(new Intent(this,ChargeActivity.class));
+                WebviewActivity2.startActivity(this, Contact.HOST+"/cashOut/cashOut.html?token="+SPUtil.getInstance(this).getString(Contact.TOKEN, ""),"提现");
                 break;
             case R.id.ll_income_detail:
                 startActivity(new Intent(this,MyIncomeActivity.class));

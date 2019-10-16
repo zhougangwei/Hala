@@ -1,58 +1,45 @@
 package chat.hala.hala.activity;
 
+import android.content.Context;
 import android.content.Intent;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.graphics.Color;
+import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.blankj.utilcode.utils.LogUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.blankj.utilcode.utils.SizeUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import net.lucode.hackware.magicindicator.MagicIndicator;
+import net.lucode.hackware.magicindicator.ViewPagerHelper;
+import net.lucode.hackware.magicindicator.buildins.UIUtil;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ClipPagerTitleView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
-import chat.hala.hala.adapter.FansAdapter;
-import chat.hala.hala.avchat.AvchatInfo;
+import chat.hala.hala.adapter.FansOrFollowAdapter;
 import chat.hala.hala.base.BaseActivity;
-import chat.hala.hala.base.Contact;
-import chat.hala.hala.bean.FansBean;
-import chat.hala.hala.bean.LoginBean;
-import chat.hala.hala.bean.OneToOneListBean;
-import chat.hala.hala.http.BaseCosumer;
-import chat.hala.hala.http.RetrofitFactory;
-import chat.hala.hala.utils.ResultUtils;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 public class FollowOrFansActivity extends BaseActivity {
 
     private static final String TAG = "FollowOrFansActivity";
     @BindView(R.id.iv_back)
     ImageView ivBack;
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
-    @BindView(R.id.rv)
-    RecyclerView rv;
+    @BindView(R.id.magic_indicator)
+    MagicIndicator magicIndicator;
+    @BindView(R.id.vp)
+    ViewPager vp;
 
-    @BindView(R.id.swrl)
-    SwipeRefreshLayout swrl;
-    List<OneToOneListBean.DataBean.ListBean> mFansList = new ArrayList<>();
-    private FansAdapter fansAdapter;
-    private boolean isLoadMore = true;
-    private int page;
-
-    public final static int FANS=1;
-    public final static int FOLLOW=2;
-    public final static int FRIENDS=3;
     private int type;
 
-
+    private String[] titles=new String[]{"关注","粉丝","朋友"};
     @Override
     protected int getContentViewId() {
         return R.layout.activity_follow_or_fans;
@@ -60,101 +47,61 @@ public class FollowOrFansActivity extends BaseActivity {
 
     @Override
     protected void beforeInitView() {
-
     }
 
     @Override
     protected void initView() {
         Intent intent = getIntent();
         type = intent.getIntExtra("type", 0);
-        switch (type) {
-            case FANS:
-                tvTitle.setText("我的粉丝");
-                break;
-            case FOLLOW:
-                tvTitle.setText("我的关注");
-                break;
-            case FRIENDS:
-                tvTitle.setText("我的朋友");
-                break;
-        }
 
-        fansAdapter = new FansAdapter(R.layout.item_suggest_list, mFansList);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rv.setLayoutManager(layoutManager);
-        rv.setAdapter(fansAdapter);
-        fansAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        magicIndicator.setBackgroundResource(R.color.white);
+        FansOrFollowAdapter homeAdapter = new FansOrFollowAdapter(getSupportFragmentManager());
+        vp.setAdapter(homeAdapter);
+        vp.postDelayed(new Runnable() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                AnchorsActivity.startAnchorAc(FollowOrFansActivity.this, mFansList.get(position).getAnchorId(), mFansList.get(position).getMemberId());
+            public void run() {
+                vp.setCurrentItem(type);
             }
-        });
-
-        swrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        },300);
+        CommonNavigator commonNavigator = new CommonNavigator(this);
+        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
-            public void onRefresh() {
-                isLoadMore = true;
-                swrl.postDelayed(new Runnable() {
+            public int getCount() {
+                return titles.length;
+            }
+
+            @Override
+            public IPagerTitleView getTitleView(Context context, final int index) {
+                ClipPagerTitleView clipPagerTitleView = new ClipPagerTitleView(context);
+                clipPagerTitleView.setText(titles[index]);
+                clipPagerTitleView.setTextSize(SizeUtils.sp2px(FollowOrFansActivity.this,17));
+                clipPagerTitleView.setTextColor(Color.parseColor("#FFA7A7A7"));
+                clipPagerTitleView.setClipColor(Color.parseColor("#FFFF6962"));
+                clipPagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void run() {
-                        getData(true);
-                        swrl.setRefreshing(false);
-                    }
-                }, 500);
-            }
-        });
-        fansAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                LogUtils.e(TAG, "wo ");
-                getData(false);
-            }
-        }, rv);
-        fansAdapter.setPreLoadNumber(5);
-        initData();
-    }
-    private void initData() {
-        getData(true);
-    }
-
-    private void getData(final boolean isRefresh) {
-        if (!isLoadMore) {
-            return;
-        }
-        if (isRefresh) {
-            page = 0;
-        } else {
-            page++;
-        }
-        RetrofitFactory.getInstance()
-                .getFansNum(FANS==type?"fans":type==FOLLOW?"following":"friends",page,Contact.PAGE_SIZE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseCosumer<FansBean>() {
-                    @Override
-                    public void onGetData(FansBean baseBean) {
-                        if (!ResultUtils.cheekSuccess(baseBean)) {
-                            fansAdapter.loadMoreFail();
-                        }
-                        if (baseBean.getData().getPageable().isNextPage()) {
-                            fansAdapter.loadMoreComplete();
-                        } else {
-                            fansAdapter.loadMoreEnd();
-                            isLoadMore = false;
-                        }
-                        if (isRefresh) {
-                            mFansList.clear();
-                        }
-                        List<OneToOneListBean.DataBean.ListBean> content = baseBean.getData().getList();
-                        if (content != null && content.size() > 0) {
-                            mFansList.addAll(content);
-                        }
-                        fansAdapter.notifyDataSetChanged();
-                        fansAdapter.disableLoadMoreIfNotFullPage(rv);
+                    public void onClick(View v) {
+                        vp.setCurrentItem(index);
                     }
                 });
+                return clipPagerTitleView;
+            }
+            @Override
+            public IPagerIndicator getIndicator(Context context) {
+                LinePagerIndicator indicator = new LinePagerIndicator(context);
+                indicator.setMode(LinePagerIndicator.MODE_EXACTLY);
+                indicator.setLineHeight(UIUtil.dip2px(context, 2));
+                indicator.setLineWidth(UIUtil.dip2px(context, 15));
+                indicator.setStartInterpolator(new AccelerateInterpolator());
+                indicator.setEndInterpolator(new DecelerateInterpolator(2.0f));
+                //   indicator.setColors(getResources().getColor(R.color.linepager_indicator_color1),getResources().getColor(R.color.linepager_indicator_color2));
+                indicator.setColors(Color.parseColor("#FFFF6962"));
+                return indicator;
+            }
+        });
+        magicIndicator.setNavigator(commonNavigator);
+        ViewPagerHelper.bind(magicIndicator, vp);
     }
+
 
 
     @OnClick(R.id.iv_back)

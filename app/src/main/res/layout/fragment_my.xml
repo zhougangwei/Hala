@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:paddingEnd="5dp"
-            android:paddingBottom="5dp"
+            android:paddingBottom="10dp"
             android:text="查看个人资料 >"
             android:textColor="#BC8200"
             android:textSize="11sp"
@@ -601,6 +601,7 @@
             app:layout_constraintTop_toTopOf="@id/iv_loginout" />
 
         <ImageView
+            android:id="@+id/iv_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"

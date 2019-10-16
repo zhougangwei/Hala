@@ -35,6 +35,7 @@ import chat.hala.hala.utils.AssetUtils;
 import chat.hala.hala.utils.FacebookLoginManager;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.RandomUtils;
+import chat.hala.hala.utils.ResultUtils;
 import chat.hala.hala.utils.ToastUtils;
 import chat.hala.hala.wight.country.CountryActivity;
 import io.reactivex.Observable;
@@ -46,7 +47,7 @@ import io.reactivex.schedulers.Schedulers;
 public class LoginPhoneActivity extends BaseActivity {
 
 
-    private static final String TAG ="LoginPhoneActivity" ;
+    private static final String TAG = "LoginPhoneActivity";
     private static final int REQUEST_FACEBOOK = 667;
     private static final int REQUEST_PHONE = 668;
     @BindView(R.id.iv_back)
@@ -64,13 +65,12 @@ public class LoginPhoneActivity extends BaseActivity {
     TextView tvLogin;
 
 
-
     @BindView(R.id.tv_send_msm)
     TextView tv_send_msm;
-    private int countDown=60;
+    private int countDown = 60;
     private Disposable mCountDownSubscribe;
 
-    private String mCountryCode="+86";       //电话国家前面的countryCode
+    private String mCountryCode = "+86";       //电话国家前面的countryCode
 
     @Override
     protected int getContentViewId() {
@@ -86,37 +86,41 @@ public class LoginPhoneActivity extends BaseActivity {
     @Override
     protected void initView() {
         tvTitle.setText("");
+        tv_send_msm.setEnabled(false);
+        tv_send_msm.setClickable(false);
         etPhoneNum.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if(s!=null&&s.length()>7){
-                    if (etSmsNum.getText().length()>0){
-                        //tvLogin.setEnabled(true);
-                        //tvLogin.setClickable(true);
+                if (s != null && s.length() > 10) {
+                    if (etSmsNum.getText().length() > 0) {
+                        tvLogin.setEnabled(true);
+                        tvLogin.setClickable(true);
                         tvLogin.setBackgroundResource(R.drawable.bg_rec_login_red2);
-                    }else{
-                        //tvLogin.setEnabled(false);
-                        //tvLogin.setClickable(false);
+                    } else {
+                        tvLogin.setEnabled(false);
+                        tvLogin.setClickable(false);
                         tvLogin.setBackgroundResource(R.drawable.bg_rec_login_red1);
                     }
-                    //tv_send_msm.setEnabled(true);
-                    //tv_send_msm.setClickable(true);
+                    tv_send_msm.setEnabled(true);
+                    tv_send_msm.setClickable(true);
                     tv_send_msm.setBackgroundResource(R.drawable.bg_rec_3_send_msm2);
-                }else if(s!=null){
-                    //tv_send_msm.setEnabled(false);
-                    //tv_send_msm.setClickable(false);
+                } else if (s != null) {
+                    tv_send_msm.setEnabled(false);
+                    tv_send_msm.setClickable(false);
                     tv_send_msm.setBackgroundResource(R.drawable.bg_rec_3_send_msm);
                 }
 
             }
+
             @Override
             public void afterTextChanged(Editable s) {
-                LogUtils.e(TAG, "afterTextChanged: "+s.toString() );
+                LogUtils.e(TAG, "afterTextChanged: " + s.toString());
             }
         });
         etSmsNum.addTextChangedListener(new TextWatcher() {
@@ -127,16 +131,21 @@ public class LoginPhoneActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s!=null&&s.length()>0){
-                    if (etPhoneNum.getText().length()>7){
+                if (s != null && s.length() > 0) {
+                    if (etPhoneNum.getText().length() > 10) {
+                        tvLogin.setEnabled(true);
+                        tvLogin.setClickable(true);
                         tvLogin.setBackgroundResource(R.drawable.bg_rec_login_red2);
-                    }else{
+                    } else {
+                        tvLogin.setEnabled(false);
+                        tvLogin.setClickable(false);
                         tvLogin.setBackgroundResource(R.drawable.bg_rec_login_red1);
                     }
-                }else if(s!=null){
+                } else if (s != null) {
                     tvLogin.setBackgroundResource(R.drawable.bg_rec_login_red1);
                 }
             }
+
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -144,7 +153,7 @@ public class LoginPhoneActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_back, R.id.tv_login,R.id.tv_send_msm})
+    @OnClick({R.id.iv_back, R.id.tv_login, R.id.tv_send_msm})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -156,8 +165,8 @@ public class LoginPhoneActivity extends BaseActivity {
 
             case R.id.tv_country_name:
                 Intent intent = new Intent(this, CountryActivity.class);
-                intent.putExtra("type",CountryActivity.FROM_LOGIN_PHONE);
-                startActivityForResult(intent,Contact.REQUEST_CHOOSE_COUNTRY);
+                intent.putExtra("type", CountryActivity.FROM_LOGIN_PHONE);
+                startActivityForResult(intent, Contact.REQUEST_CHOOSE_COUNTRY);
                 break;
 
             case R.id.tv_send_msm:
@@ -167,18 +176,20 @@ public class LoginPhoneActivity extends BaseActivity {
         }
 
 
-
     }
 
     private void sendSms() {
         startCountDown();
-      RetrofitFactory.getInstance().sendSms().subscribeOn(Schedulers.io())
-              .observeOn(AndroidSchedulers.mainThread())
-              .subscribe(new BaseCosumer<BaseBean>() {
-                  @Override
-                  public void onGetData(BaseBean baseBean) {
-                  }
-              });
+        final String mobileNumber = mCountryCode + etPhoneNum.getText().toString();
+        RetrofitFactory.getInstance().sendSms(ProxyPostHttpRequest.getInstance().sendSms(mobileNumber)).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<BaseBean>() {
+                    @Override
+                    public void onGetData(BaseBean baseBean) {
+                        if (ResultUtils.cheekSuccess(baseBean)) {
+                        }
+                    }
+                });
 
     }
 
@@ -203,16 +214,16 @@ public class LoginPhoneActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode==RESULT_OK){
-            if (requestCode==Contact.REQUEST_CHOOSE_COUNTRY) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == Contact.REQUEST_CHOOSE_COUNTRY) {
                 String countryName = data.getStringExtra("countryName");
                 mCountryCode = data.getStringExtra("countryCode");
 
                 tvCountryCode.setText(mCountryCode);
-            }else if(requestCode==REQUEST_FACEBOOK){
+            } else if (requestCode == REQUEST_FACEBOOK) {
                 loginfacebook();
-            }else if(requestCode==REQUEST_PHONE){
+            } else if (requestCode == REQUEST_PHONE) {
                 startLogin(1);
             }
         }
@@ -225,28 +236,30 @@ public class LoginPhoneActivity extends BaseActivity {
         facebookLoginManager.loginFaceBook(this, new FacebookLoginManager.OnResult() {
             @Override
             public void success() {
-                Intent intent = new Intent(LoginPhoneActivity.this,MainActivity.class);
+                Intent intent = new Intent(LoginPhoneActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
+
             @Override
             public void fail() {
-                ToastUtils.showToast(LoginPhoneActivity.this,getString(R.string.login_failed));
+                ToastUtils.showToast(LoginPhoneActivity.this, getString(R.string.login_failed));
             }
+
             @Override
             public void regist(String id) {
                 Intent intent = new Intent(LoginPhoneActivity.this, FillUserActivity.class);
                 intent.putExtra("type", FillUserActivity.FROM_WE);
-                intent.putExtra("facebookid",id);
-                startActivityForResult(intent,REQUEST_FACEBOOK);
+                intent.putExtra("facebookid", id);
+                startActivityForResult(intent, REQUEST_FACEBOOK);
             }
         });
     }
 
     private void startLogin(int type) {
 
-       final String code = etSmsNum.getText().toString();
-        final String mobileNumber = mCountryCode+etPhoneNum.getText().toString();
+        final String code = etSmsNum.getText().toString();
+        final String mobileNumber = mCountryCode + etPhoneNum.getText().toString();
         RetrofitFactory.getInstance()
                 .login(ProxyPostHttpRequest.getInstance().login(code, mobileNumber))
                 .subscribeOn(Schedulers.io())
@@ -259,10 +272,10 @@ public class LoginPhoneActivity extends BaseActivity {
                         }
                         String action = baseBean.getData().getAction();
                         if (Contact.SIGN_UP.equals(action)) {
-                            startConfirm(mobileNumber,code);
+                            startConfirm(mobileNumber, code);
                         } else if (Contact.SIGN_IN.equals(action)) {
-                            AvchatInfo.saveBaseData(baseBean.getData().getMember(),LoginPhoneActivity.this,true);
-                            Intent intent = new Intent(LoginPhoneActivity.this,MainActivity.class);
+                            AvchatInfo.saveBaseData(baseBean.getData().getMember(), LoginPhoneActivity.this, true);
+                            Intent intent = new Intent(LoginPhoneActivity.this, MainActivity.class);
                             startActivity(intent);
                             setResult(RESULT_OK);
                             finish();
@@ -270,14 +283,15 @@ public class LoginPhoneActivity extends BaseActivity {
                     }
                 });
     }
+
     private void startConfirm(String mobileNumber, String code) {
-        String birthDate ="2000-10-14";
+        String birthDate = "2000-1-1";
         String json = AssetUtils.getJson(this, "name.json");
-        String username ="";
+        String username = "";
         List<RandomNameBean> objects = GsonUtil.parseJsonToList(json, new TypeToken<List<RandomNameBean>>() {
         }.getType());
-        if(TextUtils.isEmpty(username)){
-            username=objects.get(new Random().nextInt(objects.size())).getName()+ RandomUtils.getRandomString();
+        if (TextUtils.isEmpty(username)) {
+            username = objects.get(new Random().nextInt(objects.size())).getName() + RandomUtils.getRandomString();
         }
 
 
@@ -286,11 +300,11 @@ public class LoginPhoneActivity extends BaseActivity {
         editUserBean.setNickname(username);
         editUserBean.setBirthDate(birthDate);
         editUserBean.setCode(code);
-        editUserBean.setGender(0 + "");
+        editUserBean.setGender(1 + "");
         editUserBean.setMobileNumber(mobileNumber);
-           regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getJsonInstance().regist(
-                   GsonUtil.parseObjectToJson(editUserBean)
-           ));
+        regist = RetrofitFactory.getInstance().regist(ProxyPostHttpRequest.getJsonInstance().regist(
+                GsonUtil.parseObjectToJson(editUserBean)
+        ));
 
         regist.subscribeOn(Schedulers.io())
                 .compose(this.<RegistBean>bindToLifecycle())

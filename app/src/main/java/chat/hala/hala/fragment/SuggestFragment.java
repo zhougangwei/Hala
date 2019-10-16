@@ -26,6 +26,7 @@ import chat.hala.hala.bean.OneToOneListBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.GsonUtil;
+import chat.hala.hala.utils.ToastUtils;
 import chat.hala.hala.wight.banner.Banner;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -81,6 +82,7 @@ public class SuggestFragment extends BaseFragment {
                             RongIM.getInstance().sendMessage(myMessage, null, null, new IRongCallback.ISendMessageCallback() {
                             @Override
                             public void onAttached(Message message) {
+                                ToastUtils.showToast(getActivity(),"打招呼成功!!");
                                 Log.e(TAG, "onAttached: "+message.getTargetId());
                             }
                             @Override
@@ -92,6 +94,8 @@ public class SuggestFragment extends BaseFragment {
                                 Log.e(TAG, "onError: "+errorCode);
                             }
                         });
+                        }else{
+                            ToastUtils.showToast(getActivity(),"请在聊天设置中,设置打招呼语!");
                         }
                         break;
                 }
@@ -142,7 +146,6 @@ public class SuggestFragment extends BaseFragment {
         } else {
             page++;
         }
-        LogUtils.e(TAG, "aaa" + page);
 
         RetrofitFactory.getInstance().getRecommendList(0, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

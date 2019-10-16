@@ -172,6 +172,7 @@ public class MyMessageListAdapter extends MessageListAdapter {
         holder.layoutItem = (RelativeLayout) this.findViewById(result, R.id.rc_layout_item_message);
         holder.sendTimeView = (TextView) this.findViewById(result, R.id.countdown_time_send);
         holder.receiveTimeView = (TextView) this.findViewById(result, R.id.countdown_time_receive);
+        holder.rccoinMessage = (TextView) this.findViewById(result, R.id.rc_coin_message);
         if (holder.time.getVisibility() == View.GONE) {
             this.timeGone = true;
         } else {
@@ -532,6 +533,7 @@ public class MyMessageListAdapter extends MessageListAdapter {
                     if (tag.hide()) {
                         holder.contentView.setVisibility(View.GONE);
                         holder.time.setVisibility(View.GONE);
+                        holder.rccoinMessage.setVisibility(View.GONE);
                         holder.nameView.setVisibility(View.GONE);
                         holder.leftIconView.setVisibility(View.GONE);
                         holder.rightIconView.setVisibility(View.GONE);
@@ -838,15 +840,19 @@ public class MyMessageListAdapter extends MessageListAdapter {
                     this.bindViewClickEvent(v, v1, position, data);
                     if (tag.hide()) {
                         holder.time.setVisibility(View.GONE);
+                        holder.rccoinMessage.setVisibility(View.GONE);
                     } else {
                         if (!this.timeGone) {
                             String time = RongDateUtils.getConversationFormatDate(data.getSentTime(), v1.getContext());
                             holder.time.setText(time);
+                            holder.rccoinMessage.setText("我是伟大的");
                             if (position == 0) {
                                 if (data.getMessage() != null && data.getMessage().getContent() != null && data.getMessage().getContent() instanceof HistoryDividerMessage) {
                                     holder.time.setVisibility(View.GONE);
+                                    holder.rccoinMessage.setVisibility(View.GONE);
                                 } else {
                                     holder.time.setVisibility(View.VISIBLE);
+                                    holder.rccoinMessage.setVisibility(View.VISIBLE);
                                 }
                             } else {
                                 UIMessage pre = (UIMessage) this.getItem(position - 1);
@@ -854,6 +860,11 @@ public class MyMessageListAdapter extends MessageListAdapter {
                                     holder.time.setVisibility(View.VISIBLE);
                                 } else {
                                     holder.time.setVisibility(View.GONE);
+                                }
+                                if (RongDateUtils.isShowChatTime(data.getSentTime(), pre.getSentTime(), 10800)) {
+                                    holder.rccoinMessage.setVisibility(View.VISIBLE);
+                                } else {
+                                    holder.rccoinMessage.setVisibility(View.GONE);
                                 }
                             }
                         }
@@ -949,6 +960,7 @@ public class MyMessageListAdapter extends MessageListAdapter {
             public LinearLayout checkboxLayout;
             public TextView sendTimeView;
             public TextView receiveTimeView;
+            public TextView rccoinMessage;
 
             protected ViewHolder() {
             }

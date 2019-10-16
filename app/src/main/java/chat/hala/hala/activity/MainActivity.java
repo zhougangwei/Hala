@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.LogUtils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.igexin.sdk.PushManager;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -31,11 +35,13 @@ import chat.hala.hala.avchat.WorkerThread;
 import chat.hala.hala.base.App;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
+import chat.hala.hala.bean.AnchorBean;
 import chat.hala.hala.bean.LoginBean;
 import chat.hala.hala.bean.QiNiuToken;
 import chat.hala.hala.bean.RongToken;
 import chat.hala.hala.bean.RtmCallBean;
 import chat.hala.hala.bean.RtmTokenBean;
+import chat.hala.hala.bean.VersionBean;
 import chat.hala.hala.dialog.CommonDialog;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
@@ -55,6 +61,8 @@ import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.UserInfo;
+
+import static com.igexin.push.util.EncryptUtils.getVersion;
 
 public class MainActivity extends BaseActivity implements AGEventHandler {
 
@@ -108,8 +116,17 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                                     }
                                     UserInfo userInfo = new UserInfo(AvchatInfo.getMemberId() + "", AvchatInfo.getName(), Uri.parse(AvchatInfo.getAvatarUrl()));
                                     userInfo.setExtra(AvchatInfo.getAnchorId()+"");
-
-                                    RongIM.getInstance().setCurrentUserInfo(userInfo);
+                                    RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
+                                        @Override
+                                        public UserInfo getUserInfo(String userId) {
+                                            try {
+                                                return findUserById(Integer.parseInt(userId));
+                                            }catch (Exception e){
+                                            }
+                                            return null;
+                                        }
+                                    }, true);
+                                   RongIM.getInstance().setCurrentUserInfo(userInfo);
                                     LogUtils.e(TAG, "onSuccess: " + s);
                                 }
                                 @Override
@@ -126,6 +143,21 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                 });
 
 
+    }
+
+    private UserInfo findUserById(int userId) {
+        RetrofitFactory.getInstance()
+                .getAnchorData("member", userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<AnchorBean>() {
+                    @Override
+                    public void onGetData(AnchorBean baseBean) {
+                        AnchorBean.DataBean data = baseBean.getData();
+                        RongIM.getInstance().refreshUserInfoCache(new UserInfo(data.getMemberId() + "", data.getUsername(), Uri.parse(data.getAlbum().get(0).getMediaUrl())));
+                    }
+                });
+        return null;
     }
 
     @Override
@@ -162,8 +194,14 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
         initQiniu();
         initVideoCall();
         initChat();
+        getAppVersion();
+
         boolean b = PushManager.getInstance().bindAlias(this, AvchatInfo.getMemberId() + "");
         System.out.println(b+"");
+    }
+
+    private void getAppVersion() {
+
     }
 
     /*
@@ -267,9 +305,10 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
         for (int i = 0; i < viewList.size(); i++) {
             TextView view = viewList.get(i);
             if (view != clickView) {
-                view.setSelected(false);
-                view.setTextColor(Color.parseColor("#595D71"));
+                 view.setSelected(false);
+                 view.setTextColor(Color.parseColor("#595D71"));
             } else {
+
                 view.setSelected(true);
                 view.setTextColor(Color.parseColor("#FE4164"));
                 if(AvchatInfo.isLogin()){
@@ -278,7 +317,6 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                     if(clickView != ivHome ){
                         LoginActivityNew.startLogin(this);
                     }
-
                 }
             }
         }
@@ -438,7 +476,16 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
 
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==Contact.REQUEST_CLOSE_MAIN&&resultCode==RESULT_OK){
+            AvchatInfo.clearBaseData(MainActivity.this);
+            LoginActivityNew.startLogin(MainActivity.this);
+            RongIM.getInstance().logout();
+            finish();
+        }
+    }
 }
 
 

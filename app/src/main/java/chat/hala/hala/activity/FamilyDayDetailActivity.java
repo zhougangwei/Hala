@@ -87,9 +87,9 @@ public class FamilyDayDetailActivity extends BaseActivity {
                 });
         RetrofitFactory.getInstance().getFamilyManageB(TimeUtil.getTodayStart(), TimeUtil.getTodayEnd()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<FamilyBeanB>() {
+                .subscribe(new BaseCosumer<FamilyBeanB>() {
                     @Override
-                    public void accept(FamilyBeanB familyBeanB) throws Exception {
+                    public void onGetData(FamilyBeanB familyBeanB)  {
                         if (ResultUtils.cheekSuccess(familyBeanB)) {
                             FamilyBeanB.DataBean data = familyBeanB.getData();
                             tvTodayOpenAnchorNum.setText("开播人数:" + CalculateUtils.getMoney(data.getAnthorNumber()));

@@ -183,6 +183,10 @@ public class AnchorsActivity extends BaseActivity {
     @Override
     protected void initView() {
         if(AvchatInfo.isAnchor()){
+            tvCall.setVisibility(View.GONE);
+            mTvVoiceCall.setVisibility(View.GONE);
+        }
+        if(AvchatInfo.isAnchor()&&isAnchor()){
             rlBottom.setVisibility(View.GONE);
         }
         initPaint();

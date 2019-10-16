@@ -10,6 +10,12 @@
 
     </style>
 
+    <style name="AppTheme.FullScreen" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
     <style name="EditTextStyle.Alignment" parent="@android:style/Widget.EditText">
         <item name="android:textAlignment">viewStart</item>
         <item name="android:gravity">start</item>

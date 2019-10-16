@@ -39,7 +39,7 @@ public class CoinIncomeAdapter extends BaseQuickAdapter<CoinListBean.DataBean.Tr
         }else if(type==INCOME){
             unit="Pa豆";
         }
-        helper.setText(R.id.tv_cost, item.getFigure()+"Pa币");
+        helper.setText(R.id.tv_cost, item.getFigure()+unit);
         if(item.getFigure().contains("\\-")){
             helper.setTextColor(R.id.tv_cost, Color.parseColor("#21C089"));
         }else{

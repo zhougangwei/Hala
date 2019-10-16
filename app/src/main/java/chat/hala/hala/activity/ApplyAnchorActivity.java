@@ -1,6 +1,7 @@
 package chat.hala.hala.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +29,7 @@ import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.ApplyAnchorBean;
 import chat.hala.hala.bean.BeAnchorBean;
+import chat.hala.hala.bean.BeStarResultBean;
 import chat.hala.hala.bean.QiNiuToken;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.ProxyPostHttpRequest;
@@ -119,6 +121,7 @@ public class ApplyAnchorActivity extends BaseActivity {
 
     private boolean clickUp;
     private int chargePostion;
+    private String type;
 
 
     @Override
@@ -128,6 +131,9 @@ public class ApplyAnchorActivity extends BaseActivity {
 
     @Override
     protected void beforeInitView() {
+        Intent intent = getIntent();
+        type = intent.getStringExtra("type");
+
 
     }
 
@@ -157,7 +163,10 @@ public class ApplyAnchorActivity extends BaseActivity {
 
             }
         });
-
+        if(BeStarResultBean.BESTAR_REJECTED_FRONT.equals(type)){
+            tvNameVerity.setText("审核未通过!");
+            tvNameVerity.setTextColor(Color.parseColor("#FF6C6C"));
+        }
 
     }
 

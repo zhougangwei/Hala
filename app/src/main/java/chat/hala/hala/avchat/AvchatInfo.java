@@ -313,6 +313,14 @@ public class AvchatInfo {
         saveBaseMember(memberBean);
     }
 
+    public static void setPicCpm(String picCpm) {
+        if(judgeMemberEmpty()){
+            return;
+        }
+        memberBean.getSetting().setPicCpm(Integer.parseInt(picCpm));
+        saveBaseMember(memberBean);
+    }
+
     public static void setChatCpm(String chatCmp) {
         if(judgeMemberEmpty()){
             return;
@@ -380,6 +388,13 @@ public class AvchatInfo {
             return 0;
         }
         return memberBean.getSetting()==null?0:memberBean.getSetting().getChatCpm();
+    }
+
+    public static int getPicCpm() {
+        if(judgeMemberEmpty()){
+            return 0;
+        }
+        return memberBean.getSetting()==null?0:memberBean.getSetting().getPicCpm();
     }
 
     public static boolean getVideoNotify() {

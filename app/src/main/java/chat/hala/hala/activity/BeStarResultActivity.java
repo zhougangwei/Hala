@@ -37,8 +37,7 @@ public class BeStarResultActivity extends BaseActivity {
     Group groupPrepare;
     @BindView(R.id.group_result)
     Group groupResult;
-
-
+    private String type;
 
 
     @Override
@@ -54,48 +53,29 @@ public class BeStarResultActivity extends BaseActivity {
     @Override
     protected void initView() {
         tvTitle.setText(R.string.to_be_star);
-        getBestarState();
+        Intent intent = getIntent();
+        type = intent.getStringExtra("type");
+        switch (type) {
+            case BeStarResultBean.BESTAR_WAITING:
+                showExamineWait();
+                break;
+            case BeStarResultBean.BESTAR_PASS:
+                showExamineSuccess();
+                break;
+            case BeStarResultBean.BESTAR_REJECTED_FRONT:
+                showExamineFail(1);
+                break;
+            case BeStarResultBean.BESTAR_REJECTED:
+                showExamineFail(2);
+                break;
+        }
 
-    }
-
-    private void getBestarState() {
-        RetrofitFactory.getInstance().
-                getBeStarState()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseCosumer<BeStarResultBean>() {
-                    @Override
-                    public void onGetData(BeStarResultBean beStarResultBean) {
-                        if (ResultUtils.cheekSuccess(beStarResultBean)) {
-                            switch (beStarResultBean.getData().getState()) {
-                                case BeStarResultBean.BESTAR_OPEN:
-                                    showExaminePrepare();
-                                    break;
-                                case BeStarResultBean.BESTAR_WAITING:
-                                    showExamineWait();
-                                    break;
-                                case BeStarResultBean.BESTAR_PASS:
-                                    showExamineSuccess();
-                                    break;
-                                case BeStarResultBean.BESTAR_REJECTED_FRONT:
-                                    showExamineFail(1);
-                                    break;
-                                case BeStarResultBean.BESTAR_REJECTED:
-                                    showExamineFail(2);
-                                    break;
-                            }
-                        }
-                    }
-                });
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK){
-            getBestarState();
-        }
     }
 
     private void showExaminePrepare() {
@@ -110,7 +90,9 @@ public class BeStarResultActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_examine_again:
-                startActivityForResult(new Intent(this, ApplyAnchorActivity.class),1);
+                Intent intent = new Intent(this, ApplyAnchorActivity.class);
+                intent.putExtra("type",type);
+                startActivityForResult(intent,1);
                 break;
             case R.id.tv_start_examine:
                 startActivityForResult(new Intent(this, ApplyAnchorActivity.class),1);

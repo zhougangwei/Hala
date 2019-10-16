@@ -1,6 +1,7 @@
 package chat.hala.hala.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -148,7 +149,7 @@ public class ChargeActivity extends BaseActivity {
     }
 
     private void startChargeDetail() {
-
+        startActivity(new Intent(this,ChargeListActivity.class));
     }
 
     private void startCharge() {

@@ -2,6 +2,8 @@ package chat.hala.hala.utils;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Process;
 import android.text.TextUtils;
 
@@ -132,5 +134,17 @@ public class ToolUtils {
         }else {
             return "en";
         }
+    }
+    public static String getVersionName(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        PackageInfo packageInfo;
+        String versionName = "";
+        try {
+            packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            versionName = packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionName;
     }
 }

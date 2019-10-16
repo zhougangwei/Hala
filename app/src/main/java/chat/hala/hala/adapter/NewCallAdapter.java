@@ -1,6 +1,9 @@
 package chat.hala.hala.adapter;
 
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.blankj.utilcode.utils.LogUtils;
 import com.bumptech.glide.Glide;
@@ -20,8 +23,6 @@ import chat.hala.hala.bean.OneToOneListBean;
 public class NewCallAdapter extends BaseQuickAdapter<OneToOneListBean.DataBean.ListBean, BaseViewHolder> {
 
 
-
-
     public NewCallAdapter(int layoutIds, List<OneToOneListBean.DataBean.ListBean> countryDatas) {
         super(layoutIds, countryDatas);
     }
@@ -31,10 +32,33 @@ public class NewCallAdapter extends BaseQuickAdapter<OneToOneListBean.DataBean.L
         helper.setText(R.id.tv_online_state,item.isOnline()?R.string.online:R.string.offlIine);
         helper.setText(R.id.tv_name,item.getNickname());
         helper.setText(R.id.tv_content,item.getIntroduction());
+
+        Typeface typeFace = Typeface.createFromAsset(mContext.getAssets(), "fonts/dinbold.ttf");
+        TextView tvCost = helper.getView(R.id.tv_cost);
+        tvCost.setTypeface(typeFace);
         helper.setText(R.id.tv_cost,item.getSetting().getVideoCpm()+"");
         ImageView imageView = (ImageView) helper.getView(R.id.iv_bg);
         Glide.with(mContext).load(item.getAlbum().get(0).getMediaUrl())
                 .apply(RequestOptions.placeholderOf(imageView.getDrawable()))
                 .into(imageView);
+
+        if(item.isOnline()){
+            TextView tvState = helper.getView(R.id.tv_online_state);
+            Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_onlinee);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//必须设置图片大小，否则不显示
+            tvState.setCompoundDrawables(drawable, null, null, null);
+        }else {
+            TextView tvState = helper.getView(R.id.tv_online_state);
+            Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_off_linee);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//必须设置图片大小，否则不显示
+            tvState.setCompoundDrawables(drawable, null, null, null);
+        }
+        if(!item.isAvailable()){
+            helper.setText(R.id.tv_online_state,"通话");
+            TextView tvState = helper.getView(R.id.tv_online_state);
+            Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_in_call);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//必须设置图片大小，否则不显示
+            tvState.setCompoundDrawables(drawable, null, null, null);
+        }
     }
 }

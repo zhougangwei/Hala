@@ -223,14 +223,14 @@ public class LoginSmsActivity extends BaseActivity {
     private void sendSms() {
         mEtSmsNum.setText("151439");
         startCountDown();
-        RetrofitFactory.getInstance().sendSms().subscribeOn(Schedulers.io())
+       /* RetrofitFactory.getInstance().sendSms().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<BaseBean>() {
                     @Override
                     public void onGetData(BaseBean baseBean) {
 
                     }
-                });
+                });*/
     }
 
     @SuppressLint("CheckResult")

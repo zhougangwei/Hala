@@ -425,6 +425,8 @@ public class LoginBean extends BaseBean {
                 private boolean chatNotify;
                 @SerializedName("greetWord")
                 private String greetWord;
+                @SerializedName("picCpm")
+                private int picCpm;
 
 
 
@@ -482,6 +484,14 @@ public class LoginBean extends BaseBean {
 
                 public void setGreetWord(String greetWord) {
                     this.greetWord = greetWord == null ? "" : greetWord;
+                }
+
+                public int getPicCpm() {
+                    return picCpm;
+                }
+
+                public void setPicCpm(int picCpm) {
+                    this.picCpm = picCpm;
                 }
             }
 

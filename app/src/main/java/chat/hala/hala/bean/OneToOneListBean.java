@@ -162,6 +162,8 @@ public class OneToOneListBean extends BaseBean {
 
             @SerializedName("joinfamilyAt")
             private String joinfamilyAt;
+            @SerializedName("following")
+            private boolean following;
 
 
             public int getMemberId() {
@@ -351,6 +353,14 @@ public class OneToOneListBean extends BaseBean {
 
             public void setJoinfamilyAt(String joinfamilyAt) {
                 this.joinfamilyAt = joinfamilyAt == null ? "" : joinfamilyAt;
+            }
+
+            public boolean getFollowing() {
+                return following;
+            }
+
+            public void setFollowing(boolean following) {
+                this.following = following;
             }
 
             public static class SettingBean {

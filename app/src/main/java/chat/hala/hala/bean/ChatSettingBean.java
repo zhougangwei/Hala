@@ -21,6 +21,11 @@ public class ChatSettingBean {
     private String chatCpm;
     @SerializedName("videoCpm")
     private String videoCpm;
+    @SerializedName("picCpm")
+    private String picCpm;
+
+
+
     @SerializedName("videoNotify")
     private boolean videoNotify;
     @SerializedName("audioNotify")
@@ -85,5 +90,13 @@ public class ChatSettingBean {
 
     public void setGreetWord(String greetWord) {
         this.greetWord = greetWord == null ? "" : greetWord;
+    }
+
+    public String getPicCpm() {
+        return picCpm == null ? "" : picCpm;
+    }
+
+    public void setPicCpm(String picCpm) {
+        this.picCpm = picCpm == null ? "" : picCpm;
     }
 }

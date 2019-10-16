@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,10 +15,24 @@ import java.util.Map;
 public class ExampleUnitTest4 {
     @Test
     public void addition_isCorrect() {
-        Map<String, Integer> map = new HashMap<>();
+        List<Long> datas = new ArrayList<>();
+        List<Long> ass = new ArrayList<>();
+        datas.add(1L);
+        datas.add(2L);
+        datas.add(3L);
+        datas.add(4L);
+        ass.add(1L);
+        ass.add(4L);
+        List<Long> followIds = new ArrayList<>();
+        for (int i = 0; i < datas.size(); i++) {
+            Long aLong = datas.get(i);
+            if (!ass.contains(aLong)) {
+                followIds.add(aLong);
+            }
+        }
+        System.out.println(followIds.size());
 
-        int integer = map.get("11111");
-        System.out.println(integer+"");
+
     }
 
 

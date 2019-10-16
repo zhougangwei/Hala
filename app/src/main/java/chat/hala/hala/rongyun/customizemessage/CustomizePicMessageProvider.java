@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import chat.hala.hala.R;
+import chat.hala.hala.activity.ConversationActivity;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.dialog.CommonDialog;
 import chat.hala.hala.http.RetrofitFactory;
@@ -55,7 +56,7 @@ public class CustomizePicMessageProvider extends IContainerItemProvider.MessageP
       /*  new AlertDialog.Builder(context).
                 setView().
                 create().show();*/
-      if(!AvchatInfo.isAnchor()){
+      if(!AvchatInfo.isAnchor()&&message.getMessageDirection() == Message.MessageDirection.RECEIVE){
           new CommonDialog(context)
                   .setMsg("查看此私密照片将向对方支付200金豆")
                   .setListener(new CommonDialog.OnClickListener() {
@@ -77,7 +78,7 @@ public class CustomizePicMessageProvider extends IContainerItemProvider.MessageP
     }
 
     private void payMoney(final View view, final ImageMessage content, final UIMessage message) {
-        MoneyHelper.costPicMoney(message.getUserInfo().getExtra(), new MoneyHelper.PayBack() {
+        MoneyHelper.costPicMoney(((ConversationActivity)context).getAnchorId()+"", new MoneyHelper.PayBack() {
             @Override
             public void success() {
                 if (content != null) {

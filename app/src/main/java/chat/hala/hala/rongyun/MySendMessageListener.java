@@ -24,12 +24,11 @@ public class MySendMessageListener implements RongIM.OnSendMessageListener {
     public Message onSend(Message message) {
 
         Log.e(TAG, "onSend:");
-
-      /*  if(!AvchatInfo.isAnchor()){
+        if(!AvchatInfo.isAnchor()){
             if(!judgeMoney()){
                 return null;
             }
-        }*/
+        }
         return message;
     }
 

@@ -4,6 +4,7 @@ import com.blankj.utilcode.utils.LogUtils;
 
 import java.security.PublicKey;
 
+import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.bean.MinuteBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.ProxyPostHttpRequest;
@@ -22,11 +23,20 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class MoneyHelper {
 
+    public static int money;
+
+    public static int getMoney() {
+        return money;
+    }
+
+    public static void setMoney(int money) {
+        MoneyHelper.money = money;
+    }
     /*
     * 判断当前用户是否有钱
     * */
     public static boolean judgeMoney() {
-        return false;
+        return money>0;
     }
 
     public static void costMessageMoney(int anchorId) {
@@ -51,7 +61,6 @@ public class MoneyHelper {
                         super.onError(e);
                         payBack.fail();
                     }
-
                     @Override
                     public void onGetData(MinuteBean minuteBean) {
                         if (ResultUtils.cheekSuccess(minuteBean)) {

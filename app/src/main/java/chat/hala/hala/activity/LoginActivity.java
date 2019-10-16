@@ -142,6 +142,7 @@ public class LoginActivity extends BaseActivity {
                             }
                             String action = baseBean.getData().getAction();
                             if (Contact.SIGN_UP.equals(action)) {
+                                //
                                 FillUserActivity.startFillUser(LoginActivity.this, openid, fromType, headurl, name, sex, city);
                             } else if (Contact.SIGN_IN.equals(action)) {
                                 AvchatInfo.saveBaseData(baseBean.getData().getMember(), LoginActivity.this, true);

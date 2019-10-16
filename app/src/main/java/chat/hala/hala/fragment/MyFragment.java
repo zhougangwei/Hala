@@ -3,7 +3,6 @@ package chat.hala.hala.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.constraint.Group;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,11 +12,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.activity.AboutUsActivity;
 import chat.hala.hala.activity.AnchorsActivity;
+import chat.hala.hala.activity.ApplyAnchorActivity;
 import chat.hala.hala.activity.ApplyFamilyActivity;
 import chat.hala.hala.activity.BeStarResultActivity;
 import chat.hala.hala.activity.ChargeActivity;
@@ -26,27 +28,25 @@ import chat.hala.hala.activity.FamilyManagerActivity;
 import chat.hala.hala.activity.FeedBackActivity;
 import chat.hala.hala.activity.FollowOrFansActivity;
 import chat.hala.hala.activity.JoinFamilyActivity;
-import chat.hala.hala.activity.LoginActivity;
 import chat.hala.hala.activity.LoginActivityNew;
 import chat.hala.hala.activity.MyGainActivity;
-import chat.hala.hala.activity.WalletActivity;
+import chat.hala.hala.activity.SettingActivity;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.AnchorBean;
-import chat.hala.hala.bean.BaseBean;
+import chat.hala.hala.bean.BeStarResultBean;
 import chat.hala.hala.bean.CoinBriefBean;
 import chat.hala.hala.bean.CoinListBean;
-import chat.hala.hala.bean.LoginBean;
-import chat.hala.hala.bean.MemberInfoBean;
 import chat.hala.hala.dialog.CommonDialog;
 import chat.hala.hala.dialog.ShareDialog;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.manager.MoneyHelper;
 import chat.hala.hala.rxbus.RxBus;
-import chat.hala.hala.rxbus.event.RefreshMsgEvent;
 import chat.hala.hala.rxbus.event.RefreshUserInfoEvent;
 import chat.hala.hala.utils.ResultUtils;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -85,13 +85,15 @@ public class MyFragment extends BaseFragment {
     TextView tvJoinFamily;
     @BindView(R.id.gp_income)
     Group gpInCome;
+    @BindView(R.id.gp_loginout)
+    Group gpLoginOut;
     @BindView(R.id.ll_family_manager)
     LinearLayout llFamilyManager;
 
 
     @Override
     protected void initView() {
-
+        gpLoginOut.setVisibility(View.GONE);
         if(!AvchatInfo.isLogin()){
             return;
         }
@@ -175,6 +177,7 @@ public class MyFragment extends BaseFragment {
                     @Override
                     public void onGetData(CoinBriefBean coinBriefBean) {
                         if (ResultUtils.cheekSuccess(coinBriefBean)) {
+                            MoneyHelper.setMoney(coinBriefBean.getData().getTotal());
                             tvMyMoney.setText(coinBriefBean.getData().getTotal() + "Pa币");
                         }
                     }
@@ -183,22 +186,31 @@ public class MyFragment extends BaseFragment {
             initIncome();
         }
 
-        if(AvchatInfo.isFamilyLeader()){
-            llFamilyManager.setVisibility(View.VISIBLE);
-        }else{
-            llFamilyManager.setVisibility(View.GONE);
-        }
-        if(AvchatInfo.isAnchor()){
-            tvJoinFamily.setVisibility(View.VISIBLE);
-        }else{
-            tvJoinFamily.setVisibility(View.GONE);
-        }
-        if (AvchatInfo.isAnchor()) {
-            initIncome();
-            gpInCome.setVisibility(View.VISIBLE);
-        }else{
-            gpInCome.setVisibility(View.GONE);
-        }
+        Observable.timer(
+                500, TimeUnit.MILLISECONDS
+        ).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        if(AvchatInfo.isFamilyLeader()){
+                            llFamilyManager.setVisibility(View.VISIBLE);
+                        }else{
+                            llFamilyManager.setVisibility(View.GONE);
+                        }
+                        if(AvchatInfo.isAnchor()){
+                            tvJoinFamily.setVisibility(View.VISIBLE);
+                        }else{
+                            tvJoinFamily.setVisibility(View.GONE);
+                        }
+                        if (AvchatInfo.isAnchor()) {
+                            initIncome();
+                            gpInCome.setVisibility(View.VISIBLE);
+                        }else{
+                            gpInCome.setVisibility(View.GONE);
+                        }
+                    }
+                });
+
     }
 
     @Override
@@ -210,9 +222,12 @@ public class MyFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.iv_family,R.id.tv_my_money,R.id.tv_income_value,R.id.tv_joinfamily,R.id.tv_friend,R.id.tv_fans,R.id.ll_about_us,R.id.tv_follow, R.id.tv_income,R.id.tv_edit, R.id.iv_head, R.id.tv_charge,  R.id.tv_wallet, R.id.tv_certify,R.id.ll_family_manager, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
+    @OnClick({R.id.iv_setting,R.id.iv_family,R.id.tv_my_money,R.id.tv_income_value,R.id.tv_joinfamily,R.id.tv_friend,R.id.tv_fans,R.id.ll_about_us,R.id.tv_follow, R.id.tv_income,R.id.tv_edit, R.id.iv_head, R.id.tv_charge,  R.id.tv_wallet, R.id.tv_certify,R.id.ll_family_manager, R.id.tv_feedback, R.id.tv_invite, R.id.tv_chat_setting, R.id.tv_beauty_setting, R.id.tv_loginout})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.iv_setting:
+                getActivity().startActivityForResult(new Intent(getActivity(), SettingActivity.class),Contact.REQUEST_CLOSE_MAIN);
+                break;
             case R.id.iv_family:
                 startActivity(new Intent(getActivity(), ApplyFamilyActivity.class));
                 break;
@@ -292,13 +307,13 @@ public class MyFragment extends BaseFragment {
 
     private void gotoFriend() {
         Intent intent = new Intent(getActivity(), FollowOrFansActivity.class);
-        intent.putExtra("type",FollowOrFansActivity.FRIENDS);
+        intent.putExtra("type",FansFragment.FRIENDS);
         startActivity(intent);
     }
 
     private void gotoFans() {
         Intent intent = new Intent(getActivity(), FollowOrFansActivity.class);
-        intent.putExtra("type",FollowOrFansActivity.FANS);
+        intent.putExtra("type",FansFragment.FANS);
         startActivity(intent);
     }
 
@@ -309,7 +324,7 @@ public class MyFragment extends BaseFragment {
 
     private void gotoFollow() {
         Intent intent = new Intent(getActivity(), FollowOrFansActivity.class);
-        intent.putExtra("type",FollowOrFansActivity.FOLLOW);
+        intent.putExtra("type",FansFragment.FOLLOW);
         startActivity(intent);
     }
 
@@ -347,11 +362,32 @@ public class MyFragment extends BaseFragment {
     }
 
     private void gotoCertify() {
-        startActivity(new Intent(getActivity(), BeStarResultActivity.class));
+
+        RetrofitFactory.getInstance().
+                getBeStarState()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<BeStarResultBean>() {
+                    @Override
+                    public void onGetData(BeStarResultBean beStarResultBean) {
+                        if (ResultUtils.cheekSuccess(beStarResultBean)) {
+                            switch (beStarResultBean.getData().getState()) {
+                                case BeStarResultBean.BESTAR_OPEN:
+                                    startActivityForResult(new Intent(getActivity(), ApplyAnchorActivity.class),1);
+                                    return;
+                            }
+                        }
+                        Intent intent = new Intent(getActivity(), BeStarResultActivity.class);
+                        intent.putExtra("type",beStarResultBean.getData().getState());
+                        startActivity(intent);
+                    }
+                });
+
     }
 
     private void gotoWallet() {
-        startActivity(new Intent(getActivity(), WalletActivity.class));
+        startActivity(new Intent(getActivity(),ChargeActivity.class));
+       // startActivity(new Intent(getActivity(), WalletActivity.class));
     }
 
 

@@ -21,6 +21,16 @@
         android:layout_marginBottom="12dp"
         android:layout_marginTop="12dp"
         android:gravity="center_vertical" />
+    <TextView
+        android:id="@+id/rc_coin_message"
+        style="@style/RCTheme.MessageTime"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical" />
 
     <LinearLayout
         android:id="@+id/ll_message_check"

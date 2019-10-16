@@ -18,14 +18,14 @@ import java.util.List;
 import butterknife.BindView;
 import chat.hala.hala.R;
 import chat.hala.hala.activity.AnchorsActivity;
-import chat.hala.hala.adapter.HotCallAdapter;
+
 import chat.hala.hala.adapter.NewCallAdapter;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.OneToOneListBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
-import chat.hala.hala.utils.GsonUtil;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 

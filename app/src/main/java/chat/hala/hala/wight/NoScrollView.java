@@ -11,16 +11,16 @@ import android.widget.ScrollView;
 public class NoScrollView extends ScrollView {
     public NoScrollView(Context context) {
         super(context);
+
     }
 
     public NoScrollView(Context context, AttributeSet attrs) {
-        super(context, null);
+        super(context, attrs);
     }
 
     public NoScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, null, 0);
+        super(context, attrs, defStyleAttr);
     }
-
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         return true;

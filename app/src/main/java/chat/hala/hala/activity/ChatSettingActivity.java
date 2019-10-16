@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.utils.LogUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.bean.ChatSettingBean;
+import chat.hala.hala.bean.RuleBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.ProxyPostHttpRequest;
 import chat.hala.hala.http.RetrofitFactory;
@@ -59,16 +61,23 @@ public class ChatSettingActivity extends BaseActivity {
     TextView mTvChatCoin;
     @BindView(R.id.tv_greet)
     TextView tvGreet;
+    @BindView(R.id.tv_pic_coin)
+    TextView tvPicCoin;
     @BindView(R.id.ll)
     LinearLayout mLl;
 
     public boolean mVoiceOpen;
     public boolean mVideoOpen;
     public boolean mChatOpen;
-    private String audioCpm;
-    private String chatCmp;
-    private String videoCpm;
+    private Integer audioCpm;
+    private Integer chatCmp;
+    private Integer picCmp;
+    private Integer videoCpm;
     private String greetWord;
+    private List<Integer> chatCpmSetting=new ArrayList<>();
+    private List<Integer> audioCpmSetting=new ArrayList<>();
+    private List<Integer> picCpmSetting=new ArrayList<>();
+    private List<Integer> videoCpmSetting=new ArrayList<>();
 
     @Override
     protected int getContentViewId() {
@@ -91,9 +100,10 @@ public class ChatSettingActivity extends BaseActivity {
         mIvChatSet.setSelected(mChatOpen);
         tvGreet.setText(greetWord);
 
-        mTvVideoCoin.setText(String.format(getString(R.string.coin_min), videoCpm));
-        mTvVoiceCoin.setText(String.format(getString(R.string.coin_min), audioCpm));
-        mTvChatCoin.setText(String.format(getString(R.string.coin_min), chatCmp));
+        mTvVideoCoin.setText(String.format(getString(R.string.coin_min), videoCpm+""));
+        mTvVoiceCoin.setText(String.format(getString(R.string.coin_min), audioCpm+""));
+        mTvChatCoin.setText(String.format(getString(R.string.coin_min), chatCmp+""));
+
 
     }
 
@@ -101,16 +111,34 @@ public class ChatSettingActivity extends BaseActivity {
         mVoiceOpen = AvchatInfo.getAudioNotify();
         mVideoOpen = AvchatInfo.getVideoNotify();
         mChatOpen = AvchatInfo.getChatNotify();
-        audioCpm = AvchatInfo.getAudioCpm() + "";
-        chatCmp = AvchatInfo.getChatCpm() + "";
-        videoCpm = AvchatInfo.getVideoCpm() + "";
-        greetWord = AvchatInfo.getGreetWord() + "";
+        audioCpm = AvchatInfo.getAudioCpm();
+        chatCmp = AvchatInfo.getChatCpm();
+        picCmp = AvchatInfo.getPicCpm();
+        videoCpm = AvchatInfo.getVideoCpm();
+        greetWord = AvchatInfo.getGreetWord();
+        RetrofitFactory.getInstance().getRuleList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<RuleBean>() {
+                    @Override
+                    public void onGetData(RuleBean ruleBean) {
+                        if (ResultUtils.cheekSuccess(ruleBean)) {
+                            chatCpmSetting.addAll(ruleBean.getData().getChatCpmSetting());
+                            audioCpmSetting .addAll(ruleBean.getData().getAudioCpmSetting());
+                            picCpmSetting.addAll(ruleBean.getData().getPicCpmSetting());
+                            videoCpmSetting.addAll(ruleBean.getData().getVideoCpmSetting());
+                        }
+                    }
+                });
 
     }
 
-    @OnClick({R.id.rl_zhaohu,R.id.iv_back, R.id.iv_voice_set, R.id.iv_video_set, R.id.iv_chat_set, R.id.rl_video, R.id.rl_voice, R.id.rl_chat})
+    @OnClick({R.id.rl_pic,R.id.rl_zhaohu,R.id.iv_back, R.id.iv_voice_set, R.id.iv_video_set, R.id.iv_chat_set, R.id.rl_video, R.id.rl_voice, R.id.rl_chat})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.rl_pic:
+                chosePicCpm();
+                break;
             case R.id.rl_zhaohu:
                 startActivityForResult(new Intent(this,GreetActivity.class), Contact.REQUEST_GREET);
                 break;
@@ -134,15 +162,12 @@ public class ChatSettingActivity extends BaseActivity {
                 break;
             case R.id.rl_video:
                 choseVideoCpm();
-                gotoSave();
                 break;
             case R.id.rl_voice:
                 choseVoiceCpm();
-                gotoSave();
                 break;
             case R.id.rl_chat:
                 choseChatCpm();
-                gotoSave();
                 break;
         }
     }
@@ -158,19 +183,35 @@ public class ChatSettingActivity extends BaseActivity {
     }
 
     private void choseChatCpm() {
-        String[] sexArr = new String[]{"1", "2", "3", "4","5","6","7","8","9","10"};
-        List<String> data = Arrays.asList(sexArr);
-        SinglePicker<String> picker = new SinglePicker<String>(this, data);
+        SinglePicker<Integer> picker = new SinglePicker<Integer>(this, chatCpmSetting);
         picker.setCanceledOnTouchOutside(true);
         picker.setSelectedIndex(0);
         picker.setCycleDisable(true);
         picker.setTextSize(17);
         picker.setTextPadding(10);
-        picker.setOnItemPickListener(new SinglePicker.OnItemPickListener<String>() {
+        picker.setOnItemPickListener(new SinglePicker.OnItemPickListener<Integer>() {
             @Override
-            public void onItemPicked(int index, String item) {
+            public void onItemPicked(int index, Integer item) {
                 chatCmp = item;
-                mTvChatCoin.setText(String.format(getString(R.string.coin_min), item));
+                mTvChatCoin.setText(String.format(getString(R.string.coin_min), item+""));
+                gotoSave();
+            }
+        });
+        picker.show();
+    }
+
+    private void chosePicCpm() {
+        SinglePicker<Integer> picker = new SinglePicker<Integer>(this, picCpmSetting);
+        picker.setCanceledOnTouchOutside(true);
+        picker.setSelectedIndex(0);
+        picker.setCycleDisable(true);
+        picker.setTextSize(17);
+        picker.setTextPadding(10);
+        picker.setOnItemPickListener(new SinglePicker.OnItemPickListener<Integer>() {
+            @Override
+            public void onItemPicked(int index, Integer item) {
+                picCmp = item;
+                tvPicCoin.setText(String.format(getString(R.string.coin_min), item+""));
                 gotoSave();
             }
         });
@@ -178,19 +219,20 @@ public class ChatSettingActivity extends BaseActivity {
     }
 
     private void choseVoiceCpm() {
-        String[] sexArr = new String[]{"10","15","20","25","30","35","40","45","50","55","60","65","70","75","80","85","90","95","100"};
-        List<String> data = Arrays.asList(sexArr);
-        SinglePicker<String> picker = new SinglePicker<String>(this, data);
+
+
+
+        SinglePicker<Integer> picker = new SinglePicker<Integer>(this, audioCpmSetting);
         picker.setCanceledOnTouchOutside(true);
         picker.setSelectedIndex(2);
         picker.setCycleDisable(true);
         picker.setTextSize(17);
         picker.setTextPadding(10);
-        picker.setOnItemPickListener(new SinglePicker.OnItemPickListener<String>() {
+        picker.setOnItemPickListener(new SinglePicker.OnItemPickListener<Integer>() {
             @Override
-            public void onItemPicked(int index, String item) {
+            public void onItemPicked(int index, Integer item) {
                 audioCpm = item;
-                mTvVoiceCoin.setText(String.format(getString(R.string.coin_min), item));
+                mTvVoiceCoin.setText(String.format(getString(R.string.coin_min), item+""));
                 gotoSave();
             }
         });
@@ -198,19 +240,19 @@ public class ChatSettingActivity extends BaseActivity {
     }
 
     private void choseVideoCpm() {
-        String[] sexArr = new String[]{"10","15","20","25","30","35","40","45","50","55","60","65","70","75","80","85","90","95","100"};
-        List<String> data = Arrays.asList(sexArr);
-        SinglePicker<String> picker = new SinglePicker<String>(this, data);
+
+
+        SinglePicker<Integer> picker = new SinglePicker<Integer>(this, videoCpmSetting);
         picker.setCanceledOnTouchOutside(true);
         picker.setSelectedIndex(4);
         picker.setCycleDisable(true);
         picker.setTextSize(17);
         picker.setTextPadding(10);
-        picker.setOnItemPickListener(new SinglePicker.OnItemPickListener<String>() {
+        picker.setOnItemPickListener(new SinglePicker.OnItemPickListener<Integer>() {
             @Override
-            public void onItemPicked(int index, String item) {
+            public void onItemPicked(int index, Integer item) {
                 videoCpm = item;
-                mTvVideoCoin.setText(String.format(getString(R.string.coin_min), item));
+                mTvVideoCoin.setText(String.format(getString(R.string.coin_min), item+""));
                 gotoSave();
             }
         });
@@ -221,14 +263,14 @@ public class ChatSettingActivity extends BaseActivity {
     private void gotoSave() {
 
         ChatSettingBean chatSettingBean = new ChatSettingBean();
-        chatSettingBean.setAudioCpm(audioCpm);
-        chatSettingBean.setChatCpm(chatCmp);
-        chatSettingBean.setVideoCpm(videoCpm);
+        chatSettingBean.setAudioCpm(audioCpm+"");
+        chatSettingBean.setChatCpm(chatCmp+"");
+        chatSettingBean.setVideoCpm(videoCpm+"");
+        chatSettingBean.setPicCpm(picCmp+"");
         chatSettingBean.setVideoNotify(mVideoOpen);
         chatSettingBean.setAudioNotify(mVoiceOpen);
         chatSettingBean.setChatNotify(mChatOpen);
         chatSettingBean.setGreetWord(greetWord);
-
 
         RetrofitFactory.getInstance()
                 .chatSetting(AvchatInfo.isAnchor()?"anchor":"member",ProxyPostHttpRequest.getJsonInstance().chatSetting(GsonUtil.parseObjectToJson(chatSettingBean)))
@@ -238,9 +280,10 @@ public class ChatSettingActivity extends BaseActivity {
                     @Override
                     public void onGetData(BaseBean baseBean) {
                         if (ResultUtils.cheekSuccess(baseBean)) {
-                            AvchatInfo.setAudioCpm(audioCpm);
-                            AvchatInfo.setVideoCpm(videoCpm);
-                            AvchatInfo.setChatCpm(chatCmp);
+                            AvchatInfo.setAudioCpm(audioCpm+"");
+                            AvchatInfo.setVideoCpm(videoCpm+"");
+                            AvchatInfo.setChatCpm(chatCmp+"");
+                            AvchatInfo.setPicCpm(picCmp+"");
                             AvchatInfo.setVideoNotify(mVideoOpen);
                             AvchatInfo.setAudioNotify(mVoiceOpen);
                             AvchatInfo.setChatNotify(mChatOpen);

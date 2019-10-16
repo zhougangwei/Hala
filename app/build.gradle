@@ -32,9 +32,9 @@ android {
     signingConfigs {
         release {
             keyAlias 'HalaKey'
-            keyPassword '123456'
+            keyPassword '223456'
             storeFile file('../HalaKey.jks')
-            storePassword '123456'
+            storePassword '223456'
             v2SigningEnabled false
         }
     }

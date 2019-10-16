@@ -3,6 +3,7 @@ package chat.hala.hala.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,6 +13,7 @@ import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.bean.VersionBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.utils.GsonUtil;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -31,14 +33,7 @@ public class SpalshActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        RetrofitFactory.getInstance().getVersion()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseCosumer<VersionBean>() {
-                    @Override
-                    public void onGetData(VersionBean baseBean) {
-                    }
-                });
+
         Observable.timer(1, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Long>() {

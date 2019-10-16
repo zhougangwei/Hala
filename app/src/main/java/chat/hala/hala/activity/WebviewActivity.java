@@ -20,6 +20,7 @@ import android.os.Build.VERSION;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.webkit.DownloadListener;
+import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -79,6 +80,7 @@ public class WebviewActivity extends BaseActivity {
         this.mWebView.getSettings().setDefaultTextEncodingName("utf-8");
         String url = intent.getStringExtra("url");
         Uri data = intent.getData();
+        this.mWebView.addJavascriptInterface(new HtmlInterface(), "android");
         if (url != null) {
             if (this.getResources().getBoolean(bool.rc_set_java_script_enabled)) {
                 if (url.startsWith("file://")) {
@@ -96,6 +98,31 @@ public class WebviewActivity extends BaseActivity {
         } else if (data != null) {
             this.mPrevUrl = data.toString();
             this.mWebView.loadUrl(data.toString());
+        }
+
+
+
+    }
+
+    private final class HtmlInterface {
+        @JavascriptInterface
+        public void goBack () {
+            mWebView.post(new Runnable() {
+                @Override
+                public void run() {
+                    finish();
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public void feedBack () {
+            mWebView.post(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(new Intent(WebviewActivity.this, FeedBackActivity.class));
+                }
+            });
         }
 
 

@@ -36,7 +36,7 @@ public class AboutUsActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
+        tvTitle.setText("关于Pa聊");
     }
 
 

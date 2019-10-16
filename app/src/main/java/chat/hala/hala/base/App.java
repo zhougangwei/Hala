@@ -28,6 +28,7 @@ import java.util.Locale;
 
 import chat.hala.hala.BuildConfig;
 import chat.hala.hala.activity.LoginActivity;
+import chat.hala.hala.activity.LoginActivityNew;
 import chat.hala.hala.avchat.WorkerThread;
 import chat.hala.hala.bean.BaseBean;
 import chat.hala.hala.http.BaseCosumer;
@@ -243,7 +244,7 @@ public class App extends MultiDexApplication {
      * 登录失效后去登录
      */
     public static void goLogin() {
-        Intent intent = new Intent(application, LoginActivity.class);
+        Intent intent = new Intent(application, LoginActivityNew.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         application.startActivity(intent);
 

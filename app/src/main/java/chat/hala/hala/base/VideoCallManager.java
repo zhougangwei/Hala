@@ -53,9 +53,9 @@ public class VideoCallManager {
                             RetrofitFactory.getInstance().getAnchorState(anchorId)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Consumer<AnchorStateBean>() {
+                                    .subscribe(new BaseCosumer<AnchorStateBean>() {
                                         @Override
-                                        public void accept(AnchorStateBean anchorStateBean) throws Exception {
+                                        public void onGetData(AnchorStateBean anchorStateBean)  {
                                             if (Contact.REPONSE_CODE_SUCCESS != anchorStateBean.code) {
                                                 return;
                                             }

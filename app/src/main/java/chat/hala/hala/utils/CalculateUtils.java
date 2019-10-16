@@ -77,7 +77,7 @@ public class CalculateUtils {
             sb.append(second + "秒");
         }
         if (second == 0) {
-            sb.append("<1秒");
+            sb.append("0秒");
         }
         return sb.toString();
     }catch (Exception e){

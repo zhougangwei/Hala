@@ -6,8 +6,9 @@ import com.google.gson.annotations.SerializedName;
  * @author wjy on 2019/8/16/016.
  */
 public class VersionBean extends BaseBean {
+
     /**
-     * data : {"android":{"p":false,"e":false,"v":"1.0.0","l":"http://baidu.com/","m":true},"ios":{"e":false,"v":"1.0.0","m":true}}
+     * data : {"android":{"e":false,"v":"1.0.0","l":"http://baidu.com/","m":false,"n":true,"desc":"更新了!!!"},"ios":{"e":false,"v":"1.0.2","m":false,"n":false,"desc":"更新了!"}}
      */
 
     @SerializedName("data")
@@ -23,8 +24,8 @@ public class VersionBean extends BaseBean {
 
     public static class DataBean {
         /**
-         * android : {"p":false,"e":false,"v":"1.0.0","l":"http://baidu.com/","m":true}
-         * ios : {"e":false,"v":"1.0.0","m":true}
+         * android : {"e":false,"v":"1.0.0","l":"http://baidu.com/","m":false,"n":true,"desc":"更新了!!!"}
+         * ios : {"e":false,"v":"1.0.2","m":false,"n":false,"desc":"更新了!"}
          */
 
         @SerializedName("android")
@@ -50,15 +51,14 @@ public class VersionBean extends BaseBean {
 
         public static class AndroidBean {
             /**
-             * p : false
              * e : false
              * v : 1.0.0
              * l : http://baidu.com/
-             * m : true
+             * m : false
+             * n : true
+             * desc : 更新了!!!
              */
 
-            @SerializedName("p")
-            private boolean p;
             @SerializedName("e")
             private boolean e;
             @SerializedName("v")
@@ -67,14 +67,10 @@ public class VersionBean extends BaseBean {
             private String l;
             @SerializedName("m")
             private boolean m;
-
-            public boolean isP() {
-                return p;
-            }
-
-            public void setP(boolean p) {
-                this.p = p;
-            }
+            @SerializedName("n")
+            private boolean n;
+            @SerializedName("desc")
+            private String desc;
 
             public boolean isE() {
                 return e;
@@ -107,13 +103,31 @@ public class VersionBean extends BaseBean {
             public void setM(boolean m) {
                 this.m = m;
             }
+
+            public boolean isN() {
+                return n;
+            }
+
+            public void setN(boolean n) {
+                this.n = n;
+            }
+
+            public String getDesc() {
+                return desc;
+            }
+
+            public void setDesc(String desc) {
+                this.desc = desc;
+            }
         }
 
         public static class IosBean {
             /**
              * e : false
-             * v : 1.0.0
-             * m : true
+             * v : 1.0.2
+             * m : false
+             * n : false
+             * desc : 更新了!
              */
 
             @SerializedName("e")
@@ -122,6 +136,10 @@ public class VersionBean extends BaseBean {
             private String v;
             @SerializedName("m")
             private boolean m;
+            @SerializedName("n")
+            private boolean n;
+            @SerializedName("desc")
+            private String desc;
 
             public boolean isE() {
                 return e;
@@ -145,6 +163,22 @@ public class VersionBean extends BaseBean {
 
             public void setM(boolean m) {
                 this.m = m;
+            }
+
+            public boolean isN() {
+                return n;
+            }
+
+            public void setN(boolean n) {
+                this.n = n;
+            }
+
+            public String getDesc() {
+                return desc;
+            }
+
+            public void setDesc(String desc) {
+                this.desc = desc;
             }
         }
     }

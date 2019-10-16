@@ -72,7 +72,6 @@
                 android:layout_height="29dp"
                 android:layout_alignBottom="@+id/tv_id"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="15dp"
                 android:background="@drawable/bg_invite_anchor"
                 android:gravity="center"
                 android:paddingStart="12dp"

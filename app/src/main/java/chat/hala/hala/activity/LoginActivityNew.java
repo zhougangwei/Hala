@@ -48,8 +48,10 @@ import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.AssetUtils;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.RandomUtils;
+import chat.hala.hala.utils.StatusbarUtils;
 import chat.hala.hala.utils.ToastUtils;
 import chat.hala.hala.weixinqq.NetworkUtil;
+import chat.hala.hala.wight.NoScrollView;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -65,8 +67,8 @@ public class LoginActivityNew extends BaseActivity {
     @BindView(R.id.tv_phone)
     TextView tvPhone;
 
-    @BindView(R.id.scroll_view)
-    ScrollView scrollView;
+    @BindView(R.id.scrolview)
+    NoScrollView scrollView;
     @BindView(R.id.iv_bg)
     ImageView ivBg;
 
@@ -191,6 +193,7 @@ public class LoginActivityNew extends BaseActivity {
 
     @Override
     protected void initView() {
+        StatusbarUtils.hideStatusbar(this);
         scrollView.setEnabled(false);
         initWeixin();
         initQiniu();
@@ -329,21 +332,19 @@ public class LoginActivityNew extends BaseActivity {
         return "";
     }
 
-    private void startConfirm(final String openId, String headurl, String mobileNumber, int sex, String city) {
-        String birthDate ="2000-10-14";
+    private void startConfirm(final String openId, String headurl, String name, int sex, String city) {
+        String birthDate ="2000-1-1";
         String json = AssetUtils.getJson(this, "name.json");
-        String username ="";
         List<RandomNameBean> objects = GsonUtil.parseJsonToList(json, new TypeToken<List<RandomNameBean>>() {
         }.getType());
-        if(TextUtils.isEmpty(username)){
-            username=objects.get(new Random().nextInt(objects.size())).getName()+ RandomUtils.getRandomString();
+        if(TextUtils.isEmpty(name)){
+            name=objects.get(new Random().nextInt(objects.size())).getName()+ RandomUtils.getRandomString();
         }
         Observable<RegistBean> regist = null;
         EditUserBean editUserBean = new EditUserBean();
-        editUserBean.setNickname(username);
+        editUserBean.setNickname(name);
         editUserBean.setBirthDate(birthDate);
         editUserBean.setGender(sex + "");
-        editUserBean.setMobileNumber(mobileNumber);
         editUserBean.setResidentialPlace(city);
         List<EditUserBean.AlbumBean> album = new ArrayList<>();
         if (!TextUtils.isEmpty(headurl)){
