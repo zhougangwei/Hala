@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chat.hala.hala.R;
+import chat.hala.hala.activity.WebviewActivity2;
+import chat.hala.hala.bean.AdBean;
 import chat.hala.hala.bean.OneToOneListBean;
 import chat.hala.hala.wight.GlideImageLoader;
 import chat.hala.hala.wight.banner.Banner;
@@ -31,18 +33,17 @@ import chat.hala.hala.wight.banner.listener.OnBannerListener;
 public class HotCallAdapter extends BaseMultiItemQuickAdapter<OneToOneListBean.DataBean.ListBean, BaseViewHolder> {
 
 
-    private List<String> imagesList;
+    private List<AdBean.DataBean> imagesList;
     private Banner banner;
     private Context context;
 
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
-     *
-     * @param data       A new list is created out of this one to avoid mutable list
+     *  @param data       A new list is created out of this one to avoid mutable list
      * @param imagesList
      */
-    public HotCallAdapter(List<OneToOneListBean.DataBean.ListBean> data, List<String> imagesList, Context context) {
+    public HotCallAdapter(List<OneToOneListBean.DataBean.ListBean> data, List<AdBean.DataBean> imagesList, Context context) {
         super(data);
         addItemType(OneToOneListBean.DataBean.ListBean.BANNER, R.layout.item_hotfragment_header);
         addItemType(OneToOneListBean.DataBean.ListBean.NORMAL, R.layout.item_hot_list);
@@ -101,12 +102,20 @@ public class HotCallAdapter extends BaseMultiItemQuickAdapter<OneToOneListBean.D
         }
     }
         private void banner () {
+            List<String> uriList = new ArrayList<>();
+            for (int i = 0; i < imagesList.size(); i++) {
+                String mediaUrl = imagesList.get(i).getMediaUrl();
+                uriList.add(mediaUrl);
+            }
             banner.setIndicatorGravity(BannerConfig.RIGHT)
-                    .setImages(imagesList)
+                    .setImages(uriList)
                     .setImageLoader(new GlideImageLoader())
                     .setOnBannerListener(new OnBannerListener() {
                         @Override
                         public void OnBannerClick(int position) {
+                            AdBean.DataBean dataBean = imagesList.get(position);
+                            String pointTo = dataBean.getPointTo();
+                            WebviewActivity2.startActivity(mContext,pointTo,dataBean.getLocate());
                         }
                     })
                     .start();

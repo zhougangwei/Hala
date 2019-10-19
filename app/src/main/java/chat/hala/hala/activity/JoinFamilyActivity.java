@@ -99,6 +99,9 @@ public class JoinFamilyActivity extends BaseActivity {
                     public void onGetData(BaseBean baseBean) {
                         if (ResultUtils.cheekSuccess(baseBean)) {
                             ToastUtils.showToast(JoinFamilyActivity.this, "加入成功!");
+                        }else
+                        {
+                            ToastUtils.showToast(JoinFamilyActivity.this, "找不到该家族!");
                         }
                     }
                 });

@@ -58,7 +58,7 @@ public class CustomizePicMessageProvider extends IContainerItemProvider.MessageP
                 create().show();*/
       if(!AvchatInfo.isAnchor()&&message.getMessageDirection() == Message.MessageDirection.RECEIVE){
           new CommonDialog(context)
-                  .setMsg("查看此私密照片将向对方支付200金豆")
+                  .setMsg("查看此私密照片将向对方支付"+((ConversationActivity)context).getPicCpm()+"Pa币")
                   .setListener(new CommonDialog.OnClickListener() {
                       @Override
                       public void onClickConfirm() {

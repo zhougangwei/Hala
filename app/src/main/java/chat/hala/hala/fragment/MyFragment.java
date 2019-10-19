@@ -24,6 +24,7 @@ import chat.hala.hala.activity.ApplyFamilyActivity;
 import chat.hala.hala.activity.BeStarResultActivity;
 import chat.hala.hala.activity.ChargeActivity;
 import chat.hala.hala.activity.ChatSettingActivity;
+import chat.hala.hala.activity.FUBeautyActivity;
 import chat.hala.hala.activity.FamilyManagerActivity;
 import chat.hala.hala.activity.FeedBackActivity;
 import chat.hala.hala.activity.FollowOrFansActivity;
@@ -112,8 +113,6 @@ public class MyFragment extends BaseFragment {
             }
         });
         intanceBus .addSubscription(this,disposable);
-
-
 
 
     }
@@ -342,7 +341,7 @@ public class MyFragment extends BaseFragment {
     }
 
     private void gotoBeautySetting() {
-
+        startActivity(new Intent(getActivity(), FUBeautyActivity.class));
     }
 
     private void gotoChatSetting() {

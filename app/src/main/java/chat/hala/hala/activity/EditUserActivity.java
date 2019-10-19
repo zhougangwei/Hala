@@ -475,7 +475,7 @@ public class EditUserActivity extends BaseActivity {
         dataBean.setHeight(height);
         dataBean.setWeight(weight);
         RetrofitFactory.getInstance()
-                .changeUserInfo(ProxyPostHttpRequest.getJsonInstance().changeUserInfo(GsonUtil.parseObjectToJson(dataBean)),
+                .    changeUserInfo(ProxyPostHttpRequest.getJsonInstance().changeUserInfo(GsonUtil.parseObjectToJson(dataBean)),
                         AvchatInfo.isAnchor() ? "anchor" : "member"
                 )
                 .subscribeOn(Schedulers.io())

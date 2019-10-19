@@ -34,6 +34,8 @@ public class ConversationActivity extends BaseActivity  {
 
 
     public static final String TAG="ConversationActivity";
+    private int picCpm;
+    private int chatCpm;
 
 
     @Override
@@ -70,6 +72,8 @@ public class ConversationActivity extends BaseActivity  {
                     public void onGetData(AnchorBean anchorBean) {
                         if (ResultUtils.cheekSuccess(anchorBean)) {
                             anchorId = anchorBean.getData().getAnchorId();
+                            picCpm = anchorBean.getData().getSetting().getPicCpm();
+                            chatCpm = anchorBean.getData().getSetting().getChatCpm();
                         }
                     }
                 });
@@ -99,5 +103,21 @@ public class ConversationActivity extends BaseActivity  {
 
     public void setMemberId(int memberId) {
         this.memberId = memberId;
+    }
+
+    public int getPicCpm() {
+        return picCpm;
+    }
+
+    public void setPicCpm(int picCpm) {
+        this.picCpm = picCpm;
+    }
+
+    public int getChatCpm() {
+        return chatCpm;
+    }
+
+    public void setChatCpm(int chatCpm) {
+        this.chatCpm = chatCpm;
     }
 }

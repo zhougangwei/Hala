@@ -15,6 +15,7 @@ import android.util.Log;
 
 import com.blankj.utilcode.utils.LogUtils;
 import com.facebook.FacebookSdk;
+import com.faceunity.FURenderer;
 import com.getui.gs.ias.core.GsConfig;
 import com.getui.gs.sdk.GsManager;
 import com.igexin.sdk.PushManager;
@@ -98,6 +99,7 @@ public class App extends MultiDexApplication {
             application = this;
             sContext = this;
             initRong();
+            FURenderer.initFURenderer(this);
             initGetui();
             initRxjava();
             LogUtils.init(this, true, false, 'v', "Hala");

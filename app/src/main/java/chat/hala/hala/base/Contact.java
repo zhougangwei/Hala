@@ -1,11 +1,14 @@
 package chat.hala.hala.base;
 
 public class Contact {
-   //public static final String UPLOAD_HOST = "http://47.244.164.243";
-   //public static final String HOST = "http://47.244.164.243";
+    public static final String UPLOAD_HOST = "http://47.244.164.243";
+    public static final String HOST = "http://47.244.164.243";
 
-    public static final String UPLOAD_HOST = "http://18p8166y92.iok.la:51775";
-    public static final String HOST        = "http://18p8166y92.iok.la:51775";
+   //public static final String UPLOAD_HOST = "http://18p8166y92.iok.la:51775";
+   //public static final String HOST        = "http://18p8166y92.iok.la:51775";
+
+  //public static final String UPLOAD_HOST = "http://273wp37235.qicp.vip:32794";
+  //public static final String HOST        = "http://273wp37235.qicp.vip:32794";
 
    //public static final String UPLOAD_HOST = "http://192.168.124.22:8081";
    //public static final String HOST = "http://192.168.124.22:8081";

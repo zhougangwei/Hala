@@ -210,6 +210,7 @@
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.ChargeListActivity" />
         <activity android:name=".activity.WebviewActivity2" />
+        <activity android:name=".activity.FUBeautyActivity" />
 
         <service
             android:name=".service.DemoPushService"
@@ -226,6 +227,7 @@
                 <action android:name="io.rong.push.intent.THIRD_PARTY_PUSH_STATE" />
             </intent-filter>
         </receiver>
+        <service android:name=".service.DownloadServiceSe"></service>
     </application>
 
 </manifest>

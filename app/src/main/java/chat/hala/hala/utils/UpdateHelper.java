@@ -43,9 +43,7 @@ public class UpdateHelper {
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            if (!android.isM())     //强制更新
-                                return;
-                            if (!android.isN())    //需要更新
+                            if (!android.isM()&&!android.isN())     //强制更新
                                 return;
                             VersionUpdateDialog dialog = new VersionUpdateDialog(context, android);
                             dialog.setCancelable(false);

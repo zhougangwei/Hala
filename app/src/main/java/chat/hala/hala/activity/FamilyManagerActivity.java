@@ -76,6 +76,7 @@ public class FamilyManagerActivity extends BaseActivity {
                 break;
             case R.id.tv_family_manager:
                 vp.setCurrentItem(0);
+                ivBack.setImageResource(R.drawable.ic_back_white);
                 iv1.setVisibility(View.VISIBLE);
                 iv2.setVisibility(View.GONE);
                 tvAnchorManager.setTextColor(Color.WHITE);
@@ -85,6 +86,7 @@ public class FamilyManagerActivity extends BaseActivity {
                 break;
             case R.id.tv_anchor_manager:
                 vp.setCurrentItem(1);
+                ivBack.setImageResource(R.drawable.ic_back);
                 iv1.setVisibility(View.GONE);
                 iv2.setVisibility(View.VISIBLE);
                 tvAnchorManager.setTextColor(Color.BLACK);

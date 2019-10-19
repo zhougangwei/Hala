@@ -569,7 +569,7 @@ public class WorkerThread extends Thread {
                 LogUtils.e(Log.getStackTraceString(e));
                 throw new RuntimeException("NEED TO check rtc sdk init fatal error\n" + Log.getStackTraceString(e));
             }
-            mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_COMMUNICATION);
+            mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
             mRtcEngine.enableVideo();
             mRtcEngine.enableAudioVolumeIndication(200, 3); // 200 ms
         }

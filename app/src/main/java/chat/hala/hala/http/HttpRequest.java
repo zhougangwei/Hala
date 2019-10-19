@@ -13,6 +13,7 @@ import chat.hala.hala.bean.BeStarResultBean;
 import chat.hala.hala.bean.CallBean;
 import chat.hala.hala.bean.CallListBean;
 import chat.hala.hala.bean.CallStateBean;
+import chat.hala.hala.bean.ChargeListBean;
 import chat.hala.hala.bean.CoinBriefBean;
 import chat.hala.hala.bean.CoinListBean;
 import chat.hala.hala.bean.FamilyAnchorBean;
@@ -214,7 +215,6 @@ public interface HttpRequest {
     @POST("/call/anchor/{anchorId}/{memberId}/{type}")
     Observable<CallBean> callAnchor(@Path("anchorId") int anchor,@Path("memberId") int memberId,@Path("type") String type);
 
-
     /*
     * 获取钱的价格
     * */
@@ -358,7 +358,8 @@ public interface HttpRequest {
     RequestBody applyFamily(@JsonQuery String dataJson
     );
 
-    @POST("/coin/rechargelist")
-    Observable<BaseBean> getMemberRechargeList();
+    @GET("/coin/rechargelist")
+    Observable<ChargeListBean> getMemberRechargeList(@Query("page") int page, @Query("size") int size);
+
 
 }

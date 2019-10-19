@@ -29,6 +29,7 @@ public class AdBean extends BaseBean {
         private int sortby;
         private String createdAt;
         private String updatedAt;
+        private String pointTo;
 
         public int getId() {
             return id;
@@ -76,6 +77,14 @@ public class AdBean extends BaseBean {
 
         public void setUpdatedAt(String updatedAt) {
             this.updatedAt = updatedAt;
+        }
+
+        public String getPointTo() {
+            return pointTo == null ? "" : pointTo;
+        }
+
+        public void setPointTo(String pointTo) {
+            this.pointTo = pointTo == null ? "" : pointTo;
         }
     }
 }

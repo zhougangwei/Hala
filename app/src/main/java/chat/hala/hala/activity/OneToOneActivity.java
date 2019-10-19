@@ -3,7 +3,11 @@ package chat.hala.hala.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.opengl.GLSurfaceView;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -16,6 +20,10 @@ import com.blankj.utilcode.utils.LogUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.faceunity.FURenderer;
+import com.faceunity.encoder.MediaVideoEncoder;
+import com.faceunity.gles.core.GlUtil;
+import com.faceunity.utils.Constant;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +34,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
+
 import chat.hala.hala.avchat.AGEventHandler;
 import chat.hala.hala.avchat.AVChatSoundPlayer;
 import chat.hala.hala.avchat.AvchatInfo;
@@ -47,9 +56,15 @@ import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ResultUtils;
 import chat.hala.hala.utils.TimeUtil;
+import io.agora.kit.media.VideoManager;
+import io.agora.kit.media.capture.VideoCaptureFrame;
+import io.agora.kit.media.connector.SinkConnector;
+import io.agora.rtc.Constants;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
-import io.agora.rtc.video.VideoCanvas;
+import io.agora.rtc.mediaio.AgoraTextureView;
+import io.agora.rtc.mediaio.MediaIO;
+import io.agora.rtc.video.VideoEncoderConfiguration;
 import io.agora.rtm.ErrorInfo;
 import io.agora.rtm.LocalInvitation;
 import io.agora.rtm.RemoteInvitation;
@@ -82,10 +97,10 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     RelativeLayout rl_prepare;
 
 
-    @BindView(R.id.remote_video_view_container)
-    FrameLayout remoteVideoViewContainer;
+    @BindView(R.id.remote_video_view)
+    AgoraTextureView mRemoteView;
     @BindView(R.id.local_video_view_container)
-    FrameLayout localVideoViewContainer;
+    FrameLayout mLocalViewContainer;
     @BindView(R.id.iv_hangup)
     ImageView ivHangup;
     @BindView(R.id.iv_camera_off)
@@ -121,9 +136,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     private boolean doOutCall;
 
 
-    private static final int RTM_HANG_UP = 1;
-    private static final int RTM_DO_CALL = 2;
-    private static final int RTM_ANSWER = 3;
+
     private boolean mIsCallInRefuse;
     private String channelId;       //渠道Id
     private String imageUrl;       //
@@ -148,6 +161,19 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     private boolean enableVideo;        //声音还是视频
     private boolean muteCamera;
 
+    private int mRemoteUid = -1;
+    private int mSmallHeight;
+    private int mSmallWidth;
+    private float x_position;
+    private float y_position;
+    private FURenderer mFURenderer;
+    private GLSurfaceView mGLSurfaceViewLocal;
+    private volatile boolean mFUInit;
+    private VideoManager mVideoManager;
+    private int mImageWidth;
+    private int mImageHeight;
+    private MediaVideoEncoder mVideoEncoder;
+    private long mVideoRecordingStartTime = 0;
 
     /**
      * @param context
@@ -211,7 +237,6 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         }
         LogUtils.e(TAG, "channelId: " + channelId + " callId :" + callId + " otherId :" + otherId + " myId:" + myId);
 
-
     }
 
     @SuppressLint("CheckResult")
@@ -248,39 +273,116 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     protected void initView() {
 
         showPreView();
+        initUIAndEvent();
         initAgoraEngineAndJoinChannel();
     }
 
-    private void showPreView() {
-        rl_prepare.setVisibility(View.VISIBLE);
-        rlOnshow.setVisibility(View.GONE);
-        AVChatSoundPlayer.instance().play(AVChatSoundPlayer.RingerTypeEnum.RING);
-        if (doOutCall) {
-            ivAnchorAnswer.setVisibility(View.GONE);
-            tv7.setVisibility(View.GONE);
-            ivHangupPrepareAnchor.setVisibility(View.GONE);
-            tv6.setVisibility(View.GONE);
-            ivHangupPrepareAudience.setVisibility(View.VISIBLE);
-            tv5.setVisibility(View.VISIBLE);
-            getAnchorData();
-            tvName.setText(name);
-        } else {
-            ivAnchorAnswer.setVisibility(View.VISIBLE);
-            tv7.setVisibility(View.VISIBLE);
-            ivHangupPrepareAnchor.setVisibility(View.VISIBLE);
-            tv6.setVisibility(View.VISIBLE);
-            ivHangupPrepareAudience.setVisibility(View.GONE);
-            tv5.setVisibility(View.GONE);
-            tvName.setText(name);
-            Glide.with(OneToOneActivity.this)
-                    .load(imageUrl)
-                    .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(ivHead.getDrawable()))
-                    .into(ivHead);
-            tvMinuteCost.setVisibility(View.INVISIBLE);
-            tv_message.setText(message);
-        }
 
+    private SinkConnector<VideoCaptureFrame> mEffectHandler = new SinkConnector<VideoCaptureFrame>() {
+        @Override
+        public int onDataAvailable(VideoCaptureFrame data) {
+            mImageHeight = data.mFormat.getHeight();
+            mImageWidth = data.mFormat.getWidth();
+
+            int fuTextureId = mFURenderer.onDrawFrame(data.mImage, data.mTextureId,
+                    data.mFormat.getWidth(), data.mFormat.getHeight());
+            sendRecordingData(fuTextureId, data.mTexMatrix, data.mTimeStamp / Constant.NANO_IN_ONE_MILLI_SECOND);
+            return fuTextureId;
+        }
+    };
+
+    protected void initUIAndEvent() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+
+        mSmallHeight = height / 3;
+        mSmallWidth = width / 3;
+        x_position = width - mSmallWidth - convert(16);
+        y_position = convert(70);
+
+        // The settings of FURender may be slightly different,
+        // determined when initializing the effect panel
+        mFURenderer = new FURenderer
+                .Builder(this)
+                .maxFaces(4)
+                .createEGLContext(false)
+                .setNeedFaceBeauty(true)
+                .setOnFUDebugListener(new FURenderer.OnFUDebugListener() {
+                    @Override
+                    public void onFpsChange(double fps, double renderTime) {
+
+                    }
+                })
+                .setOnTrackingStatusChangedListener(new FURenderer.OnTrackingStatusChangedListener() {
+                    @Override
+                    public void onTrackingStatusChanged(final int status) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                            }
+                        });
+                    }
+                })
+                .inputTextureType(FURenderer.FU_ADM_FLAG_EXTERNAL_OES_TEXTURE)
+                .build();
+
+        mGLSurfaceViewLocal = new GLSurfaceView(this);
+
+        bindSurfaceViewEvent();
+
+        if (mLocalViewContainer.getChildCount() > 0) {
+            mLocalViewContainer.removeAllViews();
+        }
+        mLocalViewContainer.addView(mGLSurfaceViewLocal,
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT);
+
+        mVideoManager = VideoManager.createInstance(this);
+
+        mVideoManager.allocate(width, height, 30, io.agora.kit.media.constant.Constant.CAMERA_FACING_FRONT);
+        mVideoManager.setRenderView(mGLSurfaceViewLocal);
+        mVideoManager.connectEffectHandler(mEffectHandler);
+        mVideoManager.attachToRTCEngine(worker().getRtcEngine());
+        mVideoManager.startCapture();
+
+        event().addEventHandler(this);
+        //joinChannel();
     }
+    protected void sendRecordingData(int texId, final float[] tex_matrix, final long timeStamp) {
+        if (mVideoEncoder != null) {
+            mVideoEncoder.frameAvailableSoon(texId, tex_matrix, GlUtil.IDENTITY_MATRIX);
+            if (mVideoRecordingStartTime == 0) mVideoRecordingStartTime = timeStamp;
+        }
+    }
+
+    private int convert(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+    }
+
+
+    private void bindSurfaceViewEvent() {
+        mGLSurfaceViewLocal.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View v) {
+                mGLSurfaceViewLocal.queueEvent(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!mFUInit) {
+                            mFUInit = true;
+                            mFURenderer.onSurfaceCreated();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(View v) {
+            }
+        });
+    }
+
 
     private void getAnchorData() {
         RetrofitFactory.getInstance().getAnchorData("anchor", mAnchorId)
@@ -311,16 +413,44 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                     }
                 });
     }
+    private void showPreView() {
+        rl_prepare.setVisibility(View.VISIBLE);
+        rlOnshow.setVisibility(View.GONE);
+        AVChatSoundPlayer.instance().play(AVChatSoundPlayer.RingerTypeEnum.RING);
+        if (doOutCall) {
+            ivAnchorAnswer.setVisibility(View.GONE);
+            tv7.setVisibility(View.GONE);
+            ivHangupPrepareAnchor.setVisibility(View.GONE);
+            tv6.setVisibility(View.GONE);
+            ivHangupPrepareAudience.setVisibility(View.VISIBLE);
+            tv5.setVisibility(View.VISIBLE);
+            getAnchorData();
+            tvName.setText(name);
+        } else {
+            ivAnchorAnswer.setVisibility(View.VISIBLE);
+            tv7.setVisibility(View.VISIBLE);
+            ivHangupPrepareAnchor.setVisibility(View.VISIBLE);
+            tv6.setVisibility(View.VISIBLE);
+            ivHangupPrepareAudience.setVisibility(View.GONE);
+            tv5.setVisibility(View.GONE);
+            tvName.setText(name);
+            Glide.with(OneToOneActivity.this)
+                    .load(imageUrl)
+                    .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(ivHead.getDrawable()))
+                    .into(ivHead);
+            tvMinuteCost.setVisibility(View.INVISIBLE);
+            tv_message.setText(message);
+        }
 
+    }
     private void initAgoraEngineAndJoinChannel() {
-        this.event().addEventHandler(this);
+        //this.event().addEventHandler(this);
         if(enableVideo){
             rtcEngine().enableLocalVideo(true);
         }else{
             rtcEngine().enableLocalVideo(false);
-
         }
-        setupLocalVideo();
+       // setupLocalVideo();
         RetrofitFactory.getInstance().getMediaToken(channelId).subscribeOn(Schedulers.io())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -343,28 +473,24 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     private void setupLocalVideo() {
         SurfaceView surfaceView = RtcEngine.CreateRendererView(getBaseContext());
         surfaceView.setZOrderMediaOverlay(true);
-        localVideoViewContainer.addView(surfaceView);
+        mLocalViewContainer.addView(surfaceView);
         worker().preview(true, surfaceView, 0);
 
     }
 
     private void joinChannel() {
+        rtcEngine().setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
+        worker().configEngine(
+                VideoEncoderConfiguration.VD_640x360,null,null);
         worker().joinChannel(AvchatInfo.getMediaToken(), channelId, myId);
     }
 
 
     private void setupRemoteVideo(int uid) {
-
-        if (remoteVideoViewContainer.getChildCount() >= 1) {
-            return;
-        }
-        SurfaceView surfaceView = RtcEngine.CreateRendererView(getBaseContext());
-
-        remoteVideoViewContainer.addView(surfaceView);
-        rtcEngine().setupRemoteVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_HIDDEN, uid));
-        surfaceView.setTag(uid); // for mark purpose
-
-
+        mRemoteUid = uid;
+        mRemoteView.setBufferType(MediaIO.BufferType.BYTE_ARRAY);
+        mRemoteView.setPixelFormat(MediaIO.PixelFormat.I420);
+        rtcEngine().setRemoteVideoRenderer(uid, mRemoteView);
     }
 
 
@@ -398,8 +524,13 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 answer();
                 break;
             case R.id.iv_hangup:
-                callOutHangup();
+                //callOutHangup();
                 changeCallState(Call_SUCCEED_HUNG_UP);
+                AVChatSoundPlayer.instance().stop();
+                worker().hangupTheCall(null);
+                if (mSubscribe != null && mSubscribe.isDisposed()) {
+                    mSubscribe.dispose();
+                }
                 break;
             case R.id.iv_camera_off:
                 // TODO: 2019/6/30 0030 ga
@@ -478,7 +609,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         LogUtils.e(TAG, "callId:" + callId);
         callstate = mcallstate;
         RetrofitFactory.getInstance()
-                .changeCallState(ProxyPostHttpRequest.getInstance().changeCallState(callstate, callTime), callId,lootId)
+                .changeCallState(ProxyPostHttpRequest.getInstance().changeCallState(callstate, callTime), callId,lootId==null?0:lootId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<CallStateBean>() {
@@ -489,6 +620,8 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                             if (Call_SUCCEED_HUNG_UP.equals(mcallstate)) {
                                 if (!AvchatInfo.isAnchor()) {
                                     gotoVideoFinsh(anchorName, callStateBean.getData().getDurationSeconds(), callStateBean.getData().getWorth() + "", anchorUrl);
+                                    finish();
+                                }else{
                                     finish();
                                 }
                             }
@@ -525,12 +658,20 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         super.onDestroy();
         if (mSubscribe != null && mSubscribe.isDisposed()) {
             mSubscribe.dispose();
-
         }
         AvchatInfo.setIsInCall(false);
         worker().leaveChannel(channelId);
         this.event().removeEventHandler(this);
         AVChatSoundPlayer.instance().stop();
+
+        if (mVideoManager!=null) {
+            mVideoManager.stopCapture();
+            mVideoManager.deallocate();
+        }
+        if (mFURenderer!=null) {
+            mFURenderer.onSurfaceDestroyed();
+        }
+        mFUInit = false;
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.util.Log;
 import chat.hala.hala.activity.ConversationActivity;
 import chat.hala.hala.base.VideoCallManager;
 import chat.hala.hala.rongyun.customizemessage.CustomizeHongbaoMessage;
+import chat.hala.hala.rongyun.customizemessage.CustomizeVideoMessage;
 import io.rong.imkit.R;
 import io.rong.imkit.RongExtension;
 import io.rong.imkit.RongIM;
@@ -36,7 +37,7 @@ public class VoiceCallPlugin implements IPluginModule {
   @Override
   public void onClick(Fragment currentFragment, RongExtension extension) {
     // TODO: 2019/8/8/008 进行打电话
-    CustomizeHongbaoMessage myTextMessage = CustomizeHongbaoMessage.obtain("9.99");
+    CustomizeVideoMessage myTextMessage = CustomizeVideoMessage.obtain(CustomizeVideoMessage.VOICE_CALL);
     Message myMessage = Message.obtain(((ConversationFragment)currentFragment).getTargetId(), Conversation.ConversationType.PRIVATE, myTextMessage);
     RongIM.getInstance().sendMessage(myMessage, null, null, new IRongCallback.ISendMessageCallback() {
       @Override

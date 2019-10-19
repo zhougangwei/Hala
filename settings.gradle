@@ -1,1 +1,1 @@
-include ':app', ':IMKit', ':IMLib' ,'RedPacket',':doubledatepicker'
+include ':app', ':IMKit', ':IMLib' ,'RedPacket',':doubledatepicker','faceunity','video_capturer_and_renderer'

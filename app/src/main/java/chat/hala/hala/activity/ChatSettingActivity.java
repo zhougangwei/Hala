@@ -103,6 +103,7 @@ public class ChatSettingActivity extends BaseActivity {
         mTvVideoCoin.setText(String.format(getString(R.string.coin_min), videoCpm+""));
         mTvVoiceCoin.setText(String.format(getString(R.string.coin_min), audioCpm+""));
         mTvChatCoin.setText(String.format(getString(R.string.coin_min), chatCmp+""));
+        tvPicCoin.setText(String.format(getString(R.string.coin_min), picCmp+""));
 
 
     }

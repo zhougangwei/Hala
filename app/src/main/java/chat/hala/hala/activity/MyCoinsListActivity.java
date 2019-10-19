@@ -63,21 +63,16 @@ public class MyCoinsListActivity extends BaseActivity {
         adapter = new CoinListAdapter(R.layout.item_coin_list, callList);
         rv.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                RetrofitFactory.getInstance().readMessage("coin")
-                        .subscribeOn(Schedulers.io())
-                        .subscribe(new BaseCosumer<BaseBean>() {
-                            @Override
-                            public void onGetData(BaseBean baseBean) {
-                                if (ResultUtils.cheekSuccess(baseBean)) {
-                                    RxBus.getIntanceBus().post(new RefreshMsgEvent(RefreshMsgEvent.MSG_COIN));
-                                }
-                            }
-                        });
-            }
-        });
+        RetrofitFactory.getInstance().readMessage("coin")
+                .subscribeOn(Schedulers.io())
+                .subscribe(new BaseCosumer<BaseBean>() {
+                    @Override
+                    public void onGetData(BaseBean baseBean) {
+                        if (ResultUtils.cheekSuccess(baseBean)) {
+                            RxBus.getIntanceBus().post(new RefreshMsgEvent(RefreshMsgEvent.MSG_COIN));
+                        }
+                    }
+                });
         getData();
     }
 

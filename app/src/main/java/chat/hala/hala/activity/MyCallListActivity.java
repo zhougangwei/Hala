@@ -67,20 +67,18 @@ public class MyCallListActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, final int position) {
             VideoCallManager.gotoCallAnchor(MyCallListActivity.this,VideoCallManager.VIDEO_CALL,callList.get(position).getAnchorId(),callList.get(position).getTargetInfo().getId());
-            RetrofitFactory.getInstance().readMessage("call")
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(new BaseCosumer<BaseBean>() {
-                        @Override
-                        public void onGetData(BaseBean baseBean) {
-                            if (ResultUtils.cheekSuccess(baseBean)) {
-                                RxBus.getIntanceBus().post(new RefreshMsgEvent(RefreshMsgEvent.MSG_COIN));
-                            }
-                        }
-                    });
-
             }
         });
-
+        RetrofitFactory.getInstance().readMessage("call")
+                .subscribeOn(Schedulers.io())
+                .subscribe(new BaseCosumer<BaseBean>() {
+                    @Override
+                    public void onGetData(BaseBean baseBean) {
+                        if (ResultUtils.cheekSuccess(baseBean)) {
+                            RxBus.getIntanceBus().post(new RefreshMsgEvent(RefreshMsgEvent.MSG_COIN));
+                        }
+                    }
+                });
         getData();
     }
 

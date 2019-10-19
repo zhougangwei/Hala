@@ -1,6 +1,7 @@
 package chat.hala.hala.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import com.blankj.utilcode.utils.LogUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.faceunity.FURenderer;
 import com.igexin.sdk.PushManager;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -26,6 +28,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import chat.hala.hala.R;
 import chat.hala.hala.adapter.TabAdapter;
+import chat.hala.hala.agore.entity.BeautyParameterModel;
+import chat.hala.hala.agore.entity.FilterEnum;
 import chat.hala.hala.avchat.AGEventHandler;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.avchat.EngineConfig;
@@ -36,18 +40,26 @@ import chat.hala.hala.base.App;
 import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.AnchorBean;
+import chat.hala.hala.bean.BeautyBean;
 import chat.hala.hala.bean.LoginBean;
+import chat.hala.hala.bean.MessageUnreadBean;
 import chat.hala.hala.bean.QiNiuToken;
 import chat.hala.hala.bean.RongToken;
 import chat.hala.hala.bean.RtmCallBean;
 import chat.hala.hala.bean.RtmTokenBean;
 import chat.hala.hala.bean.VersionBean;
 import chat.hala.hala.dialog.CommonDialog;
+import chat.hala.hala.dialog.ReverseSuccessDialog;
+import chat.hala.hala.fragment.MessageListFragment;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
+import chat.hala.hala.rxbus.RxBus;
+import chat.hala.hala.rxbus.event.RefreshMsgCount;
+import chat.hala.hala.rxbus.event.ReverseSuccessEvent;
 import chat.hala.hala.utils.GsonUtil;
 import chat.hala.hala.utils.ResultUtils;
 import chat.hala.hala.utils.SPUtil;
+import chat.hala.hala.utils.UpdateHelper;
 import chat.hala.hala.wight.NoScrollViewPager;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
@@ -56,10 +68,13 @@ import io.agora.rtm.LocalInvitation;
 import io.agora.rtm.RemoteInvitation;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.manager.IUnReadMessageObserver;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
 
 import static com.igexin.push.util.EncryptUtils.getVersion;
@@ -81,6 +96,8 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     TextView ivFollow;
     @BindView(R.id.iv_qiuliao)
     TextView ivQiuliao;
+    @BindView(R.id.tv_count)
+    TextView tvCount;
 
 
 
@@ -88,6 +105,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
     private TabAdapter mTabAdapter;
 
     List<TextView> viewList = new ArrayList<>();
+    private static int MessageCount;
 
 
     @Override
@@ -97,7 +115,6 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
 
     @Override
     protected void beforeInitView() {
-
     }
 
     private void initRongIm() {
@@ -127,6 +144,21 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                                         }
                                     }, true);
                                    RongIM.getInstance().setCurrentUserInfo(userInfo);
+                                   RongIM.getInstance().addUnReadMessageCountChangedObserver(new IUnReadMessageObserver() {
+                                     @Override
+                                     public void onCountChanged(int i) {
+                                         MessageCount =i;
+                                         int count = i + MessageListFragment.readCount;
+                                         if( count>0){
+                                             tvCount.setText(count+"");
+                                             tvCount.setVisibility(View.VISIBLE);
+                                         }else{
+                                             tvCount.setVisibility(View.GONE);
+                                         }
+
+                                     }
+                                 }, Conversation.ConversationType.PRIVATE);
+
                                     LogUtils.e(TAG, "onSuccess: " + s);
                                 }
                                 @Override
@@ -141,8 +173,6 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                         }
                     }
                 });
-
-
     }
 
     private UserInfo findUserById(int userId) {
@@ -195,13 +225,83 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
         initVideoCall();
         initChat();
         getAppVersion();
+        initBeauty();
+        initRxbus();
 
         boolean b = PushManager.getInstance().bindAlias(this, AvchatInfo.getMemberId() + "");
         System.out.println(b+"");
     }
 
-    private void getAppVersion() {
+    private void initRxbus() {
+        final RxBus rxBus = RxBus.getIntanceBus();
+        Disposable disposable = rxBus.doSubscribe(RefreshMsgCount.class, new Consumer<RefreshMsgCount>() {
+            @Override
+            public void accept(RefreshMsgCount uiEvent) throws Exception {
+                int count = MessageCount + MessageListFragment.readCount;
+                if( count>0){
+                    tvCount.setText(count+"");
+                    tvCount.setVisibility(View.VISIBLE);
+                }else{
+                    tvCount.setVisibility(View.GONE);
+                }
+            }
+        });
+        rxBus.addSubscription(this,disposable);
+    }
 
+    private void initBeauty() {
+        String beauty = SPUtil.getInstance(this).getBeauty();
+        try {
+            if(!TextUtils.isEmpty(beauty)){
+                BeautyBean beautyBean = GsonUtil.parseJsonToBean(beauty, BeautyBean.class);
+                FURenderer.mFilterLevel=beautyBean.getmFilterLevel();
+                FURenderer.mSkinDetect=beautyBean.getmSkinDetect();
+                FURenderer.mBlurLevel=beautyBean.getmBlurLevel();
+                FURenderer.mBlurType=beautyBean.getmBlurType();
+                FURenderer.mColorLevel=beautyBean.getmColorLevel();
+                FURenderer.mRedLevel=beautyBean.getmRedLevel();
+                FURenderer.mEyeBright=beautyBean.getmEyeBright();
+                FURenderer.mToothWhiten=beautyBean.getmToothWhiten();
+                FURenderer.mFaceShape=beautyBean.getmFaceShape();
+                FURenderer.mFaceShapeLevel=beautyBean.getmFaceShapeLevel();
+                FURenderer.mCheekThinning=beautyBean.getmCheekThinning();
+                FURenderer.mCheekV=beautyBean.getmCheekV();
+                FURenderer.mCheekNarrow=beautyBean.getmCheekNarrow();
+                FURenderer.mCheekSmall=beautyBean.getmCheekSmall();
+                FURenderer.mEyeEnlarging=beautyBean.getmEyeEnlarging();
+                FURenderer.mIntensityChin=beautyBean.getmIntensityChin();
+                FURenderer.mIntensityForehead=beautyBean.getmIntensityForehead();
+                FURenderer.mIntensityMouth=beautyBean.getmIntensityMouth();
+                FURenderer.mIntensityNose=beautyBean.getmIntensityNose();
+
+                BeautyParameterModel.sCheekThinning=beautyBean.getmCheekThinning();
+                BeautyParameterModel.sCheekV=beautyBean.getmCheekV();
+                BeautyParameterModel.sCheekNarrow=beautyBean.getmCheekNarrow();
+                BeautyParameterModel.sCheekSmall=beautyBean.getmCheekSmall();
+                BeautyParameterModel.sEyeEnlarging=beautyBean.getmEyeEnlarging();
+                BeautyParameterModel.sIntensityChin=beautyBean.getmIntensityChin();
+                BeautyParameterModel.sIntensityForehead=beautyBean.getmIntensityForehead();
+                BeautyParameterModel.sIntensityNose=beautyBean.getmIntensityNose();
+                BeautyParameterModel.sIntensityMouth=beautyBean.getmIntensityMouth();
+
+                BeautyParameterModel.sSkinDetect=beautyBean.getmSkinDetect();
+                BeautyParameterModel.sBlurType=beautyBean.getmBlurType();
+                BeautyParameterModel.sColorLevel=beautyBean.getmColorLevel();
+                BeautyParameterModel.sRedLevel=beautyBean.getmRedLevel();
+                BeautyParameterModel.sEyeBright=beautyBean.getmEyeBright();
+                BeautyParameterModel.sToothWhiten=beautyBean.getmToothWhiten();
+                BeautyParameterModel.BatchPosition=beautyBean.getBatchPosition();
+                BeautyParameterModel.FilterPostion=beautyBean.getFilterPostion();
+                BeautyParameterModel.sFilter= FilterEnum.values()[BeautyParameterModel.FilterPostion].filter();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void getAppVersion() {
+        UpdateHelper updateHelper = new UpdateHelper();
+        updateHelper.checkUpdate(this);
     }
 
     /*
@@ -348,7 +448,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
             }
             worker().disconnectFromRtmService();
         }
-
+        RxBus.getIntanceBus().unSubscribe(this);
 
         super.onDestroy();
     }
@@ -388,13 +488,13 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
 
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onInvitationReceived(final RemoteInvitation invitation) {
         if (AvchatInfo.isIsInCall()) {
             invitation.setResponse("{\"status\":1}"); // Busy, already in call invitation.setResponse("{\"status\":1}"); // Busy, already in call
             worker().hangupTheCall(invitation);
         } else {
-
             Observable.just(1)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<Integer>() {
@@ -411,6 +511,16 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
                                                 config().mRemoteInvitation = invitation;
                                                 String content = invitation.getContent();
                                                 RtmCallBean rtmCallBean = GsonUtil.parseJsonToBean(content, RtmCallBean.class);
+                                                if(rtmCallBean.isEnableVideo()&& !AvchatInfo.getVideoNotify()){
+                                                    invitation.setResponse("{\"status\":1}"); // Busy, already in call invitation.setResponse("{\"status\":1}"); // Busy, already in call
+                                                    worker().hangupTheCall(invitation);
+                                                    return;
+                                                }
+                                                if(!rtmCallBean.isEnableVideo()&& !AvchatInfo.getAudioNotify()){
+                                                    invitation.setResponse("{\"status\":1}"); // Busy, already in call invitation.setResponse("{\"status\":1}"); // Busy, already in call
+                                                    worker().hangupTheCall(invitation);
+                                                    return;
+                                                }
                                                 OneToOneActivity.doReceivveOneToOneActivity(MainActivity.this, rtmCallBean.getChannelId(), Integer.parseInt(invitation.getCallerId())
                                                         , rtmCallBean.getImageUrl(), rtmCallBean.getMessage(), rtmCallBean.getName(),rtmCallBean.getCallId(),rtmCallBean.getLootId(),rtmCallBean.isEnableVideo()
 

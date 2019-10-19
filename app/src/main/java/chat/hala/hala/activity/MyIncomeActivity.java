@@ -71,6 +71,7 @@ public class MyIncomeActivity extends BaseActivity {
 
     private void getData(int page) {
         if (!isLoadMore){
+            adapter.loadMoreEnd();
             return;
         }
         RetrofitFactory.getInstance().getCoinInComeList(page, Contact.PAGE_SIZE)

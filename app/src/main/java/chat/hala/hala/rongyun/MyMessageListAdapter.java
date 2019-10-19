@@ -26,6 +26,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.FrameLayout.LayoutParams;
 
+import chat.hala.hala.activity.ConversationActivity;
+import chat.hala.hala.avchat.AvchatInfo;
 import io.rong.common.RLog;
 import io.rong.imkit.R;
 import io.rong.imkit.RongContext;
@@ -828,7 +830,6 @@ public class MyMessageListAdapter extends MessageListAdapter {
                             if (userInfo == null) {
                                 userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getSenderUserId());
                             }
-
                             if (userInfo != null && userInfo.getPortraitUri() != null) {
                                 holder.leftIconView.setAvatar(userInfo.getPortraitUri().toString(), 0);
                             } else {
@@ -845,14 +846,18 @@ public class MyMessageListAdapter extends MessageListAdapter {
                         if (!this.timeGone) {
                             String time = RongDateUtils.getConversationFormatDate(data.getSentTime(), v1.getContext());
                             holder.time.setText(time);
-                            holder.rccoinMessage.setText("我是伟大的");
+                            holder.rccoinMessage.setText(("对方设置了私聊收费，您将消耗"+((ConversationActivity)mContext).getChatCpm()+"Pa币"));
                             if (position == 0) {
                                 if (data.getMessage() != null && data.getMessage().getContent() != null && data.getMessage().getContent() instanceof HistoryDividerMessage) {
                                     holder.time.setVisibility(View.GONE);
                                     holder.rccoinMessage.setVisibility(View.GONE);
                                 } else {
                                     holder.time.setVisibility(View.VISIBLE);
-                                    holder.rccoinMessage.setVisibility(View.VISIBLE);
+                                    if (!AvchatInfo.isAnchor()){
+                                        holder.rccoinMessage.setVisibility(View.VISIBLE);
+                                    }else{
+                                        holder.rccoinMessage.setVisibility(View.GONE);
+                                    }
                                 }
                             } else {
                                 UIMessage pre = (UIMessage) this.getItem(position - 1);
@@ -862,7 +867,11 @@ public class MyMessageListAdapter extends MessageListAdapter {
                                     holder.time.setVisibility(View.GONE);
                                 }
                                 if (RongDateUtils.isShowChatTime(data.getSentTime(), pre.getSentTime(), 10800)) {
-                                    holder.rccoinMessage.setVisibility(View.VISIBLE);
+                                    if (!AvchatInfo.isAnchor()){
+                                        holder.rccoinMessage.setVisibility(View.VISIBLE);
+                                    }else{
+                                        holder.rccoinMessage.setVisibility(View.GONE);
+                                    }
                                 } else {
                                     holder.rccoinMessage.setVisibility(View.GONE);
                                 }

@@ -3,6 +3,7 @@ package chat.hala.hala.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -72,7 +73,8 @@ public class ChargeActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
+        Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/dinbold.ttf");
+        mTvCoin.setTypeface(typeFace);
         mChargeAdapter = new ChargeAdapter(R.layout.item_charge, mdataList);
         mRv.setAdapter(mChargeAdapter);
         mRv.setLayoutManager(new GridLayoutManager(this, 3));

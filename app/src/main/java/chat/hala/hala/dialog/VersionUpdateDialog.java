@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.ScreenUtils;
@@ -37,14 +38,11 @@ import io.reactivex.functions.Consumer;
 public class VersionUpdateDialog extends Dialog {
 
 
-    @BindView(R.id.title)
-    TextView title;
-    @BindView(R.id.msg)
-    TextView msg;
-    @BindView(R.id.cancel)
-    TextView cancel;
-    @BindView(R.id.cutline)
-    View cutline;
+
+    @BindView(R.id.tv_content)
+    TextView tvContent;
+    @BindView(R.id.iv_close)
+    ImageView ivClose;
     @BindView(R.id.confirm)
     TextView confirm;
     private Context mContext;
@@ -59,11 +57,9 @@ public class VersionUpdateDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_common);
+        setContentView(R.layout.dialog_update);
         ButterKnife.bind(this);
-
         initViews();
-
     }
 
     @Override
@@ -78,20 +74,24 @@ public class VersionUpdateDialog extends Dialog {
 
 
     private void initViews() {
-        title.setText("V" + mVersionInfo.getV());
+        if(mVersionInfo.isM()){
+            ivClose.setVisibility(View.GONE);
+        }
         String message = mVersionInfo.getDesc();
         message = message.replace("#", "\n");
-        msg.setText(message);
+        tvContent.setText(message);
     }
 
-    @OnClick({R.id.confirm, R.id.cancel})
+    @OnClick({R.id.confirm, R.id.iv_close})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.confirm:
                 goUpdate();
-
+                if(!mVersionInfo.isM()){
+                    dismiss();
+                }
                 break;
-            case R.id.cancel:
+            case R.id.iv_close:
                 Date curDate = new Date(System.currentTimeMillis());//获取当前时间
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 SPUtil.getInstance(mContext).setString(Contact.CHECK_UPDATE_DATE, formatter.format(curDate));

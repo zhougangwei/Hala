@@ -1,6 +1,5 @@
 package chat.hala.hala.fragment;
 
-import android.graphics.Path;
 import android.graphics.Rect;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.blankj.utilcode.utils.LogUtils;
-import com.blankj.utilcode.utils.ScreenUtils;
 import com.blankj.utilcode.utils.SizeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -20,18 +18,16 @@ import butterknife.BindView;
 import chat.hala.hala.R;
 import chat.hala.hala.activity.AnchorsActivity;
 import chat.hala.hala.activity.LoginActivityNew;
-import chat.hala.hala.activity.TagActivity;
 import chat.hala.hala.adapter.HotCallAdapter;
-import chat.hala.hala.adapter.TagsAdapter;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.AdBean;
-import chat.hala.hala.bean.AnchorTagBean;
 import chat.hala.hala.bean.OneToOneListBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.utils.ResultUtils;
+import chat.hala.hala.wight.EmptyLoadMoreView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -50,16 +46,15 @@ public class HotFragment extends BaseFragment {
     private HotCallAdapter hotCallAdapter;
     private int page;
 
-    private List<String> imagesList=new ArrayList<>();
+    private List<AdBean.DataBean> bannerList =new ArrayList<>();
 
     @Override
     protected void initView() {
-        hotCallAdapter = new HotCallAdapter(mHotOnetoOneList,imagesList,getActivity());
+        hotCallAdapter = new HotCallAdapter(mHotOnetoOneList, bannerList,getActivity());
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(hotCallAdapter);
         final int decowidth = SizeUtils.dp2px(getActivity(),9);
-
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -72,7 +67,6 @@ public class HotFragment extends BaseFragment {
                 return 1;
             }
         });
-
         RecyclerView.ItemDecoration itemDecoration = new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -133,7 +127,7 @@ public class HotFragment extends BaseFragment {
             }
         }, rv);
         getBannerData();
-
+        hotCallAdapter.setLoadMoreView(new EmptyLoadMoreView());
         hotCallAdapter.setPreLoadNumber(5);
 
     }
@@ -147,10 +141,8 @@ public class HotFragment extends BaseFragment {
                         if (ResultUtils.cheekSuccess(adBean)) {
                             List<AdBean.DataBean> data = adBean.getData();
                             if (data!=null&&data.size()>0) {
-                                imagesList.clear();
-                                for (AdBean.DataBean datum : data) {
-                                    imagesList.add(datum.getMediaUrl());
-                                }
+                                bannerList.clear();
+                                bannerList.addAll(data);
                                 hotCallAdapter.notifyDataSetChanged();
                             }
                         }

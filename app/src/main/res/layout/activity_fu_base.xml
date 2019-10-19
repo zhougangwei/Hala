@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.opengl.GLSurfaceView
+        android:id="@+id/fu_base_gl_surface"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_custom_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/fu_base_top_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/fu_base_top_background"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_marginTop="23dp"
+            android:padding="12dp"
+            android:id="@+id/fu_base_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:onClick="onClick"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+
+        <ImageButton
+            android:padding="10dp"
+            android:id="@+id/fu_base_camera_change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/transparent"
+            android:onClick="onClick"
+            android:scaleType="centerInside"
+            android:src="@drawable/camera_change"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <TextView
+            android:id="@+id/fu_base_is_tracking_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="229dp"
+            android:gravity="center"
+            android:text="未检测到人脸"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_26"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fu_base_effect_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="78dp"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_26"
+            android:visibility="invisible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fu_base_is_tracking_text" />
+
+        <LinearLayout
+            android:id="@+id/photograph_light_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="230dp"
+            android:layout_marginTop="139dp"
+            android:layout_marginRight="17dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/photograph_light_sun"
+                android:layout_width="20dp"
+                android:layout_height="19dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/photograph_light_sun" />
+
+            <chat.hala.hala.agore.ui.VerticalSeekBar
+                android:id="@+id/photograph_light_seek"
+                android:layout_width="wrap_content"
+                android:layout_height="180dp"
+                android:layout_weight="1"
+                android:progressDrawable="@drawable/photograph_seek_bar_color"
+                android:thumb="@drawable/photograph_light_thumb" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="19dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/photograph_light_moon" />
+        </LinearLayout>
+
+
+        <chat.hala.hala.agore.ui.CameraFocus
+            android:id="@+id/photograph_focus"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/photograph_focus"
+            app:focus_height="@dimen/x150"
+            app:focus_scale="0.666"
+            app:focus_width="@dimen/x150" />
+
+        <ViewStub
+            android:id="@+id/fu_base_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+</android.support.constraint.ConstraintLayout>

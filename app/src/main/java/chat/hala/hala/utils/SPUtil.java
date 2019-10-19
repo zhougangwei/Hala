@@ -131,4 +131,12 @@ public class SPUtil {
     public String getMemberJson() {
         return  getString(Contact.MEMBER_DATA);
     }
+
+    public void saveBeauty(String s) {
+        setString("beauty",s);
+    }
+    public String getBeauty() {
+        return getString("beauty");
+    }
+
 }

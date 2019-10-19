@@ -75,24 +75,21 @@ public class MyReserveListActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 //VideoCallManager.gotoCallAnchor(MyReserveListActivity.this,callList.);
-
                 if (AvchatInfo.isAnchor()){
                     VideoCallManager.gotoReplyReverse(MyReserveListActivity.this,callList.get(position).getReservationId(),callList.get(position).getCategory(),AvchatInfo.getAnchorId(),callList.get(position).getTargetInfo().getId());
                 }
-                RetrofitFactory.getInstance().readMessage("reserve")
-                        .subscribeOn(Schedulers.io())
-                        .subscribe(new BaseCosumer<BaseBean>() {
-                            @Override
-                            public void onGetData(BaseBean baseBean) {
-                                if (ResultUtils.cheekSuccess(baseBean)) {
-                                    RxBus.getIntanceBus().post(new RefreshMsgEvent(RefreshMsgEvent.MSG_REVERSE));
-                                }
-                            }
-                        });
-
             }
         });
-
+        RetrofitFactory.getInstance().readMessage("reserve")
+                .subscribeOn(Schedulers.io())
+                .subscribe(new BaseCosumer<BaseBean>() {
+                    @Override
+                    public void onGetData(BaseBean baseBean) {
+                        if (ResultUtils.cheekSuccess(baseBean)) {
+                            RxBus.getIntanceBus().post(new RefreshMsgEvent(RefreshMsgEvent.MSG_REVERSE));
+                        }
+                    }
+                });
         getData();
     }
 

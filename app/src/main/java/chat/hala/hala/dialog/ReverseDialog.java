@@ -9,16 +9,22 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.LogUtils;
 import com.blankj.utilcode.utils.ScreenUtils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import chat.hala.hala.R;
+import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.Contact;
+import chat.hala.hala.bean.AnchorBean;
 import chat.hala.hala.bean.ReverseBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
@@ -32,6 +38,8 @@ public class ReverseDialog extends Dialog {
     Context mContext;
     @BindView(R.id.tv_reverse)
     TextView tvReverse;
+    @BindView(R.id.iv_head)
+    ImageView ivHead;
 
     int anchorId;
     String videoOrAudio;
@@ -49,6 +57,23 @@ public class ReverseDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_start_reserve);
         ButterKnife.bind(this);
+        getData();
+    }
+
+    private void getData() {
+        RetrofitFactory.getInstance()
+                .getAnchorData("anchor",anchorId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCosumer<AnchorBean>() {
+                    @Override
+                    public void onGetData(AnchorBean baseBean) {
+                        Glide.with(mContext)
+                                .load(baseBean.getData().getAlbum().get(0).getMediaUrl())
+                                .apply(RequestOptions.bitmapTransform(new CircleCrop()).placeholder(ivHead.getDrawable()))
+                                .into(ivHead);
+                    }
+                });
     }
 
 

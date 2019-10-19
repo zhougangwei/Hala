@@ -26,6 +26,7 @@ import chat.hala.hala.bean.MessageUnreadBean;
 import chat.hala.hala.http.BaseCosumer;
 import chat.hala.hala.http.RetrofitFactory;
 import chat.hala.hala.rxbus.RxBus;
+import chat.hala.hala.rxbus.event.RefreshMsgCount;
 import chat.hala.hala.rxbus.event.RefreshMsgEvent;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -49,6 +50,8 @@ public class MessageListFragment extends BaseFragment {
     public static final String VIDEO_CALL="online_call";
     public static final String COIN="coin";
     public static final String CALL_RESERVATION="call_reservation";
+
+    public static int readCount;
 
     @Override
     protected void initView() {
@@ -138,12 +141,18 @@ public class MessageListFragment extends BaseFragment {
                         if (Contact.REPONSE_CODE_SUCCESS != messageUnreadBean.code) {
                             return;
                         }
+                        readCount=0;
                         List<MessageUnreadBean.DataBean> data = messageUnreadBean.getData();
                         if (data!=null&&data.size()>0) {
                             msgDataList.clear();
                             msgDataList.addAll(data);
                             msgAdapter.notifyDataSetChanged();
+                            for (int i = 0; i < data.size(); i++) {
+                                readCount+=data.get(i).getUnreadCount();
+                            }
                         }
+                        RxBus.getIntanceBus().post(new RefreshMsgCount());
+
                     }
                 });
 

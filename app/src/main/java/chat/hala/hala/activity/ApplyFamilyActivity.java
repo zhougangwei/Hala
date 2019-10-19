@@ -2,6 +2,7 @@ package chat.hala.hala.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -100,7 +101,10 @@ public class ApplyFamilyActivity extends BaseActivity {
                 break;
             case R.id.tv_submit:
                 if (EditUtils.judeEmpty(this)) {
-                    judgeEmpty();
+                    if(TextUtils.isEmpty(mediaurl)||uriList.size()==0){
+                        ToastUtils.showToast(this,"请选择家族头像!");
+                        return;
+                    }
                     upQiniu();
                 }
                 break;

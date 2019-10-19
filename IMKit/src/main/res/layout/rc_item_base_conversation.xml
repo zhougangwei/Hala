@@ -71,14 +71,17 @@
             android:paddingTop="1dp">
 
             <TextView
-                android:padding="3dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
                 android:textColor="#fff"
                 android:textSize="10sp"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp"
                 android:background="@drawable/bg_un_read"
                 android:id="@+id/rc_tv_unread"
-                android:text="99999999"
+                android:text="9"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="16dp" />
             <ImageView
                 android:visibility="gone"
                 android:id="@id/rc_conversation_status"

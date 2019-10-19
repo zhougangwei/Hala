@@ -39,7 +39,7 @@ public class FollowOrFansActivity extends BaseActivity {
 
     private int type;
 
-    private String[] titles=new String[]{"关注","粉丝","朋友"};
+    private String[] titles=new String[]{"关注","粉丝","好友"};
     @Override
     protected int getContentViewId() {
         return R.layout.activity_follow_or_fans;
@@ -57,12 +57,7 @@ public class FollowOrFansActivity extends BaseActivity {
         magicIndicator.setBackgroundResource(R.color.white);
         FansOrFollowAdapter homeAdapter = new FansOrFollowAdapter(getSupportFragmentManager());
         vp.setAdapter(homeAdapter);
-        vp.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                vp.setCurrentItem(type);
-            }
-        },300);
+
         CommonNavigator commonNavigator = new CommonNavigator(this);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
@@ -98,8 +93,10 @@ public class FollowOrFansActivity extends BaseActivity {
                 return indicator;
             }
         });
+
         magicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(magicIndicator, vp);
+        vp.setCurrentItem(type);
     }
 
 

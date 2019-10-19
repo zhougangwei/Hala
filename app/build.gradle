@@ -65,6 +65,12 @@ android {
         }
 
     }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
 
 }
 
@@ -114,4 +120,6 @@ dependencies {
     implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
     implementation 'com.getui:sdk:2.13.2.0'
     implementation 'com.getui:gssdk:2.2.8.0'
+    implementation project(':faceunity')
+    implementation project(':video_capturer_and_renderer')
 }
