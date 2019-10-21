@@ -1,5 +1,7 @@
 package chat.hala.hala.adapter;
 
+import android.text.TextUtils;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -27,7 +29,7 @@ public class AnchorDataAdapter extends BaseQuickAdapter<AnchorInfoBean, BaseView
         /*helper.setImageResource(R.id.icon, item.getImageResource());*/
         // 加载网络图片
         helper.setText(R.id.tv_name,item.getName()+":");
-        helper.setText(R.id.tv_content,item.getContent());
+        helper.setText(R.id.tv_content, TextUtils.isEmpty(item.getContent())?"未知":item.getContent());
 
 
 

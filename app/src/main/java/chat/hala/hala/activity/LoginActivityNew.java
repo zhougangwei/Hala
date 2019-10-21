@@ -110,7 +110,7 @@ public class LoginActivityNew extends BaseActivity {
                         final String city;
                         final String headimgurl;
                         int sex;
-                        wxEntryActivityWeakReference.get().openid = getcode(json.getString("openid"));
+                        wxEntryActivityWeakReference.get().openid = json.getString("openid");
                         headimgurl = json.getString("headimgurl");
                         String encode;
                         encode = getcode(json.getString("nickname"));

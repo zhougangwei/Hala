@@ -853,7 +853,7 @@ public class MyMessageListAdapter extends MessageListAdapter {
                                     holder.rccoinMessage.setVisibility(View.GONE);
                                 } else {
                                     holder.time.setVisibility(View.VISIBLE);
-                                    if (!AvchatInfo.isAnchor()){
+                                    if (!AvchatInfo.isAnchor()&&!data.getConversationType().equals(ConversationType.SYSTEM)){
                                         holder.rccoinMessage.setVisibility(View.VISIBLE);
                                     }else{
                                         holder.rccoinMessage.setVisibility(View.GONE);
@@ -867,7 +867,7 @@ public class MyMessageListAdapter extends MessageListAdapter {
                                     holder.time.setVisibility(View.GONE);
                                 }
                                 if (RongDateUtils.isShowChatTime(data.getSentTime(), pre.getSentTime(), 10800)) {
-                                    if (!AvchatInfo.isAnchor()){
+                                    if (!AvchatInfo.isAnchor()&&!data.getConversationType().equals(ConversationType.SYSTEM)){
                                         holder.rccoinMessage.setVisibility(View.VISIBLE);
                                     }else{
                                         holder.rccoinMessage.setVisibility(View.GONE);

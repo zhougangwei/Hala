@@ -13,6 +13,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -269,7 +270,7 @@ public class AnchorsActivity extends BaseActivity {
                         }
                         mAnchorData = baseBean.getData();
                         mAnchormemberId = mAnchorData.getMemberId();
-                        tvName.setText(mAnchorData.getUsername());
+                        tvName.setText(TextUtils.isEmpty(mAnchorData.getUsername())?"未知":mAnchorData.getUsername());
                         mTvScore.setText(mAnchorData.getMarking() + "");
                         mTvFans.setText(mAnchorData.getFansCount() + "");
                         followState = baseBean.getData().isFollowing();
@@ -284,7 +285,7 @@ public class AnchorsActivity extends BaseActivity {
 
                         if (isAnchor()) {                //查看过来的 查看用户的的界面
                             tvBiography.setVisibility(View.VISIBLE);
-                            tvBiography.setText(mAnchorData.getIntroduction());
+                            tvBiography.setText(TextUtils.isEmpty(mAnchorData.getIntroduction())?"未知":mAnchorData.getIntroduction());
                             tvCall.setText(
                                     String.format(getString(R.string.video_cost),
                                             mAnchorData.getSetting().getVideoCpm() + ""));

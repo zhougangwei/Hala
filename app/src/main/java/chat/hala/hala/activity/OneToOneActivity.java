@@ -340,7 +340,6 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
                 FrameLayout.LayoutParams.MATCH_PARENT);
 
         mVideoManager = VideoManager.createInstance(this);
-
         mVideoManager.allocate(width, height, 30, io.agora.kit.media.constant.Constant.CAMERA_FACING_FRONT);
         mVideoManager.setRenderView(mGLSurfaceViewLocal);
         mVideoManager.connectEffectHandler(mEffectHandler);
@@ -660,13 +659,12 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
             mSubscribe.dispose();
         }
         AvchatInfo.setIsInCall(false);
-        worker().leaveChannel(channelId);
         this.event().removeEventHandler(this);
+        worker().leaveChannel(channelId);
         AVChatSoundPlayer.instance().stop();
-
         if (mVideoManager!=null) {
-            mVideoManager.stopCapture();
-            mVideoManager.deallocate();
+          //  mVideoManager.stopCapture();
+          //  mVideoManager.deallocate();
         }
         if (mFURenderer!=null) {
             mFURenderer.onSurfaceDestroyed();

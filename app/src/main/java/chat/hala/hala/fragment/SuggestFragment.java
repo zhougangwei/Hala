@@ -147,7 +147,7 @@ public class SuggestFragment extends BaseFragment {
             page++;
         }
 
-        RetrofitFactory.getInstance().getRecommendList(0, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
+        RetrofitFactory.getInstance().getRecommendList(page, Contact.PAGE_SIZE).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseCosumer<OneToOneListBean>() {
                     @Override
