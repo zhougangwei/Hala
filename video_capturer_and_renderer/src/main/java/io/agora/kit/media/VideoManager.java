@@ -4,6 +4,8 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
+import java.util.Observable;
+
 import io.agora.rtc.RtcEngine;
 import io.agora.kit.media.capture.VideoCapture;
 import io.agora.kit.media.capture.VideoCaptureFactory;
@@ -65,20 +67,28 @@ public class VideoManager {
     }
 
     public void deallocate() {
-        if (mVideoTransmitter != null) {
-            detachToRTCEngine();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    if (mVideoTransmitter != null) {
+                        detachToRTCEngine();
+                    }
+                    if (mVideoCapture != null) {
+                        mFacing = Constant.CAMERA_FACING_INVALID;
+                        mVideoCapture.deallocate();
+                        mVideoCapture = null;
+                    }
+                    if (mVideoRender != null) {
+                        mVideoRender.destroy();
+                        mVideoRender = null;
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
 
-        if (mVideoCapture != null) {
-            mFacing = Constant.CAMERA_FACING_INVALID;
-            mVideoCapture.deallocate();
-            mVideoCapture = null;
-        }
-
-        if (mVideoRender != null) {
-            mVideoRender.destroy();
-            mVideoRender = null;
-        }
+            }
+        }).start();
     }
 
     public void startCapture() {
@@ -90,11 +100,18 @@ public class VideoManager {
     }
 
     public void stopCapture() {
-        if (mVideoCapture != null) {
-            mVideoCapture.stopCaptureAndBlockUntilStopped();
-        } else {
-            Log.w(TAG, "camera not allocated or already deallocated");
-        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (mVideoCapture != null) {
+                    mVideoCapture.stopCaptureAndBlockUntilStopped();
+                } else {
+                    Log.w(TAG, "camera not allocated or already deallocated");
+                }
+            }
+        }).start();
+
 
     }
 

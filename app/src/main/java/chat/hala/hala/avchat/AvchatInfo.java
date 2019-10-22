@@ -3,6 +3,9 @@ package chat.hala.hala.avchat;
 import android.content.Context;
 import android.text.TextUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import chat.hala.hala.base.App;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.LoginBean;
@@ -17,6 +20,8 @@ public class AvchatInfo {
     private static String sMediaToken;
     private static String sCallText;
     private static LoginBean.DataBean.MemberBean memberBean;
+    private static int height;
+    private static int weight;
 
 
     public static boolean isLogin(){
@@ -182,6 +187,13 @@ public class AvchatInfo {
             return "";
         }
         return  memberBean.getAlbum().get(0).getMediaUrl();
+    }
+
+    public static List<LoginBean.DataBean.MemberBean.AlbumBean> getAlbum() {
+        if(judgeMemberEmpty()){
+            return new ArrayList<LoginBean.DataBean.MemberBean.AlbumBean>();
+        }
+        return  memberBean.getAlbum();
     }
 
 
@@ -419,7 +431,19 @@ public class AvchatInfo {
     }
 
 
+    public static void setHeight(int height) {
+        AvchatInfo.height = height;
+    }
 
+    public static int getHeight() {
+        return height;
+    }
 
+    public static void setWeight(int weight) {
+        AvchatInfo.weight = weight;
+    }
 
+    public static int getWeight() {
+        return weight;
+    }
 }

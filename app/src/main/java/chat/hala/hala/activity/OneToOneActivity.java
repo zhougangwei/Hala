@@ -127,6 +127,9 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     @BindView(R.id.tv_message)
     TextView tv_message;
 
+    @BindView(R.id.iv_close_camera)
+    ImageView ivCameraClose;
+
     private final AtomicBoolean startTimer = new AtomicBoolean(true);
 
 
@@ -174,6 +177,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     private int mImageHeight;
     private MediaVideoEncoder mVideoEncoder;
     private long mVideoRecordingStartTime = 0;
+    private boolean isInCall;
 
     /**
      * @param context
@@ -218,7 +222,6 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         //主播AnchorId很有用
         mAnchorId = intent.getIntExtra("anchorId", -1);
         otherId = intent.getIntExtra("otherId", -1);
-
         doOutCall = intent.getBooleanExtra("outCall", false);
         channelId = intent.getStringExtra("channelId");
         imageUrl = intent.getStringExtra("imageUrl");
@@ -534,6 +537,11 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
             case R.id.iv_camera_off:
                 // TODO: 2019/6/30 0030 ga
                 muteCamera=!muteCamera;
+                if(muteCamera){
+                    ivCameraClose.setVisibility(View.VISIBLE);
+                }else{
+                    ivCameraClose.setVisibility(View.GONE);
+                }
                 rtcEngine().muteLocalVideoStream(muteCamera);
                 break;
             case R.id.iv_camera_control:
@@ -598,6 +606,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         joinChannel();
         worker().answerTheCall(config().mRemoteInvitation);
         showOnshow();
+        isInCall =true;
         startChargeTimerCount();
         //changeCallState(Call_CONNECTED);
 
@@ -655,6 +664,9 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+
+
         if (mSubscribe != null && mSubscribe.isDisposed()) {
             mSubscribe.dispose();
         }
@@ -662,9 +674,11 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
         this.event().removeEventHandler(this);
         worker().leaveChannel(channelId);
         AVChatSoundPlayer.instance().stop();
+
+
         if (mVideoManager!=null) {
-          //  mVideoManager.stopCapture();
-          //  mVideoManager.deallocate();
+           //mVideoManager.stopCapture();
+        //   mVideoManager.deallocate();
         }
         if (mFURenderer!=null) {
             mFURenderer.onSurfaceDestroyed();
@@ -674,6 +688,9 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
 
     @Override
     public void onBackPressed() {
+        if(isInCall){
+            return;
+        }
         if (!doOutCall && mIsCallInRefuse) {
             callInRefuse();
         } else {
@@ -769,6 +786,7 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
             public void run() {
                 LogUtils.e(TAG, "run: " + "onLocalInvitationAccepted");
                 startHeartBeat();
+                isInCall =true;
                 showOnshow();
                 changeCallState(Call_CONNECTED);
                 startChargeTimerCount();

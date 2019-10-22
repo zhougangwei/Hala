@@ -30,6 +30,7 @@ import chat.hala.hala.base.BaseActivity;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.AnchorTagBean;
 import chat.hala.hala.bean.EditUserBean;
+import chat.hala.hala.bean.LoginBean;
 import chat.hala.hala.bean.QiNiuToken;
 import chat.hala.hala.bean.RegistBean;
 import chat.hala.hala.dialog.CommonDialog;
@@ -196,7 +197,18 @@ public class EditUserActivity extends BaseActivity {
         etCity.setText(AvchatInfo.getResidentialPlace());
         etAutoGraph.setText(AvchatInfo.getAutoGraph());
         etBio.setText(AvchatInfo.getIntroduction());
-        upurlList.add(AvchatInfo.getAvatarUrl());
+        try{
+            List<LoginBean.DataBean.MemberBean.AlbumBean> album = AvchatInfo.getAlbum();
+            if (album!=null&&album.size()!=0) {
+                for (int i = 0; i < album.size(); i++) {
+                    upurlList.add(album.get(i).getMediaUrl());
+                }
+            }
+        }catch (Exception e){
+        }
+        weight=AvchatInfo.getWeight()+"";
+        height=AvchatInfo.getHeight()+"";
+        etHeightWeight.setText(height + "/" + weight);
         for (String s : upurlList) {
             mDataList.add(new EditHeadAdapter.UserHead(s, false));
         }

@@ -32,6 +32,7 @@ import chat.hala.hala.activity.JoinFamilyActivity;
 import chat.hala.hala.activity.LoginActivityNew;
 import chat.hala.hala.activity.MyGainActivity;
 import chat.hala.hala.activity.SettingActivity;
+import chat.hala.hala.activity.WebviewActivity2;
 import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.base.Contact;
@@ -47,6 +48,7 @@ import chat.hala.hala.manager.MoneyHelper;
 import chat.hala.hala.rxbus.RxBus;
 import chat.hala.hala.rxbus.event.RefreshUserInfoEvent;
 import chat.hala.hala.utils.ResultUtils;
+import chat.hala.hala.utils.SPUtil;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -157,6 +159,8 @@ public class MyFragment extends BaseFragment {
                         int anchorId = baseBean.getData().getAnchorId();
                         if (anchorId!=0) {
                             AvchatInfo.setAnchorId(anchorId);
+                            AvchatInfo.setHeight(baseBean.getData().getHeight());
+                            AvchatInfo.setWeight(baseBean.getData().getWeight());
                         }
                         AvchatInfo.saveBaseData(baseBean.getData(),getActivity(),true);
                         tvFans.setText(baseBean.getData().getFansCount()+"");
@@ -191,22 +195,27 @@ public class MyFragment extends BaseFragment {
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
-                        if(AvchatInfo.isFamilyLeader()){
+                        if (AvchatInfo.isFamilyLeader()) {
                             llFamilyManager.setVisibility(View.VISIBLE);
-                        }else{
+                        } else {
                             llFamilyManager.setVisibility(View.GONE);
                         }
-                        if(AvchatInfo.isAnchor()){
+                        if (AvchatInfo.isAnchor()) {
                             tvJoinFamily.setVisibility(View.VISIBLE);
-                        }else{
+                        } else {
                             tvJoinFamily.setVisibility(View.GONE);
                         }
                         if (AvchatInfo.isAnchor()) {
                             initIncome();
                             gpInCome.setVisibility(View.VISIBLE);
-                        }else{
+                        } else {
                             gpInCome.setVisibility(View.GONE);
                         }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
                     }
                 });
 
@@ -329,7 +338,7 @@ public class MyFragment extends BaseFragment {
 
 
     private void gotoGetIncome() {
-        startActivity(new Intent(getActivity(), MyGainActivity.class));
+        WebviewActivity2.startActivity(getActivity(), Contact.HOST+"/cashOut/cashOut.html?token="+ SPUtil.getInstance(getActivity()).getString(Contact.TOKEN, ""),"提现");
     }
 
     private void gotoEdit() {

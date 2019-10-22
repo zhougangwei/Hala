@@ -71,6 +71,7 @@
             android:paddingTop="1dp">
 
             <TextView
+                android:visibility="gone"
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:textColor="#fff"
@@ -79,7 +80,6 @@
                 android:paddingEnd="3dp"
                 android:background="@drawable/bg_un_read"
                 android:id="@+id/rc_tv_unread"
-                android:text="9"
                 android:layout_width="wrap_content"
                 android:layout_height="16dp" />
             <ImageView

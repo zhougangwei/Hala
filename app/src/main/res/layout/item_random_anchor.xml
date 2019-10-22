@@ -10,19 +10,24 @@
         android:layout_width="61dp"
         android:layout_height="61dp"
         android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@color/black" />
 
     <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/iv_head"
+        app:layout_constraintEnd_toEndOf="@+id/iv_head"
         android:layout_marginTop="6dp"
-        android:text="jsss"
+        app:layout_constraintTop_toBottomOf="@+id/iv_head"
+        android:id="@+id/tv_name"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:layout_width="50dp"
+        android:layout_height="20dp"
+        tools:text="jsssssssssss"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_head" />
+      />
 
     <TextView
         android:id="@+id/tv_call"
@@ -34,9 +39,10 @@
         android:text="@string/call_her"
         android:textColor="@color/white"
         android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

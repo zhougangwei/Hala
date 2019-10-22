@@ -71,8 +71,8 @@ public class CallListAdapter extends BaseQuickAdapter<CallListBean.DataBean.List
         helper.setText(R.id.tv_content, item.getStateTrans());
         String startedAt = item.getStartedAt();
         if (!TextUtils.isEmpty(startedAt)) {
-            String hour = TimeUtil.dealDateFormat(startedAt);
-            String time = TimeUtil.dealDateFormat2(startedAt);
+            String hour = TimeUtil.dealDateFormat5(startedAt);
+            String time = TimeUtil.dealDateFormat6(startedAt);
             helper.setText(R.id.tv_hour, hour);
             helper.setText(R.id.tv_week,time);
         }
