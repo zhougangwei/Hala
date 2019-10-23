@@ -67,28 +67,29 @@ public class VideoManager {
     }
 
     public void deallocate() {
-        new Thread(new Runnable() {
+        try{
+            if (mVideoTransmitter != null) {
+                detachToRTCEngine();
+            }
+            if (mVideoCapture != null) {
+                mFacing = Constant.CAMERA_FACING_INVALID;
+                mVideoCapture.deallocate();
+                mVideoCapture = null;
+            }
+            if (mVideoRender != null) {
+                mVideoRender.destroy();
+                mVideoRender = null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
-                    if (mVideoTransmitter != null) {
-                        detachToRTCEngine();
-                    }
-                    if (mVideoCapture != null) {
-                        mFacing = Constant.CAMERA_FACING_INVALID;
-                        mVideoCapture.deallocate();
-                        mVideoCapture = null;
-                    }
-                    if (mVideoRender != null) {
-                        mVideoRender.destroy();
-                        mVideoRender = null;
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+
 
             }
-        }).start();
+        }).start();*/
     }
 
     public void startCapture() {
@@ -101,17 +102,17 @@ public class VideoManager {
 
     public void stopCapture() {
 
-        new Thread(new Runnable() {
+     /*   new Thread(new Runnable() {
             @Override
             public void run() {
-                if (mVideoCapture != null) {
-                    mVideoCapture.stopCaptureAndBlockUntilStopped();
-                } else {
-                    Log.w(TAG, "camera not allocated or already deallocated");
-                }
-            }
-        }).start();
 
+            }
+        }).start();*/
+        if (mVideoCapture != null) {
+            mVideoCapture.stopCaptureAndBlockUntilStopped();
+        } else {
+            Log.w(TAG, "camera not allocated or already deallocated");
+        }
 
     }
 

@@ -18,8 +18,10 @@ import butterknife.BindView;
 import chat.hala.hala.R;
 import chat.hala.hala.activity.MyCallListActivity;
 import chat.hala.hala.activity.MyCoinsListActivity;
+import chat.hala.hala.activity.MyIncomeActivity;
 import chat.hala.hala.activity.MyReserveListActivity;
 import chat.hala.hala.adapter.MsgAdapter;
+import chat.hala.hala.avchat.AvchatInfo;
 import chat.hala.hala.base.BaseFragment;
 import chat.hala.hala.base.Contact;
 import chat.hala.hala.bean.MessageUnreadBean;
@@ -68,7 +70,11 @@ public class MessageListFragment extends BaseFragment {
                         startActivity(new Intent(getActivity(), MyCallListActivity.class));
                         break;
                     case COIN:
-                        startActivity(new Intent(getActivity(), MyCoinsListActivity.class));
+                        if(AvchatInfo.isAnchor()){
+                            startActivity(new Intent(getActivity(), MyIncomeActivity.class));
+                        }else{
+                            startActivity(new Intent(getActivity(), MyCoinsListActivity.class));
+                        }
                         break;
                     case CALL_RESERVATION:
                         startActivity(new Intent(getActivity(), MyReserveListActivity.class));

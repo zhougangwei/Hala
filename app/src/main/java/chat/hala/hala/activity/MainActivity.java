@@ -210,7 +210,7 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
         vp.setCurrentItem(0, false);
         viewList.add(ivHome);
         viewList.add(ivFollow);
-        viewList.add(ivQiuliao);
+       // viewList.add(ivQiuliao);
         viewList.add(ivMsg);
         viewList.add(ivMy);
         setClicked(ivHome);
@@ -397,7 +397,6 @@ public class MainActivity extends BaseActivity implements AGEventHandler {
             case R.id.iv_follow:
                 setClicked(ivFollow);
                 break;
-
         }
     }
 

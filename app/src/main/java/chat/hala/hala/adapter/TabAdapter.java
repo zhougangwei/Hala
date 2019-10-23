@@ -34,11 +34,11 @@ public class TabAdapter extends FragmentPagerAdapter{
         fragments.clear();
         fragments.add(new HomeFragment());
         fragments.add(new FollowFragment());
-        if(AvchatInfo.isAnchor()){
+        /*if(AvchatInfo.isAnchor()){
             fragments.add(new ApplyListFragment());
         }else{
             fragments.add(new ApplyChatFragment());
-        }
+        }*/
 
         fragments.add(new MessageListFragment());
         fragments.add(new MyFragment());

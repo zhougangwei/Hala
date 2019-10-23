@@ -171,10 +171,9 @@ public class LoginPhoneActivity extends BaseActivity {
 
             case R.id.tv_send_msm:
                 sendSms();
-                etSmsNum.setText("151439");
+                //etSmsNum.setText("151439");
                 break;
         }
-
 
     }
 
@@ -187,6 +186,7 @@ public class LoginPhoneActivity extends BaseActivity {
                     @Override
                     public void onGetData(BaseBean baseBean) {
                         if (ResultUtils.cheekSuccess(baseBean)) {
+                            ToastUtils.showToast(LoginPhoneActivity.this,"发送成功!");
                         }
                     }
                 });

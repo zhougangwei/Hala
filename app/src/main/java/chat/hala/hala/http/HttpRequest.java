@@ -352,7 +352,6 @@ public interface HttpRequest {
     RequestBody finalCharge(@JsonQuery String dataJson
     );
 
-
     @POST("/family/apply/createFamily")
     Observable<BaseBean> applyFamily(@Body RequestBody requestBody);
     RequestBody applyFamily(@JsonQuery String dataJson

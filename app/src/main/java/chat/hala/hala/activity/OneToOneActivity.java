@@ -664,9 +664,6 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-
-
         if (mSubscribe != null && mSubscribe.isDisposed()) {
             mSubscribe.dispose();
         }
@@ -677,8 +674,8 @@ public class OneToOneActivity extends BaseActivity implements AGEventHandler {
 
 
         if (mVideoManager!=null) {
-           //mVideoManager.stopCapture();
-        //   mVideoManager.deallocate();
+          // mVideoManager.stopCapture();
+            //mVideoManager.deallocate();
         }
         if (mFURenderer!=null) {
             mFURenderer.onSurfaceDestroyed();

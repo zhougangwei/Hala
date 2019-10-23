@@ -58,6 +58,7 @@
             android:textSize="10sp" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/iv_qiuliao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
